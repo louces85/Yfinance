@@ -1,0 +1,51 @@
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+		
+		thead th { 
+			position: sticky; top: 0;
+			background-color: gray;
+			padding: 5px;
+		}
+         
+        th, td {
+            text-align: left;
+            padding: 5px;
+        }
+         
+        tr:nth-child(even) {
+            background-color: gray;
+        }
+		
+		tr:nth-child(odd) {
+            background-color: CadetBlue;
+        }
+		
+		a {
+			text-decoration: none
+		}
+		/* unvisited link */
+		a:link {
+		  color: black;
+		}
+
+		/* visited link */
+		a:visited {
+			  color: blue;
+			}
+
+		/* mouse over link */
+		a:hover {
+		  color: hotpink;
+		}
+
+		/* selected link */
+		a:active {
+		  color: blue;
+		}
+		
+		
+		
+    </style>
