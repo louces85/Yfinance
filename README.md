@@ -51,6 +51,7 @@ google-chrome index.html
 ```
 # Como atualizar o histórico de preço dos ativos
 É recomendado atualizar o histórico de preços a cada 7 dias. Este procedimento pode demorar alguns minutos, então recomenda-se que ele seja realizado após o pregrão.
+OBS: Na primeira execução este arquivo está ausente, então sendo necessário rodar o script abaixo para a sua criação.
 
 ```bash
 
