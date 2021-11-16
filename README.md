@@ -6,6 +6,7 @@
 YFinance é uma aplicação que auxilia na analise de ativos cadastrados na Bolsa Brasil Balcão (B3). O que motivou o desenvolvimento desta aplicação, foi em buscar por bons ativos que estão em tendencia de baixa nos ultimos 6 meses. 
 
 A aplicação consiste em uma pesquisa de uma lista prévia de ativos cadastrados em arquivos de configuração, comparando seu preço atual com os preços máximos e minimos nos ultimos 6 meses. Então temos uma ordenação desses ativos em relação a razão R$ (preço atual/preço minimo) <= 1.1 , sendo assim, obtemos uma lista de ativos proximos à 10% de atingir a minima dos ultimos 6 meses.
+
 OBS: É importante ressaltar que a aplicação só irar disponibilizar a analise de ativos que estão com o balanço positivos nos ultimos 4 anos.
 
 ## Layout Web
