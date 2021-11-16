@@ -90,7 +90,7 @@ def get_rank(dic_stok):
         pass
 
     try:
-        if float(dic_stok['P/VP']) <= 1:
+        if float(dic_stok['P/VP']) <= 1.5:
             rank += 1
     except ValueError:
         pass
@@ -162,7 +162,7 @@ def rule_indicator(indicator):
         return True
     if indicator.find('P/L') != -1 and float(indicator.replace('P/L','')) <= 15:
         return True
-    if indicator.find('P/VP') != -1 and float(indicator.replace('P/VP','')) <= 1:
+    if indicator.find('P/VP') != -1 and float(indicator.replace('P/VP','')) <= 1.5:
         return True
     if indicator.find('P/A') != -1 and float(indicator.replace('P/A','')) <= 1:
         return True
