@@ -213,7 +213,11 @@ def main():
             value_now = get_price_stock_now(dic_stock)
         except ValueError:
             continue
+        
         pct_now_min = round(value_now/value_min,4)
+
+        if (pct_now_min <= 0):
+            continue
         
         try:
             pct_now_max = round((value_max-value_now)*100/value_now,2)
