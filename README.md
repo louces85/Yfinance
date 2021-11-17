@@ -3,11 +3,11 @@
 
 # About the project
 
-YFinance is an application that helps you analyze assets registered on B3 (BM & FBOVESPA). What motivated the development of this application was to look for good assets that are in a downtrend in the last 6 months.
+YFinance is an application that helps you analyze stocks registered on B3 (BM & FBOVESPA). What motivated the development of this application was to look for good stocks that are in a downtrend in the last 6 months.
 
-The application consists of a search of a previous list of goods registered in configuration files, comparing their current price with the maximum and minimum prices of the last 6 months. The assets are ordered in relation to the R$ ratio (current price/minimum price) <= 1.1 , therefore, we get a list of assets that are close to 10% of hitting the last 6 months' low price.
+The application consists of a search of a previous list of goods registered in configuration files, comparing their current price with the maximum and minimum prices of the last 6 months. The stocks are ordered in relation to the R$ ratio (current price/minimum price) <= 1.1 , therefore, we get a list of stocks that are close to 10% of hitting the last 6 months' low price.
 
-PS: It is important to emphasize that the application will only provide the analysis of assets that have a positive balance in the last 4 years.
+PS: It is important to emphasize that the application will only provide the analysis of stocks that have a positive balance in the last 4 years.
 
 ## Layout Web
 ![Web 1](https://github.com/louces85/Yfinance/blob/master/assets/main.png)
@@ -49,7 +49,7 @@ pip3 install config/requirements -U
 # open application in browser
 google-chrome index.html
 ```
-# How to update asset price history
+# How to update stocks price history
 It is recommended to update the price history every 7 days. This procedure may take a few minutes, so it is recommended that it be performed after the trading session.
 PS: In the first execution this file is absent, being necessary to run the script below for its creation.
 
@@ -58,8 +58,8 @@ PS: In the first execution this file is absent, being necessary to run the scrip
 ~/Documents/Yfinance/history_6mo.py
 
 ```
-# Changing the assets that will be analyzed
-Assets can be changed in the following configuration file:
+# Changing the stocks that will be analyzed
+stocks can be changed in the following configuration file:
 
 ```bash
 
