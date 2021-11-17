@@ -4,9 +4,7 @@
 # About the project
 
 YFinance is an application that helps you analyze stocks registered on B3 (BM & FBOVESPA). What motivated the development of this application was to look for good stocks that are in a downtrend in the last 6 months.
-
-The application consists of a search of a previous list of goods registered in configuration files, comparing their current price with the maximum and minimum prices of the last 6 months. The stocks are ordered in relation to the R$ ratio (current price/minimum price) <= 1.1 , therefore, we get a list of stocks that are close to 10% of hitting the last 6 months' low price.
-
+The application consists of a search of a previous list of good registered in configuration files, comparing their current price with the maximum and minimum prices of the last 6 months. The stocks are ordered about the R$ ratio (current price/minimum price) <= 1.1, therefore, we get a list of stocks that are close to 10% of hitting the last 6 months' low price.
 PS: It is important to emphasize that the application will only provide the analysis of stocks that have a positive balance in the last 4 years.
 
 ## Layout Web
@@ -72,4 +70,3 @@ vim ~/Documents/Yfinance/files/stocks_file
 Fabiano Louzada Cesario
 
 https://www.linkedin.com/in/fabiano-louzada-cesario/
-
