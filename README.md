@@ -1,66 +1,65 @@
 # YFinance
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/louces85/Yfinance/blob/master/LICENSE) 
 
-# Sobre o projeto
+# About the project
 
-YFinance é uma aplicação que auxilia na analise de ativos cadastrados na Bolsa Brasil Balcão (B3). O que motivou o desenvolvimento desta aplicação, foi em buscar por bons ativos que estão em tendencia de baixa nos ultimos 6 meses. 
+YFinance is an application that helps you analyze assets registered on B3 (BM & FBOVESPA). What motivated the development of this application was to look for good assets that are in a downtrend in the last 6 months.
 
-A aplicação consiste em uma pesquisa de uma lista prévia de ativos cadastrados em arquivos de configuração, comparando seu preço atual com os preços máximos e minimos nos ultimos 6 meses. Então temos uma ordenação desses ativos em relação a razão R$ (preço atual/preço minimo) <= 1.1 , sendo assim, obtemos uma lista de ativos proximos à 10% de atingir a minima dos ultimos 6 meses.
+The application consists of a search of a previous list of goods registered in configuration files, comparing their current price with the maximum and minimum prices of the last 6 months. The assets are ordered in relation to the R$ ratio (current price/minimum price) <= 1.1 , therefore, we get a list of assets that are close to 10% of hitting the last 6 months' low price.
 
-OBS: É importante ressaltar que a aplicação só irar disponibilizar a analise de ativos que estão com o balanço positivos nos ultimos 4 anos.
+PS: It is important to emphasize that the application will only provide the analysis of assets that have a positive balance in the last 4 years.
 
 ## Layout Web
 ![Web 1](https://github.com/louces85/Yfinance/blob/master/assets/main.png)
 
-
-# Tecnologias utilizadas
-## Back end
+# Technologies used
+## Backend
 - Python
 - Java
 - Shell Script
 
-## Front end
-- HTML / CSS
+## Frontend
+- HTML/CSS
 
-## Pré-requisitos:
- - Ubuntu 20.04 ou distribuição similar
+## Prerequisites:
+  - Ubuntu 20.04 or similar distribution
  - Python 3
  - Pip3
  - Java 8
 
-# Como executar o projeto
+# How to run the project
 
 ```bash
 
-# criar a pastar do projeto
+# create project folder
 mkdir ~/Documents/YFinance
 
-# entrar na pasta do projeto front end web
+# enter the project folder
 cd ~/Documents/YFinance/
 
-# clonar repositório
+# clone repository
 https://github.com/louces85/Yfinance.git
 
-# instalar dependências
+# install the dependencies
 pip3 install config/requirements -U
 
-# executar o projeto
+# run the project
 ./run.sh
 
-# abrir a aplicação no navegador
+# open application in browser
 google-chrome index.html
 ```
-# Como atualizar o histórico de preço dos ativos
-É recomendado atualizar o histórico de preços a cada 7 dias. Este procedimento pode demorar alguns minutos, então recomenda-se que ele seja realizado após o pregrão.
-OBS: Na primeira execução este arquivo está ausente, então sendo necessário rodar o script abaixo para a sua criação.
+# How to update asset price history
+It is recommended to update the price history every 7 days. This procedure may take a few minutes, so it is recommended that it be performed after the trading session.
+PS: In the first execution this file is absent, being necessary to run the script below for its creation.
 
 ```bash
 
 ~/Documents/Yfinance/history_6mo.py
 
 ```
-# Alterando os ativos que serão analizados
-Os ativos podem ser alterados no arquivo de configuração a seguir:
+# Changing the assets that will be analyzed
+Assets can be changed in the following configuration file:
 
 ```bash
 
@@ -68,7 +67,7 @@ vim ~/Documents/Yfinance/files/stocks_file
 
 ```
 
-# Autor
+# Author
 
 Fabiano Louzada Cesario
 
