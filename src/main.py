@@ -7,6 +7,7 @@
 -----------------------------------------------------------------------------
 """
 
+from enum import Flag
 import subprocess
 import heapq
 import time
@@ -54,10 +55,11 @@ def get_valuation(ticker):
     index = subprocess.getoutput(format_str).split('\n')
     
     dic_stok = {
-        'Ticker': ticker.strip().lower(),
+        'Ticker':    ticker.strip().lower(),
         'D.Y':       index[0].replace(',','.').replace('%',''),
         'P/L':       index[1].replace(',','.'),
         'P/VP':      index[3].replace(',','.'),
+        'VPA':       index[8].replace(',','.'),
         'P/A':       index[18].replace(',','.'),
         'DL/PL':     index[14].replace(',','.'),
         'DL/EBITDA': index[15].replace(',','.'),
@@ -68,15 +70,27 @@ def get_valuation(ticker):
         'ROIC':      index[26].replace(',','.').replace('%',''),
         'CAGR.R':    index[28].replace(',','.').replace('%',''),
         'CAGR.L':    index[29].replace(',','.').replace('%',''),
-        'Rank' :     0
+        'Rank' :     0,
+        'flagVPA':   False
     }
     
     time.sleep(.3)
-    dic_stok['Rank'] = get_rank(dic_stok)
+    dic_stok['Rank']    = get_rank(dic_stok)[0]
+    dic_stok['flagVPA'] = get_rank(dic_stok)[1]
     return dic_stok
 
 def get_rank(dic_stok):
     rank = 0
+    flag_vpa = False
+    
+    try:
+        price_now = (get_price_stock_now((dic_stok['Ticker'].upper())))
+        if price_now <= float(dic_stok['VPA']):
+            flag_vpa = True
+            rank += 1
+    except ValueError:
+        pass
+
     try:
         if float(dic_stok['D.Y']) >= 5:
             rank += 1
@@ -155,9 +169,11 @@ def get_rank(dic_stok):
     except ValueError:
         pass
 
-    return rank
+    return rank , flag_vpa
 
 def rule_indicator(indicator):
+    if indicator.find('VPATrue') != -1:
+        return True
     if indicator.find('D.Y') != -1 and float(indicator.replace('D.Y','')) >= 5:
         return True
     if indicator.find('P/L') != -1 and float(indicator.replace('P/L','')) <= 15:
@@ -230,12 +246,12 @@ def main():
             except IndexError:
                 continue
             
-            dic_stock = { 'Ticker':    dic_stock.replace('.SA', ''),
+            dic_stock ={'Ticker':    dic_stock.replace('.SA', ''),
                         'now': value_now,
                         'min': value_min,
                         'max': value_max,
                         'now/min': pct_now_min,
-                        'gain_max(%)': pct_now_max,
+                        'VPA' : dic_valuation['VPA'],
                         'D.Y': dic_valuation['D.Y'],
                         'P/L': dic_valuation['P/L'],
                         'P/VP': dic_valuation['P/VP'],
@@ -249,15 +265,17 @@ def main():
                         'ROIC':   dic_valuation['ROIC'],
                         'CAGR.R':   dic_valuation['CAGR.R'],
                         'CAGR.L':   dic_valuation['CAGR.L'],
-                        'Rank' :    dic_valuation['Rank']
+                        'Rank' :    dic_valuation['Rank'],
+                        'flagVPA':  dic_valuation['flagVPA']
                     }
             coll.append(dic_stock)
 
     list_dic_stocks =  heapq.nsmallest(len(coll), coll, key=lambda s: s['now/min'])
 
-    myTable = PrettyTable(["ID","Ticker", "pNow", "pMin", "pMax", "pNow/pMin", "pGain%", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%", "R"])
+    myTable = PrettyTable(["ID","Ticker", "pNow", "pMin", "pMax", "pNow/pMin", "VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%", "R"])
     myTable.align["Ticker"] = "l"
 
+    changes_vpa =       []
     changes_dy =        []
     changes_pl =        []
     changes_pvp =       []
@@ -274,9 +292,11 @@ def main():
 
     id = 1
     for dic_stock in list_dic_stocks:
+
         if dic_stock['min'] > 100:
             continue
-
+        
+        changes_vpa.extend([dic_stock['VPA']+'VPA' + str(dic_stock['flagVPA'])])
         changes_dy.extend([dic_stock['D.Y']+'D.Y'])
         changes_pl.extend([dic_stock['P/L']+'P/L'])
         changes_pvp.extend([dic_stock['P/VP']+'P/VP'])
@@ -298,7 +318,7 @@ def main():
             dic_stock['min'], 
             dic_stock['max'], 
             dic_stock['now/min'], 
-            dic_stock['gain_max(%)'], 
+            dic_stock['VPA']+'VPA'+ str(dic_stock['flagVPA']), 
             dic_stock['D.Y']+'D.Y',
             dic_stock['P/L']+'P/L', 
             dic_stock['P/VP']+'P/VP', 
@@ -319,6 +339,8 @@ def main():
 
     out_table = myTable.get_html_string(attributes = {"class": "table"},format=True)
     out_table = html.unescape(out_table)
+    out_table = change_table(out_table, changes_vpa, 'VPATrue')
+    out_table = change_table(out_table, changes_vpa, 'VPAFalse')
     out_table = change_table(out_table, changes_dy, 'D.Y')
     out_table = change_table(out_table, changes_pl, 'P/L')
     out_table = change_table(out_table, changes_pvp, 'P/VP')
