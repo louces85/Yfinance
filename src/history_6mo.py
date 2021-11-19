@@ -8,16 +8,20 @@
 """
 
 import yfinance as yf
+import warnings
+import pandas as pd
+from pandas.core.common import SettingWithCopyWarning
+warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
-file_in  = open('files/stocks_file', 'r')
-file_out = open('files/history_6mo_results_net_income', 'w')
+file_in  = open('../files/stocks_file', 'r')
+file_out = open('../files/history_6mo_results_net_income', 'w')
 
 for stk in file_in:
     df_six_month = yf.download(stk.strip()+'.SA', period='6mo', progress=False)
     df_prices = df_six_month[['Adj Close']]
     df_prices.dropna(subset = ['Adj Close'], inplace=True) #remove values NaN
     cols_as_np_v = df_prices[df_prices.columns[0:]].to_numpy()
-    
+ 
     
     flag = True
     try:
@@ -56,4 +60,3 @@ for stk in file_in:
         str_out = f"{stk.strip()+'.SA'}\tMAX\t{10000}\tMIN\t{10000}\tNET Income\t{flag}\n"
         file_out.write(str_out)
         print(str_out.strip())
-    
