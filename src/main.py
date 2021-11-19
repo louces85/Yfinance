@@ -7,7 +7,6 @@
 -----------------------------------------------------------------------------
 """
 
-from enum import Flag
 import subprocess
 import heapq
 import time
@@ -31,22 +30,22 @@ def pupulating_list_stocks(file_in):
     return list_stk
 
 def get_data_api_yahoo():
-    subprocess.getoutput('java -jar libs/yahooFinance.jar ~/Documents/Yfinance/files/stocks_file_incomes_positive > files/prices_stocks')
+    subprocess.getoutput('java -jar libs/yahooFinance.jar files/stocks_file_incomes_positive > files/prices_stocks')
     
 def get_price_stock_now(ticker):
-    format_str = "cat ~/Documents/Yfinance/files/prices_stocks | grep '"+ticker+"'"  + " | awk '{print$7}' | awk -F ',' '{print$1}'"
+    format_str = "cat files/prices_stocks | grep '"+ticker+"'"  + " | awk '{print$7}' | awk -F ',' '{print$1}'"
     return float(subprocess.getoutput(format_str).strip())
 
 def get_max_value_in_six_month(ticker):
-    format_str = "cat ~/Documents/Yfinance/files/history_6mo_results_net_income | grep '"+ticker+"'"  + " | awk '{print$3}'"
+    format_str = "cat files/history_6mo_results_net_income | grep '"+ticker+"'"  + " | awk '{print$3}'"
     return float(subprocess.getoutput(format_str).strip())
 
 def get_min_value_in_six_month(ticker):
-    format_str = "cat ~/Documents/Yfinance/files/history_6mo_results_net_income | grep '"+ticker+"'"  + " | awk '{print$(NF-3)}'"
+    format_str = "cat files/history_6mo_results_net_income | grep '"+ticker+"'"  + " | awk '{print$(NF-3)}'"
     return float(subprocess.getoutput(format_str).strip())
 
 def is_net_income_positive_in_four_years(ticker):
-    format_str = "cat ~/Documents/Yfinance/files/history_6mo_results_net_income | grep '"+ticker+"'"  + " | awk '{print$NF}'"
+    format_str = "cat files/history_6mo_results_net_income | grep '"+ticker+"'"  + " | awk '{print$NF}'"
     return subprocess.getoutput(format_str).strip()
 
 def get_valuation(ticker):
@@ -235,10 +234,10 @@ def main():
         if (pct_now_min <= 0):
             continue
         
-        try:
-            pct_now_max = round((value_max-value_now)*100/value_now,2)
-        except ZeroDivisionError:
-            continue
+        #try:
+        #    pct_now_max = round((value_max-value_now)*100/value_now,2)
+        #except ZeroDivisionError:
+        #    continue
 
         if pct_now_min <= 1.1:
             try:
