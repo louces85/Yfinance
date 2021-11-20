@@ -12,8 +12,13 @@ import heapq
 import time
 from prettytable import PrettyTable
 import html
+import yfinance as yf
 import re
+import datetime
+from dateutil.relativedelta import relativedelta
 
+
+last_year = (datetime.datetime.now()-relativedelta(years=1)).strftime("%Y")
 file_in  = open('files/stocks_file', 'r')
 
 def pupulating_list_stocks(file_in):
@@ -214,6 +219,35 @@ def change_table(table, changes, indicator):
             continue
     return table
 
+def get_last_four_years():
+    years = []
+    for y in range(4):
+        year = (datetime.datetime.now()-relativedelta(years=(y+1))).strftime("%Y")
+        years.append(year)
+    return years
+    
+def get_dividends(ticker):
+    msft = yf.Ticker(ticker+'.SA')
+    
+    history_dividends = msft.dividends
+    sum_dividends=0
+    dividends = []
+    count_years = 0
+    
+    for year in get_last_four_years():
+        
+        flag = False
+        for k in history_dividends.keys():
+            if(str(k).find(year) == 0):
+                flag = True
+                dividends.append(history_dividends.get(k))
+                sum_dividends += history_dividends.get(k)
+        
+        if flag == True:
+            count_years += 1
+    
+    return float(sum_dividends/count_years)
+
 def main():
 
     get_data_api_yahoo()
@@ -271,7 +305,7 @@ def main():
 
     list_dic_stocks =  heapq.nsmallest(len(coll), coll, key=lambda s: s['now/min'])
 
-    myTable = PrettyTable(["ID","Ticker", "pNow", "pMin", "pMax", "pNow/pMin", "VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%", "R"])
+    myTable = PrettyTable(["ID","Ticker", "pNow", "pTarget", "pMin", "pMax", "pNow/pMin", "VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%", "R"])
     myTable.align["Ticker"] = "l"
 
     changes_vpa =       []
@@ -292,8 +326,26 @@ def main():
     id = 1
     for dic_stock in list_dic_stocks:
 
-        if dic_stock['min'] > 100:
+        if float(dic_stock['min']) > 100:
             continue
+        if float(dic_stock['Rank']) < 10:
+            continue
+        
+        pTaget = '-'
+        try:
+            if float(dic_stock['D.Y']) >= 6.00:
+                target = round(get_dividends(dic_stock['Ticker'])/(6.00/100),2)
+                pTaget = str(target)
+
+                if float(dic_stock['now']) <= target:
+                    pTaget+='*'
+                if float(dic_stock['now']) <= float(dic_stock['VPA']):
+                    pTaget+='*'
+
+        except ValueError:
+            pTaget = '-'
+        except ZeroDivisionError:
+            pTaget = '-'
         
         changes_vpa.extend([dic_stock['VPA']+'VPA' + str(dic_stock['flagVPA'])])
         changes_dy.extend([dic_stock['D.Y']+'D.Y'])
@@ -313,10 +365,11 @@ def main():
         myTable.add_row([
             id, 
             dic_stock['Ticker'], 
-            dic_stock['now'], 
+            dic_stock['now'],
+            pTaget,  
             dic_stock['min'], 
             dic_stock['max'], 
-            dic_stock['now/min'], 
+            dic_stock['now/min'],
             dic_stock['VPA']+'VPA'+ str(dic_stock['flagVPA']), 
             dic_stock['D.Y']+'D.Y',
             dic_stock['P/L']+'P/L', 
