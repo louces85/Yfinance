@@ -17,8 +17,6 @@ import re
 import datetime
 from dateutil.relativedelta import relativedelta
 
-
-last_year = (datetime.datetime.now()-relativedelta(years=1)).strftime("%Y")
 file_in  = open('files/stocks_file', 'r')
 
 def pupulating_list_stocks(file_in):
@@ -82,6 +80,24 @@ def get_valuation(ticker):
     dic_stok['Rank']    = get_rank(dic_stok)[0]
     dic_stok['flagVPA'] = get_rank(dic_stok)[1]
     return dic_stok
+
+def get_payout(ticker):
+    format_str = "curl -s https://statusinvest.com.br/acoes/" + ticker.strip().lower().replace('.sa','') + " | grep 'payout-section' | awk -F '\"' '{print $(NF -1)}'"
+    company_name = subprocess.getoutput(format_str)
+
+    format_str = "curl -s https://statusinvest.com.br/acao/payoutresult?companyName=" + company_name + " | grep 'actual' | awk -F ':' '{print $3}' | awk -F ',' '{print $1}'"
+    payout = subprocess.getoutput(format_str)
+    
+    try:
+        return round(float(payout),2)
+    except ValueError:
+        return '-'
+    except ZeroDivisionError:
+        return '-'
+    except AttributeError:
+        return '-'
+    
+    return '-'
 
 def get_rank(dic_stok):
     rank = 0
@@ -226,12 +242,11 @@ def get_last_four_years():
         years.append(year)
     return years
     
-def get_dividends(ticker):
+def get_avagare_dividends_four_years(ticker):
     msft = yf.Ticker(ticker+'.SA')
     
     history_dividends = msft.dividends
     sum_dividends=0
-    dividends = []
     count_years = 0
     
     for year in get_last_four_years():
@@ -240,7 +255,6 @@ def get_dividends(ticker):
         for k in history_dividends.keys():
             if(str(k).find(year) == 0):
                 flag = True
-                dividends.append(history_dividends.get(k))
                 sum_dividends += history_dividends.get(k)
         
         if flag == True:
@@ -263,16 +277,11 @@ def main():
         except ValueError:
             continue
         
-        pct_now_min = round(value_now/value_min,4)
+        pct_now_min = round(value_now/value_min,2)
 
         if (pct_now_min <= 0):
             continue
         
-        #try:
-        #    pct_now_max = round((value_max-value_now)*100/value_now,2)
-        #except ZeroDivisionError:
-        #    continue
-
         if pct_now_min <= 1.1:
             try:
                 dic_valuation = get_valuation(dic_stock)
@@ -305,7 +314,7 @@ def main():
 
     list_dic_stocks =  heapq.nsmallest(len(coll), coll, key=lambda s: s['now/min'])
 
-    myTable = PrettyTable(["ID","Ticker", "pNow", "pTarget", "pMin", "pMax", "pNow/pMin", "VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%", "R"])
+    myTable = PrettyTable(["ID","Ticker", "pNow", "pTarget", "pMin", "pMax", "pNow/pMin","Payout%","VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%", "R"])
     myTable.align["Ticker"] = "l"
 
     changes_vpa =       []
@@ -332,10 +341,12 @@ def main():
             continue
         
         pTaget = '-'
+        payout = '-' 
         try:
             if float(dic_stock['D.Y']) >= 6.00:
-                target = round(get_dividends(dic_stock['Ticker'])/(6.00/100),2)
+                target = round(get_avagare_dividends_four_years(dic_stock['Ticker'])/(6.00/100),2)
                 pTaget = str(target)
+                payout = get_payout(dic_stock['Ticker'])
 
                 if float(dic_stock['now']) <= target:
                     pTaget+='*'
@@ -370,7 +381,8 @@ def main():
             dic_stock['min'], 
             dic_stock['max'], 
             dic_stock['now/min'],
-            dic_stock['VPA']+'VPA'+ str(dic_stock['flagVPA']), 
+            payout, 
+            dic_stock['VPA']+'VPA'+ str(dic_stock['flagVPA']),
             dic_stock['D.Y']+'D.Y',
             dic_stock['P/L']+'P/L', 
             dic_stock['P/VP']+'P/VP', 
