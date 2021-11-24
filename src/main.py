@@ -269,11 +269,11 @@ def main():
     list_stocks = pupulating_list_stocks(file_in)
 
     coll = []
-    for dic_stock in list_stocks:
-        value_min = get_min_value_in_six_month(dic_stock)
-        value_max = get_max_value_in_six_month(dic_stock)
+    for stock in list_stocks:
+        value_min = get_min_value_in_six_month(stock)
+        value_max = get_max_value_in_six_month(stock)
         try:
-            value_now = get_price_stock_now(dic_stock)
+            value_now = get_price_stock_now(stock)
         except ValueError:
             continue
         
@@ -284,11 +284,11 @@ def main():
         
         if pct_now_min <= 1.1:
             try:
-                dic_valuation = get_valuation(dic_stock)
+                dic_valuation = get_valuation(stock)
             except IndexError:
                 continue
             
-            dic_stock ={'Ticker':    dic_stock.replace('.SA', ''),
+            dic_stock ={'Ticker':    stock.replace('.SA', ''),
                         'now': value_now,
                         'min': value_min,
                         'max': value_max,
