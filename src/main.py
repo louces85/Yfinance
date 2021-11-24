@@ -17,16 +17,19 @@ import re
 import datetime
 from dateutil.relativedelta import relativedelta
 
+from model.stock import Stock
+
 file_in  = open('files/stocks_file', 'r')
 
 def pupulating_list_stocks(file_in):
     list_stk = []
     file_out = open('files/stocks_file_incomes_positive', 'w')
-    for stock in file_in:
-        
-        if(is_net_income_positive_in_four_years(stock.strip())=='True'):
-            list_stk.append(stock.strip()+'.SA')
-            file_out.write(stock.strip()+'\n')
+    for stk in file_in:
+        stock = Stock(stk.strip())
+            
+        if(stock.is_net_income_positive_in_four_years()):
+            list_stk.append(stock)
+            file_out.write(stock.ticker + '\n')
             file_out.flush()
     
     file_out.close()
@@ -34,22 +37,6 @@ def pupulating_list_stocks(file_in):
 
 def get_data_api_yahoo():
     subprocess.getoutput('java -jar libs/yahooFinance.jar files/stocks_file_incomes_positive > files/prices_stocks')
-    
-def get_price_stock_now(ticker):
-    format_str = "cat files/prices_stocks | grep '"+ticker+"'"  + " | awk '{print$7}' | awk -F ',' '{print$1}'"
-    return float(subprocess.getoutput(format_str).strip())
-
-def get_max_value_in_six_month(ticker):
-    format_str = "cat files/history_6mo_results_net_income | grep '"+ticker+"'"  + " | awk '{print$3}'"
-    return float(subprocess.getoutput(format_str).strip())
-
-def get_min_value_in_six_month(ticker):
-    format_str = "cat files/history_6mo_results_net_income | grep '"+ticker+"'"  + " | awk '{print$(NF-3)}'"
-    return float(subprocess.getoutput(format_str).strip())
-
-def is_net_income_positive_in_four_years(ticker):
-    format_str = "cat files/history_6mo_results_net_income | grep '"+ticker+"'"  + " | awk '{print$NF}'"
-    return subprocess.getoutput(format_str).strip()
 
 def get_valuation(ticker):
     
@@ -82,10 +69,8 @@ def get_valuation(ticker):
     return dic_stok
 
 def get_payout(ticker):
-    format_str = "curl -s https://statusinvest.com.br/acoes/" + ticker.strip().lower().replace('.sa','') + " | grep 'payout-section' | awk -F '\"' '{print $(NF -1)}'"
-    company_name = subprocess.getoutput(format_str)
-
-    format_str = "curl -s https://statusinvest.com.br/acao/payoutresult?companyName=" + company_name + " | grep 'actual' | awk -F ':' '{print $3}' | awk -F ',' '{print $1}'"
+        
+    format_str = "curl -s https://statusinvest.com.br/acao/payoutresult?code=" + ticker.strip().lower() + " | grep 'actual' | awk -F ':' '{print $3}' | awk -F ',' '{print $1}'"
     payout = subprocess.getoutput(format_str)
     
     try:
@@ -104,7 +89,8 @@ def get_rank(dic_stok):
     flag_vpa = False
     
     try:
-        price_now = (get_price_stock_now((dic_stok['Ticker'].upper())))
+        stock = Stock(dic_stok['Ticker'].upper())
+        price_now = (stock.get_price_stock_now())
         if price_now <= float(dic_stok['VPA']):
             flag_vpa = True
             rank += 1
@@ -264,16 +250,17 @@ def get_avagare_dividends_four_years(ticker):
 
 def main():
 
-    get_data_api_yahoo()
-
     list_stocks = pupulating_list_stocks(file_in)
+
+    get_data_api_yahoo()
 
     coll = []
     for stock in list_stocks:
-        value_min = get_min_value_in_six_month(stock)
-        value_max = get_max_value_in_six_month(stock)
+        value_min = stock.get_min_value_in_six_month()
+        value_max = stock.get_max_value_in_six_month()
+
         try:
-            value_now = get_price_stock_now(stock)
+            value_now = stock.get_price_stock_now()
         except ValueError:
             continue
         
@@ -284,11 +271,11 @@ def main():
         
         if pct_now_min <= 1.1:
             try:
-                dic_valuation = get_valuation(stock)
+                dic_valuation = get_valuation(stock.ticker)
             except IndexError:
                 continue
             
-            dic_stock ={'Ticker':    stock.replace('.SA', ''),
+            dic_stock ={'Ticker':    stock.ticker,
                         'now': value_now,
                         'min': value_min,
                         'max': value_max,
