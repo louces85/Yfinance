@@ -9,15 +9,11 @@
 
 import subprocess
 import heapq
-import time
 from prettytable import PrettyTable
 import html
-import yfinance as yf
 import re
-import datetime
-from dateutil.relativedelta import relativedelta
-
 from model.stock import Stock
+from model.valuation import Valuation
 
 file_in  = open('files/stocks_file', 'r')
 
@@ -38,144 +34,8 @@ def pupulating_list_stocks(file_in):
 def get_data_api_yahoo():
     subprocess.getoutput('java -jar libs/yahooFinance.jar files/stocks_file_incomes_positive > files/prices_stocks')
 
-def get_valuation(ticker):
-    
-    format_str = "curl -s https://statusinvest.com.br/acoes/" + ticker.strip().lower().replace('.sa','') + " | grep 'value d-block lh-4 fs-4 fw-700' | grep 'value d-block lh-4 fs-4 fw-700' | grep 'class' | awk '{print $NF}' | awk -F '>' '{print $2}' | awk -F '<' '{print $1}'"
-    index = subprocess.getoutput(format_str).split('\n')
-    
-    dic_stok = {
-        'Ticker':    ticker.strip().lower(),
-        'D.Y':       index[0].replace(',','.').replace('%',''),
-        'P/L':       index[1].replace(',','.'),
-        'P/VP':      index[3].replace(',','.'),
-        'VPA':       index[8].replace(',','.'),
-        'P/A':       index[18].replace(',','.'),
-        'DL/PL':     index[14].replace(',','.'),
-        'DL/EBITDA': index[15].replace(',','.'),
-        'LQ':        index[19].replace(',','.'),
-        'M.EBIT':    index[22].replace(',','.').replace('%',''),
-        'M.L':       index[23].replace(',','.').replace('%',''),
-        'ROE':       index[24].replace(',','.').replace('%',''),
-        'ROIC':      index[26].replace(',','.').replace('%',''),
-        'CAGR.R':    index[28].replace(',','.').replace('%',''),
-        'CAGR.L':    index[29].replace(',','.').replace('%',''),
-        'Rank' :     0,
-        'flagVPA':   False
-    }
-    
-    time.sleep(.3)
-    dic_stok['Rank']    = get_rank(dic_stok)[0]
-    dic_stok['flagVPA'] = get_rank(dic_stok)[1]
-    return dic_stok
-
-def get_payout(ticker):
-        
-    format_str = "curl -s https://statusinvest.com.br/acao/payoutresult?code=" + ticker.strip().lower() + " | grep 'actual' | awk -F ':' '{print $3}' | awk -F ',' '{print $1}'"
-    payout = subprocess.getoutput(format_str)
-    
-    try:
-        return round(float(payout),2)
-    except ValueError:
-        return '-'
-    except ZeroDivisionError:
-        return '-'
-    except AttributeError:
-        return '-'
-    
-    return '-'
-
-def get_rank(dic_stok):
-    rank = 0
-    flag_vpa = False
-    
-    try:
-        stock = Stock(dic_stok['Ticker'].upper())
-        price_now = (stock.get_price_stock_now())
-        if price_now <= float(dic_stok['VPA']):
-            flag_vpa = True
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['D.Y']) >= 5:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['P/L']) <= 15:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['P/VP']) <= 1.5:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['DL/PL']) <= 1:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['DL/EBITDA']) <= 3:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['P/A']) <= 1:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['LQ']) >= 1:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['M.EBIT']) >= 10:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['M.L']) >= 10:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['ROE']) >= 10:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['ROIC']) >= 10:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['CAGR.R']) >= 5:
-            rank += 1
-    except ValueError:
-        pass
-
-    try:
-        if float(dic_stok['CAGR.L']) >= 5:
-            rank += 1
-    except ValueError:
-        pass
-
-    return rank , flag_vpa
+def set_all_indicators_to_json_file():
+    subprocess.getoutput("curl -s --location -g --request GET 'https://statusinvest.com.br/category/advancedsearchresult?search=%7B%22Sector%22%3A%22%22%2C%22SubSector%22%3A%22%22%2C%22Segment%22%3A%22%22%2C%22my_range%22%3A%220%3B25%22%2C%22dy%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22p_L%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22peg_Ratio%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22p_VP%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22p_Ativo%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22margemBruta%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22margemEbit%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22margemLiquida%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22p_Ebit%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22eV_Ebit%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22dividaLiquidaEbit%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22dividaliquidaPatrimonioLiquido%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22p_SR%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22p_CapitalGiro%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22p_AtivoCirculante%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22roe%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22roic%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22roa%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22liquidezCorrente%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22pl_Ativo%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22passivo_Ativo%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22giroAtivos%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22receitas_Cagr5%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22lucros_Cagr5%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22liquidezMediaDiaria%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22vpa%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22lpa%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull%7D%2C%22valorMercado%22%3A%7B%22Item1%22%3Anull%2C%22Item2%22%3Anull}}&CategoryType=1' --header 'Content-Type: application/json' --header 'Cookie: _adasys=2f748b19-046e-4367-b285-ab79b67b53ba' --data-raw '' > files/all_indicators.json")
 
 def rule_indicator(indicator):
     if indicator.find('VPATrue') != -1:
@@ -221,38 +81,12 @@ def change_table(table, changes, indicator):
             continue
     return table
 
-def get_last_four_years():
-    years = []
-    for y in range(4):
-        year = (datetime.datetime.now()-relativedelta(years=(y+1))).strftime("%Y")
-        years.append(year)
-    return years
-    
-def get_avagare_dividends_four_years(ticker):
-    msft = yf.Ticker(ticker+'.SA')
-    
-    history_dividends = msft.dividends
-    sum_dividends=0
-    count_years = 0
-    
-    for year in get_last_four_years():
-        
-        flag = False
-        for k in history_dividends.keys():
-            if(str(k).find(year) == 0):
-                flag = True
-                sum_dividends += history_dividends.get(k)
-        
-        if flag == True:
-            count_years += 1
-    
-    return float(sum_dividends/count_years)
-
 def main():
 
     list_stocks = pupulating_list_stocks(file_in)
 
     get_data_api_yahoo()
+    set_all_indicators_to_json_file()
 
     coll = []
     for stock in list_stocks:
@@ -271,7 +105,8 @@ def main():
         
         if pct_now_min <= 1.1:
             try:
-                dic_valuation = get_valuation(stock.ticker)
+                vl = Valuation(stock.ticker, 'files/all_indicators.json')
+                dic_valuation = vl.get_dict_indicators()
             except IndexError:
                 continue
             
@@ -331,11 +166,11 @@ def main():
         payout = '-' 
         try:
             if float(dic_stock['D.Y']) >= 6.00:
-                target = round(get_avagare_dividends_four_years(dic_stock['Ticker'])/(6.00/100),2)
-                pTaget = str(target)
-                payout = get_payout(dic_stock['Ticker'])
+                vl = Valuation(dic_stock['Ticker'], 'files/all_indicators.json')
+                pTaget = str(vl.get_price_target())
+                payout = vl.get_payout()
 
-                if float(dic_stock['now']) <= target:
+                if float(dic_stock['now']) <= float(pTaget):
                     pTaget+='*'
                 if float(dic_stock['now']) <= float(dic_stock['VPA']):
                     pTaget+='*'
@@ -345,20 +180,20 @@ def main():
         except ZeroDivisionError:
             pTaget = '-'
         
-        changes_vpa.extend([dic_stock['VPA']+'VPA' + str(dic_stock['flagVPA'])])
-        changes_dy.extend([dic_stock['D.Y']+'D.Y'])
-        changes_pl.extend([dic_stock['P/L']+'P/L'])
-        changes_pvp.extend([dic_stock['P/VP']+'P/VP'])
-        changes_pa.extend([dic_stock['P/A']+'P/A'])
-        changes_dlpl.extend([dic_stock['DL/PL']+'DL/PL'])
-        changes_dlebitda.extend([dic_stock['DL/EBITDA']+'DL/EBITDA'])
-        changes_lq.extend([dic_stock['LQ']+'LQ'])
-        changes_mebit.extend([dic_stock['M.EBIT']+'M.EBIT'])
-        changes_ml.extend([dic_stock['M.L']+'M.L'])
-        changes_roe.extend([dic_stock['ROE']+'ROE'])
-        changes_roic.extend([dic_stock['ROIC']+'ROIC'])
-        changes_cagrr.extend([dic_stock['CAGR.R']+'CAGR.R'])
-        changes_cagrl.extend([dic_stock['CAGR.L']+'CAGR.L'])
+        changes_vpa.extend([str(dic_stock['VPA']) + 'VPA' + str(dic_stock['flagVPA'])])
+        changes_dy.extend([str(dic_stock['D.Y']) + 'D.Y'])
+        changes_pl.extend([str(dic_stock['P/L'])+'P/L'])
+        changes_pvp.extend([str(dic_stock['P/VP'])+'P/VP'])
+        changes_pa.extend([str(dic_stock['P/A'])+'P/A'])
+        changes_dlpl.extend([str(dic_stock['DL/PL'])+'DL/PL'])
+        changes_dlebitda.extend([str(dic_stock['DL/EBITDA'])+'DL/EBITDA'])
+        changes_lq.extend([str(dic_stock['LQ'])+'LQ'])
+        changes_mebit.extend([str(dic_stock['M.EBIT'])+'M.EBIT'])
+        changes_ml.extend([str(dic_stock['M.L'])+'M.L'])
+        changes_roe.extend([str(dic_stock['ROE'])+'ROE'])
+        changes_roic.extend([str(dic_stock['ROIC'])+'ROIC'])
+        changes_cagrr.extend([str(dic_stock['CAGR.R'])+'CAGR.R'])
+        changes_cagrl.extend([str(dic_stock['CAGR.L'])+'CAGR.L'])
 
         myTable.add_row([
             id, 
@@ -369,21 +204,21 @@ def main():
             dic_stock['max'], 
             dic_stock['now/min'],
             payout, 
-            dic_stock['VPA']+'VPA'+ str(dic_stock['flagVPA']),
-            dic_stock['D.Y']+'D.Y',
-            dic_stock['P/L']+'P/L', 
-            dic_stock['P/VP']+'P/VP', 
-            dic_stock['P/A']+'P/A', 
-            dic_stock['DL/PL']+'DL/PL',
-            dic_stock['DL/EBITDA']+'DL/EBITDA', 
-            dic_stock['LQ']+'LQ', 
-            dic_stock['M.EBIT']+'M.EBIT',
-            dic_stock['M.L']+'M.L', 
-            dic_stock['ROE']+'ROE', 
-            dic_stock['ROIC']+'ROIC',
-            dic_stock['CAGR.R']+'CAGR.R', 
-            dic_stock['CAGR.L']+'CAGR.L', 
-            dic_stock['Rank']
+            str(dic_stock['VPA'])+'VPA'+ str(dic_stock['flagVPA']),
+            str(dic_stock['D.Y'])+'D.Y',
+            str(dic_stock['P/L'])+'P/L', 
+            str(dic_stock['P/VP'])+'P/VP', 
+            str(dic_stock['P/A'])+'P/A', 
+            str(dic_stock['DL/PL'])+'DL/PL',
+            str(dic_stock['DL/EBITDA'])+'DL/EBITDA', 
+            str(dic_stock['LQ'])+'LQ', 
+            str(dic_stock['M.EBIT'])+'M.EBIT',
+            str(dic_stock['M.L'])+'M.L', 
+            str(dic_stock['ROE'])+'ROE', 
+            str(dic_stock['ROIC'])+'ROIC',
+            str(dic_stock['CAGR.R'])+'CAGR.R', 
+            str(dic_stock['CAGR.L'])+'CAGR.L', 
+            str(dic_stock['Rank'])
         ])
         
         id += 1
