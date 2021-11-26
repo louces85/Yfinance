@@ -63,6 +63,11 @@ class Valuation:
         
         dict_stock['Rank'] = self.calc_ranking_indicators(dict_stock)
 
+        for key in dict_stock.keys():
+            flag = key != 'Ticker' and key != 'flagVPA' and dict_stock[key] != '-'
+            if flag:
+                dict_stock[key] = round(float(dict_stock[key]),2)
+
         return dict_stock
 
     def calc_ranking_indicators(self, dict_stock):
