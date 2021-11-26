@@ -18,7 +18,11 @@
         tr:nth-child(even) {
             background-color: gray;
         }
-		
+		td {
+			max-width:50px;
+			width:auto;
+			min-width:10px;
+			}
 		tr:nth-child(odd) {
             background-color: CadetBlue;
         }
