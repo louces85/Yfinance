@@ -14,6 +14,12 @@ import html
 import re
 from model.stock import Stock
 from model.valuation import Valuation
+# import sys
+# import os
+# PACKAGE_PARENT = '..'
+# SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+# sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+from enums.rules import Rules
 
 file_in  = open('files/stocks_file', 'r')
 
@@ -40,31 +46,31 @@ def set_all_indicators_to_json_file():
 def rule_indicator(indicator):
     if indicator.find('VPATrue') != -1:
         return True
-    if indicator.find('D.Y') != -1 and float(indicator.replace('D.Y','')) >= 5:
+    if indicator.find('D.Y') != -1 and float(indicator.replace('D.Y','')) >= Rules.D_Y.value:
         return True
-    if indicator.find('P/L') != -1 and float(indicator.replace('P/L','')) <= 15:
+    if indicator.find('P/L') != -1 and float(indicator.replace('P/L','')) <= Rules.P_L.value:
         return True
-    if indicator.find('P/VP') != -1 and float(indicator.replace('P/VP','')) <= 1.5:
+    if indicator.find('P/VP') != -1 and float(indicator.replace('P/VP','')) <= Rules.P_VP.value:
         return True
-    if indicator.find('P/A') != -1 and float(indicator.replace('P/A','')) <= 1:
+    if indicator.find('P/A') != -1 and float(indicator.replace('P/A','')) <= Rules.P_A.value:
         return True
-    if indicator.find('DL/PL') != -1 and float(indicator.replace('DL/PL','')) <= 1:
+    if indicator.find('DL/PL') != -1 and float(indicator.replace('DL/PL','')) <= Rules.DL_PL.value:
         return True
-    if indicator.find('DL/EBITDA') != -1 and float(indicator.replace('DL/EBITDA','')) <= 3:
+    if indicator.find('DL/EBITDA') != -1 and float(indicator.replace('DL/EBITDA','')) <= Rules.DL_EBITDA.value:
         return True
-    if indicator.find('LQ') != -1 and float(indicator.replace('LQ','')) >= 1:
+    if indicator.find('LQ') != -1 and float(indicator.replace('LQ','')) >= Rules.L_Q.value:
         return True
-    if indicator.find('M.EBIT') != -1 and float(indicator.replace('M.EBIT','')) >= 10:
+    if indicator.find('M.EBIT') != -1 and float(indicator.replace('M.EBIT','')) >= Rules.M_EBIT.value:
         return True
-    if indicator.find('M.L') != -1 and float(indicator.replace('M.L','')) >= 10:
+    if indicator.find('M.L') != -1 and float(indicator.replace('M.L','')) >= Rules.M_L.value:
         return True
-    if indicator.find('ROE') != -1 and float(indicator.replace('ROE','')) >= 10:
+    if indicator.find('ROE') != -1 and float(indicator.replace('ROE','')) >= Rules.ROE.value:
         return True
-    if indicator.find('ROIC') != -1 and float(indicator.replace('ROIC','')) >= 10:
+    if indicator.find('ROIC') != -1 and float(indicator.replace('ROIC','')) >= Rules.ROIC.value:
         return True
-    if indicator.find('CAGR.R') != -1 and float(indicator.replace('CAGR.R','')) >= 5:
+    if indicator.find('CAGR.R') != -1 and float(indicator.replace('CAGR.R','')) >= Rules.CAGR_R.value:
         return True
-    if indicator.find('CAGR.L') != -1 and float(indicator.replace('CAGR.L','')) >= 5:
+    if indicator.find('CAGR.L') != -1 and float(indicator.replace('CAGR.L','')) >= Rules.CAGR_L.value:
         return True
     return False
 
