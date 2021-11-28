@@ -29,17 +29,21 @@ PS: It is important to emphasize that the application will only provide the anal
 
 ```bash
 
-# create project folder
-mkdir ~/Documents/YFinance
-
-# enter the project folder
-cd ~/Documents/YFinance/
+# enter the folder Documents
+cd ~/Documents/
 
 # clone repository
 https://github.com/louces85/Yfinance.git
 
+# enter the repository
+cd ~/Documentos/Yfinance/
+
 # install the dependencies
 pip3 install config/requirements -U
+
+# PS: In the first execution this file is absent, being necessary to run the script below for its creation.
+
+~/Documents/Yfinance/model/history_prices.py
 
 # run the project
 ./run.sh
@@ -53,7 +57,7 @@ PS: In the first execution this file is absent, being necessary to run the scrip
 
 ```bash
 
-~/Documents/Yfinance/history_6mo.py
+~/Documents/Yfinance/model/history_prices.py
 
 ```
 # Changing the stocks that will be analyzed
