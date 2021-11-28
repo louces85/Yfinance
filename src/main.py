@@ -14,11 +14,6 @@ import html
 import re
 from model.stock import Stock
 from model.valuation import Valuation
-# import sys
-# import os
-# PACKAGE_PARENT = '..'
-# SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
-# sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 from enums.rules import Rules
 
 file_in  = open('files/stocks_file', 'r')
