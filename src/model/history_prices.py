@@ -13,8 +13,8 @@ import pandas as pd
 from pandas.core.common import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
-file_in  = open('../files/stocks_file', 'r')
-file_out = open('../files/history_6mo_results_net_income', 'w')
+file_in  = open('../../files/stocks_file', 'r')
+file_out = open('../../files/history_6mo_results_net_income', 'w')
 
 for stk in file_in:
     df_six_month = yf.download(stk.strip()+'.SA', period='6mo', progress=False)
