@@ -18,10 +18,8 @@ cat css/stylesheet.css > index.html
 python_version=`python -c 'import sys; print(".".join(map(str, sys.version_info[:1])))'`
 if [ $python_version -eq 2 ]
 	then
-		cat css/stylesheet.css > index.html 
 		python3 src/main.py >> index.html
 else
-		cat css/stylesheet.css > index.html 
 		python src/main.py >> index.html
 fi
 
