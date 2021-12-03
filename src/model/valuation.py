@@ -20,7 +20,7 @@ class Valuation:
         self.name_json_file = name_json_file
         
     def get_list_stoks(self):
-        with open(self.name_json_file) as json_file:
+        with open(self.name_json_file, encoding='utf-8') as json_file:
             list_dict_stoks = json.load(json_file)
             return list_dict_stoks
 
