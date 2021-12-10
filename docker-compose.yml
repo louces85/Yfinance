@@ -1,0 +1,19 @@
+version: '3.6'
+
+services:
+  yfinance-postgres:
+    image: postgres
+    container_name: yfinance-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=yfinance
+      - POSTGRES_DB=yfinance
+    ports:
+      - '5432:5432'
+    networks:
+      - yfinance-network
+
+networks:
+  yfinance-network:
+    name: yfinance-network
+    driver: bridge
