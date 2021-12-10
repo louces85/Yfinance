@@ -5,20 +5,21 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import yfinance
 
+from dao.stocksDAO import StocksDAO
+
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 import json
 from enums.rules import Rules
-from model.stock import Stock
 
 class Valuation:
 
     def __init__(self, ticker , name_json_file):
         self.ticker = ticker
         self.name_json_file = name_json_file
-        
+
     def get_list_stoks(self):
         with open(self.name_json_file, encoding='utf-8') as json_file:
             list_dict_stoks = json.load(json_file)
@@ -54,8 +55,9 @@ class Valuation:
         }
 
         try:
-            stock = Stock(dict_stock['Ticker'].upper())
-            price_now = (stock.get_price_stock_now())
+            #stock = Stock(dict_stock['Ticker'].upper())
+            stk_DAO = StocksDAO()
+            price_now = stk_DAO.get_price(dict_stock['Ticker'].upper())
             if price_now <= float(dict_stock['VPA']):
                 dict_stock['flagVPA'] = True
         except ValueError:
@@ -75,8 +77,9 @@ class Valuation:
         self.dict_stock  = dict_stock
 
         try:
-            stock = Stock(self.dict_stock['Ticker'].upper())
-            price_now = (stock.get_price_stock_now())
+            #stock = Stock(self.dict_stock['Ticker'].upper())
+            stk_DAO = StocksDAO()
+            price_now = stk_DAO.get_price(dict_stock['Ticker'].upper())
             if price_now <= float(self.dict_stock['VPA']):
                 rank += 1
         except ValueError:
@@ -168,13 +171,13 @@ class Valuation:
         payout = subprocess.getoutput(format_str)
         
         try:
-            return round(float(payout),2) if round(float(payout),2) > 0 else '-' 
+            return round(float(payout),2) if round(float(payout),2) > 0 else 0 
         except ValueError:
-            return '-'
+            return 0
         except ZeroDivisionError:
-            return '-'
+            return 0
         except AttributeError:
-            return '-'
+            return 0
     
     def get_average_dividends_four_years(self):
         
@@ -187,33 +190,35 @@ class Valuation:
         msft = yfinance.Ticker(self.ticker + '.SA')
     
         history_dividends = msft.dividends
-        sum_dividends=0
-        count_years = 0
+        sum_dividends = 0
+        count_years   = 0
+
     
-        for year in years:
-            
-            flag = False
-            for k in history_dividends.keys():
-                if(str(k).find(year) == 0):
-                    flag = True
-                    sum_dividends += float(history_dividends.get(k))
-            
-            if flag == True:
-                count_years += 1
-        
         try:
+            for year in years:
+                
+                flag = False
+                for k in history_dividends.keys():
+                    if(str(k).find(year) == 0):
+                        flag = True
+                        sum_dividends += float(history_dividends.get(k))
+                
+                if flag == True:
+                    count_years += 1
             return float(sum_dividends/count_years)
         except ValueError:
-            return '-'
+            return 0
         except ZeroDivisionError:
-            return '-'
+            return 0
+        except AttributeError:
+            return 0 
 
     def get_price_target(self):
         try:
             return round(self.get_average_dividends_four_years()/Rules.BASIN.value,2)
         except ValueError:
-            return '-'
+            return 0
         except ZeroDivisionError:
-            return '-'
+            return 0
         except TypeError:
-            return '-'
+            return 0
