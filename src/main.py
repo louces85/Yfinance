@@ -12,28 +12,28 @@ import heapq
 from prettytable import PrettyTable
 import html
 import re
+from dao.stocksDAO import StocksDAO
 from model.stock import Stock
 from model.valuation import Valuation
 from enums.rules import Rules
 
-file_in  = open('files/stocks_file', 'r')
-
-def pupulating_list_stocks(file_in):
-    list_stk = []
-    file_out = open('files/stocks_file_incomes_positive', 'w')
-    for stk in file_in:
-        stock = Stock(stk.strip())
-            
-        if(stock.is_net_income_positive_in_four_years()):
-            list_stk.append(stock)
-            file_out.write(stock.ticker + '\n')
-            file_out.flush()
+def pupulating_list_stocks():
     
-    file_out.close()
-    return list_stk
+    list_dict = StocksDAO().list_dict_stock()
+    list_stocks = []
+    for dict in list_dict:
+        stock = Stock(dict['Ticker'], 
+                      dict['price_now'], 
+                      dict['price_min'], 
+                      dict['price_max'], 
+                      dict['pTarget'], 
+                      dict['payout'])
+        list_stocks.append(stock)
+    
+    return list_stocks    
 
 def get_data_api_yahoo():
-    subprocess.getoutput('java -jar libs/yahooFinance.jar files/stocks_file_incomes_positive > files/prices_stocks')
+    subprocess.getoutput('java -jar libs/yahooFinance.jar')
 
 def rule_indicator(indicator):
     if indicator.find('VPATrue') != -1:
@@ -80,13 +80,14 @@ def change_table(table, changes, indicator):
     return table
 
 def main():
-
-    list_stocks = pupulating_list_stocks(file_in)
-
+    
     get_data_api_yahoo()
     
+    list_stocks = pupulating_list_stocks()
+
     coll = []
     for stock in list_stocks:
+        
         value_min = stock.get_min_value_in_six_month()
         value_max = stock.get_max_value_in_six_month()
 
@@ -97,7 +98,7 @@ def main():
         
         pct_now_min = round(value_now/value_min,2)
 
-        if (pct_now_min <= 0):
+        if pct_now_min <= 0:
             continue
         
         if pct_now_min <= 1.1:
@@ -111,6 +112,8 @@ def main():
                         'now': value_now,
                         'min': value_min,
                         'max': value_max,
+                        'pTarget': stock.get_price_target(),
+                        'payout' : stock.get_payout(),
                         'now/min': pct_now_min,
                         'VPA' : dic_valuation['VPA'],
                         'D.Y': dic_valuation['D.Y'],
@@ -133,9 +136,6 @@ def main():
 
     list_dic_stocks =  heapq.nsmallest(len(coll), coll, key=lambda s: s['now/min'])
 
-    myTable = PrettyTable(["ID","Ticker", "pNow", "pTarget", "pMin", "pMax", "pNow/pMin","Payout%","VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%", "R"])
-    myTable.align["Ticker"] = "l"
-
     changes_vpa =       []
     changes_dy =        []
     changes_pl =        []
@@ -151,31 +151,34 @@ def main():
     changes_cagrr =     []
     changes_cagrl =     []
 
+    myTable = PrettyTable(["ID","Ticker", "pNow", "pTarget", "pMin", "pMax", "pNow/pMin","Payout%","VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%", "R"])
+    myTable.align["Ticker"] = "l"
+
     id = 1
     for dic_stock in list_dic_stocks:
 
         if float(dic_stock['min']) > 100:
             continue
-        if float(dic_stock['Rank']) < 10:
-            continue
+        #if float(dic_stock['Rank']) < 10:
+        #    continue
         
-        pTaget = '-'
-        payout = '-' 
+        pTarget = str(dic_stock['pTarget'])
+        payout = dic_stock['payout'] 
+
         try:
             if float(dic_stock['D.Y']) >= 6.00:
-                vl = Valuation(dic_stock['Ticker'], 'files/all_indicators.json')
-                pTaget = str(vl.get_price_target())
-                payout = vl.get_payout()
+                pTarget = str(dic_stock['pTarget'])
+                payout = dic_stock['payout']
 
-                if float(dic_stock['now']) <= float(pTaget):
-                    pTaget+='*'
+                if float(dic_stock['now']) <= float(pTarget):
+                    pTarget+='*'
                 if float(dic_stock['now']) <= float(dic_stock['VPA']):
-                    pTaget+='*'
+                    pTarget+='*'
 
         except ValueError:
-            pTaget = '-'
+            pTarget = '-'
         except ZeroDivisionError:
-            pTaget = '-'
+            pTarget = '-'
         
         changes_vpa.extend([str(dic_stock['VPA']) + 'VPA' + str(dic_stock['flagVPA'])])
         changes_dy.extend([str(dic_stock['D.Y']) + 'D.Y'])
@@ -196,7 +199,7 @@ def main():
             id, 
             dic_stock['Ticker'], 
             dic_stock['now'],
-            pTaget,  
+            pTarget,  
             dic_stock['min'], 
             dic_stock['max'], 
             dic_stock['now/min'],
