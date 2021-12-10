@@ -9,15 +9,52 @@
 
 import yfinance as yf
 import warnings
-import pandas as pd
 from pandas.core.common import SettingWithCopyWarning
+import sys
+import os
+from prettytable import PrettyTable
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+from jdbc.connection_factory import Connection_Factory
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
-file_in  = open('../../files/stocks_file', 'r')
-file_out = open('../../files/history_6mo_results_net_income', 'w')
+def get_all_stocks():
+    conn = Connection_Factory().connection() 
 
-for stk in file_in:
-    df_six_month = yf.download(stk.strip()+'.SA', period='6mo', progress=False)
+    cur = conn.cursor()
+    cur.execute("select * from stock;")
+
+    list = cur.fetchall()
+    cur.close()
+
+    conn.commit()
+    conn.close
+
+    list_stocks = []
+    for stock in list:
+      list_stocks.append(stock[1])
+    
+    return list_stocks
+
+def uptate_history_stock(price_min, price_max, net_income, ticker):
+    conn = Connection_Factory().connection()
+    
+    cur = conn.cursor()
+    cur.execute("update history set price_min={}, price_max={}, net_income={}, date_update=CURRENT_DATE where ticker like '{}';".format(price_min, price_max,net_income, ticker))
+    cur.close()
+
+    conn.commit()
+    conn.close
+
+get_all_stocks()
+
+myTable = PrettyTable(["Ticker", "pMax", "pMin", "Net Income"])
+myTable.align["Ticker"] = "l"
+
+total = 0
+for stock in get_all_stocks():
+    df_six_month = yf.download(stock + '.SA', period='6mo', progress=False)
     df_prices = df_six_month[['Adj Close']]
     df_prices.dropna(subset = ['Adj Close'], inplace=True) #remove values NaN
     cols_as_np_v = df_prices[df_prices.columns[0:]].to_numpy()
@@ -25,21 +62,16 @@ for stk in file_in:
     
     flag = True
     try:
-        msft = yf.Ticker(stk.strip()+'.SA')
+        msft = yf.Ticker(stock + '.SA')
         df = msft.financials
-        
         row = df.loc['Net Income', :]
         list_incomes = row.tolist()
         
-        print(list_incomes)
-        
         for i in list_incomes:
             if i < 0:
-                print(f'{stk.strip()} fail in net income test')
                 flag = False
                 break
             
-                
     except Exception as e:
         print(e)
         flag = True
@@ -48,15 +80,18 @@ for stk in file_in:
         highest_price_in_the_last_six_months = round(cols_as_np_v.max(),1)
         lowest_price_in_the_last_six_months = round(cols_as_np_v.min(),1)
     except Exception as e:
-        highest_price_in_the_last_six_months = 10000
-        lowest_price_in_the_last_six_months  = 10000
+        highest_price_in_the_last_six_months = 10000.00
+        lowest_price_in_the_last_six_months  = 10000.00
     
     
-    str_out = f"{stk.strip()+'.SA'}\tMAX\t{highest_price_in_the_last_six_months}\tMIN\t{lowest_price_in_the_last_six_months}\tNET Income\t{flag}\n"
+    myTable.add_row([stock, str(highest_price_in_the_last_six_months), str(lowest_price_in_the_last_six_months),str(flag)])  
     if(len(df_six_month) > 1):
-        file_out.write(str_out)
-        print(str_out.strip())
+        uptate_history_stock(lowest_price_in_the_last_six_months, highest_price_in_the_last_six_months, flag , stock)
     else:
-        str_out = f"{stk.strip()+'.SA'}\tMAX\t{10000}\tMIN\t{10000}\tNET Income\t{flag}\n"
-        file_out.write(str_out)
-        print(str_out.strip())
+        uptate_history_stock(lowest_price_in_the_last_six_months, highest_price_in_the_last_six_months, flag, stock)
+    total+=1
+    perc = round((total/len(get_all_stocks()))*100,2)
+
+    print(str(perc) + ' % completed')
+
+print(myTable)
