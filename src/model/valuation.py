@@ -50,11 +50,13 @@ class Valuation:
                 'ROIC':      dict_json.get('roic', '-'),
                 'CAGR.R':    dict_json.get('receitas_Cagr5', '-'),
                 'CAGR.L':    dict_json.get('lucros_Cagr5', '-'),
+                'D.AVG.LQ':  dict_json.get('liquidezMediaDiaria', '-'),   
                 'Rank' :     0,
                 'flagVPA':   False
         }
-
+        
         try:
+            dict_stock['D.AVG.LQ'] = round(float(dict_stock['D.AVG.LQ'])/1000000,2)
             #stock = Stock(dict_stock['Ticker'].upper())
             stk_DAO = StocksDAO()
             price_now = stk_DAO.get_price(dict_stock['Ticker'].upper())
