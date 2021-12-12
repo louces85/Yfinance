@@ -161,20 +161,20 @@ def main():
             continue
         #if float(dic_stock['Rank']) < 10:
         #    continue
-        
-        pTarget = str(dic_stock['pTarget'])
-        payout = dic_stock['payout'] 
 
         try:
-            if float(dic_stock['D.Y']) >= 6.00:
-                pTarget = str(dic_stock['pTarget'])
-                payout = dic_stock['payout']
-
-                if float(dic_stock['now']) <= float(pTarget):
-                    pTarget+='*'
-                if float(dic_stock['now']) <= float(dic_stock['VPA']):
-                    pTarget+='*'
-
+            pTarget = str(dic_stock['pTarget'])
+            payout = dic_stock['payout'] 
+            
+            if float(dic_stock['now']) <= float(pTarget):
+                pTarget+='*'
+            if float(dic_stock['now']) <= float(dic_stock['VPA']):
+                pTarget+='*'
+            if dic_stock['pTarget'] == 0.0:
+                pTarget = '-'
+            if  dic_stock['payout'] == 0:
+                payout  = '-'
+                
         except ValueError:
             pTarget = '-'
         except ZeroDivisionError:
