@@ -81,7 +81,7 @@ def change_table(table, changes, indicator):
 
 def main():
     
-    #get_data_api_yahoo()
+    get_data_api_yahoo()
     
     list_stocks = pupulating_list_stocks()
 
@@ -152,7 +152,7 @@ def main():
     changes_cagrr =     []
     changes_cagrl =     []
 
-    myTable = PrettyTable(["ID","Ticker", "pNow", "pTarget", "pMin", "pMax", "pNow/pMin","D.AVG.LQ","R","Payout%","VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%"])
+    myTable = PrettyTable(["ID","Ticker", "pNow", "pTarget", "pMin", "pMax", "pNow/pMin","D.AVG.LQ(M)","Ranking","Payout%","VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%"])
     myTable.align["Ticker"] = "l"
 
     id = 1
@@ -160,8 +160,8 @@ def main():
 
         if float(dic_stock['min']) > 100:
             continue
-        #if float(dic_stock['Rank']) < 10:
-        #    continue
+        if float(dic_stock['D.AVG.LQ']) < 1:
+            continue
 
         try:
             pTarget = str(dic_stock['pTarget'])
@@ -204,7 +204,7 @@ def main():
             dic_stock['min'], 
             dic_stock['max'], 
             dic_stock['now/min'],
-            str(dic_stock['D.AVG.LQ']) + ' M',
+            str(dic_stock['D.AVG.LQ']),
             str(dic_stock['Rank']),
             payout,
             str(dic_stock['VPA'])+'VPA'+ str(dic_stock['flagVPA']),
