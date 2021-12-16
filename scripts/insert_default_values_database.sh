@@ -30,7 +30,7 @@ function insert_values_valuation(){
     done
 }
 
-insert_values_stock()
-insert_values_price()
-insert_values_history()
-insert_values_valuation()
+insert_values_stock
+insert_values_price
+insert_values_history
+insert_values_valuation
