@@ -8,7 +8,7 @@ unameOUT=`uname -s`
 docker_exec=""
 case "${unameOUT}" in
     Linux*)     docker_exec="docker exec -it yfinance-postgres psql -U postgres yfinance -c";;
-    CYGWIN*)    docker_exec="winpty docker exec -it yfinance-postgres psql -U postgres yfinance -c";;
+    MINGW64*)    docker_exec="winpty docker exec -it yfinance-postgres psql -U postgres yfinance -c";;
     *)          exit 0
 esac
 
