@@ -1,2 +1,3 @@
 yfinance
 prettytable
+psycopg2
