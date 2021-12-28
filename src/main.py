@@ -79,6 +79,20 @@ def change_table(table, changes, indicator):
             continue
     return table
 
+def calc_predict_gain(pNow,dy,pTarget):
+    try:
+        pNow = float(pNow)
+        dy = float(dy)
+        pTarget = float(pTarget.replace('*',''))
+
+        price_max = pTarget * (1 + (dy/100))
+        pGain = round(((price_max - pNow)/pNow)*100,2)
+        if pGain > 0:
+            return str(pGain)
+        return '-'
+    except ValueError:
+        return '-'
+
 def main():
     
     get_data_api_yahoo()
@@ -152,7 +166,7 @@ def main():
     changes_cagrr =     []
     changes_cagrl =     []
 
-    myTable = PrettyTable(["ID","Ticker", "pNow", "pTarget", "pMin", "pMax", "pNow/pMin","D.AVG.LQ(M)","Ranking","Payout%","VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%"])
+    myTable = PrettyTable(["ID","Ticker", "pNow", "pTarget","pGain%", "pMin", "pMax", "pNow/pMin","D.AVG.LQ(M)","Ranking","Payout%","VPA", "D.Y%", "P/L", "P/VP", "P/A", "DL/PL", "DL/EBITDA", "LQ", "M.EBIT%", "M.L%", "ROE%", "ROIC%", "CAGR.R%", "CAGR.L%"])
     myTable.align["Ticker"] = "l"
 
     id = 1
@@ -200,7 +214,8 @@ def main():
             id, 
             dic_stock['Ticker'], 
             dic_stock['now'],
-            pTarget,  
+            pTarget,
+            calc_predict_gain(dic_stock['now'], dic_stock['D.Y'], pTarget),  
             dic_stock['min'], 
             dic_stock['max'], 
             dic_stock['now/min'],
