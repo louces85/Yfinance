@@ -11,7 +11,7 @@ unameOUT=`uname -s`
 docker_exec_output=""
 case "${unameOUT}" in
     Linux*)     docker_exec_output="docker exec -it yfinance-postgres psql -U postgres yfinance -c";;
-    MINGW64*)   docker_exec_output='winpty docker exec -it yfinance-postgres psql -U postgres yfinance -c "select count(*) from history where net_income = true;"';;
+    MINGW64*)   docker_exec_output="winpty docker exec -it yfinance-postgres psql -U postgres yfinance -c";;
     *)          exit 0
 esac
 
