@@ -10,20 +10,26 @@ PS: It is important to emphasize that the application will only provide the anal
 ## Layout Web
 ![Web 1](https://github.com/louces85/Yfinance/blob/master/assets/main.png)
 
+## ER Diagram
+![we1](https://github.com/louces85/Yfinance/blob/master/assets/er_diagram.png)
+
 # Technologies used
 ## Backend
 - Python
 - Java
 - Shell Script
+- Docker
+- Postgres
 
 ## Frontend
 - HTML/CSS
 
 ## Prerequisites:
-  - Ubuntu 20.04 or similar distribution
+ - Ubuntu 20.04 or similar distribution
  - Python 3
  - Pip3
  - Java 8
+ - Docker
 
 # How to run the project
 
@@ -39,11 +45,10 @@ https://github.com/louces85/Yfinance.git
 cd ~/Documentos/Yfinance/
 
 # install the dependencies
-pip3 install config/requirements -U
+pip3 install -r config/requirements
 
-# PS: In the first execution this file is absent, being necessary to run the script below for its creation.
-
-~/Documents/Yfinance/model/history_prices.py
+# starting the container yfinance-postgres
+docker-compose up -d
 
 # run the project
 ./run.sh
@@ -57,15 +62,10 @@ PS: In the first execution this file is absent, being necessary to run the scrip
 
 ```bash
 
-~/Documents/Yfinance/model/history_prices.py
-
-```
-# Changing the stocks that will be analyzed
-stocks can be changed in the following configuration file:
-
-```bash
-
-vim ~/Documents/Yfinance/files/stocks_file
+python  ~/Documents/Yfinance/src/model/history_prices.py (windows/gitbash)
+python3 ~/Documents/Yfinance/src/model/history_prices.py (linux) 
+python  ~/Documents/Yfinance/src/dao/valuationDAO.py (windows/gitbash)
+python3 ~/Documents/Yfinance/src/dao/valuationDAO.py (linux)
 
 ```
 
