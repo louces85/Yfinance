@@ -13,6 +13,7 @@ from pandas.core.common import SettingWithCopyWarning
 import sys
 import os
 from prettytable import PrettyTable
+from tqdm import tqdm
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
@@ -52,8 +53,7 @@ get_all_stocks()
 myTable = PrettyTable(["Ticker", "pMax", "pMin", "Net Income"])
 myTable.align["Ticker"] = "l"
 
-total = 0
-for stock in get_all_stocks():
+for stock in tqdm(get_all_stocks()):
     df_six_month = yf.download(stock + '.SA', period='6mo', progress=False)
     df_prices = df_six_month[['Adj Close']]
     df_prices.dropna(subset = ['Adj Close'], inplace=True) #remove values NaN
@@ -89,9 +89,5 @@ for stock in get_all_stocks():
         uptate_history_stock(lowest_price_in_the_last_six_months, highest_price_in_the_last_six_months, flag , stock)
     else:
         uptate_history_stock(lowest_price_in_the_last_six_months, highest_price_in_the_last_six_months, flag, stock)
-    total+=1
-    perc = round((total/len(get_all_stocks()))*100,2)
-
-    print(str(perc) + ' % completed')
 
 print(myTable)
