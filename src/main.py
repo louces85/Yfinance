@@ -115,7 +115,7 @@ def main():
         if pct_now_min <= 0:
             continue
         
-        if pct_now_min <= 1.1:
+        if pct_now_min <= 11:
             try:
                 vl = Valuation(stock.ticker, 'files/all_indicators.json')
                 dic_valuation = vl.get_dict_indicators()
@@ -172,9 +172,14 @@ def main():
     id = 1
     for dic_stock in list_dic_stocks:
 
-        if float(dic_stock['min']) > 100:
+        if float(dic_stock['min']) == -1:
             continue
-        if float(dic_stock['D.AVG.LQ']) < 1:
+        if float(dic_stock['P/L']) <= 0:
+            continue
+        try:
+            if float(dic_stock['D.AVG.LQ']) < 0.3:
+                continue
+        except ValueError:
             continue
 
         try:
