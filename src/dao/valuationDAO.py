@@ -5,6 +5,7 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 from jdbc.connection_factory import Connection_Factory
 from model.valuation import Valuation
+from tqdm import tqdm
 
 class ValuationDAO():
 
@@ -71,7 +72,7 @@ class ValuationDAO():
         conn.commit()
         conn.close
         
-        for t in list_tuple:
+        for t in tqdm(list_tuple):
             vlDAO = ValuationDAO(t[0])
             vlDAO.update_payout()
             vlDAO.update_price_target()

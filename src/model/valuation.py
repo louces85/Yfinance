@@ -169,7 +169,8 @@ class Valuation:
     
     def get_payout(self):
         
-        format_str = "curl -s https://statusinvest.com.br/acao/payoutresult?code=" + self.ticker.strip().lower() + " | grep 'actual' | awk -F ':' '{print $3}' | awk -F ',' '{print $1}'"
+        #format_str = "curl -s  https://statusinvest.com.br/acao/payoutresult?code=" + self.ticker.strip().lower() + " | grep 'actual' | awk -F ':' '{print $3}' | awk -F ',' '{print $1}'"
+        format_str =  'curl -s --user-agent "Chrome/79" "https://statusinvest.com.br/acao/payoutresult?code="' + self.ticker.strip().lower() + " | grep 'actual' | awk -F ':' '{print $3}' | awk -F ',' '{print $1}'"
         payout = subprocess.getoutput(format_str)
         
         try:
