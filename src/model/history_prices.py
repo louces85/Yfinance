@@ -24,7 +24,9 @@ def get_all_stocks():
     conn = Connection_Factory().connection() 
 
     cur = conn.cursor()
-    cur.execute("select * from stock;")
+    #cur.execute("select * from  history where net_income and date_update != '2022-06-04';")
+    cur.execute("select * from history where net_income = true;")
+
 
     list = cur.fetchall()
     cur.close()
@@ -54,23 +56,25 @@ myTable = PrettyTable(["Ticker", "pMax", "pMin", "Net Income"])
 myTable.align["Ticker"] = "l"
 
 for stock in tqdm(get_all_stocks()):
-    df_six_month = yf.download(stock + '.SA', period='6mo', progress=False)
+    df_six_month = yf.download(stock + '.SA', period='6mo', progress=False, show_errors=True)
     df_prices = df_six_month[['Adj Close']]
     df_prices.dropna(subset = ['Adj Close'], inplace=True) #remove values NaN
     cols_as_np_v = df_prices[df_prices.columns[0:]].to_numpy()
- 
+    
+    print(df_six_month)
     
     flag = True
     try:
         msft = yf.Ticker(stock + '.SA')
         df = msft.financials
-        row = df.loc['Net Income', :]
-        list_incomes = row.tolist()
+        if not df.empty:
+            row = df.loc['Net Income', :]
+            list_incomes = row.tolist()
         
-        for i in list_incomes:
-            if i < 0:
-                flag = False
-                break
+            for i in list_incomes:
+                if i < 0:
+                    flag = False
+                    break
             
     except Exception as e:
         print(e)
@@ -80,8 +84,8 @@ for stock in tqdm(get_all_stocks()):
         highest_price_in_the_last_six_months = round(cols_as_np_v.max(),1)
         lowest_price_in_the_last_six_months = round(cols_as_np_v.min(),1)
     except Exception as e:
-        highest_price_in_the_last_six_months = 10000.00
-        lowest_price_in_the_last_six_months  = 10000.00
+        highest_price_in_the_last_six_months = -1
+        lowest_price_in_the_last_six_months  = -1
     
     
     myTable.add_row([stock, str(highest_price_in_the_last_six_months), str(lowest_price_in_the_last_six_months),str(flag)])  
