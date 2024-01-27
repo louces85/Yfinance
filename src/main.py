@@ -16,6 +16,14 @@ from dao.stocksDAO import StocksDAO
 from model.stock import Stock
 from model.valuation import Valuation
 from enums.rules import Rules
+import os
+import sys
+
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from libs.googleFinance import GoogleFinance
 
 def pupulating_list_stocks():
     
@@ -34,6 +42,9 @@ def pupulating_list_stocks():
 
 def get_data_api_yahoo():
     subprocess.getoutput('java -jar libs/yahooFinance.jar')
+
+def get_data_google():
+    subprocess.getoutput('python libs/googleFinance.py')
 
 def rule_indicator(indicator):
     if indicator.find('VPATrue') != -1:
@@ -95,7 +106,10 @@ def calc_predict_gain(pNow,dy,pTarget):
 
 def main():
     
-    get_data_api_yahoo()
+    #get_data_api_yahoo()
+    #get_data_google()
+    google = GoogleFinance()
+    google.run()
     
     list_stocks = pupulating_list_stocks()
 
@@ -174,13 +188,18 @@ def main():
 
         if float(dic_stock['min']) == -1:
             continue
-        if float(dic_stock['P/L']) <= 0:
-            continue
+        
         try:
-            if float(dic_stock['D.AVG.LQ']) < 0.3:
+            if float(dic_stock['P/L']) <= 0:
                 continue
         except ValueError:
-            continue
+            pass
+        
+        try:
+            if float(dic_stock['D.AVG.LQ']) < 0.2:
+                continue
+        except ValueError:
+            pass
 
         try:
             pTarget = str(dic_stock['pTarget'])

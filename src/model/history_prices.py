@@ -9,7 +9,8 @@
 
 import yfinance as yf
 import warnings
-from pandas.core.common import SettingWithCopyWarning
+#from pandas.core.common import SettingWithCopyWarning
+from pandas.errors import SettingWithCopyWarning
 import sys
 import os
 from prettytable import PrettyTable
@@ -24,7 +25,7 @@ def get_all_stocks():
     conn = Connection_Factory().connection() 
 
     cur = conn.cursor()
-    #cur.execute("select * from  history where net_income and date_update != '2022-06-04';")
+    #cur.execute("select * from  history;")
     cur.execute("select * from history where net_income = true;")
 
 
@@ -56,7 +57,7 @@ myTable = PrettyTable(["Ticker", "pMax", "pMin", "Net Income"])
 myTable.align["Ticker"] = "l"
 
 for stock in tqdm(get_all_stocks()):
-    df_six_month = yf.download(stock + '.SA', period='6mo', progress=False, show_errors=True)
+    df_six_month = yf.download(stock + '.SA', period='1y', progress=False, show_errors=True)
     df_prices = df_six_month[['Adj Close']]
     df_prices.dropna(subset = ['Adj Close'], inplace=True) #remove values NaN
     cols_as_np_v = df_prices[df_prices.columns[0:]].to_numpy()
