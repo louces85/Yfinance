@@ -1,8 +1,8 @@
 #!/bin/bash
 
-sed -i 's/\r//g' ../files/stocks_file_2023
+sed -i 's/\r//g' ../files/stocks_file_2024
 
-stocks=`cat ../files/stocks_file_2023`
+stocks=`cat ../files/stocks_file_2024`
 
 unameOUT=`uname -s`
 docker_exec=""

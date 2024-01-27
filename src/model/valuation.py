@@ -30,6 +30,7 @@ class Valuation:
         dict_json = {}
         
         for l in list:
+            #print(l)
             if l['ticker'] == self.ticker:
                 dict_json = l
                 break
@@ -37,20 +38,20 @@ class Valuation:
         dict_stock = {
                 'Ticker':    dict_json.get('ticker', '-'),
                 'D.Y':       dict_json.get('dy', '-'),
-                'P/L':       dict_json.get('p_L', '-'),
-                'P/VP':      dict_json.get('p_VP', '-'),
+                'P/L':       dict_json.get('p_l', '-'),
+                'P/VP':      dict_json.get('p_vp', '-'),
                 'VPA':       dict_json.get('vpa', '-'),
-                'P/A':       dict_json.get('passivo_Ativo', '-'),
-                'DL/PL':     dict_json.get('dividaliquidaPatrimonioLiquido', '-'),
-                'DL/EBITDA': dict_json.get('dividaLiquidaEbit', '-'),
-                'LQ':        dict_json.get('liquidezCorrente', '-'),    
-                'M.EBIT':    dict_json.get('margemEbit', '-'),
-                'M.L':       dict_json.get('margemLiquida', '-'),
+                'P/A':       dict_json.get('passivo_ativo', '-'),
+                'DL/PL':     dict_json.get('dividaliquidapatrimonioliquido', '-'),
+                'DL/EBITDA': dict_json.get('dividaliquidaebit', '-'),
+                'LQ':        dict_json.get('liquidezcorrente', '-'),    
+                'M.EBIT':    dict_json.get('margemebit', '-'),
+                'M.L':       dict_json.get('margemliquida', '-'),
                 'ROE':       dict_json.get('roe', '-'),
                 'ROIC':      dict_json.get('roic', '-'),
-                'CAGR.R':    dict_json.get('receitas_Cagr5', '-'),
-                'CAGR.L':    dict_json.get('lucros_Cagr5', '-'),
-                'D.AVG.LQ':  dict_json.get('liquidezMediaDiaria', '-'),   
+                'CAGR.R':    dict_json.get('receitas_cagr5', '-'),
+                'CAGR.L':    dict_json.get('lucros_cagr5', '-'),
+                'D.AVG.LQ':  dict_json.get('liquidezmediadiaria', '-'),   
                 'Rank' :     0,
                 'flagVPA':   False
         }

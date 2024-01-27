@@ -38,7 +38,7 @@ fi
 
 for k in $(cat index.html | grep "padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top" | awk -F ">" '{print $2}' | awk -F "</" '{print $1}')
 do
-	sed -i "s|$k|<a href="https://www.google.com/finance/quote/$k:BVMF?window=6M" target="_blank">$k</a>|g" "index.html"
+	sed -i "s|$k|<a href="https://www.google.com/finance/quote/$k:BVMF?window=1Y" target="_blank">$k</a>|g" "index.html"
 done
 
 #sed -i 's|<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">|<meta http-equiv="refresh" content="30">|g' "index.html"
