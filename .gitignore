@@ -3,7 +3,7 @@ files/stocks_file_incomes_positive
 files/history_6mo_results_net_income
 files/all_indicators.json
 index.html
-
+*.txt
 #IDE Files
 __pycache__
 .vscode/
