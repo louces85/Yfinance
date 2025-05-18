@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#cmd to run the script every hour on terminal
+#for (( ; ; )) ; do ./run.sh ; mv  index.html /var/www/html/index.html ;  sleep 3600 ; done;
+
 path=$(dirname "$0")
 if [[ "$path" == "." ]]; then
     path=$(pwd)
