@@ -11,6 +11,7 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 from src.jdbc.connection_factory import Connection_Factory
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
+import re
 
 class GoogleFinance:
 
@@ -25,11 +26,21 @@ class GoogleFinance:
             #print(url)
 
             response = requests.get(url)
-            soup = BeautifulSoup(response.content, "html.parser")
-            price_element = soup.find("div", class_="YMlKec fxKbKc")
-            price = price_element.text.split("R$")
+            response.raise_for_status()  # Raise an exception for any bad response status
+            
+            # Create a BeautifulSoup object only for the required part of the HTML
+            price_html = response.text.split("YMlKec fxKbKc")[1]
+            soup = BeautifulSoup(price_html, "html.parser")
+            
+            
+            price_text = soup.text
+            price_match = re.search(r'(\d+\.\d+)', price_text)
+            if price_match:
+                price = price_match.group(0)
+                return float(price)
+            else:
+                return "Value not found"
 
-            return price[1]    
         except Exception as e:
             pass
             #print(e)
