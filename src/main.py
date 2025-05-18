@@ -186,6 +186,9 @@ def main():
     id = 1
     for dic_stock in list_dic_stocks:
 
+        # if float(dic_stock['Rank']) < 9:
+        #     continue
+
         if float(dic_stock['min']) == -1:
             continue
         
@@ -199,7 +202,8 @@ def main():
             if float(dic_stock['D.AVG.LQ']) < 0.2:
                 continue
         except ValueError:
-            pass
+            #pass
+            continue
 
         try:
             pTarget = str(dic_stock['pTarget'])

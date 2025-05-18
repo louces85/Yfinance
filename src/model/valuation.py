@@ -19,6 +19,7 @@ class Valuation:
     def __init__(self, ticker , name_json_file):
         self.ticker = ticker
         self.name_json_file = name_json_file
+        self.list_price_target_year = []
 
     def get_list_stoks(self):
         with open(self.name_json_file, encoding='utf-8') as json_file:
@@ -86,6 +87,8 @@ class Valuation:
             if price_now <= float(self.dict_stock['VPA']):
                 rank += 1
         except ValueError:
+            pass
+        except Exception as e:
             pass
 
         try:
@@ -187,28 +190,99 @@ class Valuation:
         
         years = []
 
-        for y in range(4):
+        for y in range(5):
             year = (datetime.datetime.now()-relativedelta(years=(y+1))).strftime("%Y")
             years.append(year)
+
+        list_erros = [
+            "ALSC3.SA",
+            "ANDG3B.SA",
+            "ANDG4B.SA",
+            "APTI3.SA",
+            "APTI4.SA",
+            "BBML3.SA", "BEEF11.SA", "BFRE12.SA", "BIDI11.SA", "BIDI3.SA", "BIDI4.SA", 
+            "BLUT3.SA", "BLUT4.SA", "BOAS3.SA", "BPAR3.SA", "BPAT33.SA", "BRBI3.SA", 
+            "BRBI4.SA", "BRIN3.SA", "BRML3.SA", "BRQB3.SA", "BSEV3.SA", "CATA3.SA", 
+            "CATA4.SA", "CCXC3.SA", "CEEB6.SA", "CEPE3.SA", "CEPE5.SA", "CEPE6.SA", 
+            "CESP3.SA", "CESP5.SA", "CESP6.SA", "CMSA3.SA", "CMSA4.SA", "CNSY3.SA", 
+            "CPRE3.SA", "CTCA3.SA", "DMMO11.SA", "DMMO3.SA", "DTCY4.SA", "EEEL4.SA", 
+            "ELEK3.SA", "ELEK4.SA", "ELPL3.SA", "CAMB4.SA", "ENMA3B.SA", "ENMA6B.SA", 
+            "FLEX3.SA", "FTRT3B.SA", "GBIO33.SA", "GETT11.SA", "GETT3.SA", "GETT4.SA", 
+            "GUAR4.SA", "HGTX3.SA", "IDVL3.SA", "IDVL4.SA", "IGTA3.SA", "INNT3.SA", 
+            "ITEC3.SA", "LAME3.SA", "LAME4.SA", "LCAM3.SA", "LINX3.SA", "ENBR3.SA", 
+            "LTEL3B.SA", "MAGG3.SA", "MMXM3.SA", "MODL11.SA", "MODL3.SA", "MODL4.SA", 
+            "MOSI3.SA", "MPLU3.SA", "MSRO3.SA", "MTIG4.SA", "NAFG3.SA", "NAFG4.SA", 
+            "NRTQ3.SA", "OMGE3.SA", "PARD3.SA", "PCAR4.SA", "PNVL4.SA", "PTCA11.SA", 
+            "PTCA3.SA", "QGEP3.SA", "QUSW3.SA", "QVQP3B.SA", "RANI4.SA", "RLOG3.SA", 
+            "SEDU3.SA", "SMLS3.SA", "SPRI3.SA", "SPRI5.SA", "SPRI6.SA", "SPRT3B.SA", 
+            "SQIA3.SA", "STKF3.SA", "STTR3.SA", "SULA11.SA", "SULA3.SA", "SULA4.SA", 
+            "TCNO3.SA", "TCNO4.SA", "TESA3.SA", "TIET11.SA", "TIET3.SA", "TIET4.SA", 
+            "TOYB3.SA", "TOYB4.SA", "TRPN3.SA", "FNCN3.SA", "GNDI3.SA", "POWE3.SA", 
+            "VIVT4.SA", "TICKER.SA", "CALI4.SA", "EEEL3.SA"
+        ]
         
+        if f"{self.ticker}.SA" in list_erros:
+            #print(self.ticker)
+            return
+
+
         msft = yfinance.Ticker(self.ticker + '.SA')
     
         history_dividends = msft.dividends
         sum_dividends = 0
         count_years   = 0
 
+        #print(history_dividends)
     
         try:
+            sum_div_parcial_years = 0
             for year in years:
-                
+                #print(year)
                 flag = False
+                #print(history_dividends.keys())
+                sum_div_year = 0
+                
                 for k in history_dividends.keys():
+                    
                     if(str(k).find(year) == 0):
                         flag = True
+                        #print(f"{k}:{history_dividends.get(k)}")
                         sum_dividends += float(history_dividends.get(k))
+                        sum_div_year += float(history_dividends.get(k))
                 
                 if flag == True:
+                    #print(f"Total: {k} :{sdy}")
+                    #print(f"Total:{year}:{sum_div_year}")
                     count_years += 1
+                
+                #print(f"Total: {year} :{sum_div_year}")
+                
+                # price_target = (sum_div_year/count_years)/0.06
+                sum_div_parcial_years += sum_div_year
+                dict_temp = {
+                    'ticker': self.ticker,
+                    'year':year,
+                    'sum_div_parcial_years' : sum_div_parcial_years,
+                    'price_parcial_years' : sum_div_parcial_years/count_years/0.06
+                }
+
+
+
+                # for s_y in self.list_price_target_year:
+                #     dict_temp['price_target'] += s_y
+
+                self.list_price_target_year.append(dict_temp)
+
+            if(count_years == 0):
+                #print(f"{self.ticker}\t--\t--\t--") 
+                return
+            #sum_total = sum_dividends/count_years
+            #price = float(sum_total/0.06)
+
+            #print("")
+
+            temp = float(sum_dividends/count_years/0.06)
+            #print(f"{self.ticker} {round(price,2)}")
             return float(sum_dividends/count_years)
         except ValueError:
             return 0
