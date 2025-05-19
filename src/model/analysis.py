@@ -279,10 +279,29 @@ class Analysis:
                 # Create figure with secondary y-axis
                 fig = make_subplots(specs=[[{"secondary_y": True}]])
                 
+                # Add volume line
+                fig.add_trace(
+                    go.Scatter(x=hist.index, y=hist['Volume'], name="Volume", line=dict(color='#ff4500')),
+                    secondary_y=False,
+                )
+                
+                # Calculate and add volume average line
+                volume_mean = hist['Volume'].mean()
+                fig.add_trace(
+                    go.Scatter(
+                        x=hist.index,
+                        y=[volume_mean] * len(hist.index),
+                        name="Average Volume",
+                        line=dict(color='#ffd700', dash='dash'),
+                        opacity=0.7
+                    ),
+                    secondary_y=False,
+                )
+
                 # Add price line
                 fig.add_trace(
                     go.Scatter(x=hist.index, y=hist['Close'], name="Price", line=dict(color='#00ffff')),
-                    secondary_y=False,
+                    secondary_y=True,
                 )
 
                 # Calculate and add price average line
@@ -295,7 +314,7 @@ class Analysis:
                         line=dict(color='#ff69b4', dash='dash'),
                         opacity=0.7
                     ),
-                    secondary_y=False,
+                    secondary_y=True,
                 )
 
                 # Add price target line if available
@@ -309,28 +328,9 @@ class Analysis:
                             line=dict(color='#32cd32'),
                             opacity=0.9
                         ),
-                        secondary_y=False,
+                        secondary_y=True,
                     )
                 
-                # Add volume line
-                fig.add_trace(
-                    go.Scatter(x=hist.index, y=hist['Volume'], name="Volume", line=dict(color='#ff4500')),
-                    secondary_y=True,
-                )
-                
-                # Calculate and add volume average line
-                volume_mean = hist['Volume'].mean()
-                fig.add_trace(
-                    go.Scatter(
-                        x=hist.index,
-                        y=[volume_mean] * len(hist.index),
-                        name="Average Volume",
-                        line=dict(color='#ffd700', dash='dash'),
-                        opacity=0.7
-                    ),
-                    secondary_y=True,
-                )
-
                 # Define condition where both price and volume are below average
                 below_condition = (hist['Close'] < price_mean) & (hist['Volume'] < volume_mean)
                 
@@ -373,8 +373,8 @@ class Analysis:
                 layout_dict = {
                     "title": f"{ticker_data[0]} - Price and Volume Analysis ({self.days} Days)",
                     "xaxis_title": "Date",
-                    "yaxis_title": "Price (R$)",
-                    "yaxis2_title": "Volume",
+                    "yaxis_title": "Volume",
+                    "yaxis2_title": "Price (R$)",
                     "height": 600,
                     "showlegend": True,
                     "legend": dict(
@@ -461,12 +461,14 @@ def get_tickers_from_html(html_path='/var/www/html/index.html', limit=20):
 
 if __name__ == "__main__":
     # Get tickers from HTML file
+    #specific_tickers = ["GGBR3","VITT3", "GOAU3", "TASA4", "DXCO3", "CMIN3"]#get_tickers_from_html()
     specific_tickers = get_tickers_from_html()
     
+
     if not specific_tickers:
         print("No tickers found in HTML. Using default list.")
         specific_tickers = ["BMEB4"]
     
     print("Analyzing the following tickers:", specific_tickers)
-    analysis = Analysis(specific_tickers, days=90, min_volume=0)  # No minimum volume filter
+    analysis = Analysis(specific_tickers, days=180, min_volume=0)  # No minimum volume filter
     analysis.create_specific_analysis('specific_analysis.html')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
