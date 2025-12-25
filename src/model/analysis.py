@@ -1,6 +1,3 @@
-import yfinance as yf
-import warnings
-from pandas.errors import SettingWithCopyWarning
 import sys
 import os
 import plotly.graph_objects as go
@@ -11,13 +8,19 @@ from tqdm import tqdm
 import plotly.io as pio
 from prettytable import PrettyTable
 import re
+import yfinance as yf
+import warnings
+from pandas.errors import SettingWithCopyWarning
 
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
-sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+# Add src directory to Python path
+SCRIPT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(SCRIPT_DIR)
+
 from model.volume import Volume
 from model.prices import Prices
 from model.history_prices import get_all_stocks
+from model.valuation import Valuation
+from dao.stocksDAO import StocksDAO
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 list_delisted = ['APER3', 'APTI3', 'BBML3', 'BFRE11', 'BFRE12', 'BIDI11', 'BIDI3', 'BIDI4', 
@@ -55,6 +58,7 @@ class Analysis:
         
     def process_volume_data(self):
         """Process volume data for all stocks"""
+        stocks_dao = StocksDAO()
         
         for ticker in tqdm(self.list_all_ticker, desc="Processing volumes"):
             
@@ -102,13 +106,17 @@ class Analysis:
                         below_condition = (historical_data['Close'] < price_mean) & (historical_data['Volume'] < volume_mean)
                         condition_percentage = (below_condition.sum() / len(below_condition)) * 100
                         
+                        # Get minimum volume from StocksDAO
+                        min_volume = stocks_dao.get_min_volume(ticker)
+                        
                         self.volume_data.append([
                             ticker, 
                             numeric_volume, 
                             numeric_average, 
                             numeric_percentage, 
                             price_percentage,
-                            condition_percentage
+                            condition_percentage,
+                            min_volume
                         ])
                 except:
                     continue
@@ -132,9 +140,12 @@ class Analysis:
             <tr>
                 <th>Ticker</th>
                 <th>Last Volume</th>
+                <th>Min Volume</th>
+                <th>Last/Min %</th>
                 <th>Average Volume</th>
                 <th>Volume %</th>
                 <th>Price %</th>
+                <th>Below Avg %</th>
             </tr>
         '''
         
@@ -144,9 +155,12 @@ class Analysis:
             <tr>
                 <td>{ticker_link}</td>
                 <td>{format(row[1], '.0f')}</td>
-                <td>{format(row[2], '.2f')}</td>
-                <td>{format(row[3], '.2f')}%</td>
+                <td>{format(row[6], '.0f')}</td>
+                <td>{format(row[2], '.2f')}%</td>
+                <td>{format(row[3], '.2f')}</td>
                 <td>{format(row[4], '.2f')}%</td>
+                <td>{format(row[5], '.2f')}%</td>
+                <td>{format(row[7], '.2f')}%</td>
             </tr>
             '''
         
@@ -198,6 +212,17 @@ class Analysis:
                 .opportunity-row a {{
                     color: #32cd32 !important;
                 }}
+                .potential-gains {{
+                    margin: 10px 0;
+                    padding: 10px;
+                    background-color: #000000;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    line-height: 1.5;
+                }}
+                .potential-gains span {{
+                    font-weight: bold;
+                }}
             </style>
         </head>
         <body>
@@ -211,6 +236,8 @@ class Analysis:
             <tr>
                 <th>Ticker</th>
                 <th>Last Volume</th>
+                <th>Min Volume</th>
+                <th>Last/Min %</th>
                 <th>Average Volume</th>
                 <th>Volume %</th>
                 <th>Price %</th>
@@ -233,6 +260,14 @@ class Analysis:
                 prices_instance = Prices(row[0] + ".SA", hist)
                 ptarget = prices_instance.ptarget
                 
+                # Get VPA from valuation data
+                try:
+                    vl = Valuation(row[0], 'files/all_indicators.json')
+                    dic_valuation = vl.get_dict_indicators()
+                    vpa = float(dic_valuation['VPA'])
+                except:
+                    vpa = float('inf')  # Set to infinity if we can't get VPA
+                
                 # Check if meets all conditions
                 is_opportunity = (
                     current_volume < volume_mean and 
@@ -244,11 +279,18 @@ class Analysis:
                 
                 row_class = 'opportunity-row' if is_opportunity else ''
                 
+                # Calculate Last Volume/Min Volume percentage
+                last_volume = row[1]
+                min_volume = row[6]
+                last_min_percentage = (last_volume / min_volume * 100) if min_volume > 0 else 0
+                
                 ticker_link = f'<a href="#chart_{row[0]}">{row[0]}</a>'
                 html_content.append(f'''
                 <tr class="{row_class}">
                     <td>{ticker_link}</td>
                     <td>{format(row[1], '.0f')}</td>
+                    <td>{format(row[6], '.0f')}</td>
+                    <td>{format(last_min_percentage, '.2f')}%</td>
                     <td>{format(row[2], '.2f')}</td>
                     <td>{format(row[3], '.2f')}%</td>
                     <td>{format(row[4], '.2f')}%</td>
@@ -275,6 +317,60 @@ class Analysis:
                 # Create instances for analysis
                 prices_instance = Prices(ticker_data[0] + ".SA", hist)
                 volume_instance = Volume(ticker_data[0] + ".SA", hist)
+                
+                # Get current price and volume
+                current_price = hist['Close'].iloc[-1]
+                current_volume = hist['Volume'].iloc[-1]
+                price_mean = hist['Close'].mean()
+                volume_mean = hist['Volume'].mean()
+                ptarget = prices_instance.ptarget
+
+                # Get VPA from valuation data
+                try:
+                    vl = Valuation(ticker_data[0], 'files/all_indicators.json')
+                    dic_valuation = vl.get_dict_indicators()
+                    vpa = float(dic_valuation['VPA'])
+                except:
+                    vpa = float('inf')  # Set to infinity if we can't get VPA
+
+                # Check conditions for build position
+                build_position = (
+                    current_volume < volume_mean and 
+                    current_price < price_mean and 
+                    ptarget is not None and 
+                    ptarget > 0 and 
+                    current_price < ptarget
+                )
+                
+                # Calculate potential gains
+                gain_to_mean = ((price_mean - current_price) / current_price) * 100 if current_price > 0 else 0
+                gain_to_target = ((ptarget - current_price) / current_price) * 100 if current_price > 0 and ptarget is not None else 0
+                
+                title_html = f'<h2>{ticker_data[0]} Analysis'
+                if ticker_data[5] > 0:  # If there's any time below average
+                    title_html += f' <span class="position-indicator"> {ticker_data[5]:.1f}% Below Average'
+                    if build_position:
+                        title_html += ' - Build Position &#128640;'  # Rocket emoji
+                        # Add emoji indicators for each condition
+                        if current_price < ptarget:
+                            title_html += ' &#11088; Target'  # Star emoji
+                        if current_price < vpa:
+                            title_html += ' &#127775; VPA'  # Glowing star emoji
+                        if current_price < price_mean:
+                            title_html += ' &#128202; Avg Price'  # Chart emoji
+                        if current_volume < volume_mean:
+                            title_html += ' &#128200; Avg Volume'  # Chart with upward trend emoji
+                    title_html += '</span>'
+                title_html += '</h2>'
+                
+                # Add potential gains information if build_position is True
+                if build_position:
+                    title_html += f'''
+                    <div class="potential-gains">
+                        <span style="color: #ff69b4">Expected gain to average price: +{gain_to_mean:.1f}%</span><br>
+                        <span style="color: #32cd32">Expected gain to target price: +{gain_to_target:.1f}%</span>
+                    </div>
+                    '''
                 
                 # Create figure with secondary y-axis
                 fig = make_subplots(specs=[[{"secondary_y": True}]])
@@ -318,7 +414,6 @@ class Analysis:
                 )
 
                 # Add price target line if available
-                ptarget = prices_instance.ptarget
                 if ptarget is not None and ptarget > 0:
                     fig.add_trace(
                         go.Scatter(
@@ -407,11 +502,6 @@ class Analysis:
                 # Convert the plot to HTML
                 chart_html = pio.to_html(fig, full_html=False)
                 
-                title_html = f'<h2>{ticker_data[0]} Analysis'
-                if ticker_data[5] > 0:  # If there's any time below average
-                    title_html += f' <span class="position-indicator">({ticker_data[5]:.1f}% Below Average)</span>'
-                title_html += '</h2>'
-                
                 html_content.append(f'<div id="chart_{ticker_data[0]}" class="chart-container">')
                 html_content.append(title_html)
                 html_content.append(chart_html)
@@ -428,7 +518,7 @@ class Analysis:
         
         print(f"Analysis complete! Open {output_filename} to view the analysis.")
 
-def get_tickers_from_html(html_path='/var/www/html/index.html', limit=20):
+def get_tickers_from_html(html_path='/var/www/html/index.html', limit=30):
     """
     Extract tickers from the HTML file
     Args:
@@ -471,4 +561,4 @@ if __name__ == "__main__":
     
     print("Analyzing the following tickers:", specific_tickers)
     analysis = Analysis(specific_tickers, days=180, min_volume=0)  # No minimum volume filter
-    analysis.create_specific_analysis('specific_analysis.html')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+    analysis.create_specific_analysis('specific_analysis.html')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     

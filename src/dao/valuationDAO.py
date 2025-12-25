@@ -43,8 +43,11 @@ class ValuationDAO():
         rank = dict_indicadores['Rank']
         p_l = dict_indicadores['P/L']
         
-            
-        if(price_now == 0 or len(list_div_year)==0 or p_l <= 0.0):
+        try:
+            if(price_now == 0 or len(list_div_year)==0 or p_l <= 0.0):
+                return
+        except Exception as e:
+            print(e)
             return
 
 #               Tiker,Rank,Preco_atual,vpa,pl,ganho,Preco_target_2023,Preco_target_2022,Preco_target_2021,Preco_target_2020,Preco_target_2019,liquides_diaria

@@ -49,3 +49,17 @@ class StocksDAO:
         conn.commit()
         conn.close
         return price_now
+    
+    def get_min_volume(self, ticker):
+        conn = Connection_Factory().connection() 
+
+        cur = conn.cursor()
+        query = "select volume_min from history where ticker like '{}';".format(ticker)
+        cur.execute(query)
+
+        volume_min = cur.fetchall()[0][0]
+        cur.close()
+
+        conn.commit()
+        conn.close
+        return volume_min

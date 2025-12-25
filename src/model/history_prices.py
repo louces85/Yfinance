@@ -41,11 +41,11 @@ def get_all_stocks():
     
     return list_stocks
 
-def uptate_history_stock(price_min, price_max, net_income, ticker):
+def uptate_history_stock(price_min, price_max, net_income, volume_min, volume_max, ticker):
     conn = Connection_Factory().connection()
     
     cur = conn.cursor()
-    cur.execute("update history set price_min={}, price_max={}, net_income={}, date_update=CURRENT_DATE where ticker like '{}';".format(price_min, price_max,net_income, ticker))
+    cur.execute("update history set price_min={}, price_max={}, net_income={}, volume_min={}, volume_max={}, date_update=CURRENT_DATE where ticker like '{}';".format(price_min, price_max,net_income, volume_min, volume_max , ticker))
     cur.close()
 
     conn.commit()
@@ -62,9 +62,10 @@ if __name__ == "__main__":
         df_six_month = yf.download(stock + '.SA', period='2y', progress=False)
         #df_prices = df_six_month[['Close']]
         df_prices = df_six_month[['Close']].dropna()
+        df_volume = df_six_month[['Volume']].dropna()
         #df_prices.dropna(subset = ['Close'], inplace=True) #remove values NaN
         cols_as_np_v = df_prices[df_prices.columns[0:]].to_numpy()
-        
+        cols_as_np_v_volume = df_volume[df_volume.columns[0:]].to_numpy()
         print(df_six_month)
         
         flag = True
@@ -87,15 +88,18 @@ if __name__ == "__main__":
         try:
             highest_price_in_the_last_six_months = round(cols_as_np_v.max(),1)
             lowest_price_in_the_last_six_months = round(cols_as_np_v.min(),1)
+            highest_volume_in_the_last_six_months = round(cols_as_np_v_volume.max(),1)
+            lowest_volume_in_the_last_six_months = round(cols_as_np_v_volume[cols_as_np_v_volume > 0].min(),1) 
         except Exception as e:
             highest_price_in_the_last_six_months = -1
             lowest_price_in_the_last_six_months  = -1
-        
+            highest_volume_in_the_last_six_months = -1
+            lowest_volume_in_the_last_six_months = -1
         
         myTable.add_row([stock, str(highest_price_in_the_last_six_months), str(lowest_price_in_the_last_six_months),str(flag)])  
         if(len(df_six_month) > 1):
-            uptate_history_stock(lowest_price_in_the_last_six_months, highest_price_in_the_last_six_months, flag , stock)
+            uptate_history_stock(lowest_price_in_the_last_six_months, highest_price_in_the_last_six_months, flag , lowest_volume_in_the_last_six_months, highest_volume_in_the_last_six_months, stock)
         else:
-            uptate_history_stock(lowest_price_in_the_last_six_months, highest_price_in_the_last_six_months, flag, stock)
+            uptate_history_stock(lowest_price_in_the_last_six_months, highest_price_in_the_last_six_months, flag, lowest_volume_in_the_last_six_months, highest_volume_in_the_last_six_months, stock)
 
     print(myTable)

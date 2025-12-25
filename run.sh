@@ -35,8 +35,10 @@ python_version=`python -c 'import sys; print(".".join(map(str, sys.version_info[
 if [ $python_version -eq 2 ]
 	then
 		python3 src/main.py >> index.html
+		python3 src/model/analysis.py
 else
 		python src/main.py >> index.html
+		python src/model/analysis.py
 fi
 
 for k in $(cat index.html | grep "padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top" | awk -F ">" '{print $2}' | awk -F "</" '{print $1}')
