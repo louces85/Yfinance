@@ -136,6 +136,24 @@ def fetch_history(ticker: str) -> Optional[dict]:
         if math.isnan(price_min_6m):
             return None
 
+        # --- Score de acumulação silenciosa (Barsi) ---
+        # % de dias em que preço de fechamento E volume estão ambos abaixo da
+        # respectiva média dos 6 meses — sinal de compra discreta/institucional.
+        close_avg  = float(hist_price["Close"].mean())
+        volume_col = hist_price["Volume"] if "Volume" in hist_price.columns else None
+        if volume_col is not None and not volume_col.empty:
+            # Filtra dias com volume == 0 (bug Yahoo Finance pós-pregão)
+            vol_nonzero = volume_col[volume_col > 0]
+            volume_avg = float(vol_nonzero.mean()) if not vol_nonzero.empty else 0.0
+            if volume_avg > 0:
+                cond = (hist_price["Close"] < close_avg) & (volume_col < volume_avg)
+                accumulation_score = round(float(cond.sum()) / len(hist_price) * 100, 1)
+            else:
+                accumulation_score = None
+        else:
+            volume_avg = 0.0
+            accumulation_score = None
+
         # --- Dividendos: últimos 4 anos ---
         dividends = yf_ticker.dividends
         dividends_per_year: Dict[str, float] = {}
@@ -153,8 +171,27 @@ def fetch_history(ticker: str) -> Optional[dict]:
 
         paid_dividends_4_years = years_with_dividends == DIVIDEND_YEARS_MIN
 
-        values_with_div = [v for v in dividends_per_year.values() if v > 0 and not math.isnan(v)]
-        avg_dividends_4y = round(sum(values_with_div) / len(values_with_div), 4) if values_with_div else 0.0
+        # Divide sempre por DIVIDEND_YEARS_MIN (não por len dos anos com dividendo)
+        # para evitar inflar o price_target quando algum ano não pagou dividendo
+        avg_dividends_4y = round(
+            sum(v for v in dividends_per_year.values() if not math.isnan(v)) / DIVIDEND_YEARS_MIN, 4
+        )
+
+        # --- Soma de dividendos dos últimos 12 meses (yield real Barsi) ---
+        # Usa comparação por ano/mês para evitar problema de timezone do yfinance
+        one_year_ago = datetime.now() - timedelta(days=365)
+        recent_divs = dividends[
+            (dividends.index.year > one_year_ago.year) |
+            ((dividends.index.year == one_year_ago.year) & (dividends.index.month >= one_year_ago.month))
+        ].dropna()
+        dividends_sum_12m = round(float(recent_divs[recent_divs > 0].sum()), 4)
+
+        # Dividendo crescente (Barsi): o ano mais recente deve ser >= o maior dividendo
+        # dos anos anteriores — garante que está num patamar novo, não apenas recuperando de uma queda
+        _years_sorted = sorted(dividends_per_year.keys())
+        _newest_div = dividends_per_year.get(_years_sorted[-1], 0)
+        _prior_max  = max((dividends_per_year.get(y, 0) for y in _years_sorted[:-1]), default=0)
+        dividend_growing = _newest_div > 0 and _newest_div >= _prior_max
 
         # --- Lucro líquido: últimos 4 anos ---
         net_income_per_year: Dict[str, Optional[float]] = {}
@@ -191,10 +228,15 @@ def fetch_history(ticker: str) -> Optional[dict]:
         return {
             "price_min_6m":               round(price_min_6m, 2),
             "price_max_6m":               round(price_max_6m, 2),
+            "close_avg_6m":               round(close_avg, 2),
+            "volume_avg_6m":              round(volume_avg, 0),
+            "accumulation_score":         accumulation_score,
             "dividends_per_year":         dividends_per_year,
             "years_with_dividends":       years_with_dividends,
             "paid_dividends_4_years":     paid_dividends_4_years,
             "avg_dividends_4y":           avg_dividends_4y,
+            "dividends_sum_12m":          dividends_sum_12m,
+            "dividend_growing":           dividend_growing,
             "net_income_per_year":        net_income_per_year,
             "years_with_positive_income": years_with_positive_income,
             "positive_income_4_years":    positive_income_4_years,

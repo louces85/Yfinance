@@ -18,7 +18,7 @@ DIVIDEND_YEARS_MIN    = 4     # Anos consecutivos mínimos com dividendos
 P_L_MAX       = 15.0   # P/L máximo
 P_VP_MAX      = 1.5    # P/VP máximo
 GRAHAM_COMBO  = 22.5   # P/L × P/VP máximo (regra combinada Graham)
-LIQUIDEZ_CORRENTE_MIN = 1.0   # Liquidez corrente mínima
+LIQUIDEZ_CORRENTE_MIN = 2.0   # Liquidez corrente mínima (Graham: >= 2.0)
 
 # --- Dívida ---
 DL_PL_MAX     = 1.0    # Dívida Líquida / Patrimônio Líquido máximo
@@ -35,6 +35,9 @@ ROIC_MIN          = 10.0   # ROIC mínimo (%)
 CAGR_RECEITA_MIN  = 5.0    # CAGR Receita 5 anos mínimo (%)
 CAGR_LUCRO_MIN    = 5.0    # CAGR Lucro 5 anos mínimo (%)
 
+# --- Barsi: acumulação silenciosa ---
+ACCUMULATION_SCORE_MIN = 50.0  # % mínimo de dias com preço E volume abaixo da média
+
 # --- Lynch (PEG) ---
 PEG_MAX       = 1.0    # PEG ajustado por dividendos máximo
 
@@ -47,6 +50,6 @@ CONSECUTIVE_FAILURES_INVALID = 3
 # Intervalo mínimo entre validações (em dias)
 VALIDATION_INTERVAL_DAYS = 7
 # Intervalo mínimo entre atualizações de preço (em horas)
-PRICE_UPDATE_INTERVAL_HOURS = 1
+PRICE_UPDATE_INTERVAL_HOURS = 0.5
 # Intervalo mínimo entre atualizações de histórico (em dias)
 HISTORY_UPDATE_INTERVAL_DAYS = 7

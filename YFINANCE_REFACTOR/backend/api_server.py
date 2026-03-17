@@ -144,7 +144,7 @@ def chart(ticker):
 # Scheduler — roda decision_service a cada 1 hora em background
 # ---------------------------------------------------------------------------
 
-REFRESH_INTERVAL_HOURS = 1
+REFRESH_INTERVAL_HOURS = 0.5
 
 def _run_decision():
     """Executa o decision_service e registra o horário."""

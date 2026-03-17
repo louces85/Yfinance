@@ -17,7 +17,7 @@ Critérios implementados (baseados em Barsi, Bazin, Graham, Greenblatt, Lynch):
   7.  Graham combinado: P/L × P/VP <= 22.5
   8.  Dívida Líq./PL <= 1
   9.  Dívida Líq./EBITDA <= 3
-  10. Liquidez Corrente >= 1
+  10. Liquidez Corrente >= 2 (Graham)
   11. Margem EBIT >= 10%
   12. Margem Líquida >= 10%
   13. ROE >= 10%
@@ -28,8 +28,9 @@ Critérios implementados (baseados em Barsi, Bazin, Graham, Greenblatt, Lynch):
   18. Pagou dividendos nos últimos 4 anos
   19. Liquidez diária >= R$200k
   20. Passivo/Ativo <= 1
+  21. Score de acumulação silenciosa >= 50% (Barsi)
 
-Rank máximo: 20 pontos.
+Rank máximo: 21 pontos.
 
 Uso direto:
     python valuation_calculator.py                  # calcula todos os válidos
@@ -123,8 +124,10 @@ def calculate(ticker: str) -> Optional[dict]:
     # --- Histórico ---
     price_min_6m   = _safe_float(history.get("price_min_6m"))
     price_max_6m   = _safe_float(history.get("price_max_6m"))
-    avg_div_4y     = _safe_float(history.get("avg_dividends_4y"), 0)
-    paid_div_4y    = history.get("paid_dividends_4_years", False)
+    avg_div_4y         = _safe_float(history.get("avg_dividends_4y"), 0)
+    div_sum_12m        = _safe_float(history.get("dividends_sum_12m"), 0)
+    div_growing        = history.get("dividend_growing", False)
+    accumulation_score = _safe_float(history.get("accumulation_score"))
 
     # --- Preços-alvo Bazin/Barsi ---
     price_target_6 = round(avg_div_4y / rules.BASIN_BASE, 2) if avg_div_4y > 0 else None
@@ -133,7 +136,9 @@ def calculate(ticker: str) -> Optional[dict]:
 
     # --- Métricas calculadas (dependem do preço atual quando disponível) ---
     has_price   = price_now is not None and price_now > 0
-    dy_real     = round((avg_div_4y / price_now) * 100, 2) if has_price and avg_div_4y > 0 else None
+    # Usa soma real dos últimos 12 meses (sinal Barsi); fallback p/ média 4a se ainda sem pagamento recente
+    _dy_num = div_sum_12m if div_sum_12m and div_sum_12m > 0 else avg_div_4y
+    dy_real     = round((_dy_num / price_now) * 100, 2) if has_price and _dy_num > 0 else None
     p_now_p_min = round(price_now / price_min_6m, 4) if has_price and price_min_6m and price_min_6m > 0 else None
     gain_pct    = round(((price_target_6 - price_now) / price_now) * 100, 2) if has_price and price_target_6 else None
     p_l_x_p_vp  = round(p_l * p_vp, 2) if p_l and p_vp else None
@@ -156,7 +161,7 @@ def calculate(ticker: str) -> Optional[dict]:
         "cagr_receita_ok":     cagr_r is not None and cagr_r >= rules.CAGR_RECEITA_MIN,
         "cagr_lucro_ok":       cagr_l is not None and cagr_l >= rules.CAGR_LUCRO_MIN,
         "payout_ok":           payout is not None and rules.PAYOUT_MIN <= payout <= rules.PAYOUT_MAX,
-        "dividendos_4anos_ok": paid_div_4y,
+        "dividendo_crescente_ok": div_growing,
         "liquidez_diaria_ok":  liq_diaria is not None and liq_diaria >= rules.LIQUIDEZ_DIARIA_MIN,
         "p_l_ok":              p_l is not None and 0 < p_l <= rules.P_L_MAX,
         "p_vp_ok":             p_vp is not None and p_vp <= rules.P_VP_MAX,
@@ -166,6 +171,8 @@ def calculate(ticker: str) -> Optional[dict]:
         "abaixo_vpa":          has_price and vpa is not None and price_now <= vpa,
         "abaixo_target_6pct":  has_price and price_target_6 is not None and price_now < price_target_6,
         "abaixo_target_8pct":  has_price and price_target_8 is not None and price_now < price_target_8,
+        # Acumulação silenciosa (Barsi): % de dias com preço E volume abaixo da média
+        "accumulation_ok":     accumulation_score is not None and accumulation_score >= rules.ACCUMULATION_SCORE_MIN,
     }
 
     rank = sum(1 for v in flags.values() if v)
@@ -188,6 +195,7 @@ def calculate(ticker: str) -> Optional[dict]:
         "price_target_5pct":  price_target_5,
         "dy_real":            dy_real,
         "payout":             payout,
+        "accumulation_score": accumulation_score,
         "p_now_p_min":        p_now_p_min,
         "gain_pct_to_target": gain_pct,
         "rank":               rank,
