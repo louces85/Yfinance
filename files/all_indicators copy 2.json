@@ -1,5 +1,4 @@
-{
-    "list": [
+ [
         {
             "companyid": 423,
             "companyname": "ALLIANÇA SAÚDE E PARTICIPAÇÕES S.A.",
@@ -22996,7 +22995,4 @@
             "segmentname": "Restaurante e Similares",
             "sectorname": "Consumo Cíclico"
         }
-    ],
-    "totalResults": 609,
-    "hasForecast": false
-}
+    ]
