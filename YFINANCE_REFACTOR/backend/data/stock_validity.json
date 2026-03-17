@@ -1,0 +1,6181 @@
+{
+  "_description": "Status de validade de cada ticker. Um ticker é inválido quando o yfinance ou Google Finance não conseguem mais dados consistentes (delisting, troca de ticker, suspensão). Atualizado via stock_validator.py.",
+  "_schema": {
+    "last_updated": "ISO8601 datetime da última validação geral",
+    "stocks": {
+      "<TICKER>": {
+        "ticker": "string",
+        "is_valid": "bool - true se o ticker está ativo e com dados disponíveis",
+        "last_check": "ISO8601 datetime da última verificação",
+        "last_valid": "ISO8601 datetime da última vez que foi válido",
+        "check_count": "int - total de verificações realizadas",
+        "consecutive_failures": "int - falhas consecutivas atuais (>= 3 = inválido)",
+        "validation_source": "string - fonte usada para validar (yfinance | google_finance)",
+        "reason_invalid": "string | null - motivo da invalidação se is_valid=false (ex: 'no_data', 'delisted', 'no_price_6_months')"
+      }
+    }
+  },
+  "last_updated": "2026-03-15T21:10:14.704155",
+  "stocks": {
+    "AALR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:14.188972",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AALR3",
+      "last_check": "2026-03-15T21:00:14.190531"
+    },
+    "ABCB4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:15.011675",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ABCB4",
+      "last_check": "2026-03-15T21:00:15.013007"
+    },
+    "ABEV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:15.728936",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ABEV3",
+      "last_check": "2026-03-15T21:00:15.730133"
+    },
+    "ADHM3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ADHM3",
+      "last_check": "2026-03-15T21:00:16.430254"
+    },
+    "AERI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:17.122495",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AERI3",
+      "last_check": "2026-03-15T21:00:17.123668"
+    },
+    "AESB3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "AESB3",
+      "last_check": "2026-03-15T21:00:18.479023"
+    },
+    "AFLT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:19.210895",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AFLT3",
+      "last_check": "2026-03-15T21:00:19.212074"
+    },
+    "AGRO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:19.928844",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AGRO3",
+      "last_check": "2026-03-15T21:00:19.930045"
+    },
+    "AGXY3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:20.618803",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AGXY3",
+      "last_check": "2026-03-15T21:00:20.621163"
+    },
+    "AHEB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:21.359671",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AHEB3",
+      "last_check": "2026-03-15T21:00:21.360895"
+    },
+    "AHEB5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:22.073816",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AHEB5",
+      "last_check": "2026-03-15T21:00:22.075045"
+    },
+    "AHEB6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:22.752802",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AHEB6",
+      "last_check": "2026-03-15T21:00:22.754161"
+    },
+    "ALLD3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:23.443792",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ALLD3",
+      "last_check": "2026-03-15T21:00:23.445024"
+    },
+    "ALOS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:24.228456",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ALOS3",
+      "last_check": "2026-03-15T21:00:24.229662"
+    },
+    "ALPA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:25.036402",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ALPA3",
+      "last_check": "2026-03-15T21:00:25.037625"
+    },
+    "ALPA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:25.913121",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ALPA4",
+      "last_check": "2026-03-15T21:00:25.914327"
+    },
+    "ALPK3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:26.706478",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ALPK3",
+      "last_check": "2026-03-15T21:00:26.707661"
+    },
+    "ALUP11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:27.736825",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ALUP11",
+      "last_check": "2026-03-15T21:00:27.738062"
+    },
+    "ALUP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:28.763646",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ALUP3",
+      "last_check": "2026-03-15T21:00:28.764875"
+    },
+    "ALUP4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:29.554063",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ALUP4",
+      "last_check": "2026-03-15T21:00:29.555365"
+    },
+    "AMAR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:30.247700",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AMAR3",
+      "last_check": "2026-03-15T21:00:30.248893"
+    },
+    "AMBP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:30.983097",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AMBP3",
+      "last_check": "2026-03-15T21:00:30.984275"
+    },
+    "AMER3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:31.824605",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AMER3",
+      "last_check": "2026-03-15T21:00:31.832580"
+    },
+    "AMOB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:32.553813",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AMOB3",
+      "last_check": "2026-03-15T21:00:32.555165"
+    },
+    "ANIM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:33.358730",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ANIM3",
+      "last_check": "2026-03-15T21:00:33.361879"
+    },
+    "APER3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "APER3",
+      "last_check": "2026-03-15T21:00:34.421346"
+    },
+    "APTI3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "APTI3",
+      "last_check": "2026-03-15T21:00:36.707576"
+    },
+    "APTI4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:37.439085",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "APTI4",
+      "last_check": "2026-03-15T21:00:37.440330"
+    },
+    "ARML3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:38.157670",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ARML3",
+      "last_check": "2026-03-15T21:00:38.159069"
+    },
+    "ARND3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:38.852562",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ARND3",
+      "last_check": "2026-03-15T21:00:38.853808"
+    },
+    "ASAI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:39.589514",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ASAI3",
+      "last_check": "2026-03-15T21:00:39.590714"
+    },
+    "AUAU3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:40.306721",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AUAU3",
+      "last_check": "2026-03-15T21:00:40.307934"
+    },
+    "AURA33": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:41.145695",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AURA33",
+      "last_check": "2026-03-15T21:00:41.147055"
+    },
+    "AURE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:41.868585",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AURE3",
+      "last_check": "2026-03-15T21:00:41.869815"
+    },
+    "AVLL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:42.670161",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AVLL3",
+      "last_check": "2026-03-15T21:00:42.671496"
+    },
+    "AXIA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:43.483251",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AXIA3",
+      "last_check": "2026-03-15T21:00:43.484496"
+    },
+    "AXIA5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:44.199876",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AXIA5",
+      "last_check": "2026-03-15T21:00:44.201119"
+    },
+    "AXIA6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:45.022938",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AXIA6",
+      "last_check": "2026-03-15T21:00:45.024154"
+    },
+    "AXIA7": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:45.738892",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AXIA7",
+      "last_check": "2026-03-15T21:00:45.740125"
+    },
+    "AZEV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:46.449891",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AZEV3",
+      "last_check": "2026-03-15T21:00:46.451089"
+    },
+    "AZEV4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:47.269631",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AZEV4",
+      "last_check": "2026-03-15T21:00:47.271896"
+    },
+    "AZTE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:47.986091",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AZTE3",
+      "last_check": "2026-03-15T21:00:47.987279"
+    },
+    "AZUL53": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:48.678326",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AZUL53",
+      "last_check": "2026-03-15T21:00:48.679541"
+    },
+    "AZUL54": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:49.420150",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AZUL54",
+      "last_check": "2026-03-15T21:00:49.421369"
+    },
+    "AZZA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:50.125806",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "AZZA3",
+      "last_check": "2026-03-15T21:00:50.126995"
+    },
+    "B3SA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:50.957980",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "B3SA3",
+      "last_check": "2026-03-15T21:00:50.959226"
+    },
+    "BAHI3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BAHI3",
+      "last_check": "2026-03-15T21:00:52.067952"
+    },
+    "BALM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:53.008716",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BALM3",
+      "last_check": "2026-03-15T21:00:53.009959"
+    },
+    "BALM4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:53.825068",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BALM4",
+      "last_check": "2026-03-15T21:00:53.826367"
+    },
+    "BAUH3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:54.538225",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BAUH3",
+      "last_check": "2026-03-15T21:00:54.539473"
+    },
+    "BAUH4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:55.376872",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BAUH4",
+      "last_check": "2026-03-15T21:00:55.378124"
+    },
+    "BAZA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:56.117454",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BAZA3",
+      "last_check": "2026-03-15T21:00:56.118668"
+    },
+    "BBAS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:56.836286",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BBAS3",
+      "last_check": "2026-03-15T21:00:56.837529"
+    },
+    "BBDC3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:57.577179",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BBDC3",
+      "last_check": "2026-03-15T21:00:57.578439"
+    },
+    "BBDC4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:00:58.328569",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BBDC4",
+      "last_check": "2026-03-15T21:00:58.329848"
+    },
+    "BBML3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BBML3",
+      "last_check": "2026-03-15T21:01:00.808983"
+    },
+    "BBSE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:01.609585",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BBSE3",
+      "last_check": "2026-03-15T21:01:01.610843"
+    },
+    "BDLL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:02.318406",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BDLL3",
+      "last_check": "2026-03-15T21:01:02.319587"
+    },
+    "BDLL4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:03.002931",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BDLL4",
+      "last_check": "2026-03-15T21:01:03.004134"
+    },
+    "BEEF3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:03.809780",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BEEF3",
+      "last_check": "2026-03-15T21:01:03.815797"
+    },
+    "BEES3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:04.612222",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BEES3",
+      "last_check": "2026-03-15T21:01:04.613436"
+    },
+    "BEES4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:05.318863",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BEES4",
+      "last_check": "2026-03-15T21:01:05.320212"
+    },
+    "BFRE11": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BFRE11",
+      "last_check": "2026-03-15T21:01:06.302006"
+    },
+    "BFRE12": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BFRE12",
+      "last_check": "2026-03-15T21:01:08.048151"
+    },
+    "BGIP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:08.787626",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BGIP3",
+      "last_check": "2026-03-15T21:01:08.788870"
+    },
+    "BGIP4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:09.603816",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BGIP4",
+      "last_check": "2026-03-15T21:01:09.605590"
+    },
+    "BHIA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:10.325510",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BHIA3",
+      "last_check": "2026-03-15T21:01:10.326787"
+    },
+    "BIDI11": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BIDI11",
+      "last_check": "2026-03-15T21:01:12.497918"
+    },
+    "BIDI3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BIDI3",
+      "last_check": "2026-03-15T21:01:14.190790"
+    },
+    "BIDI4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BIDI4",
+      "last_check": "2026-03-15T21:01:15.934890"
+    },
+    "BIOM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:16.659280",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BIOM3",
+      "last_check": "2026-03-15T21:01:16.660655"
+    },
+    "BLAU3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:17.564009",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BLAU3",
+      "last_check": "2026-03-15T21:01:17.574223"
+    },
+    "BLUT3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BLUT3",
+      "last_check": "2026-03-15T21:01:19.718688"
+    },
+    "BLUT4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BLUT4",
+      "last_check": "2026-03-15T21:01:21.670414"
+    },
+    "BMEB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:22.407343",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BMEB3",
+      "last_check": "2026-03-15T21:01:22.408559"
+    },
+    "BMEB4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:23.215407",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BMEB4",
+      "last_check": "2026-03-15T21:01:23.216653"
+    },
+    "BMGB4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:23.944546",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BMGB4",
+      "last_check": "2026-03-15T21:01:23.945752"
+    },
+    "BMIN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:25.009610",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BMIN3",
+      "last_check": "2026-03-15T21:01:25.010806"
+    },
+    "BMIN4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:25.717894",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BMIN4",
+      "last_check": "2026-03-15T21:01:25.719080"
+    },
+    "BMKS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:26.544677",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BMKS3",
+      "last_check": "2026-03-15T21:01:26.545985"
+    },
+    "BMOB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:27.319833",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BMOB3",
+      "last_check": "2026-03-15T21:01:27.321230"
+    },
+    "BNBR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:28.134110",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BNBR3",
+      "last_check": "2026-03-15T21:01:28.136001"
+    },
+    "BOAS3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BOAS3",
+      "last_check": "2026-03-15T21:01:29.858192"
+    },
+    "BOBR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:30.591185",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BOBR3",
+      "last_check": "2026-03-15T21:01:30.592438"
+    },
+    "BOBR4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:31.307564",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BOBR4",
+      "last_check": "2026-03-15T21:01:31.308848"
+    },
+    "BPAC11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:32.012785",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BPAC11",
+      "last_check": "2026-03-15T21:01:32.013989"
+    },
+    "BPAC3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:32.716941",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BPAC3",
+      "last_check": "2026-03-15T21:01:32.718135"
+    },
+    "BPAC5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:33.460398",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BPAC5",
+      "last_check": "2026-03-15T21:01:33.461614"
+    },
+    "BPAN4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:34.157822",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BPAN4",
+      "last_check": "2026-03-15T21:01:34.159012"
+    },
+    "BPAR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:34.964927",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BPAR3",
+      "last_check": "2026-03-15T21:01:34.972938"
+    },
+    "BPAT33": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BPAT33",
+      "last_check": "2026-03-15T21:01:36.826970"
+    },
+    "BPHA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BPHA3",
+      "last_check": "2026-03-15T21:01:37.539402"
+    },
+    "BRAP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:38.270514",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRAP3",
+      "last_check": "2026-03-15T21:01:38.271873"
+    },
+    "BRAP4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:38.977590",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRAP4",
+      "last_check": "2026-03-15T21:01:38.978858"
+    },
+    "BRAV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:39.706318",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRAV3",
+      "last_check": "2026-03-15T21:01:39.707822"
+    },
+    "BRBI11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:40.465033",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRBI11",
+      "last_check": "2026-03-15T21:01:40.472014"
+    },
+    "BRBI3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BRBI3",
+      "last_check": "2026-03-15T21:01:42.682186"
+    },
+    "BRBI4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BRBI4",
+      "last_check": "2026-03-15T21:01:44.486851"
+    },
+    "BRFS3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BRFS3",
+      "last_check": "2026-03-15T21:01:45.628823"
+    },
+    "BRGE11": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "BRGE11",
+      "last_check": "2026-03-15T21:01:46.459244"
+    },
+    "BRGE12": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "BRGE12",
+      "last_check": "2026-03-15T21:01:47.178598"
+    },
+    "BRGE3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "BRGE3",
+      "last_check": "2026-03-15T21:01:47.903007"
+    },
+    "BRGE5": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "BRGE5",
+      "last_check": "2026-03-15T21:01:48.712607"
+    },
+    "BRGE6": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "BRGE6",
+      "last_check": "2026-03-15T21:01:49.434789"
+    },
+    "BRGE7": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "BRGE7",
+      "last_check": "2026-03-15T21:01:50.132016"
+    },
+    "BRGE8": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "BRGE8",
+      "last_check": "2026-03-15T21:01:50.863660"
+    },
+    "BRIV3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "BRIV3",
+      "last_check": "2026-03-15T21:01:51.894145"
+    },
+    "BRIV4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "BRIV4",
+      "last_check": "2026-03-15T21:01:52.587169"
+    },
+    "BRKM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:53.324183",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRKM3",
+      "last_check": "2026-03-15T21:01:53.325438"
+    },
+    "BRKM5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:54.038079",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRKM5",
+      "last_check": "2026-03-15T21:01:54.039488"
+    },
+    "BRKM6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:54.730146",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRKM6",
+      "last_check": "2026-03-15T21:01:54.731415"
+    },
+    "BRML3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BRML3",
+      "last_check": "2026-03-15T21:01:56.417604"
+    },
+    "BRPR3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BRPR3",
+      "last_check": "2026-03-15T21:01:57.111913"
+    },
+    "BRQB3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BRQB3",
+      "last_check": "2026-03-15T21:01:57.820119"
+    },
+    "BRSR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:58.554673",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRSR3",
+      "last_check": "2026-03-15T21:01:58.556062"
+    },
+    "BRSR5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:01:59.307236",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRSR5",
+      "last_check": "2026-03-15T21:01:59.308473"
+    },
+    "BRSR6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:00.088682",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRSR6",
+      "last_check": "2026-03-15T21:02:00.089883"
+    },
+    "BRST3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:00.817000",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BRST3",
+      "last_check": "2026-03-15T21:02:00.818211"
+    },
+    "BSEV3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BSEV3",
+      "last_check": "2026-03-15T21:02:02.632635"
+    },
+    "BSLI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:03.666121",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BSLI3",
+      "last_check": "2026-03-15T21:02:03.667312"
+    },
+    "BSLI4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:04.382383",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "BSLI4",
+      "last_check": "2026-03-15T21:02:04.383582"
+    },
+    "BTTL4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "BTTL4",
+      "last_check": "2026-03-15T21:02:05.086167"
+    },
+    "CALI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:05.816971",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CALI3",
+      "last_check": "2026-03-15T21:02:05.818209"
+    },
+    "CALI4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CALI4",
+      "last_check": "2026-03-15T21:02:07.699212"
+    },
+    "CAMB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:08.494381",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CAMB3",
+      "last_check": "2026-03-15T21:02:08.497269"
+    },
+    "CAMB4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CAMB4",
+      "last_check": "2026-03-15T21:02:10.597261"
+    },
+    "CAML3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:11.368401",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CAML3",
+      "last_check": "2026-03-15T21:02:11.369617"
+    },
+    "CASH3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:12.063783",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CASH3",
+      "last_check": "2026-03-15T21:02:12.065190"
+    },
+    "CASN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:12.777293",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CASN3",
+      "last_check": "2026-03-15T21:02:12.778499"
+    },
+    "CASN4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:13.505086",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CASN4",
+      "last_check": "2026-03-15T21:02:13.506304"
+    },
+    "CATA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CATA3",
+      "last_check": "2026-03-15T21:02:15.440287"
+    },
+    "CATA4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CATA4",
+      "last_check": "2026-03-15T21:02:17.171512"
+    },
+    "CBAV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:17.864192",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CBAV3",
+      "last_check": "2026-03-15T21:02:17.866231"
+    },
+    "CBEE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:18.622542",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CBEE3",
+      "last_check": "2026-03-15T21:02:18.624461"
+    },
+    "CCXC3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CCXC3",
+      "last_check": "2026-03-15T21:02:20.345783"
+    },
+    "CEAB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:21.103152",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEAB3",
+      "last_check": "2026-03-15T21:02:21.104601"
+    },
+    "CEBR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:21.951482",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEBR3",
+      "last_check": "2026-03-15T21:02:21.959159"
+    },
+    "CEBR5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:22.742113",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEBR5",
+      "last_check": "2026-03-15T21:02:22.743329"
+    },
+    "CEBR6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:23.541127",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEBR6",
+      "last_check": "2026-03-15T21:02:23.542332"
+    },
+    "CEDO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:24.250338",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEDO3",
+      "last_check": "2026-03-15T21:02:24.251603"
+    },
+    "CEDO4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:25.134835",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEDO4",
+      "last_check": "2026-03-15T21:02:25.136038"
+    },
+    "CEEB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:25.913387",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEEB3",
+      "last_check": "2026-03-15T21:02:25.914636"
+    },
+    "CEEB5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:26.772160",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEEB5",
+      "last_check": "2026-03-15T21:02:26.779788"
+    },
+    "CEEB6": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CEEB6",
+      "last_check": "2026-03-15T21:02:28.751674"
+    },
+    "CEED3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:29.573451",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEED3",
+      "last_check": "2026-03-15T21:02:29.574673"
+    },
+    "CEED4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:30.290025",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEED4",
+      "last_check": "2026-03-15T21:02:30.291466"
+    },
+    "CEGR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:31.015528",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CEGR3",
+      "last_check": "2026-03-15T21:02:31.016759"
+    },
+    "CEPE3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CEPE3",
+      "last_check": "2026-03-15T21:02:32.736962"
+    },
+    "CEPE5": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CEPE5",
+      "last_check": "2026-03-15T21:02:34.683107"
+    },
+    "CEPE6": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CEPE6",
+      "last_check": "2026-03-15T21:02:36.730694"
+    },
+    "CESP3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CESP3",
+      "last_check": "2026-03-15T21:02:38.475277"
+    },
+    "CESP5": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CESP5",
+      "last_check": "2026-03-15T21:02:40.212516"
+    },
+    "CESP6": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CESP6",
+      "last_check": "2026-03-15T21:02:42.079178"
+    },
+    "CGAS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:42.896483",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CGAS3",
+      "last_check": "2026-03-15T21:02:42.897989"
+    },
+    "CGAS5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:43.685825",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CGAS5",
+      "last_check": "2026-03-15T21:02:43.687065"
+    },
+    "CGRA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:44.433331",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CGRA3",
+      "last_check": "2026-03-15T21:02:44.434562"
+    },
+    "CGRA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:45.322894",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CGRA4",
+      "last_check": "2026-03-15T21:02:45.330554"
+    },
+    "CIEL3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CIEL3",
+      "last_check": "2026-03-15T21:02:46.564263"
+    },
+    "CLSA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CLSA3",
+      "last_check": "2026-03-15T21:02:47.689866"
+    },
+    "CLSC3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:48.420759",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CLSC3",
+      "last_check": "2026-03-15T21:02:48.421983"
+    },
+    "CLSC4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:49.140151",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CLSC4",
+      "last_check": "2026-03-15T21:02:49.141399"
+    },
+    "CMIG3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:49.864255",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CMIG3",
+      "last_check": "2026-03-15T21:02:49.865502"
+    },
+    "CMIG4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:50.672869",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CMIG4",
+      "last_check": "2026-03-15T21:02:50.674058"
+    },
+    "CMIN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:51.391065",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CMIN3",
+      "last_check": "2026-03-15T21:02:51.392259"
+    },
+    "CMSA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CMSA3",
+      "last_check": "2026-03-15T21:02:53.014200"
+    },
+    "CMSA4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CMSA4",
+      "last_check": "2026-03-15T21:02:54.761432"
+    },
+    "CNSY3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CNSY3",
+      "last_check": "2026-03-15T21:02:56.405609"
+    },
+    "COCE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:57.252416",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "COCE3",
+      "last_check": "2026-03-15T21:02:57.254189"
+    },
+    "COCE5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:58.066745",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "COCE5",
+      "last_check": "2026-03-15T21:02:58.067951"
+    },
+    "COCE6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:58.885083",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "COCE6",
+      "last_check": "2026-03-15T21:02:58.886294"
+    },
+    "COGN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:02:59.687733",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "COGN3",
+      "last_check": "2026-03-15T21:02:59.688970"
+    },
+    "CORR3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CORR3",
+      "last_check": "2026-03-15T21:03:00.489660"
+    },
+    "CORR4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CORR4",
+      "last_check": "2026-03-15T21:03:01.176128"
+    },
+    "CPFE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:01.934335",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CPFE3",
+      "last_check": "2026-03-15T21:03:01.935583"
+    },
+    "CPLE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:02.795689",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CPLE3",
+      "last_check": "2026-03-15T21:03:02.799049"
+    },
+    "CPLE5": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CPLE5",
+      "last_check": "2026-03-15T21:03:03.973741"
+    },
+    "CPLE6": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CPLE6",
+      "last_check": "2026-03-15T21:03:05.312538"
+    },
+    "CPRE3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CPRE3",
+      "last_check": "2026-03-15T21:03:06.893623"
+    },
+    "CREM3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CREM3",
+      "last_check": "2026-03-15T21:03:07.657776"
+    },
+    "CRFB3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CRFB3",
+      "last_check": "2026-03-15T21:03:08.787384"
+    },
+    "CRIV3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "CRIV3",
+      "last_check": "2026-03-15T21:03:09.514339"
+    },
+    "CRIV4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "insufficient_trading_days",
+      "ticker": "CRIV4",
+      "last_check": "2026-03-15T21:03:10.242522"
+    },
+    "CRPG3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:11.042041",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CRPG3",
+      "last_check": "2026-03-15T21:03:11.043270"
+    },
+    "CRPG5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:11.775661",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CRPG5",
+      "last_check": "2026-03-15T21:03:11.777415"
+    },
+    "CRPG6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:12.490241",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CRPG6",
+      "last_check": "2026-03-15T21:03:12.491465"
+    },
+    "CSAB3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CSAB3",
+      "last_check": "2026-03-15T21:03:13.598750"
+    },
+    "CSAB4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CSAB4",
+      "last_check": "2026-03-15T21:03:14.722793"
+    },
+    "CSAN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:15.451575",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CSAN3",
+      "last_check": "2026-03-15T21:03:15.452797"
+    },
+    "CSED3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:16.174947",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CSED3",
+      "last_check": "2026-03-15T21:03:16.176181"
+    },
+    "CSMG3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:16.888547",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CSMG3",
+      "last_check": "2026-03-15T21:03:16.889756"
+    },
+    "CSNA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:17.613083",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CSNA3",
+      "last_check": "2026-03-15T21:03:17.614296"
+    },
+    "CSRN3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CSRN3",
+      "last_check": "2026-03-15T21:03:18.726158"
+    },
+    "CSRN5": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CSRN5",
+      "last_check": "2026-03-15T21:03:19.848783"
+    },
+    "CSRN6": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CSRN6",
+      "last_check": "2026-03-15T21:03:20.971360"
+    },
+    "CSUD3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:21.704964",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CSUD3",
+      "last_check": "2026-03-15T21:03:21.706168"
+    },
+    "CTAX3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:22.406130",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CTAX3",
+      "last_check": "2026-03-15T21:03:22.407354"
+    },
+    "CTCA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CTCA3",
+      "last_check": "2026-03-15T21:03:24.148258"
+    },
+    "CTKA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:25.238319",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CTKA3",
+      "last_check": "2026-03-15T21:03:25.239774"
+    },
+    "CTKA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:25.969060",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CTKA4",
+      "last_check": "2026-03-15T21:03:25.971551"
+    },
+    "CTNM3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CTNM3",
+      "last_check": "2026-03-15T21:03:27.138607"
+    },
+    "CTNM4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:27.848855",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CTNM4",
+      "last_check": "2026-03-15T21:03:27.850063"
+    },
+    "CTSA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:28.664679",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CTSA3",
+      "last_check": "2026-03-15T21:03:28.665914"
+    },
+    "CTSA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:29.381368",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CTSA4",
+      "last_check": "2026-03-15T21:03:29.382605"
+    },
+    "CTSA8": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "CTSA8",
+      "last_check": "2026-03-15T21:03:30.055943"
+    },
+    "CURY3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:30.816791",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CURY3",
+      "last_check": "2026-03-15T21:03:30.817995"
+    },
+    "CVCB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:31.537135",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CVCB3",
+      "last_check": "2026-03-15T21:03:31.539090"
+    },
+    "CXSE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:32.234055",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CXSE3",
+      "last_check": "2026-03-15T21:03:32.235299"
+    },
+    "CYRE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:32.980333",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CYRE3",
+      "last_check": "2026-03-15T21:03:32.981562"
+    },
+    "CYRE4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:33.786262",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "CYRE4",
+      "last_check": "2026-03-15T21:03:33.787496"
+    },
+    "DASA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:34.502892",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DASA3",
+      "last_check": "2026-03-15T21:03:34.504099"
+    },
+    "DESK3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:35.220425",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DESK3",
+      "last_check": "2026-03-15T21:03:35.221624"
+    },
+    "DEXP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:35.944694",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DEXP3",
+      "last_check": "2026-03-15T21:03:35.945900"
+    },
+    "DEXP4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:36.656853",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DEXP4",
+      "last_check": "2026-03-15T21:03:36.658249"
+    },
+    "DIRR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:37.373064",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DIRR3",
+      "last_check": "2026-03-15T21:03:37.374277"
+    },
+    "DMMO3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "DMMO3",
+      "last_check": "2026-03-15T21:03:39.001845"
+    },
+    "DMVF3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:39.695200",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DMVF3",
+      "last_check": "2026-03-15T21:03:39.696654"
+    },
+    "DOHL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:40.441127",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DOHL3",
+      "last_check": "2026-03-15T21:03:40.442681"
+    },
+    "DOHL4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:41.294329",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DOHL4",
+      "last_check": "2026-03-15T21:03:41.295539"
+    },
+    "DOTZ3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:42.110833",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DOTZ3",
+      "last_check": "2026-03-15T21:03:42.112203"
+    },
+    "DTCY3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:42.942244",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DTCY3",
+      "last_check": "2026-03-15T21:03:42.946082"
+    },
+    "DTCY4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "DTCY4",
+      "last_check": "2026-03-15T21:03:44.628241"
+    },
+    "DXCO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:45.470372",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "DXCO3",
+      "last_check": "2026-03-15T21:03:45.471607"
+    },
+    "EALT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:46.250081",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EALT3",
+      "last_check": "2026-03-15T21:03:46.251332"
+    },
+    "EALT4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:46.944884",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EALT4",
+      "last_check": "2026-03-15T21:03:46.946109"
+    },
+    "ECOR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:47.710941",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ECOR3",
+      "last_check": "2026-03-15T21:03:47.712185"
+    },
+    "ECPR3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ECPR3",
+      "last_check": "2026-03-15T21:03:48.426084"
+    },
+    "ECPR4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ECPR4",
+      "last_check": "2026-03-15T21:03:49.128646"
+    },
+    "EEEL3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "EEEL3",
+      "last_check": "2026-03-15T21:03:50.771241"
+    },
+    "EEEL4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "EEEL4",
+      "last_check": "2026-03-15T21:03:52.512722"
+    },
+    "EGIE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:53.554440",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EGIE3",
+      "last_check": "2026-03-15T21:03:53.555695"
+    },
+    "EKTR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:54.368590",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EKTR3",
+      "last_check": "2026-03-15T21:03:54.369822"
+    },
+    "EKTR4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:03:55.077805",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EKTR4",
+      "last_check": "2026-03-15T21:03:55.079361"
+    },
+    "ELEK3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ELEK3",
+      "last_check": "2026-03-15T21:03:56.634484"
+    },
+    "ELEK4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ELEK4",
+      "last_check": "2026-03-15T21:03:58.352431"
+    },
+    "ELMD3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ELMD3",
+      "last_check": "2026-03-15T21:03:59.685518"
+    },
+    "ELPL3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ELPL3",
+      "last_check": "2026-03-15T21:04:01.421824"
+    },
+    "EMAE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:02.149610",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EMAE3",
+      "last_check": "2026-03-15T21:04:02.150834"
+    },
+    "EMAE4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:02.866619",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EMAE4",
+      "last_check": "2026-03-15T21:04:02.867856"
+    },
+    "EMBJ3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:03.571727",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EMBJ3",
+      "last_check": "2026-03-15T21:04:03.573535"
+    },
+    "ENAT3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ENAT3",
+      "last_check": "2026-03-15T21:04:04.907754"
+    },
+    "ENBR3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ENBR3",
+      "last_check": "2026-03-15T21:04:06.645521"
+    },
+    "ENEV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:07.390010",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ENEV3",
+      "last_check": "2026-03-15T21:04:07.391289"
+    },
+    "ENGI11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:08.203442",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ENGI11",
+      "last_check": "2026-03-15T21:04:08.204711"
+    },
+    "ENGI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:08.916013",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ENGI3",
+      "last_check": "2026-03-15T21:04:08.917280"
+    },
+    "ENGI4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:09.735091",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ENGI4",
+      "last_check": "2026-03-15T21:04:09.736344"
+    },
+    "ENJU3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:10.448361",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ENJU3",
+      "last_check": "2026-03-15T21:04:10.449589"
+    },
+    "ENMA3B": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ENMA3B",
+      "last_check": "2026-03-15T21:04:12.200094"
+    },
+    "ENMA6B": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ENMA6B",
+      "last_check": "2026-03-15T21:04:14.945557"
+    },
+    "ENMT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:15.677256",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ENMT3",
+      "last_check": "2026-03-15T21:04:15.679571"
+    },
+    "ENMT4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:16.487894",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ENMT4",
+      "last_check": "2026-03-15T21:04:16.489118"
+    },
+    "EPAR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:17.327690",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EPAR3",
+      "last_check": "2026-03-15T21:04:17.329642"
+    },
+    "EQPA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:18.146782",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EQPA3",
+      "last_check": "2026-03-15T21:04:18.147976"
+    },
+    "EQPA5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:18.952179",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EQPA5",
+      "last_check": "2026-03-15T21:04:18.953447"
+    },
+    "EQPA6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:19.666586",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EQPA6",
+      "last_check": "2026-03-15T21:04:19.667825"
+    },
+    "EQPA7": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:20.386597",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EQPA7",
+      "last_check": "2026-03-15T21:04:20.388016"
+    },
+    "EQTL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:21.206911",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EQTL3",
+      "last_check": "2026-03-15T21:04:21.208155"
+    },
+    "ESPA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:21.935135",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ESPA3",
+      "last_check": "2026-03-15T21:04:21.936403"
+    },
+    "ESTR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:22.616655",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ESTR3",
+      "last_check": "2026-03-15T21:04:22.618447"
+    },
+    "ESTR4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:23.554337",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ESTR4",
+      "last_check": "2026-03-15T21:04:23.555598"
+    },
+    "ETER3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:24.265390",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ETER3",
+      "last_check": "2026-03-15T21:04:24.266621"
+    },
+    "EUCA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:25.041382",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EUCA3",
+      "last_check": "2026-03-15T21:04:25.042619"
+    },
+    "EUCA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:25.794098",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EUCA4",
+      "last_check": "2026-03-15T21:04:25.796724"
+    },
+    "EVEN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:26.584584",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EVEN3",
+      "last_check": "2026-03-15T21:04:26.585812"
+    },
+    "EZTC3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:27.386620",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "EZTC3",
+      "last_check": "2026-03-15T21:04:27.388032"
+    },
+    "FBMC3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "FBMC3",
+      "last_check": "2026-03-15T21:04:28.356536"
+    },
+    "FBMC4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "FBMC4",
+      "last_check": "2026-03-15T21:04:29.075178"
+    },
+    "FESA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:29.810611",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FESA3",
+      "last_check": "2026-03-15T21:04:29.811831"
+    },
+    "FESA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:30.624656",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FESA4",
+      "last_check": "2026-03-15T21:04:30.625895"
+    },
+    "FHER3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:31.306587",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FHER3",
+      "last_check": "2026-03-15T21:04:31.307813"
+    },
+    "FICT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:32.071731",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FICT3",
+      "last_check": "2026-03-15T21:04:32.072958"
+    },
+    "FIEI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:32.882165",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FIEI3",
+      "last_check": "2026-03-15T21:04:32.883390"
+    },
+    "FIGE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:33.601988",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FIGE3",
+      "last_check": "2026-03-15T21:04:33.603211"
+    },
+    "FIGE4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:34.402883",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FIGE4",
+      "last_check": "2026-03-15T21:04:34.410816"
+    },
+    "FIQE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:35.253565",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FIQE3",
+      "last_check": "2026-03-15T21:04:35.254958"
+    },
+    "FLEX3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "FLEX3",
+      "last_check": "2026-03-15T21:04:36.959944"
+    },
+    "FLRY3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:37.692773",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FLRY3",
+      "last_check": "2026-03-15T21:04:37.694067"
+    },
+    "FNCN3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "FNCN3",
+      "last_check": "2026-03-15T21:04:39.517214"
+    },
+    "FRAS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:40.258351",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FRAS3",
+      "last_check": "2026-03-15T21:04:40.260501"
+    },
+    "FRIO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:41.155892",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "FRIO3",
+      "last_check": "2026-03-15T21:04:41.157192"
+    },
+    "FRTA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "FRTA3",
+      "last_check": "2026-03-15T21:04:42.307213"
+    },
+    "FTRT3B": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "FTRT3B",
+      "last_check": "2026-03-15T21:04:44.269031"
+    },
+    "G2DI33": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:45.061737",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "G2DI33",
+      "last_check": "2026-03-15T21:04:45.063011"
+    },
+    "GBIO33": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "GBIO33",
+      "last_check": "2026-03-15T21:04:46.789994"
+    },
+    "GEPA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:47.511344",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GEPA3",
+      "last_check": "2026-03-15T21:04:47.512586"
+    },
+    "GEPA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:48.236010",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GEPA4",
+      "last_check": "2026-03-15T21:04:48.237445"
+    },
+    "GETT11": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "GETT11",
+      "last_check": "2026-03-15T21:04:49.971986"
+    },
+    "GETT3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "GETT3",
+      "last_check": "2026-03-15T21:04:51.841461"
+    },
+    "GETT4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "GETT4",
+      "last_check": "2026-03-15T21:04:53.551393"
+    },
+    "GFSA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:54.280689",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GFSA3",
+      "last_check": "2026-03-15T21:04:54.282122"
+    },
+    "GGBR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:55.011425",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GGBR3",
+      "last_check": "2026-03-15T21:04:55.013311"
+    },
+    "GGBR4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:56.117254",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GGBR4",
+      "last_check": "2026-03-15T21:04:56.118541"
+    },
+    "GGPS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:56.868862",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GGPS3",
+      "last_check": "2026-03-15T21:04:56.870113"
+    },
+    "GMAT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:04:57.657448",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GMAT3",
+      "last_check": "2026-03-15T21:04:57.658673"
+    },
+    "GNDI3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "GNDI3",
+      "last_check": "2026-03-15T21:04:59.529430"
+    },
+    "GOAU3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:00.327132",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GOAU3",
+      "last_check": "2026-03-15T21:05:00.328387"
+    },
+    "GOAU4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:01.145097",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GOAU4",
+      "last_check": "2026-03-15T21:05:01.146339"
+    },
+    "GOLL54": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:01.862935",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GOLL54",
+      "last_check": "2026-03-15T21:05:01.864899"
+    },
+    "GPAR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:02.569480",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GPAR3",
+      "last_check": "2026-03-15T21:05:02.570909"
+    },
+    "GPIV33": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "GPIV33",
+      "last_check": "2026-03-15T21:05:03.687239"
+    },
+    "GRAO3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "GRAO3",
+      "last_check": "2026-03-15T21:05:04.710657"
+    },
+    "GRND3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:05.484591",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GRND3",
+      "last_check": "2026-03-15T21:05:05.485824"
+    },
+    "GSHP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:06.258934",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GSHP3",
+      "last_check": "2026-03-15T21:05:06.260177"
+    },
+    "GUAR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:07.045151",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "GUAR3",
+      "last_check": "2026-03-15T21:05:07.049946"
+    },
+    "HAGA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:07.815631",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HAGA3",
+      "last_check": "2026-03-15T21:05:07.820276"
+    },
+    "HAGA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:08.618137",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HAGA4",
+      "last_check": "2026-03-15T21:05:08.619377"
+    },
+    "HAPV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:09.308601",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HAPV3",
+      "last_check": "2026-03-15T21:05:09.309826"
+    },
+    "HBOR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:10.053482",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HBOR3",
+      "last_check": "2026-03-15T21:05:10.054731"
+    },
+    "HBRE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:10.802020",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HBRE3",
+      "last_check": "2026-03-15T21:05:10.803474"
+    },
+    "HBSA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:11.618492",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HBSA3",
+      "last_check": "2026-03-15T21:05:11.619945"
+    },
+    "HBTS3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "HBTS3",
+      "last_check": "2026-03-15T21:05:12.291584"
+    },
+    "HBTS5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:13.017749",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HBTS5",
+      "last_check": "2026-03-15T21:05:13.018991"
+    },
+    "HBTS6": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "HBTS6",
+      "last_check": "2026-03-15T21:05:13.721512"
+    },
+    "HETA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:14.450716",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HETA3",
+      "last_check": "2026-03-15T21:05:14.452686"
+    },
+    "HETA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:15.169322",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HETA4",
+      "last_check": "2026-03-15T21:05:15.170560"
+    },
+    "HGTX3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "HGTX3",
+      "last_check": "2026-03-15T21:05:16.801787"
+    },
+    "HOOT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:17.622778",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HOOT3",
+      "last_check": "2026-03-15T21:05:17.624020"
+    },
+    "HOOT4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:18.362867",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HOOT4",
+      "last_check": "2026-03-15T21:05:18.364893"
+    },
+    "HYPE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:19.164001",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "HYPE3",
+      "last_check": "2026-03-15T21:05:19.165446"
+    },
+    "IDVL3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "IDVL3",
+      "last_check": "2026-03-15T21:05:20.890144"
+    },
+    "IDVL4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "IDVL4",
+      "last_check": "2026-03-15T21:05:22.593265"
+    },
+    "IFCM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:23.374070",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "IFCM3",
+      "last_check": "2026-03-15T21:05:23.375315"
+    },
+    "IGBR3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "IGBR3",
+      "last_check": "2026-03-15T21:05:24.484954"
+    },
+    "IGSN3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "IGSN3",
+      "last_check": "2026-03-15T21:05:25.346409"
+    },
+    "IGTA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "IGTA3",
+      "last_check": "2026-03-15T21:05:27.157478"
+    },
+    "IGTI11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:28.002962",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "IGTI11",
+      "last_check": "2026-03-15T21:05:28.004212"
+    },
+    "IGTI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:29.059930",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "IGTI3",
+      "last_check": "2026-03-15T21:05:29.067795"
+    },
+    "IGTI4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:29.815843",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "IGTI4",
+      "last_check": "2026-03-15T21:05:29.817087"
+    },
+    "INEP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:30.631394",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "INEP3",
+      "last_check": "2026-03-15T21:05:30.633341"
+    },
+    "INEP4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:31.389595",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "INEP4",
+      "last_check": "2026-03-15T21:05:31.391945"
+    },
+    "INNT3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "INNT3",
+      "last_check": "2026-03-15T21:05:33.077651"
+    },
+    "INTB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:33.811164",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "INTB3",
+      "last_check": "2026-03-15T21:05:33.812404"
+    },
+    "IRBR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:34.522100",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "IRBR3",
+      "last_check": "2026-03-15T21:05:34.523346"
+    },
+    "ISAE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:35.258736",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ISAE3",
+      "last_check": "2026-03-15T21:05:35.260191"
+    },
+    "ISAE4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:36.115395",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ISAE4",
+      "last_check": "2026-03-15T21:05:36.123314"
+    },
+    "ITEC3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ITEC3",
+      "last_check": "2026-03-15T21:05:37.796060"
+    },
+    "ITSA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:38.642180",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ITSA3",
+      "last_check": "2026-03-15T21:05:38.643439"
+    },
+    "ITSA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:39.449480",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ITSA4",
+      "last_check": "2026-03-15T21:05:39.450772"
+    },
+    "ITUB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:40.167948",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ITUB3",
+      "last_check": "2026-03-15T21:05:40.169228"
+    },
+    "ITUB4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:40.903826",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ITUB4",
+      "last_check": "2026-03-15T21:05:40.905238"
+    },
+    "JALL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:41.725831",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "JALL3",
+      "last_check": "2026-03-15T21:05:41.727063"
+    },
+    "JBSS3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "JBSS3",
+      "last_check": "2026-03-15T21:05:42.906840"
+    },
+    "JFEN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:43.634750",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "JFEN3",
+      "last_check": "2026-03-15T21:05:43.635991"
+    },
+    "JHSF3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:44.514021",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "JHSF3",
+      "last_check": "2026-03-15T21:05:44.521768"
+    },
+    "JOPA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:45.272678",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "JOPA3",
+      "last_check": "2026-03-15T21:05:45.273917"
+    },
+    "JOPA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:46.095221",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "JOPA4",
+      "last_check": "2026-03-15T21:05:46.096485"
+    },
+    "JSLG3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:46.837018",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "JSLG3",
+      "last_check": "2026-03-15T21:05:46.838266"
+    },
+    "KEPL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:47.633415",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "KEPL3",
+      "last_check": "2026-03-15T21:05:47.634674"
+    },
+    "KLBN11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:48.366018",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "KLBN11",
+      "last_check": "2026-03-15T21:05:48.367256"
+    },
+    "KLBN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:49.172351",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "KLBN3",
+      "last_check": "2026-03-15T21:05:49.173607"
+    },
+    "KLBN4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:49.935577",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "KLBN4",
+      "last_check": "2026-03-15T21:05:49.937047"
+    },
+    "KRSA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "KRSA3",
+      "last_check": "2026-03-15T21:05:51.406713"
+    },
+    "LAME3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "LAME3",
+      "last_check": "2026-03-15T21:05:53.045780"
+    },
+    "LAME4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "LAME4",
+      "last_check": "2026-03-15T21:05:54.799932"
+    },
+    "LAND3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:55.982576",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LAND3",
+      "last_check": "2026-03-15T21:05:55.983814"
+    },
+    "LAVV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:56.697162",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LAVV3",
+      "last_check": "2026-03-15T21:05:56.698468"
+    },
+    "LCAM3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "LCAM3",
+      "last_check": "2026-03-15T21:05:58.888662"
+    },
+    "LEVE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:05:59.614676",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LEVE3",
+      "last_check": "2026-03-15T21:05:59.616096"
+    },
+    "LHER3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "LHER3",
+      "last_check": "2026-03-15T21:06:00.348698"
+    },
+    "LHER4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "LHER4",
+      "last_check": "2026-03-15T21:06:01.073179"
+    },
+    "LIGT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:01.906620",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LIGT3",
+      "last_check": "2026-03-15T21:06:01.907860"
+    },
+    "LINX3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "LINX3",
+      "last_check": "2026-03-15T21:06:04.320263"
+    },
+    "LIPR3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "LIPR3",
+      "last_check": "2026-03-15T21:06:05.539737"
+    },
+    "LJQQ3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:06.353818",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LJQQ3",
+      "last_check": "2026-03-15T21:06:06.355073"
+    },
+    "LOGG3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:07.093094",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LOGG3",
+      "last_check": "2026-03-15T21:06:07.094374"
+    },
+    "LOGN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:08.122278",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LOGN3",
+      "last_check": "2026-03-15T21:06:08.123526"
+    },
+    "LPSB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:08.896574",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LPSB3",
+      "last_check": "2026-03-15T21:06:08.904644"
+    },
+    "LREN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:09.773019",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LREN3",
+      "last_check": "2026-03-15T21:06:09.774272"
+    },
+    "LTEL3B": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "LTEL3B",
+      "last_check": "2026-03-15T21:06:11.849446"
+    },
+    "LUPA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:12.647566",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LUPA3",
+      "last_check": "2026-03-15T21:06:12.648821"
+    },
+    "LUXM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:13.477450",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LUXM3",
+      "last_check": "2026-03-15T21:06:13.478721"
+    },
+    "LUXM4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:14.226782",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LUXM4",
+      "last_check": "2026-03-15T21:06:14.228035"
+    },
+    "LWSA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:15.083052",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "LWSA3",
+      "last_check": "2026-03-15T21:06:15.084323"
+    },
+    "MAPT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:15.821397",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MAPT3",
+      "last_check": "2026-03-15T21:06:15.822640"
+    },
+    "MAPT4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:16.520219",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MAPT4",
+      "last_check": "2026-03-15T21:06:16.521491"
+    },
+    "MATD3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:17.283419",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MATD3",
+      "last_check": "2026-03-15T21:06:17.291411"
+    },
+    "MBRF3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:18.177768",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MBRF3",
+      "last_check": "2026-03-15T21:06:18.179004"
+    },
+    "MDIA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:18.887057",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MDIA3",
+      "last_check": "2026-03-15T21:06:18.888294"
+    },
+    "MDNE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:19.651850",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MDNE3",
+      "last_check": "2026-03-15T21:06:19.653118"
+    },
+    "MEAL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:20.421783",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MEAL3",
+      "last_check": "2026-03-15T21:06:20.423023"
+    },
+    "MELK3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:21.224089",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MELK3",
+      "last_check": "2026-03-15T21:06:21.225353"
+    },
+    "MERC3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:22.056371",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MERC3",
+      "last_check": "2026-03-15T21:06:22.057629"
+    },
+    "MERC4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:22.797516",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MERC4",
+      "last_check": "2026-03-15T21:06:22.798912"
+    },
+    "MGEL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:23.577894",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MGEL3",
+      "last_check": "2026-03-15T21:06:23.579170"
+    },
+    "MGEL4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:24.261267",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MGEL4",
+      "last_check": "2026-03-15T21:06:24.262527"
+    },
+    "MGLU3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:25.146948",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MGLU3",
+      "last_check": "2026-03-15T21:06:25.154895"
+    },
+    "MILS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:26.083191",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MILS3",
+      "last_check": "2026-03-15T21:06:26.091666"
+    },
+    "MLAS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:27.026063",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MLAS3",
+      "last_check": "2026-03-15T21:06:27.030480"
+    },
+    "MMXM3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "MMXM3",
+      "last_check": "2026-03-15T21:06:28.628845"
+    },
+    "MNDL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:29.424232",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MNDL3",
+      "last_check": "2026-03-15T21:06:29.425808"
+    },
+    "MNPR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:30.225705",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MNPR3",
+      "last_check": "2026-03-15T21:06:30.227162"
+    },
+    "MOAR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:31.032024",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MOAR3",
+      "last_check": "2026-03-15T21:06:31.033320"
+    },
+    "MODL11": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "MODL11",
+      "last_check": "2026-03-15T21:06:32.887059"
+    },
+    "MODL3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "MODL3",
+      "last_check": "2026-03-15T21:06:35.042432"
+    },
+    "MODL4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "MODL4",
+      "last_check": "2026-03-15T21:06:36.803521"
+    },
+    "MOSI3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "MOSI3",
+      "last_check": "2026-03-15T21:06:38.618555"
+    },
+    "MOTV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:39.352842",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MOTV3",
+      "last_check": "2026-03-15T21:06:39.354125"
+    },
+    "MOVI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:40.084649",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MOVI3",
+      "last_check": "2026-03-15T21:06:40.085914"
+    },
+    "MRSA3B": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:40.913541",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MRSA3B",
+      "last_check": "2026-03-15T21:06:40.915896"
+    },
+    "MRSA5B": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:41.776135",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MRSA5B",
+      "last_check": "2026-03-15T21:06:41.785530"
+    },
+    "MRSA6B": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:42.542449",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MRSA6B",
+      "last_check": "2026-03-15T21:06:42.543912"
+    },
+    "MRVE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:43.361260",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MRVE3",
+      "last_check": "2026-03-15T21:06:43.362522"
+    },
+    "MSPA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:44.182260",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MSPA3",
+      "last_check": "2026-03-15T21:06:44.183521"
+    },
+    "MSPA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:44.979601",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MSPA4",
+      "last_check": "2026-03-15T21:06:44.981555"
+    },
+    "MSRO3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "MSRO3",
+      "last_check": "2026-03-15T21:06:46.713269"
+    },
+    "MTIG3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "MTIG3",
+      "last_check": "2026-03-15T21:06:47.530103"
+    },
+    "MTIG4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "MTIG4",
+      "last_check": "2026-03-15T21:06:49.477361"
+    },
+    "MTRE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:50.215916",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MTRE3",
+      "last_check": "2026-03-15T21:06:50.217190"
+    },
+    "MTSA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:51.059843",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MTSA3",
+      "last_check": "2026-03-15T21:06:51.061135"
+    },
+    "MTSA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:51.841063",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MTSA4",
+      "last_check": "2026-03-15T21:06:51.842323"
+    },
+    "MULT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:52.572555",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MULT3",
+      "last_check": "2026-03-15T21:06:52.573809"
+    },
+    "MWET3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:53.375218",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MWET3",
+      "last_check": "2026-03-15T21:06:53.377214"
+    },
+    "MWET4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:54.102538",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MWET4",
+      "last_check": "2026-03-15T21:06:54.103788"
+    },
+    "MYPK3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:54.979737",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "MYPK3",
+      "last_check": "2026-03-15T21:06:54.987574"
+    },
+    "NAFG3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "NAFG3",
+      "last_check": "2026-03-15T21:06:56.884117"
+    },
+    "NAFG4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "NAFG4",
+      "last_check": "2026-03-15T21:06:58.892435"
+    },
+    "NATU3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:06:59.621193",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "NATU3",
+      "last_check": "2026-03-15T21:06:59.622550"
+    },
+    "NEMO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:00.347678",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "NEMO3",
+      "last_check": "2026-03-15T21:07:00.348965"
+    },
+    "NEMO4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "NEMO4",
+      "last_check": "2026-03-15T21:07:01.062474"
+    },
+    "NEMO5": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "NEMO5",
+      "last_check": "2026-03-15T21:07:02.274767"
+    },
+    "NEMO6": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "NEMO6",
+      "last_check": "2026-03-15T21:07:03.385992"
+    },
+    "NEOE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:04.146919",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "NEOE3",
+      "last_check": "2026-03-15T21:07:04.148172"
+    },
+    "NEXP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:04.939638",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "NEXP3",
+      "last_check": "2026-03-15T21:07:04.940939"
+    },
+    "NGRD3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:06.454794",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "NGRD3",
+      "last_check": "2026-03-15T21:07:06.456083"
+    },
+    "NORD3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:07.198555",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "NORD3",
+      "last_check": "2026-03-15T21:07:07.199807"
+    },
+    "NRTQ3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "NRTQ3",
+      "last_check": "2026-03-15T21:07:08.928660"
+    },
+    "NTCO3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "NTCO3",
+      "last_check": "2026-03-15T21:07:10.060681"
+    },
+    "NUTR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:10.826887",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "NUTR3",
+      "last_check": "2026-03-15T21:07:10.828853"
+    },
+    "OBTC3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:11.876137",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "OBTC3",
+      "last_check": "2026-03-15T21:07:11.877615"
+    },
+    "ODER3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ODER3",
+      "last_check": "2026-03-15T21:07:13.741435"
+    },
+    "ODER4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:14.460550",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ODER4",
+      "last_check": "2026-03-15T21:07:14.461819"
+    },
+    "ODPV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:15.267190",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ODPV3",
+      "last_check": "2026-03-15T21:07:15.268458"
+    },
+    "OFSA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:16.015502",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "OFSA3",
+      "last_check": "2026-03-15T21:07:16.016794"
+    },
+    "OGXP3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "OGXP3",
+      "last_check": "2026-03-15T21:07:16.708629"
+    },
+    "OIBR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:17.490423",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "OIBR3",
+      "last_check": "2026-03-15T21:07:17.493584"
+    },
+    "OIBR4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:18.304895",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "OIBR4",
+      "last_check": "2026-03-15T21:07:18.308885"
+    },
+    "OMGE3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "OMGE3",
+      "last_check": "2026-03-15T21:07:20.095241"
+    },
+    "ONCO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:20.821571",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ONCO3",
+      "last_check": "2026-03-15T21:07:20.822826"
+    },
+    "OPCT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:21.537497",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "OPCT3",
+      "last_check": "2026-03-15T21:07:21.538749"
+    },
+    "ORVR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:22.233737",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ORVR3",
+      "last_check": "2026-03-15T21:07:22.235866"
+    },
+    "OSXB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:22.921021",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "OSXB3",
+      "last_check": "2026-03-15T21:07:22.922283"
+    },
+    "PARD3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "PARD3",
+      "last_check": "2026-03-15T21:07:24.964838"
+    },
+    "PATI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:25.825727",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PATI3",
+      "last_check": "2026-03-15T21:07:25.831981"
+    },
+    "PATI4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:26.579427",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PATI4",
+      "last_check": "2026-03-15T21:07:26.580699"
+    },
+    "PCAR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:27.394811",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PCAR3",
+      "last_check": "2026-03-15T21:07:27.396271"
+    },
+    "PCAR4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "PCAR4",
+      "last_check": "2026-03-15T21:07:29.207028"
+    },
+    "PDGR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:29.934849",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PDGR3",
+      "last_check": "2026-03-15T21:07:29.936109"
+    },
+    "PDTC3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:30.649870",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PDTC3",
+      "last_check": "2026-03-15T21:07:30.651139"
+    },
+    "PEAB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:31.366040",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PEAB3",
+      "last_check": "2026-03-15T21:07:31.367309"
+    },
+    "PEAB4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:32.070952",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PEAB4",
+      "last_check": "2026-03-15T21:07:32.072366"
+    },
+    "PETR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:32.824155",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PETR3",
+      "last_check": "2026-03-15T21:07:32.825438"
+    },
+    "PETR4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:33.680505",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PETR4",
+      "last_check": "2026-03-15T21:07:33.688295"
+    },
+    "PETZ3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "PETZ3",
+      "last_check": "2026-03-15T21:07:35.041333"
+    },
+    "PFRM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:35.801072",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PFRM3",
+      "last_check": "2026-03-15T21:07:35.802330"
+    },
+    "PGMN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:36.591854",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PGMN3",
+      "last_check": "2026-03-15T21:07:36.593118"
+    },
+    "PINE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:37.310446",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PINE3",
+      "last_check": "2026-03-15T21:07:37.311921"
+    },
+    "PINE4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:38.132990",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PINE4",
+      "last_check": "2026-03-15T21:07:38.134282"
+    },
+    "PLAS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:38.844532",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PLAS3",
+      "last_check": "2026-03-15T21:07:38.845793"
+    },
+    "PLPL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:39.878544",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PLPL3",
+      "last_check": "2026-03-15T21:07:39.880543"
+    },
+    "PMAM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:40.905916",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PMAM3",
+      "last_check": "2026-03-15T21:07:40.907178"
+    },
+    "PNVL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:41.749627",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PNVL3",
+      "last_check": "2026-03-15T21:07:41.751096"
+    },
+    "PNVL4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "PNVL4",
+      "last_check": "2026-03-15T21:07:43.394806"
+    },
+    "POMO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:44.172881",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "POMO3",
+      "last_check": "2026-03-15T21:07:44.174986"
+    },
+    "POMO4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:44.992640",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "POMO4",
+      "last_check": "2026-03-15T21:07:44.993901"
+    },
+    "PORT3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "PORT3",
+      "last_check": "2026-03-15T21:07:46.056876"
+    },
+    "POSI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:46.836578",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "POSI3",
+      "last_check": "2026-03-15T21:07:46.837853"
+    },
+    "POWE3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "POWE3",
+      "last_check": "2026-03-15T21:07:48.780058"
+    },
+    "PPAR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:49.598337",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PPAR3",
+      "last_check": "2026-03-15T21:07:49.599611"
+    },
+    "PPAR4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "PPAR4",
+      "last_check": "2026-03-15T21:07:51.329757"
+    },
+    "PPLA11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:52.395811",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PPLA11",
+      "last_check": "2026-03-15T21:07:52.397459"
+    },
+    "PRIO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:53.179172",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PRIO3",
+      "last_check": "2026-03-15T21:07:53.180462"
+    },
+    "PRNR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:53.904561",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PRNR3",
+      "last_check": "2026-03-15T21:07:53.905991"
+    },
+    "PSSA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:54.618474",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PSSA3",
+      "last_check": "2026-03-15T21:07:54.619795"
+    },
+    "PTBL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:07:55.349791",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PTBL3",
+      "last_check": "2026-03-15T21:07:55.351061"
+    },
+    "PTCA11": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "PTCA11",
+      "last_check": "2026-03-15T21:07:57.090931"
+    },
+    "PTCA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "PTCA3",
+      "last_check": "2026-03-15T21:07:59.345397"
+    },
+    "PTNT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:00.147741",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PTNT3",
+      "last_check": "2026-03-15T21:08:00.149361"
+    },
+    "PTNT4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:00.964363",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "PTNT4",
+      "last_check": "2026-03-15T21:08:00.965629"
+    },
+    "QUAL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:01.692520",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "QUAL3",
+      "last_check": "2026-03-15T21:08:01.694018"
+    },
+    "QUSW3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "QUSW3",
+      "last_check": "2026-03-15T21:08:03.719416"
+    },
+    "QVQP3B": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "QVQP3B",
+      "last_check": "2026-03-15T21:08:05.353009"
+    },
+    "RADL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:06.328094",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RADL3",
+      "last_check": "2026-03-15T21:08:06.329481"
+    },
+    "RAIL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:07.115691",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RAIL3",
+      "last_check": "2026-03-15T21:08:07.117590"
+    },
+    "RAIZ4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:07.819195",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RAIZ4",
+      "last_check": "2026-03-15T21:08:07.821043"
+    },
+    "RANI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:08.849051",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RANI3",
+      "last_check": "2026-03-15T21:08:08.850313"
+    },
+    "RANI4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "RANI4",
+      "last_check": "2026-03-15T21:08:10.608904"
+    },
+    "RAPT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:11.444148",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RAPT3",
+      "last_check": "2026-03-15T21:08:11.446600"
+    },
+    "RAPT4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:12.438722",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RAPT4",
+      "last_check": "2026-03-15T21:08:12.440041"
+    },
+    "RCSL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:13.161618",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RCSL3",
+      "last_check": "2026-03-15T21:08:13.162898"
+    },
+    "RCSL4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:13.875024",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RCSL4",
+      "last_check": "2026-03-15T21:08:13.876282"
+    },
+    "RDNI3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "RDNI3",
+      "last_check": "2026-03-15T21:08:14.987997"
+    },
+    "RDOR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:15.709461",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RDOR3",
+      "last_check": "2026-03-15T21:08:15.710724"
+    },
+    "RECV3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:16.428005",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RECV3",
+      "last_check": "2026-03-15T21:08:16.429320"
+    },
+    "REDE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:17.467082",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "REDE3",
+      "last_check": "2026-03-15T21:08:17.468370"
+    },
+    "RENT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:18.274568",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RENT3",
+      "last_check": "2026-03-15T21:08:18.275830"
+    },
+    "RENT4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:19.014773",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RENT4",
+      "last_check": "2026-03-15T21:08:19.022612"
+    },
+    "RLOG3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "RLOG3",
+      "last_check": "2026-03-15T21:08:20.817516"
+    },
+    "RNEW11": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "RNEW11",
+      "last_check": "2026-03-15T21:08:22.061223"
+    },
+    "RNEW3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:22.802914",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RNEW3",
+      "last_check": "2026-03-15T21:08:22.804182"
+    },
+    "RNEW4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:23.630355",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RNEW4",
+      "last_check": "2026-03-15T21:08:23.631623"
+    },
+    "ROMI3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:24.418466",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "ROMI3",
+      "last_check": "2026-03-15T21:08:24.419724"
+    },
+    "RPAD3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:25.302128",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RPAD3",
+      "last_check": "2026-03-15T21:08:25.303396"
+    },
+    "RPAD5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:26.037401",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RPAD5",
+      "last_check": "2026-03-15T21:08:26.038729"
+    },
+    "RPAD6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:26.861980",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RPAD6",
+      "last_check": "2026-03-15T21:08:26.869910"
+    },
+    "RPMG3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:27.728831",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RPMG3",
+      "last_check": "2026-03-15T21:08:27.736679"
+    },
+    "RSID3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:28.511693",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RSID3",
+      "last_check": "2026-03-15T21:08:28.513516"
+    },
+    "RSUL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:29.469136",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RSUL3",
+      "last_check": "2026-03-15T21:08:29.470421"
+    },
+    "RSUL4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:30.260453",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "RSUL4",
+      "last_check": "2026-03-15T21:08:30.261730"
+    },
+    "SANB11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:31.072990",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SANB11",
+      "last_check": "2026-03-15T21:08:31.074260"
+    },
+    "SANB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:31.792232",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SANB3",
+      "last_check": "2026-03-15T21:08:31.793691"
+    },
+    "SANB4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:32.609922",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SANB4",
+      "last_check": "2026-03-15T21:08:32.611369"
+    },
+    "SAPR11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:33.441484",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SAPR11",
+      "last_check": "2026-03-15T21:08:33.442754"
+    },
+    "SAPR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:34.248908",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SAPR3",
+      "last_check": "2026-03-15T21:08:34.250175"
+    },
+    "SAPR4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:35.008651",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SAPR4",
+      "last_check": "2026-03-15T21:08:35.009927"
+    },
+    "SBFG3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:35.781063",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SBFG3",
+      "last_check": "2026-03-15T21:08:35.782332"
+    },
+    "SBSP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:36.579418",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SBSP3",
+      "last_check": "2026-03-15T21:08:36.582748"
+    },
+    "SCAR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:37.369964",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SCAR3",
+      "last_check": "2026-03-15T21:08:37.378054"
+    },
+    "SEDU3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SEDU3",
+      "last_check": "2026-03-15T21:08:39.008461"
+    },
+    "SEER3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:39.777658",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SEER3",
+      "last_check": "2026-03-15T21:08:39.778932"
+    },
+    "SEQL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:40.490805",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SEQL3",
+      "last_check": "2026-03-15T21:08:40.492071"
+    },
+    "SGPS3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SGPS3",
+      "last_check": "2026-03-15T21:08:41.535189"
+    },
+    "SHOW3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:42.365779",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SHOW3",
+      "last_check": "2026-03-15T21:08:42.367369"
+    },
+    "SHUL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:43.071301",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SHUL3",
+      "last_check": "2026-03-15T21:08:43.072601"
+    },
+    "SHUL4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:43.874876",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SHUL4",
+      "last_check": "2026-03-15T21:08:43.876140"
+    },
+    "SIMH3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:44.596204",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SIMH3",
+      "last_check": "2026-03-15T21:08:44.597488"
+    },
+    "SLCE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:45.618613",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SLCE3",
+      "last_check": "2026-03-15T21:08:45.620063"
+    },
+    "SLED3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SLED3",
+      "last_check": "2026-03-15T21:08:46.330344"
+    },
+    "SLED4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SLED4",
+      "last_check": "2026-03-15T21:08:47.041944"
+    },
+    "SMFT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:47.752140",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SMFT3",
+      "last_check": "2026-03-15T21:08:47.753414"
+    },
+    "SMLS3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SMLS3",
+      "last_check": "2026-03-15T21:08:49.885933"
+    },
+    "SMTO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:50.641416",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SMTO3",
+      "last_check": "2026-03-15T21:08:50.642693"
+    },
+    "SNSY3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:51.397246",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SNSY3",
+      "last_check": "2026-03-15T21:08:51.398512"
+    },
+    "SNSY5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:52.104663",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SNSY5",
+      "last_check": "2026-03-15T21:08:52.106199"
+    },
+    "SNSY6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:52.929292",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SNSY6",
+      "last_check": "2026-03-15T21:08:52.937318"
+    },
+    "SOJA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:53.767126",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SOJA3",
+      "last_check": "2026-03-15T21:08:53.774969"
+    },
+    "SOMA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SOMA3",
+      "last_check": "2026-03-15T21:08:55.070354"
+    },
+    "SOND3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:55.881653",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SOND3",
+      "last_check": "2026-03-15T21:08:55.882921"
+    },
+    "SOND5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:56.697026",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SOND5",
+      "last_check": "2026-03-15T21:08:56.698841"
+    },
+    "SOND6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:08:57.498828",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SOND6",
+      "last_check": "2026-03-15T21:08:57.500090"
+    },
+    "SPRT3B": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SPRT3B",
+      "last_check": "2026-03-15T21:08:59.525322"
+    },
+    "SQIA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SQIA3",
+      "last_check": "2026-03-15T21:09:00.661284"
+    },
+    "SRNA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SRNA3",
+      "last_check": "2026-03-15T21:09:01.825470"
+    },
+    "STBP3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "STBP3",
+      "last_check": "2026-03-15T21:09:03.024886"
+    },
+    "STKF3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "STKF3",
+      "last_check": "2026-03-15T21:09:03.725087"
+    },
+    "STTR3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "STTR3",
+      "last_check": "2026-03-15T21:09:04.443278"
+    },
+    "SULA11": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SULA11",
+      "last_check": "2026-03-15T21:09:06.084912"
+    },
+    "SULA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SULA3",
+      "last_check": "2026-03-15T21:09:07.779423"
+    },
+    "SULA4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "SULA4",
+      "last_check": "2026-03-15T21:09:09.670861"
+    },
+    "SUZB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:10.393539",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SUZB3",
+      "last_check": "2026-03-15T21:09:10.395003"
+    },
+    "SYNE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:11.235302",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "SYNE3",
+      "last_check": "2026-03-15T21:09:11.236595"
+    },
+    "TAEE11": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:12.076018",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TAEE11",
+      "last_check": "2026-03-15T21:09:12.077327"
+    },
+    "TAEE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:12.882011",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TAEE3",
+      "last_check": "2026-03-15T21:09:12.883282"
+    },
+    "TAEE4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:13.921551",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TAEE4",
+      "last_check": "2026-03-15T21:09:13.922830"
+    },
+    "TASA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:14.740713",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TASA3",
+      "last_check": "2026-03-15T21:09:14.748487"
+    },
+    "TASA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:15.511124",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TASA4",
+      "last_check": "2026-03-15T21:09:15.512595"
+    },
+    "TCNO3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "TCNO3",
+      "last_check": "2026-03-15T21:09:17.067532"
+    },
+    "TCNO4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "TCNO4",
+      "last_check": "2026-03-15T21:09:18.781676"
+    },
+    "TCSA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:19.508440",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TCSA3",
+      "last_check": "2026-03-15T21:09:19.509998"
+    },
+    "TECN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:20.272858",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TECN3",
+      "last_check": "2026-03-15T21:09:20.274135"
+    },
+    "TEKA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:20.950671",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TEKA3",
+      "last_check": "2026-03-15T21:09:20.951964"
+    },
+    "TEKA4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:21.799806",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TEKA4",
+      "last_check": "2026-03-15T21:09:21.807684"
+    },
+    "TELB3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:22.823997",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TELB3",
+      "last_check": "2026-03-15T21:09:22.829622"
+    },
+    "TELB4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:23.637884",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TELB4",
+      "last_check": "2026-03-15T21:09:23.645684"
+    },
+    "TEND3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:24.424255",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TEND3",
+      "last_check": "2026-03-15T21:09:24.425550"
+    },
+    "TESA3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "TESA3",
+      "last_check": "2026-03-15T21:09:26.582445"
+    },
+    "TFCO4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:27.400546",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TFCO4",
+      "last_check": "2026-03-15T21:09:27.401957"
+    },
+    "TGMA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:28.127428",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TGMA3",
+      "last_check": "2026-03-15T21:09:28.128718"
+    },
+    "TIET11": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "TIET11",
+      "last_check": "2026-03-15T21:09:29.733945"
+    },
+    "TIET3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "TIET3",
+      "last_check": "2026-03-15T21:09:31.498705"
+    },
+    "TIET4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "TIET4",
+      "last_check": "2026-03-15T21:09:33.215922"
+    },
+    "TIMS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:33.964175",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TIMS3",
+      "last_check": "2026-03-15T21:09:33.965460"
+    },
+    "TKNO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:34.766977",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TKNO3",
+      "last_check": "2026-03-15T21:09:34.768252"
+    },
+    "TKNO4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:35.499397",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TKNO4",
+      "last_check": "2026-03-15T21:09:35.500683"
+    },
+    "TOKY3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:36.189373",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TOKY3",
+      "last_check": "2026-03-15T21:09:36.191332"
+    },
+    "TOTS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:37.022346",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TOTS3",
+      "last_check": "2026-03-15T21:09:37.026328"
+    },
+    "TOYB3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "TOYB3",
+      "last_check": "2026-03-15T21:09:39.058101"
+    },
+    "TOYB4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "TOYB4",
+      "last_check": "2026-03-15T21:09:41.401065"
+    },
+    "TPIS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:42.457473",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TPIS3",
+      "last_check": "2026-03-15T21:09:42.458745"
+    },
+    "TRAD3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:43.194949",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TRAD3",
+      "last_check": "2026-03-15T21:09:43.196225"
+    },
+    "TRIS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:43.903421",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TRIS3",
+      "last_check": "2026-03-15T21:09:43.904705"
+    },
+    "TTEN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:44.703964",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TTEN3",
+      "last_check": "2026-03-15T21:09:44.705299"
+    },
+    "TUPY3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:45.517768",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TUPY3",
+      "last_check": "2026-03-15T21:09:45.519046"
+    },
+    "TXRX3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:46.214585",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TXRX3",
+      "last_check": "2026-03-15T21:09:46.216695"
+    },
+    "TXRX4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:46.985527",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "TXRX4",
+      "last_check": "2026-03-15T21:09:46.993391"
+    },
+    "UCAS3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:47.778412",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "UCAS3",
+      "last_check": "2026-03-15T21:09:47.779689"
+    },
+    "UGPA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:48.591738",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "UGPA3",
+      "last_check": "2026-03-15T21:09:48.593079"
+    },
+    "UNIP3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:49.323665",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "UNIP3",
+      "last_check": "2026-03-15T21:09:49.324954"
+    },
+    "UNIP5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:50.056183",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "UNIP5",
+      "last_check": "2026-03-15T21:09:50.057469"
+    },
+    "UNIP6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:50.764920",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "UNIP6",
+      "last_check": "2026-03-15T21:09:50.766198"
+    },
+    "USIM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:51.575765",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "USIM3",
+      "last_check": "2026-03-15T21:09:51.577702"
+    },
+    "USIM5": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:52.381202",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "USIM5",
+      "last_check": "2026-03-15T21:09:52.382495"
+    },
+    "USIM6": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:53.401485",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "USIM6",
+      "last_check": "2026-03-15T21:09:53.402935"
+    },
+    "VALE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:54.258499",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VALE3",
+      "last_check": "2026-03-15T21:09:54.265244"
+    },
+    "VAMO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:55.049008",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VAMO3",
+      "last_check": "2026-03-15T21:09:55.050366"
+    },
+    "VBBR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:55.900093",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VBBR3",
+      "last_check": "2026-03-15T21:09:55.901390"
+    },
+    "VITT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:56.716136",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VITT3",
+      "last_check": "2026-03-15T21:09:56.717445"
+    },
+    "VIVA3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:57.815230",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VIVA3",
+      "last_check": "2026-03-15T21:09:57.816579"
+    },
+    "VIVR3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:58.522675",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VIVR3",
+      "last_check": "2026-03-15T21:09:58.524265"
+    },
+    "VIVT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:09:59.578605",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VIVT3",
+      "last_check": "2026-03-15T21:09:59.579883"
+    },
+    "VIVT4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "VIVT4",
+      "last_check": "2026-03-15T21:10:01.277620"
+    },
+    "VLID3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:02.008124",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VLID3",
+      "last_check": "2026-03-15T21:10:02.009426"
+    },
+    "VSPT3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:02.718507",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VSPT3",
+      "last_check": "2026-03-15T21:10:02.719781"
+    },
+    "VSPT4": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "VSPT4",
+      "last_check": "2026-03-15T21:10:03.454908"
+    },
+    "VSTE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:04.182951",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VSTE3",
+      "last_check": "2026-03-15T21:10:04.184224"
+    },
+    "VTRU3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:04.878230",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VTRU3",
+      "last_check": "2026-03-15T21:10:04.879497"
+    },
+    "VULC3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:05.591698",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VULC3",
+      "last_check": "2026-03-15T21:10:05.593026"
+    },
+    "VVEO3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:06.317528",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "VVEO3",
+      "last_check": "2026-03-15T21:10:06.318808"
+    },
+    "WDCN3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:07.021658",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "WDCN3",
+      "last_check": "2026-03-15T21:10:07.022959"
+    },
+    "WEGE3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:07.729367",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "WEGE3",
+      "last_check": "2026-03-15T21:10:07.730649"
+    },
+    "WEST3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:08.414986",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "WEST3",
+      "last_check": "2026-03-15T21:10:08.416348"
+    },
+    "WHRL3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:09.173576",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "WHRL3",
+      "last_check": "2026-03-15T21:10:09.174862"
+    },
+    "WHRL4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:09.894400",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "WHRL4",
+      "last_check": "2026-03-15T21:10:09.895845"
+    },
+    "WIZC3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:10.666863",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "WIZC3",
+      "last_check": "2026-03-15T21:10:10.671868"
+    },
+    "WLMM3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:11.919943",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "WLMM3",
+      "last_check": "2026-03-15T21:10:11.932200"
+    },
+    "WLMM4": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:12.764598",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "WLMM4",
+      "last_check": "2026-03-15T21:10:12.766146"
+    },
+    "YDUQ3": {
+      "is_valid": true,
+      "last_valid": "2026-03-15T21:10:13.580163",
+      "check_count": 2,
+      "consecutive_failures": 0,
+      "validation_source": "yfinance",
+      "reason_invalid": null,
+      "ticker": "YDUQ3",
+      "last_check": "2026-03-15T21:10:13.581457"
+    },
+    "ZAMP3": {
+      "is_valid": false,
+      "last_valid": null,
+      "check_count": 2,
+      "consecutive_failures": 2,
+      "validation_source": "yfinance",
+      "reason_invalid": "no_price_6_months",
+      "ticker": "ZAMP3",
+      "last_check": "2026-03-15T21:10:14.704134"
+    }
+  }
+}
