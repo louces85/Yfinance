@@ -4,11 +4,11 @@ Persiste em data/stock_history.json via stock_repository.
 
 Para cada ticker válido (conforme stock_validity.json) busca:
   - Preço mínimo e máximo dos últimos 6 meses          (yfinance)
-  - Dividendos pagos por ano nos últimos 4 anos         (yfinance)
-  - Flag se pagou dividendos em TODOS os 4 últimos anos (yfinance)
+  - Dividendos pagos por ano nos últimos 5 anos         (yfinance)
+  - Flag se pagou dividendos em TODOS os 5 últimos anos (yfinance)
   - Média de dividendos anuais (base para price_target) (yfinance)
-  - Lucro líquido por ano nos últimos 4 anos            (yfinance)
-  - Flag se teve lucro positivo em TODOS os 4 anos      (yfinance)
+  - Lucro líquido por ano nos últimos 5 anos            (yfinance)
+  - Flag se teve lucro positivo em TODOS os 5 anos      (yfinance)
   - Payout ratio mais recente                           (StatusInvest)
 
 A execução respeita HISTORY_UPDATE_INTERVAL_DAYS — rode quando quiser
@@ -95,8 +95,8 @@ def fetch_history(ticker: str) -> Optional[dict]:
     """
     Busca histórico completo de um ticker:
       - min/max de preço nos últimos 6 meses       (yfinance)
-      - dividendos por ano nos últimos 4 anos       (yfinance)
-      - lucro líquido por ano nos últimos 4 anos    (yfinance)
+      - dividendos por ano nos últimos 5 anos       (yfinance)
+      - lucro líquido por ano nos últimos 5 anos    (yfinance)
       - payout ratio mais recente                   (StatusInvest)
 
     Retorna dict com os dados ou None se dados de preço indisponíveis.
@@ -154,7 +154,7 @@ def fetch_history(ticker: str) -> Optional[dict]:
             volume_avg = 0.0
             accumulation_score = None
 
-        # --- Dividendos: últimos 4 anos ---
+        # --- Dividendos: últimos 5 anos ---
         dividends = yf_ticker.dividends
         dividends_per_year: Dict[str, float] = {}
         years_with_dividends = 0
@@ -169,11 +169,11 @@ def fetch_history(ticker: str) -> Optional[dict]:
             if year_total > 0:
                 years_with_dividends += 1
 
-        paid_dividends_4_years = years_with_dividends == DIVIDEND_YEARS_MIN
+        paid_dividends_5_years = years_with_dividends == DIVIDEND_YEARS_MIN
 
         # Divide sempre por DIVIDEND_YEARS_MIN (não por len dos anos com dividendo)
         # para evitar inflar o price_target quando algum ano não pagou dividendo
-        avg_dividends_4y = round(
+        avg_dividends_5y = round(
             sum(v for v in dividends_per_year.values() if not math.isnan(v)) / DIVIDEND_YEARS_MIN, 4
         )
 
@@ -193,7 +193,7 @@ def fetch_history(ticker: str) -> Optional[dict]:
         _prior_max  = max((dividends_per_year.get(y, 0) for y in _years_sorted[:-1]), default=0)
         dividend_growing = _newest_div > 0 and _newest_div >= _prior_max
 
-        # --- Lucro líquido: últimos 4 anos ---
+        # --- Lucro líquido: últimos 5 anos ---
         net_income_per_year: Dict[str, Optional[float]] = {}
         years_with_positive_income = 0
 
@@ -217,7 +217,7 @@ def fetch_history(ticker: str) -> Optional[dict]:
             net_income_per_year = {year: None for year in target_years}
 
         years_with_data = sum(1 for v in net_income_per_year.values() if v is not None)
-        positive_income_4_years = (
+        positive_income_5_years = (
             years_with_positive_income == years_with_data
             and years_with_data >= DIVIDEND_YEARS_MIN - 1
         )
@@ -233,13 +233,13 @@ def fetch_history(ticker: str) -> Optional[dict]:
             "accumulation_score":         accumulation_score,
             "dividends_per_year":         dividends_per_year,
             "years_with_dividends":       years_with_dividends,
-            "paid_dividends_4_years":     paid_dividends_4_years,
-            "avg_dividends_4y":           avg_dividends_4y,
+            "paid_dividends_5_years":     paid_dividends_5_years,
+            "avg_dividends_5y":           avg_dividends_5y,
             "dividends_sum_12m":          dividends_sum_12m,
             "dividend_growing":           dividend_growing,
             "net_income_per_year":        net_income_per_year,
             "years_with_positive_income": years_with_positive_income,
-            "positive_income_4_years":    positive_income_4_years,
+            "positive_income_5_years":    positive_income_5_years,
             "payout":                     payout,
         }
 
@@ -281,15 +281,16 @@ def update_all(tickers: Optional[List[str]] = None, force: bool = False, delay: 
         results[ticker] = entry
         if entry:
             div_years   = entry.get("years_with_dividends", 0)
-            avg_div     = entry.get("avg_dividends_4y", 0.0)
+            avg_div     = entry.get("avg_dividends_5y", 0.0)
             inc_years   = entry.get("years_with_positive_income", 0)
+            inc_data    = sum(1 for v in entry.get("net_income_per_year", {}).values() if v is not None)
             payout      = entry.get("payout")
             payout_str  = f"{payout:.1f}%" if payout is not None else "N/A"
             print(
                 f"[{i:4d}/{total}] {ticker:<12} "
                 f"min={entry['price_min_6m']:6.2f}  max={entry['price_max_6m']:6.2f}  "
                 f"div={div_years}/{DIVIDEND_YEARS_MIN} avg=R${avg_div:.4f}  "
-                f"income={inc_years}/{DIVIDEND_YEARS_MIN}  payout={payout_str}"
+                f"income={inc_years}/{inc_data}(req≥{DIVIDEND_YEARS_MIN-1})  payout={payout_str}"
             )
         else:
             print(f"[{i:4d}/{total}] {ticker:<12} FALHA")

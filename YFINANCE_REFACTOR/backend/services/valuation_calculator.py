@@ -90,16 +90,20 @@ def calculate(ticker: str) -> Optional[dict]:
     # price_now é opcional: sem ele calcula targets mas não zona/rank por preço
 
     # --- Filtros obrigatórios (pré-qualificação) ---
-    # Só calcula valuation para tickers que atendam os três critérios mínimos:
-    #   1. Pagou dividendos em todos os últimos 4 anos
-    #   2. Teve lucro líquido positivo em todos os últimos 4 anos
+    # Só calcula valuation para tickers que atendam os critérios mínimos:
+    #   1. Pagou dividendos em todos os últimos 5 anos
+    #   2. Teve lucro líquido positivo em todos os últimos 5 anos
     #   3. Liquidez diária mínima de R$200k (dado do all_indicators.json)
-    if not history.get("paid_dividends_4_years", False):
+    #   4. P/L positivo (P/L negativo indica prejuízo no período)
+    if not history.get("paid_dividends_5_years", False):
         return None
-    if not history.get("positive_income_4_years", False):
+    if not history.get("positive_income_5_years", False):
         return None
     liq_diaria_raw = _safe_float(indicators.get("liquidezmediadiaria"), 0)
     if liq_diaria_raw < rules.LIQUIDEZ_DIARIA_MIN:
+        return None
+    p_l_raw = _safe_float(indicators.get("p_l"))
+    if p_l_raw is None or p_l_raw <= 0:
         return None
 
     # --- Indicadores fundamentalistas ---
@@ -124,7 +128,7 @@ def calculate(ticker: str) -> Optional[dict]:
     # --- Histórico ---
     price_min_6m   = _safe_float(history.get("price_min_6m"))
     price_max_6m   = _safe_float(history.get("price_max_6m"))
-    avg_div_4y         = _safe_float(history.get("avg_dividends_4y"), 0)
+    avg_div_4y         = _safe_float(history.get("avg_dividends_5y"), 0)
     div_sum_12m        = _safe_float(history.get("dividends_sum_12m"), 0)
     div_growing        = history.get("dividend_growing", False)
     accumulation_score = _safe_float(history.get("accumulation_score"))
@@ -189,7 +193,7 @@ def calculate(ticker: str) -> Optional[dict]:
         "price_now":          round(price_now, 2),
         "price_min_6m":       price_min_6m,
         "price_max_6m":       price_max_6m,
-        "avg_dividends_4y":   avg_div_4y,
+        "avg_dividends_5y":   avg_div_4y,
         "price_target_6pct":  price_target_6,
         "price_target_8pct":  price_target_8,
         "price_target_5pct":  price_target_5,
@@ -263,7 +267,7 @@ def update_all(tickers: Optional[list] = None) -> dict:
                 "price_target_6pct": entry["price_target_6pct"],
                 "price_target_8pct": entry["price_target_8pct"],
                 "dy_real":          entry["dy_real"],
-                "avg_dividends_4y": entry["avg_dividends_4y"],
+                "avg_dividends_5y": entry["avg_dividends_5y"],
                 "payout":           entry["payout"],
                 "sector":           entry["indicators"]["sector"],
             })

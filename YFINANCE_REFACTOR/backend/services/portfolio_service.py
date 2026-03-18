@@ -12,6 +12,7 @@ from typing import Optional
 import xlrd
 
 from repositories import stock_repository as repo
+from services.price_service import PriceService
 
 B3_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "B3")
 
@@ -61,6 +62,7 @@ def load() -> dict:
         return {"summary": {}, "positions": [], "error": str(e)}
 
     known_tickers = set(repo.get_tickers_list())
+    price_svc = PriceService()
 
     positions       = []
     total_investido = 0.0
@@ -86,12 +88,21 @@ def load() -> dict:
         if val is None and ticker not in known_tickers:
             continue
 
-        valor_atual = total_inv + retorno
-        preco_atual = (valor_atual / qtd) if qtd else None
-        retorno_pct = ((retorno / total_inv) * 100) if total_inv else None
+        # Preço atual: atualiza via Google Finance se o cache estiver velho (>30 min),
+        # caso contrário usa o cache de stock_prices.json.
+        preco_atual = price_svc.update(ticker)
+        if preco_atual and preco_atual > 0:
+            valor_atual = preco_atual * qtd
+        else:
+            # Fallback para o cálculo do XLS se ainda não há preço disponível
+            valor_atual = total_inv + retorno
+            preco_atual = (valor_atual / qtd) if qtd else None
+
+        retorno_rs  = valor_atual - total_inv
+        retorno_pct = ((retorno_rs / total_inv) * 100) if total_inv else None
 
         if val is not None:
-            avg_div    = val.get("avg_dividends_4y")
+            avg_div    = val.get("avg_dividends_5y")
             dy_on_cost = ((avg_div / preco_medio) * 100) if (avg_div and preco_medio) else None
             position = {
                 "ticker":            ticker,
@@ -100,7 +111,7 @@ def load() -> dict:
                 "preco_atual":       round(preco_atual, 2)   if preco_atual  is not None else None,
                 "total_investido":   round(total_inv, 2),
                 "valor_atual":       round(valor_atual, 2),
-                "retorno":           round(retorno, 2),
+                "retorno":           round(retorno_rs, 2),
                 "retorno_pct":       round(retorno_pct, 2)   if retorno_pct  is not None else None,
                 "dy_on_cost":        round(dy_on_cost, 2)    if dy_on_cost   is not None else None,
                 "zone":              val.get("zone"),
@@ -121,7 +132,7 @@ def load() -> dict:
                 "preco_atual":       round(preco_atual, 2)   if preco_atual  is not None else None,
                 "total_investido":   round(total_inv, 2),
                 "valor_atual":       round(valor_atual, 2),
-                "retorno":           round(retorno, 2),
+                "retorno":           round(retorno_rs, 2),
                 "retorno_pct":       round(retorno_pct, 2)   if retorno_pct  is not None else None,
                 "dy_on_cost":        None,
                 "zone":              None,
@@ -136,7 +147,7 @@ def load() -> dict:
 
         positions.append(position)
         total_investido += total_inv
-        total_atual     += valor_atual
+        total_atual     += valor_atual  # já recalculado com preço do cache
 
     retorno_total     = total_atual - total_investido
     retorno_total_pct = ((retorno_total / total_investido) * 100) if total_investido else 0.0

@@ -9,7 +9,7 @@ Campos no JSON de saída (ordenados por p_now_p_min ASC):
   ticker, price_now, price_target_6pct, price_target_8pct, price_target_5pct,
   gain_pct, price_min_6m, price_max_6m, p_now_p_min,
   rank, rank_max, zone, dy_real, payout, accumulation_score, sector,
-  dividend_growing, is_below_vpa_target, is_gold
+  dividend_growing, is_below_vpa_target, is_gold, is_bronze, avg_dividends_5y
 
 Uso direto:
     python decision_service.py                # processa todos os monitorados
@@ -74,7 +74,7 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
     target_5 = _safe_float(valuation.get("price_target_5pct"))
     price_min = _safe_float(history.get("price_min_6m"))
     price_max = _safe_float(history.get("price_max_6m"))
-    avg_div   = _safe_float(valuation.get("avg_dividends_4y"), 0)
+    avg_div   = _safe_float(valuation.get("avg_dividends_5y"), 0)
 
     # pNow/pMin: quanto o preço atual está acima do mínimo de 6m
     # Valor < 1.10 = ótima entrada; > 1.50 = caro em relação ao fundo
@@ -106,6 +106,9 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
     # is_gold: abaixo VPA + abaixo target 6% + dividendo crescente
     is_gold = is_below_vpa_target and dividend_growing
 
+    # is_bronze: abaixo do target 6% Bazin, mas acima do VPA (sem a margem de segurança do VPA)
+    is_bronze = below_target and not below_vpa
+
     indicators = valuation.get("indicators", {})
 
     return {
@@ -122,7 +125,7 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
         "rank_max":             valuation.get("rank_max"),
         "zone":                 valuation.get("zone"),
         "dy_real":              dy_real,
-        "avg_dividends_4y":     avg_div,
+        "avg_dividends_5y":     avg_div,
         "payout":               valuation.get("payout"),
         "accumulation_score":        accumulation_score,
         "accumulation_recent_days":  recent["accumulation_recent_days"],
@@ -131,6 +134,7 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
         "dividend_growing":     dividend_growing,
         "is_below_vpa_target":  is_below_vpa_target,
         "is_gold":              is_gold,
+        "is_bronze":            is_bronze,
     }
 
 

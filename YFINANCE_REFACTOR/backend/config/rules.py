@@ -12,7 +12,7 @@ BASIN_MAX     = 0.08   # yield-alvo agressivo (compra forte)
 DIVIDEND_YIELD_MIN    = 6.0   # DY% mínimo para aprovação
 PAYOUT_MIN            = 40.0  # Payout% mínimo saudável (Bazin)
 PAYOUT_MAX            = 80.0  # Payout% máximo saudável (Bazin)
-DIVIDEND_YEARS_MIN    = 4     # Anos consecutivos mínimos com dividendos
+DIVIDEND_YEARS_MIN    = 5     # Anos consecutivos mínimos com dividendos
 
 # --- Graham ---
 P_L_MAX       = 15.0   # P/L máximo
