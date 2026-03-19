@@ -186,12 +186,13 @@ def fetch_history(ticker: str) -> Optional[dict]:
         ].dropna()
         dividends_sum_12m = round(float(recent_divs[recent_divs > 0].sum()), 4)
 
-        # Dividendo crescente (Barsi): o ano mais recente deve ser >= o maior dividendo
-        # dos anos anteriores — garante que está num patamar novo, não apenas recuperando de uma queda
+        # Dividendo crescente (Barsi): tendência estrutural — tolerância de 10% na queda pontual.
+        # Empresa que cresceu dividendo por 4 anos e caiu 5% no último não perde o critério.
+        # Evita penalizar tendência de longo prazo por variação de um único ano.
         _years_sorted = sorted(dividends_per_year.keys())
         _newest_div = dividends_per_year.get(_years_sorted[-1], 0)
         _prior_max  = max((dividends_per_year.get(y, 0) for y in _years_sorted[:-1]), default=0)
-        dividend_growing = _newest_div > 0 and _newest_div >= _prior_max
+        dividend_growing = _newest_div > 0 and _newest_div >= _prior_max * 0.90
 
         # --- Lucro líquido: últimos 5 anos ---
         net_income_per_year: Dict[str, Optional[float]] = {}

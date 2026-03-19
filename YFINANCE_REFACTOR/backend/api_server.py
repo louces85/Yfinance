@@ -70,6 +70,9 @@ def valuation(ticker):
     entry = repo.get_valuation(ticker.upper())
     if entry is None:
         return jsonify({"error": "not found"}), 404
+    ind = repo.get_indicators_by_ticker(ticker.upper()) or {}
+    entry = dict(entry)
+    entry["companyname"] = ind.get("companyname", "")
     return jsonify(entry)
 
 
@@ -83,6 +86,22 @@ def history(ticker):
     if entry is None:
         return jsonify({"error": "not found"}), 404
     return jsonify(entry)
+
+
+# ---------------------------------------------------------------------------
+# API — dividendos pagos no ano corrente (YTD)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/dividends_ytd/<ticker>")
+def dividends_ytd(ticker):
+    current_year = datetime.now().year
+    try:
+        yf_ticker = yfinance.Ticker(f"{ticker.upper()}.SA")
+        divs = yf_ticker.dividends
+        ytd = float(divs[divs.index.year == current_year].sum())
+        return jsonify({"year": current_year, "paid": round(ytd, 4)})
+    except Exception as e:
+        return jsonify({"year": current_year, "paid": 0.0})
 
 
 # ---------------------------------------------------------------------------

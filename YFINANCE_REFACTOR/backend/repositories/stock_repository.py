@@ -97,6 +97,23 @@ def get_all_prices() -> dict:
     return data.get("stocks", {})
 
 
+def save_prices_batch(updates: dict) -> None:
+    """Grava múltiplos preços de uma vez — uma única leitura+escrita no JSON."""
+    data = _load(PATHS["prices"])
+    stocks = data.setdefault("stocks", {})
+    now = _now()
+    for ticker, price in updates.items():
+        if price is not None and price > 0:
+            stocks[ticker.upper()] = {
+                "ticker":       ticker.upper(),
+                "price_now":    price,
+                "last_updated": now,
+                "source":       "google_finance",
+            }
+    data["last_updated"] = now
+    _save(PATHS["prices"], data)
+
+
 # ---------------------------------------------------------------------------
 # stock_history.json
 # ---------------------------------------------------------------------------

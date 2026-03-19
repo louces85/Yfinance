@@ -7,6 +7,7 @@ FIIs e outros ativos sem cobertura são ignorados silenciosamente.
 """
 
 import os
+from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
 import xlrd
@@ -62,13 +63,15 @@ def load() -> dict:
         return {"summary": {}, "positions": [], "error": str(e)}
 
     known_tickers = set(repo.get_tickers_list())
-    price_svc = PriceService()
+    price_svc     = PriceService()
 
-    positions       = []
-    total_investido = 0.0
-    total_atual     = 0.0
+    # ── Pré-carregar dados do disco uma única vez ──────────────────
+    all_valuations = repo.get_all_valuations()   # evita 25+ leituras de valuations.json
+    all_prices     = repo.get_all_prices()        # evita N leituras de stock_prices.json
 
-    for i in range(1, sh.nrows):  # row 0 = header
+    # ── Ler linhas válidas da planilha ─────────────────────────────
+    rows = []
+    for i in range(1, sh.nrows):
         row = sh.row_values(i)
         try:
             ticker      = str(row[2]).strip().upper()
@@ -78,19 +81,42 @@ def load() -> dict:
             retorno     = float(row[6])
         except (ValueError, IndexError):
             continue
-
         if not ticker or qtd <= 0:
             continue
-
-        val = repo.get_valuation(ticker)
-
-        # Ativo desconhecido (FII, não monitorado) — ignora
+        val = all_valuations.get(ticker)
         if val is None and ticker not in known_tickers:
-            continue
+            continue  # FII / Tesouro — ignora
+        rows.append((ticker, qtd, preco_medio, total_inv, retorno, val))
 
-        # Preço atual: atualiza via Google Finance se o cache estiver velho (>30 min),
-        # caso contrário usa o cache de stock_prices.json.
-        preco_atual = price_svc.update(ticker)
+    # ── Verificar staleness em memória (sem leitura de disco) ─────
+    tickers_needed = [r[0] for r in rows]
+    stale_tickers  = [t for t in tickers_needed if price_svc.needs_update(t)]
+
+    if stale_tickers:
+        # Busca HTTP em paralelo — sem salvar dentro da thread (evita race condition no JSON)
+        def _fetch(ticker):
+            return ticker, price_svc.fetch_from_google(ticker)
+
+        with ThreadPoolExecutor(max_workers=10) as pool:
+            fetched = dict(pool.map(_fetch, stale_tickers))
+
+        # Um único write em disco com todos os preços novos
+        repo.save_prices_batch(fetched)
+
+        # Atualiza cache local para não reler o arquivo
+        for t, p in fetched.items():
+            if p and p > 0:
+                all_prices[t] = {"price_now": p}
+
+    # ── Preços finais — do cache em memória (zero I/O adicional) ──
+    prices_cache = {t: (all_prices.get(t) or {}).get("price_now") for t in tickers_needed}
+
+    positions       = []
+    total_investido = 0.0
+    total_atual     = 0.0
+
+    for (ticker, qtd, preco_medio, total_inv, retorno, val) in rows:
+        preco_atual = prices_cache.get(ticker)
         if preco_atual and preco_atual > 0:
             valor_atual = preco_atual * qtd
         else:
@@ -117,6 +143,9 @@ def load() -> dict:
                 "zone":              val.get("zone"),
                 "rank":              val.get("rank"),
                 "rank_max":          val.get("rank_max"),
+                "weighted_score":    (val.get("weighted_score") or {}).get("score"),
+                "piotroski_score":   (val.get("piotroski") or {}).get("score"),
+                "piotroski_label":   (val.get("piotroski") or {}).get("label"),
                 "dy_real":           val.get("dy_real"),
                 "p_now_p_min":       val.get("p_now_p_min"),
                 "gain_pct":          val.get("gain_pct_to_target"),
@@ -138,6 +167,9 @@ def load() -> dict:
                 "zone":              None,
                 "rank":              None,
                 "rank_max":          None,
+                "weighted_score":    None,
+                "piotroski_score":   None,
+                "piotroski_label":   None,
                 "dy_real":           None,
                 "p_now_p_min":       None,
                 "gain_pct":          None,

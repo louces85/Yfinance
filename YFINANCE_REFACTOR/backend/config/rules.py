@@ -23,7 +23,8 @@ LIQUIDEZ_CORRENTE_MIN = 2.0   # Liquidez corrente mínima (Graham: >= 2.0)
 # --- Dívida ---
 DL_PL_MAX     = 1.0    # Dívida Líquida / Patrimônio Líquido máximo
 DL_EBITDA_MAX = 3.0    # Dívida Líquida / EBITDA máximo
-PASSIVO_ATIVO_MAX = 1.0  # Passivo / Ativo máximo
+PASSIVO_ATIVO_MAX = 0.65  # Passivo / Ativo máximo (não-financeiras; Graham ~0.6)
+FINANCIAL_PL_ATIVO_MAX = 0.20  # Proxy setor financeiro: PL/Ativo <= 20% → banco/seguradora
 
 # --- Rentabilidade ---
 MARGEM_EBIT_MIN   = 10.0   # Margem EBIT mínima (%)
@@ -43,6 +44,49 @@ PEG_MAX       = 1.0    # PEG ajustado por dividendos máximo
 
 # --- Liquidez de mercado ---
 LIQUIDEZ_DIARIA_MIN = 200000.0  # R$ 200k/dia mínimo
+
+# --- Score Ponderado ---
+# Pesos por critério: qualidade > crescimento > dívida > preço > dividendos > técnico
+# Total máximo: 40 pontos → normalizado para 0-100
+WEIGHTED_SCORE_WEIGHTS = {
+    # Qualidade/Rentabilidade (peso 3) — maior impacto no score
+    "roe_ok":                 3.0,
+    "roic_ok":                3.0,
+    "margem_ebit_ok":         3.0,
+    "margem_liq_ok":          3.0,
+    # Crescimento (peso 2)
+    "cagr_receita_ok":        2.0,
+    "cagr_lucro_ok":          2.0,
+    "dividendo_crescente_ok": 2.0,
+    # Dívida/Segurança (peso 2)
+    "dl_pl_ok":               2.0,
+    "dl_ebitda_ok":           2.0,
+    "passivo_ativo_ok":       2.0,
+    "liquidez_corrente_ok":   2.0,
+    # Preço/Valuation (peso 1.5)
+    "p_l_ok":                 1.5,
+    "p_vp_ok":                1.5,
+    "graham_combo_ok":        1.5,
+    "abaixo_vpa":             1.5,
+    # Dividendos/Renda (peso 1.5)
+    "dy_ok":                  1.5,
+    "abaixo_target_6pct":     1.5,
+    "abaixo_target_8pct":     1.5,
+    "payout_ok":              1.5,
+    # Técnico/Liquidez (peso 1)
+    "liquidez_diaria_ok":     1.0,
+    "accumulation_ok":        1.0,
+}
+WEIGHTED_SCORE_MAX = sum(WEIGHTED_SCORE_WEIGHTS.values())  # 40.0
+
+# --- Piotroski F-Score (adaptado) ---
+# 9 sinais de saúde financeira — adaptados aos dados disponíveis (sem balanço histórico)
+PIOTROSKI_STRONG_MIN          = 7     # >= 7 = empresa financeiramente forte
+PIOTROSKI_MODERATE_MIN        = 4     # 4–6 = saúde moderada
+PIOTROSKI_ROE_FORTE           = 15.0  # ROE forte (sinal P9): acima do mínimo básico
+PIOTROSKI_DL_PL_CONSERVADOR   = 0.5   # Alavancagem conservadora (sinal P4): metade do limite principal
+PIOTROSKI_LIQ_CORRENTE_MIN    = 1.5   # Liq. corrente mínima (sinal P5): entre Graham (2.0) e zero
+PIOTROSKI_PASSIVO_ATIVO_MAX   = 0.4   # Balanço conservador (sinal P6): abaixo de 40%
 
 # --- Validade do ticker ---
 # Número de falhas consecutivas antes de marcar como inválido

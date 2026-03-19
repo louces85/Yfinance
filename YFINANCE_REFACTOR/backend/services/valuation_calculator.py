@@ -71,6 +71,115 @@ def _calc_zone(price_now: float, target_6: float, target_8: float, target_5: flo
     return "CARO"
 
 
+def _calc_weighted_score(flags: dict) -> dict:
+    """
+    Score ponderado (0-100) baseado nos 21 critérios com pesos diferenciados.
+
+    Grupos e pesos (ver rules.WEIGHTED_SCORE_WEIGHTS):
+      Qualidade/Rentabilidade : peso 3  (ROE, ROIC, margens)
+      Crescimento             : peso 2  (CAGR receita/lucro, dividendo crescente)
+      Dívida/Segurança        : peso 2  (DL/PL, DL/EBITDA, passivo/ativo, liq. corrente)
+      Preço/Valuation         : peso 1.5 (P/L, P/VP, Graham, abaixo VPA)
+      Dividendos/Renda        : peso 1.5 (DY, targets 6%/8%, payout)
+      Técnico/Liquidez        : peso 1  (liq. diária, acumulação)
+
+    Retorna dict com score (0-100), pontos ganhos e máximo possível.
+    """
+    earned = sum(
+        rules.WEIGHTED_SCORE_WEIGHTS.get(flag, 0.0)
+        for flag, val in flags.items()
+        if val
+    )
+    score = round((earned / rules.WEIGHTED_SCORE_MAX) * 100, 1)
+    return {
+        "score":          score,
+        "score_max":      100,
+        "earned_points":  round(earned, 1),
+        "max_points":     rules.WEIGHTED_SCORE_MAX,
+    }
+
+
+def _calc_piotroski(indicators: dict, history: dict) -> dict:
+    """
+    Piotroski F-Score adaptado (9 pontos) com os dados disponíveis.
+
+    Profitabilidade (3 sinais):
+      P1 — Lucro Líquido positivo no ano mais recente
+      P2 — Margem EBIT > 0  (proxy de CF Operacional positivo)
+      P3 — Lucro crescendo  (ano mais recente > ano anterior)
+
+    Alavancagem / Liquidez (3 sinais):
+      P4 — DL/PL <= 0.5  (alavancagem conservadora; metade do limite do filtro principal)
+      P5 — Liq. Corrente >= 1.5  (cobertura de curto prazo sólida)
+      P6 — Passivo/Ativo <= 0.4  (balanço conservador)
+
+    Eficiência / Qualidade (3 sinais):
+      P7 — CAGR Lucro > CAGR Receita  (margens se expandindo)
+      P8 — CAGR Receita > 0  (crescimento real de receita)
+      P9 — ROE >= 15%  (rentabilidade forte, acima do mínimo básico de 10%)
+
+    Score: 0–9 pontos
+      >= 7 → FORTE    (empresa financeiramente saudável)
+       4–6 → MODERADO
+      <= 3 → FRACO
+    """
+    net_income_per_year = history.get("net_income_per_year", {})
+    years_sorted = sorted(net_income_per_year.keys())
+
+    latest_income = net_income_per_year.get(years_sorted[-1]) if len(years_sorted) >= 1 else None
+    prior_income  = net_income_per_year.get(years_sorted[-2]) if len(years_sorted) >= 2 else None
+
+    dl_pl        = indicators.get("dl_pl")
+    passivo_ativo = indicators.get("passivo_ativo")
+    liq_corrente = indicators.get("liquidez_corrente")
+    m_ebit       = indicators.get("margem_ebit")
+    roe          = indicators.get("roe")
+    cagr_r       = indicators.get("cagr_receita")
+    cagr_l       = indicators.get("cagr_lucro")
+
+    # --- Profitabilidade ---
+    p1 = latest_income is not None and latest_income > 0
+    p2 = m_ebit is not None and m_ebit > 0
+    p3 = (latest_income is not None and prior_income is not None
+          and latest_income > prior_income)
+
+    # --- Alavancagem / Liquidez ---
+    p4 = dl_pl is not None and dl_pl <= rules.PIOTROSKI_DL_PL_CONSERVADOR
+    p5 = liq_corrente is not None and liq_corrente >= rules.PIOTROSKI_LIQ_CORRENTE_MIN
+    p6 = passivo_ativo is not None and passivo_ativo <= rules.PIOTROSKI_PASSIVO_ATIVO_MAX
+
+    # --- Eficiência / Qualidade ---
+    p7 = (cagr_l is not None and cagr_r is not None and cagr_l > cagr_r)
+    p8 = cagr_r is not None and cagr_r > 0
+    p9 = roe is not None and roe >= rules.PIOTROSKI_ROE_FORTE
+
+    score = sum([p1, p2, p3, p4, p5, p6, p7, p8, p9])
+
+    if score >= rules.PIOTROSKI_STRONG_MIN:
+        label = "FORTE"
+    elif score >= rules.PIOTROSKI_MODERATE_MIN:
+        label = "MODERADO"
+    else:
+        label = "FRACO"
+
+    return {
+        "score":     score,
+        "score_max": 9,
+        "label":     label,
+        "flags": {
+            "p1_lucro_positivo":      p1,
+            "p2_ebit_positivo":       p2,
+            "p3_lucro_crescendo":     p3,
+            "p4_baixa_alavancagem":   p4,
+            "p5_liq_corrente":        p5,
+            "p6_passivo_ativo":       p6,
+            "p7_margens_expandindo":  p7,
+            "p8_receita_crescendo":   p8,
+            "p9_roe_forte":           p9,
+        },
+    }
+
+
 def calculate(ticker: str) -> Optional[dict]:
     """
     Calcula o valuation completo de um ticker.
@@ -115,6 +224,12 @@ def calculate(ticker: str) -> Optional[dict]:
     dl_ebitda   = _safe_float(indicators.get("dividaliquidaebit"))
     passivo_ativo = _safe_float(indicators.get("passivo_ativo"))
     liq_corrente  = _safe_float(indicators.get("liquidezcorrente"))
+    pl_ativo      = _safe_float(indicators.get("pl_ativo"))
+
+    # Setor financeiro: identificado por estrutura de balanço (pl_ativo muito baixo é
+    # estrutural em bancos e seguradoras — depósitos de clientes são passivo circulante).
+    # Esses setores ficam isentos dos filtros de liquidez_corrente e passivo_ativo.
+    _is_financial = pl_ativo is not None and pl_ativo <= rules.FINANCIAL_PL_ATIVO_MAX
     m_ebit      = _safe_float(indicators.get("margemebit"))
     m_liq       = _safe_float(indicators.get("margemliquida"))
     roe         = _safe_float(indicators.get("roe"))
@@ -156,8 +271,8 @@ def calculate(ticker: str) -> Optional[dict]:
         # Critérios independentes do preço atual
         "dl_pl_ok":            dl_pl is not None and dl_pl <= rules.DL_PL_MAX,
         "dl_ebitda_ok":        dl_ebitda is not None and dl_ebitda <= rules.DL_EBITDA_MAX,
-        "passivo_ativo_ok":    passivo_ativo is not None and passivo_ativo <= rules.PASSIVO_ATIVO_MAX,
-        "liquidez_corrente_ok":liq_corrente is not None and liq_corrente >= rules.LIQUIDEZ_CORRENTE_MIN,
+        "passivo_ativo_ok":    _is_financial or (passivo_ativo is not None and passivo_ativo <= rules.PASSIVO_ATIVO_MAX),
+        "liquidez_corrente_ok":_is_financial or (liq_corrente is not None and liq_corrente >= rules.LIQUIDEZ_CORRENTE_MIN),
         "margem_ebit_ok":      m_ebit is not None and m_ebit >= rules.MARGEM_EBIT_MIN,
         "margem_liq_ok":       m_liq is not None and m_liq >= rules.MARGEM_LIQ_MIN,
         "roe_ok":              roe is not None and roe >= rules.ROE_MIN,
@@ -182,6 +297,21 @@ def calculate(ticker: str) -> Optional[dict]:
     rank = sum(1 for v in flags.values() if v)
     rank_max = len(flags)
 
+    weighted_score = _calc_weighted_score(flags)
+
+    # Piotroski usa os indicadores brutos (floats) e o histórico de lucros
+    _indicators_raw = {
+        "dl_pl":            dl_pl,
+        "passivo_ativo":    passivo_ativo,
+        "liquidez_corrente": liq_corrente,
+        "margem_ebit":      m_ebit,
+        "roe":              roe,
+        "roic":             roic,
+        "cagr_receita":     cagr_r,
+        "cagr_lucro":       cagr_l,
+    }
+    piotroski = _calc_piotroski(_indicators_raw, history)
+
     zone = _calc_zone(
         price_now or 0,
         price_target_6 or 0,
@@ -205,6 +335,8 @@ def calculate(ticker: str) -> Optional[dict]:
         "rank":               rank,
         "rank_max":           rank_max,
         "zone":               zone,
+        "weighted_score":     weighted_score,
+        "piotroski":          piotroski,
         "flags":              flags,
         "indicators": {
             "dy":                   dy,
@@ -259,28 +391,32 @@ def update_all(tickers: Optional[list] = None) -> dict:
         results[ticker] = entry
         if entry:
             monitoring.append({
-                "ticker":           ticker,
-                "rank":             entry["rank"],
-                "rank_max":         entry["rank_max"],
-                "zone":             entry["zone"],
-                "price_now":        entry["price_now"],
-                "price_target_6pct": entry["price_target_6pct"],
-                "price_target_8pct": entry["price_target_8pct"],
-                "dy_real":          entry["dy_real"],
-                "avg_dividends_5y": entry["avg_dividends_5y"],
-                "payout":           entry["payout"],
-                "sector":           entry["indicators"]["sector"],
+                "ticker":              ticker,
+                "rank":                entry["rank"],
+                "rank_max":            entry["rank_max"],
+                "weighted_score":      entry["weighted_score"]["score"],
+                "piotroski_score":     entry["piotroski"]["score"],
+                "piotroski_label":     entry["piotroski"]["label"],
+                "zone":                entry["zone"],
+                "price_now":           entry["price_now"],
+                "price_target_6pct":   entry["price_target_6pct"],
+                "price_target_8pct":   entry["price_target_8pct"],
+                "dy_real":             entry["dy_real"],
+                "avg_dividends_5y":    entry["avg_dividends_5y"],
+                "payout":              entry["payout"],
+                "sector":              entry["indicators"]["sector"],
             })
             print(
                 f"[{i:4d}/{total}] {ticker:<12} "
                 f"rank={entry['rank']:2d}/{entry['rank_max']}  "
+                f"wscore={entry['weighted_score']['score']:5.1f}  "
+                f"piotr={entry['piotroski']['score']}/{entry['piotroski']['score_max']}({entry['piotroski']['label']:<8})  "
                 f"zone={entry['zone']:<14}  "
-                f"dy={entry['dy_real'] or '-':>6}%  "
-                f"target=R${entry['price_target_6pct'] or '-'}"
+                f"dy={entry['dy_real'] or '-':>6}%"
             )
 
-    # Ordena por rank decrescente e persiste
-    monitoring.sort(key=lambda x: x["rank"], reverse=True)
+    # Ordena por weighted_score decrescente (substitui rank simples)
+    monitoring.sort(key=lambda x: x["weighted_score"], reverse=True)
     repo.save_monitoring_stocks(monitoring)
 
     success = len(monitoring)

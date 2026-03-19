@@ -111,6 +111,9 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
 
     indicators = valuation.get("indicators", {})
 
+    weighted = valuation.get("weighted_score", {})
+    piotroski = valuation.get("piotroski", {})
+
     return {
         "ticker":               ticker.upper(),
         "price_now":            round(price_now, 2),
@@ -123,6 +126,9 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
         "p_now_p_min":          p_now_p_min,
         "rank":                 valuation.get("rank"),
         "rank_max":             valuation.get("rank_max"),
+        "weighted_score":       weighted.get("score"),
+        "piotroski_score":      piotroski.get("score"),
+        "piotroski_label":      piotroski.get("label"),
         "zone":                 valuation.get("zone"),
         "dy_real":              dy_real,
         "avg_dividends_5y":     avg_div,
