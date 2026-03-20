@@ -115,6 +115,14 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
     piotroski = valuation.get("piotroski", {})
     buffett_moat = valuation.get("buffett_moat", {})
 
+    # Selo Buffett: Moat FORTE (>=7) + FCF quality ok + Owner Earnings positivo
+    buffett_cf = history.get("buffett_cashflow") or {}
+    is_buffett_seal = (
+        buffett_moat.get("score", 0) >= 7
+        and buffett_cf.get("fcf_quality_ok", False)
+        and buffett_cf.get("owner_earnings_positivo", False)
+    )
+
     return {
         "ticker":               ticker.upper(),
         "price_now":            round(price_now, 2),
@@ -144,6 +152,7 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
         "is_below_vpa_target":  is_below_vpa_target,
         "is_gold":              is_gold,
         "is_bronze":            is_bronze,
+        "is_buffett_seal":      is_buffett_seal,
     }
 
 
