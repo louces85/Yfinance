@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YFINANCE — Screening</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ─── Reset & base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:        #0d1117;
+  --surface:   #161b22;
+  --surface2:  #21262d;
+  --border:    #30363d;
+  --text:      #e6edf3;
+  --muted:     #8b949e;
+  --green-s:   #39d353;
+  --green:     #3fb950;
+  --yellow:    #d29922;
+  --red:       #f85149;
+  --blue:      #58a6ff;
+  --purple:    #a371f7;
+  --radius:    6px;
+}
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ─── Header ───────────────────────────────────────────────────── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-title { font-size: 16px; font-weight: 700; color: var(--green); letter-spacing: 1px; }
+.header-meta  { color: var(--muted); font-size: 11px; margin-left: auto; display: grid; grid-template-columns: auto auto; column-gap: 6px; row-gap: 2px; justify-items: start; }
+.header-meta .meta-label { color: var(--muted); white-space: nowrap; }
+.header-meta .meta-val   { color: var(--muted); white-space: nowrap; }
+.filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.filter-label { color: var(--muted); font-size: 11px; }
+
+/* ─── Zone filter buttons ──────────────────────────────────────── */
+.zone-btn {
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--muted);
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all .15s;
+}
+.zone-btn.active, .zone-btn:hover { color: var(--text); border-color: var(--blue); background: rgba(88,166,255,.12); }
+.zone-btn.active { font-weight: 600; }
+.zone-btn[data-zone="COMPRA_FORTE"].active  { border-color: var(--green-s); color: var(--green-s); background: rgba(57,211,83,.10); }
+.zone-btn[data-zone="COMPRA"].active        { border-color: var(--green);   color: var(--green);   background: rgba(63,185,80,.10); }
+.zone-btn[data-zone="MONITORAR"].active     { border-color: var(--yellow);  color: var(--yellow);  background: rgba(210,153,34,.10); }
+.zone-btn[data-zone="CARO"].active          { border-color: var(--red);     color: var(--red);     background: rgba(248,81,73,.10); }
+
+/* ─── VPA toggle ───────────────────────────────────────────────── */
+.toggle-vpa {
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; user-select: none; font-size: 11px; color: var(--muted);
+  border: 1px solid var(--border); background: var(--surface2);
+  padding: 4px 10px; border-radius: 20px; transition: all .15s;
+}
+.toggle-vpa.active { color: var(--purple); border-color: var(--purple); background: rgba(163,113,247,.10); }
+.toggle-vpa input { display: none; }
+
+/* ─── Sticky summary bars ──────────────────────────────────────── */
+#screeningSummary, #portfolioSummary {
+  position: sticky;
+  top: var(--header-h, 54px);
+  z-index: 95;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ─── Table wrapper ────────────────────────────────────────────── */
+.table-wrap {
+  overflow: auto;
+  max-height: calc(100vh - var(--table-top, 134px));
+  padding: 0 12px 40px;
+}
+
+/* ─── Table ────────────────────────────────────────────────────── */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 900px;
+}
+thead th {
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+  padding: 6px 8px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+thead th:hover { color: var(--text); }
+thead th.sorted-asc::after  { content: ' ↑'; color: var(--blue); }
+thead th.sorted-desc::after { content: ' ↓'; color: var(--blue); }
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background .1s;
+  cursor: pointer;
+}
+tbody tr:hover { background: var(--surface2); }
+td { padding: 5px 8px; text-align: center; white-space: nowrap; }
+td.col-ticker { text-align: left; }
+th.col-ticker { text-align: left; }
+td.col-zone   { text-align: left; }
+th.col-zone   { text-align: left; }
+td:first-child  { color: var(--muted); font-size: 12px; }
+
+/* ─── Ticker cell ──────────────────────────────────────────────── */
+.ticker-link { font-weight: 700; font-size: 13px; color: var(--text); }
+.ticker-link:hover { color: var(--blue); }
+.silver-icon { font-size: 10px; margin-left: 4px; opacity: .8; }
+.gold-icon { font-size: 10px; margin-left: 2px; opacity: .9; }
+.bronze-icon { font-size: 10px; margin-left: 4px; opacity: .8; }
+.buffett-seal-icon { font-size: 11px; margin-left: 3px; color: #f5c518; font-weight: 700; }
+
+/* ─── Zone badge ───────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+.badge-COMPRA_FORTE { background: rgba(57,211,83,.15);  color: var(--green-s); border: 1px solid var(--green-s); }
+.badge-COMPRA       { background: rgba(63,185,80,.12);  color: var(--green);   border: 1px solid var(--green); }
+.badge-MONITORAR    { background: rgba(210,153,34,.12); color: var(--yellow);  border: 1px solid var(--yellow); }
+.badge-CARO         { background: rgba(248,81,73,.10);  color: var(--red);     border: 1px solid var(--red); }
+.badge-SEM_PRECO    { background: rgba(139,148,158,.1); color: var(--muted);   border: 1px solid var(--border); }
+
+/* ─── pNow/pMin bar ────────────────────────────────────────────── */
+.ratio-cell { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+.ratio-val  { font-size: 12px; min-width: 38px; text-align: right; }
+.ratio-bar  { width: 60px; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+.ratio-fill { height: 100%; border-radius: 3px; transition: width .3s; }
+
+/* ─── Gain% color ──────────────────────────────────────────────── */
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+.nd  { color: var(--border); font-size: 11px; }
+
+/* ─── Rank pill ────────────────────────────────────────────────── */
+.rank-pill {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+}
+
+/* ─── Weighted score pill ──────────────────────────────────────── */
+.wscore-pill {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: monospace;
+  letter-spacing: .3px;
+}
+.wscore-high { background: rgba(57,211,83,.15);  color: var(--green-s); border: 1px solid rgba(57,211,83,.35); }
+.wscore-mid  { background: rgba(210,153,34,.12); color: var(--yellow);  border: 1px solid rgba(210,153,34,.35); }
+.wscore-low  { background: rgba(248,81,73,.10);  color: var(--red);     border: 1px solid rgba(248,81,73,.35); }
+
+/* ─── Buffett Moat Score pill ──────────────────────────────────── */
+.moat-pill {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: monospace;
+  letter-spacing: .3px;
+}
+.moat-forte    { background: rgba(57,211,83,.15);  color: var(--green-s); border: 1px solid rgba(57,211,83,.35); }
+.moat-moderado { background: rgba(210,153,34,.12); color: var(--yellow);  border: 1px solid rgba(210,153,34,.35); }
+.moat-fraco    { background: rgba(248,81,73,.10);  color: var(--red);     border: 1px solid rgba(248,81,73,.35); }
+
+/* ─── Piotroski badge ──────────────────────────────────────────── */
+.piotr-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: monospace;
+  letter-spacing: .3px;
+}
+.piotr-FORTE    { background: rgba(57,211,83,.12);  color: var(--green-s); border: 1px solid rgba(57,211,83,.3); }
+.piotr-MODERADO { background: rgba(210,153,34,.10); color: var(--yellow);  border: 1px solid rgba(210,153,34,.3); }
+.piotr-FRACO    { background: rgba(248,81,73,.08);  color: var(--red);     border: 1px solid rgba(248,81,73,.3); }
+
+/* ─── Tabs ─────────────────────────────────────────────────────── */
+.tab-group { display: flex; gap: 6px; }
+.tab-btn {
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--muted);
+  padding: 4px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .3px;
+  transition: all .15s;
+}
+.tab-btn.active { color: var(--blue); border-color: var(--blue); background: rgba(88,166,255,.12); }
+.tab-btn:hover:not(.active) { color: var(--text); }
+
+/* ─── Recommendation badges ────────────────────────────────────── */
+.rec-AUMENTAR       { background: rgba(57,211,83,.15);  color: var(--green-s); border: 1px solid var(--green-s); }
+.rec-COMPRAR_MAIS   { background: rgba(63,185,80,.12);  color: var(--green);   border: 1px solid var(--green); }
+.rec-AGUARDAR       { background: rgba(210,153,34,.12); color: var(--yellow);  border: 1px solid var(--yellow); }
+.rec-AVALIAR_VENDA  { background: rgba(248,81,73,.10);  color: var(--red);     border: 1px solid var(--red); }
+.rec-FORA_CRITERIOS { background: rgba(139,148,158,.10); color: var(--muted);  border: 1px solid var(--border); }
+
+/* ─── MODAL OVERLAY ────────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 200;
+  overflow-y: auto;
+  padding: 20px;
+  align-items: flex-start;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 900px;
+  padding: 24px;
+  position: relative;
+  margin: auto;
+}
+
+/* ─── Modal header ─────────────────────────────────────────────── */
+.modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: none; border: none;
+  color: var(--muted); font-size: 22px;
+  cursor: pointer; line-height: 1;
+  transition: color .1s;
+}
+.modal-close:hover { color: var(--text); }
+
+.modal-title {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* ─── Periodic element card ────────────────────────────────────── */
+.elem-card {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px 12px;
+  width: 210px;
+  background: var(--surface2);
+  gap: 2px;
+}
+.elem-symbol {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1;
+  text-align: center;
+  margin: 4px 0 8px;
+}
+.elem-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  line-height: 1.3;
+}
+.elem-sector {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 10px;
+}
+.elem-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 6px 0;
+}
+.elem-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+}
+.elem-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.elem-stat-label {
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.elem-stat-value {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+/* ─── Price cards ──────────────────────────────────────────────── */
+.price-cards {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+  align-content: start;
+}
+.price-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+  transition: border-color .15s, box-shadow .15s;
+}
+.price-card[data-tip] { cursor: help; }
+.price-card[data-tip]:hover {
+  border-color: var(--muted);
+  box-shadow: 0 2px 12px rgba(0,0,0,.3);
+}
+/* ─── Tooltip flutuante (JS-managed, position:fixed no body) ─── */
+#pcTooltip {
+  position: fixed;
+  z-index: 9999;
+  background: #161b22;
+  border: 1px solid #444c56;
+  color: #e6edf3;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 10px 13px;
+  border-radius: 8px;
+  max-width: 250px;
+  white-space: pre-wrap;
+  pointer-events: none;
+  box-shadow: 0 8px 28px rgba(0,0,0,.6);
+  opacity: 0;
+  transition: opacity .15s;
+}
+.price-card .pc-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; text-align: center; }
+.price-card .pc-value { font-size: 18px; font-weight: 700; text-align: center; }
+.price-card .pc-sub   { font-size: 10px; color: var(--muted); margin-top: 2px; text-align: center; }
+.pc-green { color: var(--green-s); }
+.pc-red   { color: var(--red); }
+.pc-blue  { color: var(--blue); }
+.pc-yellow { color: var(--yellow); }
+
+/* ─── Charts ───────────────────────────────────────────────────── */
+.chart-section { margin-bottom: 20px; }
+.chart-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+.chart-loading { color: var(--muted); font-size: 12px; padding: 20px; text-align: center; }
+.chart-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+
+/* ─── Bottom grid: criteria + indicators ──────────────────────── */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+@media (max-width: 620px) { .bottom-grid { grid-template-columns: 1fr; } }
+
+.section-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+
+/* ─── Criteria list ────────────────────────────────────────────── */
+.criteria-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.criteria-summary { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.criteria-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.criteria-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+.criteria-item .ci-icon { font-size: 12px; flex-shrink: 0; width: 16px; }
+.ci-ok   { color: var(--green); }
+.ci-fail { color: var(--red); opacity: .6; }
+
+/* ─── Indicators grid ──────────────────────────────────────────── */
+.indicators-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.ind-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+.ind-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+.ind-label { color: var(--muted); }
+.ind-value { font-weight: 600; }
+
+/* ─── Dividends chart ──────────────────────────────────────────── */
+.div-chart-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════════════ -->
+<div class="header">
+  <span class="header-title">⬡ YFINANCE</span>
+
+  <div class="tab-group">
+    <button class="tab-btn active" data-tab="screening">Screening</button>
+    <button class="tab-btn" data-tab="carteira">Carteira</button>
+  </div>
+
+  <div class="header-meta" id="lastUpdated">
+    <span class="meta-label">Atualizado:</span><span class="meta-val" id="lastUpdatedLine">—</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ TABLE ════════════════════════════════ -->
+<div id="screeningView">
+<div id="screeningSummary"></div>
+<div class="table-wrap">
+<table id="mainTable">
+  <thead>
+    <tr>
+      <th data-col="#">#</th>
+      <th data-col="ticker" class="col-ticker">Ativo</th>
+      <th data-col="price_now">Preço (R$)</th>
+      <th data-col="price_target_6pct">Alvo Bazin (R$)</th>
+      <th data-col="gain_pct">Potencial (%)</th>
+      <th data-col="price_min_6m">Mín. 6m (R$)</th>
+      <th data-col="price_max_6m">Máx. 6m (R$)</th>
+      <th data-col="p_now_p_min">Dist. Mín.</th>
+      <th data-col="weighted_score">Score</th>
+      <th data-col="buffett_moat_score">MOAT</th>
+      <th data-col="piotroski_score" class="col-zone">Saúde</th>
+      <th data-col="accumulation_score">Acum. 6m (%)</th>
+      <th data-col="accumulation_recent_days">Acum. 5d (%)</th>
+      <th data-col="zone" class="col-zone">Sinal</th>
+    </tr>
+  </thead>
+  <tbody id="tbody"></tbody>
+</table>
+</div>
+</div>
+
+<!-- ═══════════════════════ CARTEIRA ═════════════════════════════ -->
+<div id="portfolioView" style="display:none">
+  <div id="portfolioSummary"></div>
+  <div class="table-wrap">
+    <table id="portfolioTable">
+      <thead>
+        <tr>
+          <th data-ptcol="#">#</th>
+          <th data-ptcol="ticker">Ativo</th>
+          <th data-ptcol="qtd">Qtd</th>
+          <th data-ptcol="preco_medio">PM (R$)</th>
+          <th data-ptcol="preco_atual">Preço (R$)</th>
+          <th data-ptcol="total_investido">Investido (R$)</th>
+          <th data-ptcol="valor_atual">Valor (R$)</th>
+          <th data-ptcol="retorno">Retorno (R$)</th>
+          <th data-ptcol="retorno_pct">Retorno (%)</th>
+          <th data-ptcol="dy_on_cost">DY s/PM (%)</th>
+          <th data-ptcol="weighted_score">Score</th>
+          <th data-ptcol="buffett_moat_score">MOAT</th>
+          <th data-ptcol="piotroski_score" class="col-zone">Saúde</th>
+          <th data-ptcol="zone" class="col-zone">Sinal</th>
+        </tr>
+      </thead>
+      <tbody id="ptbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MODAL ════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">×</button>
+
+    <div class="modal-title">
+      <div class="elem-card" id="mElemCard"></div>
+      <div class="price-cards" id="priceCards"></div>
+    </div>
+
+    <!-- Price + volume chart -->
+    <div class="chart-section">
+      <div class="chart-title">Preço & Volume — 6 meses</div>
+      <div class="chart-box">
+        <div class="chart-loading" id="chartLoading">Carregando gráfico…</div>
+        <canvas id="priceChart" style="display:none; max-height:260px"></canvas>
+        <canvas id="volChart"   style="display:none; max-height:120px; margin-top:8px"></canvas>
+      </div>
+    </div>
+
+    <!-- Criteria + Indicators -->
+    <div class="bottom-grid">
+      <div>
+        <div class="section-title">Critérios</div>
+        <div class="criteria-box">
+          <div class="criteria-summary" id="critSummary"></div>
+          <ul class="criteria-list" id="critList"></ul>
+        </div>
+      </div>
+      <div>
+        <div class="section-title">Indicadores</div>
+        <div class="indicators-box">
+          <div class="ind-grid" id="indGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Piotroski F-Score -->
+    <div>
+      <div class="section-title">Piotroski F-Score</div>
+      <div class="indicators-box" id="piotroskiBox"></div>
+    </div>
+
+    <!-- Buffett Moat Score -->
+    <div>
+      <div class="section-title">Buffett Moat Score</div>
+      <div class="indicators-box" id="buffettMoatBox"></div>
+    </div>
+
+    <!-- Dividends bar chart -->
+    <div>
+      <div class="section-title">Dividendos por Ano</div>
+      <div class="div-chart-box">
+        <canvas id="divChart" style="max-height:180px"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════ SCRIPT ═══════════════════════════════ -->
+<script>
+// ─── State ──────────────────────────────────────────────────────
+let allData     = [];
+let sortCol     = 'p_now_p_min';
+let sortDir     = 'asc';
+
+// Ordem customizada da coluna Sinal
+const ZONE_RANK = { COMPRA_FORTE: 1, COMPRA: 2, MONITORAR: 3, CARO: 4 };
+function _zoneRank(item) {
+  if (item && item.recommendation === 'FORA_CRITERIOS') return 5;
+  return (item && ZONE_RANK[item.zone]) || 6;
+}
+let zoneFilter  = 'ALL';
+let vpaOnly       = false;
+let goldOnly      = false;
+let bronzeOnly    = false;
+let buffettOnly   = false;
+let hideAcima   = true;
+let priceChartInst = null;
+let volChartInst   = null;
+let divChartInst   = null;
+const chartCache   = new Map(); // ticker → chartData
+
+// ─── Helpers ─────────────────────────────────────────────────────
+const nd     = () => '<span class="nd">—</span>';
+const fmt2   = v => v != null ? v.toFixed(2) : nd();
+const fmtPct = v => (v != null && v >= 0) ? '+' + v.toFixed(2) + '%' : nd();
+const fmtBRL = v => v != null ? 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : nd();
+const fmtBRLv = v => v != null ? v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : nd();
+const fmtR  = v => v != null ? 'R$ ' + v.toFixed(2) : nd();
+
+function accColor(v) {
+  if (v == null) return '#8b949e';
+  if (v >= 60)   return '#39d353';
+  if (v >= 40)   return '#d29922';
+  return '#8b949e';
+}
+
+// Acumulação recente: dias/total — ex: 3/5 = 60% → verde; 1/5 → cinza
+function accRecentColor(days, total) {
+  if (days == null || total == null || total === 0) return '#8b949e';
+  const pct = days / total;
+  if (pct >= 0.6) return '#39d353';
+  if (pct >= 0.4) return '#d29922';
+  return '#8b949e';
+}
+
+function ratioColor(v) {
+  if (v == null) return '#8b949e';
+  if (v <= 1.05) return '#39d353';
+  if (v <= 1.20) return '#3fb950';
+  if (v <= 1.40) return '#d29922';
+  if (v <= 1.60) return '#f0883e';
+  return '#f85149';
+}
+function ratioBarWidth(v) {
+  if (v == null) return 0;
+  // Escala raiz quadrada: ancora em 0.85 → expande diferenças perto de 1.0
+  const norm = Math.max(0, v - 0.85) / 1.35;
+  return Math.min(Math.max(Math.sqrt(norm) * 100, 5), 100);
+}
+
+function wscoreClass(v) {
+  if (v == null) return 'low';
+  if (v >= 65)   return 'high';
+  if (v >= 45)   return 'mid';
+  return 'low';
+}
+
+function moatClass(label) {
+  if (!label) return 'fraco';
+  return label.toLowerCase();
+}
+
+// ─── Sort ─────────────────────────────────────────────────────────
+document.querySelectorAll('thead th').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (!col || col === '#') return;
+    if (sortCol === col) {
+      sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      sortCol = col;
+      sortDir = 'asc';
+    }
+    document.querySelectorAll('thead th').forEach(h => {
+      h.classList.remove('sorted-asc', 'sorted-desc');
+    });
+    th.classList.add(sortDir === 'asc' ? 'sorted-asc' : 'sorted-desc');
+    renderTable();
+  });
+});
+
+// ─── Render table ─────────────────────────────────────────────────
+function renderTable() {
+  let data = [...allData];
+
+  // Filter
+  if (hideAcima && zoneFilter !== 'CARO') data = data.filter(s => s.zone !== 'CARO');
+  if (zoneFilter !== 'ALL') data = data.filter(s => s.zone === zoneFilter);
+  if (vpaOnly)      data = data.filter(s => s.is_below_vpa_target && !s.is_gold);
+  if (goldOnly)     data = data.filter(s => s.is_gold);
+  if (bronzeOnly)   data = data.filter(s => s.is_bronze);
+  if (buffettOnly)  data = data.filter(s => s.is_buffett_seal);
+
+  // Sort
+  data.sort((a, b) => {
+    if (sortCol === 'zone') {
+      const diff = _zoneRank(a) - _zoneRank(b);
+      return sortDir === 'asc' ? diff : -diff;
+    }
+    let va = a[sortCol], vb = b[sortCol];
+    if (va == null) va = sortDir === 'asc' ?  Infinity : -Infinity;
+    if (vb == null) vb = sortDir === 'asc' ?  Infinity : -Infinity;
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    if (va < vb) return sortDir === 'asc' ? -1 :  1;
+    if (va > vb) return sortDir === 'asc' ?  1 : -1;
+    return 0;
+  });
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = data.map((s, i) => {
+    const gainClass = (s.gain_pct != null && s.gain_pct >= 0) ? 'pos' : '';
+    const silverIcon      = (s.is_below_vpa_target && !s.is_gold) ? '<span class="silver-icon" data-tip="Prata: Valor abaixo do VPA e do Alvo Bazin 6%.\nMargem de segurança dupla: desconto patrimonial e preço dentro da zona de compra por dividendos.">🥈</span>' : '';
+    const goldIcon        = s.is_gold        ? '<span class="gold-icon"         data-tip="Ouro Barsi: Valor atual abaixo VPA e do Alvo Bazin e com dividendos crescente.\nPreço baixo, dividendo sustentável e em crescimento — conjunto mais favorável.">🥇</span>' : '';
+    const bronzeIcon      = s.is_bronze      ? '<span class="bronze-icon"       data-tip="Bronze: Abaixo do Alvo Bazin 6%, porém acima do VPA.\nAtrativo por dividendos, sem desconto sobre o valor patrimonial.">🥉</span>' : '';
+    const buffettSealIcon = s.is_buffett_seal ? '<span class="buffett-seal-icon" data-tip="Selo Buffett: Moat FORTE com FCF positivo e Owner Earnings positivo.\nEmpresas com vantagem competitiva durável e geração de caixa de alta qualidade.">★</span>' : '';
+    const ratio     = s.p_now_p_min;
+    const barColor  = ratioColor(ratio);
+    const barWidth  = ratioBarWidth(ratio);
+
+    return `<tr onclick="openDetail('${s.ticker}', event)">
+      <td>${i + 1}</td>
+      <td class="col-ticker">
+        <a class="ticker-link" href="https://www.google.com/finance/quote/${s.ticker}:BVMF?window=1Y"
+           target="_blank" onclick="event.stopPropagation()">${s.ticker}</a>${silverIcon}${goldIcon}${bronzeIcon}${buffettSealIcon}
+      </td>
+      <td>${fmt2(s.price_now)}</td>
+      <td>${fmt2(s.price_target_6pct)}</td>
+      <td class="${gainClass}">${s.gain_pct != null && s.gain_pct >= 0 ? '+' + s.gain_pct.toFixed(2) : nd()}</td>
+      <td>${fmt2(s.price_min_6m)}</td>
+      <td>${fmt2(s.price_max_6m)}</td>
+      <td>
+        <div class="ratio-cell">
+          <span class="ratio-val" style="color:${barColor}">${ratio != null ? ratio.toFixed(2) : nd()}</span>
+          <div class="ratio-bar">
+            <div class="ratio-fill" style="width:${barWidth}%;background:${barColor}"></div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center" title="${s.weighted_score != null ? `Score ${s.weighted_score.toFixed(1)}% · ${s.rank}/${s.rank_max} critérios` : ''}">
+        ${s.weighted_score != null ? `<span class="wscore-pill wscore-${wscoreClass(s.weighted_score)}">${s.weighted_score.toFixed(1)}</span>` : nd()}
+      </td>
+      <td style="text-align:center" title="${s.buffett_moat_score != null ? `Buffett Moat ${s.buffett_moat_score}/10 · ${s.buffett_moat_label}` : ''}">
+        ${s.buffett_moat_score != null ? `<span class="moat-pill moat-${moatClass(s.buffett_moat_label)}">${s.buffett_moat_score}/10</span>` : nd()}
+      </td>
+      <td class="col-zone" title="${s.piotroski_label ? `Piotroski ${s.piotroski_score}/9 · ${s.piotroski_label}` : ''}">
+        ${s.piotroski_label ? `<span class="piotr-badge piotr-${s.piotroski_label}">${s.piotroski_score}/9</span>` : '—'}
+      </td>
+      <td style="color:${accColor(s.accumulation_score)};font-weight:600">${s.accumulation_score != null ? s.accumulation_score.toFixed(1) : nd()}</td>
+      <td style="color:${accRecentColor(s.accumulation_recent_days, s.accumulation_recent_total)};font-weight:600">${s.accumulation_recent_days != null && s.accumulation_recent_total > 0 ? (s.accumulation_recent_days / s.accumulation_recent_total * 100).toFixed(1) : nd()}</td>
+      <td class="col-zone"><span class="badge badge-${s.zone}">${zoneLbl(s.zone)}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function zoneLbl(z) {
+  return { COMPRA_FORTE:'▲ FORTE', COMPRA:'▲ COMPRA', MONITORAR:'◉ AGUARDAR', CARO:'▲ ACIMA', SEM_PRECO:'— S/PREÇO' }[z] || z;
+}
+
+// ─── Gauge SVG (donut) ────────────────────────────────────────────
+function buildGaugeSVG(pct) {
+  const cx = 70, cy = 70, r = 52, sw = 13;
+  const p  = Math.max(0, Math.min(1, pct / 100));
+
+  let color, label;
+  if      (pct < 25) { color = '#f85149'; label = 'Mercado Caro'; }
+  else if (pct < 50) { color = '#d29922'; label = 'Neutro';       }
+  else if (pct < 75) { color = '#3fb950'; label = 'Bom Momento';  }
+  else               { color = '#39d353'; label = 'Oportunidade'; }
+
+  // arco horário a partir do topo
+  const angle = p * 2 * Math.PI;
+  const ex = cx + r * Math.sin(angle);
+  const ey = cy - r * Math.cos(angle);
+  const largeArc = p > 0.5 ? 1 : 0;
+
+  const fillPath = p < 0.005 ? '' :
+    p > 0.995
+      ? `<circle cx="${cx}" cy="${cy}" r="${r}" stroke="${color}" stroke-width="${sw}" fill="none"/>`
+      : `<path d="M ${cx},${cy - r} A ${r},${r} 0 ${largeArc},1 ${ex.toFixed(2)},${ey.toFixed(2)}"
+          stroke="${color}" stroke-width="${sw}" fill="none" stroke-linecap="round"/>`;
+
+  return `<svg viewBox="0 0 140 140" width="140" height="140" style="display:block;margin:0 auto">
+    <circle cx="${cx}" cy="${cy}" r="${r}" stroke="#21262d" stroke-width="${sw}" fill="none"/>
+    ${fillPath}
+    <text x="${cx}" y="${cy - 6}" text-anchor="middle" fill="${color}"
+      font-size="24" font-weight="700" font-family="-apple-system,sans-serif">${Math.round(pct)}%</text>
+    <text x="${cx}" y="${cy + 14}" text-anchor="middle" fill="#8b949e"
+      font-size="11" font-family="-apple-system,sans-serif">${label}</text>
+  </svg>`;
+}
+
+// ─── Screening summary ────────────────────────────────────────────
+function renderScreeningSummary() {
+  const total    = allData.length;
+  const forte    = allData.filter(s => s.zone === 'COMPRA_FORTE').length;
+  const compra   = allData.filter(s => s.zone === 'COMPRA').length;
+  const monitorar = allData.filter(s => s.zone === 'MONITORAR').length;
+  const acima    = allData.filter(s => s.zone === 'CARO').length;
+  const silver   = allData.filter(s => s.is_below_vpa_target && !s.is_gold).length;
+  const gold     = allData.filter(s => s.is_gold).length;
+  const bronze   = allData.filter(s => s.is_bronze).length;
+  const buffett  = allData.filter(s => s.is_buffett_seal).length;
+
+  const cards = [
+    { label: 'Ativos',       value: total,     color: 'var(--text)',    zone: 'ALL',          vpa: false, gold: false, bronze: false },
+    { label: 'Compra Forte', value: forte,     color: 'var(--green-s)', zone: 'COMPRA_FORTE', vpa: false, gold: false, bronze: false },
+    { label: 'Compra',       value: compra,    color: 'var(--green)',   zone: 'COMPRA',       vpa: false, gold: false, bronze: false },
+    { label: 'Aguardar',     value: monitorar, color: 'var(--yellow)',  zone: 'MONITORAR',    vpa: false, gold: false, bronze: false },
+    { label: hideAcima ? '💸 Acima' : '▲ Acima', value: acima, color: hideAcima ? 'var(--border)' : 'var(--red)', zone: 'CARO', vpa: false, gold: false, bronze: false, acima: true, title: hideAcima ? 'Clique para ver ações acima do alvo' : 'Clique para ocultar ações ACIMA' },
+    { label: '🥇', value: gold,    color: '#d4a017',        zone: null, vpa: false, gold: true,  bronze: false, title: 'Ouro Barsi: Valor atual abaixo VPA e do Alvo Bazin e com dividendos crescente.\nPreço baixo, dividendo sustentável e em crescimento — conjunto mais favorável.' },
+    { label: '🥈', value: silver,  color: '#a0a0a0',        zone: null, vpa: true,  gold: false, bronze: false, title: 'Prata: Valor abaixo do VPA e do Alvo Bazin 6%.\nMargem de segurança dupla: desconto patrimonial e preço dentro da zona de compra por dividendos.' },
+    { label: '🥉', value: bronze,  color: '#cd7f32',        zone: null, vpa: false, gold: false, bronze: true,   buffett: false, title: 'Bronze: Abaixo do Alvo Bazin 6%, porém acima do VPA.\nAtrativo por dividendos, sem desconto sobre o valor patrimonial.' },
+    { label: '<span style="color:#f5c518">★</span>',  value: buffett, color: '#f5c518',        zone: null, vpa: false, gold: false, bronze: false,  buffett: true,  title: 'Selo Buffett: Moat FORTE com FCF positivo e Owner Earnings positivo.\nEmpresas com vantagem competitiva durável e geração de caixa de alta qualidade.' },
+  ];
+
+  document.getElementById('screeningSummary').innerHTML =
+    `<div style="display:flex;gap:10px;padding:12px 12px 4px;flex-wrap:wrap;align-items:flex-start;padding-bottom:8px">
+      ${cards.map((c, i) => {
+        const isActive = c.acima ? !hideAcima : c.gold ? goldOnly : c.bronze ? bronzeOnly : c.vpa ? vpaOnly : c.buffett ? buffettOnly : (!vpaOnly && !goldOnly && !bronzeOnly && !buffettOnly && zoneFilter === c.zone);
+        const activeStyle = isActive ? `outline:2px solid ${c.color};outline-offset:2px;` : '';
+        const opacityStyle = c.acima && hideAcima ? 'opacity:0.4;' : '';
+        return `<div class="price-card summary-card" data-zone="${c.zone || ''}" data-vpa="${c.vpa}" data-gold="${c.gold}" data-bronze="${c.bronze}" data-buffett="${c.buffett || false}" data-acima="${c.acima || false}"
+                  ${c.title ? `data-tip="${c.title}"` : ''}
+                  style="min-width:90px;cursor:pointer;transition:all .15s;${opacityStyle}${activeStyle}">
+          <div class="pc-label">${c.label}</div>
+          <div class="pc-value" style="color:${c.color}">${c.value}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  document.querySelectorAll('.summary-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const isVpa     = card.dataset.vpa     === 'true';
+      const isGold    = card.dataset.gold    === 'true';
+      const isBronze  = card.dataset.bronze  === 'true';
+      const isBuffett = card.dataset.buffett === 'true';
+      const isAcima   = card.dataset.acima   === 'true';
+      const zone      = card.dataset.zone;
+      if (isAcima) {
+        if (hideAcima) {
+          hideAcima  = false;
+          zoneFilter = 'CARO';
+        } else {
+          hideAcima  = true;
+          zoneFilter = 'ALL';
+        }
+        vpaOnly     = false;
+        goldOnly    = false;
+        bronzeOnly  = false;
+        buffettOnly = false;
+      } else if (isGold) {
+        goldOnly    = !goldOnly;
+        vpaOnly     = false;
+        bronzeOnly  = false;
+        buffettOnly = false;
+        zoneFilter  = 'ALL';
+      } else if (isVpa) {
+        vpaOnly     = !vpaOnly;
+        goldOnly    = false;
+        bronzeOnly  = false;
+        buffettOnly = false;
+        zoneFilter  = 'ALL';
+      } else if (isBronze) {
+        bronzeOnly  = !bronzeOnly;
+        goldOnly    = false;
+        vpaOnly     = false;
+        buffettOnly = false;
+        zoneFilter  = 'ALL';
+      } else if (isBuffett) {
+        buffettOnly = !buffettOnly;
+        goldOnly    = false;
+        vpaOnly     = false;
+        bronzeOnly  = false;
+        zoneFilter  = 'ALL';
+      } else {
+        zoneFilter  = zone || 'ALL';
+        vpaOnly     = false;
+        goldOnly    = false;
+        bronzeOnly  = false;
+        buffettOnly = false;
+      }
+      renderScreeningSummary();
+      renderTable();
+    });
+  });
+  requestAnimationFrame(syncStickyOffsets);
+}
+
+// ─── Load data ────────────────────────────────────────────────────
+let lastUpdatedTs = null;
+
+function _applyDecision(json) {
+  allData = json.stocks || [];
+  lastUpdatedTs = json.last_updated || null;
+  const _d = json.last_updated ? new Date(json.last_updated) : null;
+  const updatedStr = _d && !isNaN(_d)
+    ? String(_d.getDate()).padStart(2,'0') + '-' + String(_d.getMonth()+1).padStart(2,'0') + '-' + _d.getFullYear()
+      + ' ' + String(_d.getHours()).padStart(2,'0') + ':' + String(_d.getMinutes()).padStart(2,'0')
+    : (json.last_updated || '—').substring(0, 16).replace('T', ' ');
+  document.getElementById('lastUpdatedLine').textContent = updatedStr;
+}
+
+async function loadDecision() {
+  const res  = await fetch('/api/decision');
+  const json = await res.json();
+  _applyDecision(json);
+
+  // default sort by p_now_p_min asc
+  document.querySelector('th[data-col="p_now_p_min"]').classList.add('sorted-asc');
+  renderScreeningSummary();
+  renderTable();
+  requestAnimationFrame(syncStickyOffsets);
+}
+
+// ─── Silent auto-refresh (sem piscar) ────────────────────────────
+async function silentRefresh() {
+  try {
+    const res  = await fetch('/api/decision');
+    const json = await res.json();
+    if (!json.stocks || json.last_updated === lastUpdatedTs) return; // sem mudança
+
+    _applyDecision(json);
+    renderScreeningSummary();
+    renderTable();
+
+    // Badge sutil: aparece e desaparece em 3s
+    const el = document.getElementById('lastUpdated');
+    el.style.transition = 'opacity .3s';
+    el.style.opacity = '0.3';
+    setTimeout(() => { el.style.opacity = '1'; }, 300);
+  } catch (_) { /* falha silenciosa */ }
+}
+
+// Polling a cada 5 minutos
+setInterval(silentRefresh, 5 * 60 * 1000);
+
+// ─── MODAL LOGIC ──────────────────────────────────────────────────
+const FLAG_LABELS = {
+  dy_ok:               'DY real ≥ 6%',
+  abaixo_target_6pct:  'Preço ≤ Target 6%',
+  abaixo_target_8pct:  'Preço ≤ Target 8%',
+  p_vp_ok:             'P/VP ≤ 1.5',
+  abaixo_vpa:          'Preço ≤ VPA',
+  p_l_ok:              'P/L entre 0 e 15',
+  graham_combo_ok:     'P/L × P/VP ≤ 22.5 (Graham)',
+  dl_pl_ok:            'Dívida Líq./PL ≤ 1',
+  dl_ebitda_ok:        'Dívida Líq./EBITDA ≤ 3',
+  liquidez_corrente_ok:'Liquidez Corrente ≥ 2 (Graham)',
+  margem_ebit_ok:      'Margem EBIT ≥ 10%',
+  margem_liq_ok:       'Margem Líquida ≥ 10%',
+  roe_ok:              'ROE ≥ 10%',
+  roic_ok:             'ROIC ≥ 10%',
+  cagr_receita_ok:     'CAGR Receita 5a ≥ 5%',
+  cagr_lucro_ok:       'CAGR Lucro 5a ≥ 5%',
+  payout_ok:           'Payout 40–80% (Bazin)',
+  dividendo_crescente_ok: 'Dividendo crescente (5 anos)',
+  liquidez_diaria_ok:  'Liquidez diária ≥ R$200k',
+  passivo_ativo_ok:    'Passivo/Ativo ≤ 1',
+  accumulation_ok:     'Acumulação silenciosa ≥ 50% (Barsi)',
+};
+
+const IND_CONF = [
+  ['dy',                    'DY (indicador)',    v => v != null ? v.toFixed(2) + '%' : nd()],
+  ['p_l',                   'P/L',               v => v != null ? v.toFixed(2) : nd()],
+  ['p_vp',                  'P/VP',              v => v != null ? v.toFixed(2) : nd()],
+  ['vpa',                   'VPA',               v => v != null ? 'R$ ' + v.toFixed(2) : nd()],
+  ['p_l_x_p_vp',            'P/L × P/VP',        v => v != null ? v.toFixed(2) : nd()],
+  ['dl_pl',                 'DL/PL',             v => v != null ? v.toFixed(2) : nd()],
+  ['dl_ebitda',             'DL/EBITDA',         v => v != null ? v.toFixed(2) : nd()],
+  ['passivo_ativo',         'Passivo/Ativo',     v => v != null ? v.toFixed(2) : nd()],
+  ['liquidez_corrente',     'Liq. Corrente',     v => v != null ? v.toFixed(2) : nd()],
+  ['margem_ebit',           'M. EBIT',           v => v != null ? v.toFixed(2) + '%' : nd()],
+  ['margem_liq',            'M. Líquida',        v => v != null ? v.toFixed(2) + '%' : nd()],
+  ['roe',                   'ROE',               v => v != null ? v.toFixed(2) + '%' : nd()],
+  ['roic',                  'ROIC',              v => v != null ? v.toFixed(2) + '%' : nd()],
+  ['cagr_receita',          'CAGR Receita 5a',   v => v != null ? v.toFixed(2) + '%' : nd()],
+  ['cagr_lucro',            'CAGR Lucro 5a',     v => v != null ? v.toFixed(2) + '%' : nd()],
+  ['liquidez_diaria_milhoes','Liq. Diária (M)',  v => v != null ? 'R$ ' + v.toFixed(2) + 'M' : nd()],
+];
+
+async function openDetail(ticker, e) {
+  if (e) e.stopPropagation();
+  destroyCharts();
+
+  document.getElementById('modalOverlay').classList.add('open');
+  const elemCard = document.getElementById('mElemCard');
+  elemCard.dataset.ticker = ticker;
+  elemCard.innerHTML = `<div class="elem-symbol" style="color:var(--muted)">${ticker}</div>`;
+  document.getElementById('priceCards').innerHTML = '<div style="color:var(--muted)">Carregando…</div>';
+  document.getElementById('critList').innerHTML   = '';
+  document.getElementById('critSummary').textContent = '';
+  document.getElementById('indGrid').innerHTML    = '';
+  document.getElementById('piotroskiBox').innerHTML = '';
+  document.getElementById('buffettMoatBox').innerHTML = '';
+  document.getElementById('chartLoading').style.display = 'block';
+  document.getElementById('priceChart').style.display   = 'none';
+  document.getElementById('volChart').style.display     = 'none';
+
+  // Find decision entry (already in memory — instant)
+  const dec = allData.find(s => s.ticker === ticker) || {};
+
+  // Fast fetches (disk reads ~5ms each) — run in parallel
+  const [valRes, histRes] = await Promise.all([
+    fetch(`/api/valuation/${ticker}`).then(r => r.json()).catch(() => ({})),
+    fetch(`/api/history/${ticker}`).then(r => r.json()).catch(() => ({})),
+  ]);
+
+  // Para ativos fora do screening (FORA_CRITERIOS), usa val como fonte de dados
+  // pois dec (decision_stocks) estará vazio para esses ativos
+  const effectiveDec = dec.ticker ? dec : _decFromVal(ticker, valRes);
+
+  // ── Render immediately with fast data
+  renderElementCard(ticker, effectiveDec, valRes);
+  renderPriceCards(effectiveDec, valRes);
+  renderCriteria(valRes.flags || {});
+  renderIndicators(valRes.indicators || {});
+  renderPiotroski(valRes.piotroski || null);
+  renderBuffettMoat(valRes.buffett_moat || null);
+  renderDivChart(histRes, null);
+
+  // ── Background fetches (slow — Yahoo Finance + network)
+  const isModalOpen = () =>
+    document.getElementById('modalOverlay').classList.contains('open') &&
+    document.getElementById('mElemCard').dataset.ticker === ticker;
+
+  // Dividendos YTD do ano corrente (parallel, low priority)
+  fetch(`/api/dividends_ytd/${ticker}`)
+    .then(r => r.json())
+    .catch(() => null)
+    .then(ytdRes => {
+      if (ytdRes && isModalOpen()) renderDivChart(histRes, ytdRes);
+    });
+
+  // Gráfico de preço/volume: usa cache ou busca em background
+  if (chartCache.has(ticker)) {
+    renderCharts(chartCache.get(ticker), effectiveDec, valRes);
+  } else {
+    fetch(`/api/chart/${ticker}`)
+      .then(r => r.json())
+      .catch(() => null)
+      .then(chartRes => {
+        if (chartRes && !chartRes.error) chartCache.set(ticker, chartRes);
+        if (isModalOpen()) renderCharts(chartRes, effectiveDec, valRes);
+      });
+  }
+}
+
+// Constrói um objeto compatível com "dec" a partir de valRes
+// (usado para ativos da carteira que não passaram no screening)
+function _decFromVal(ticker, val) {
+  if (!val || val.error) return { ticker };
+  const ws = val.weighted_score || {};
+  const pio = val.piotroski || {};
+  const moat = val.buffett_moat || {};
+  const ind = val.indicators || {};
+  return {
+    ticker,
+    zone:               val.zone,
+    price_now:          val.price_now,
+    price_target_6pct:  val.price_target_6pct,
+    price_target_8pct:  val.price_target_8pct,
+    price_target_5pct:  val.price_target_5pct,
+    price_min_6m:       val.price_min_6m,
+    price_max_6m:       val.price_max_6m,
+    gain_pct:           val.gain_pct_to_target,
+    dy_real:            val.dy_real,
+    payout:             val.payout,
+    accumulation_score: val.accumulation_score,
+    p_now_p_min:        val.p_now_p_min,
+    avg_dividends_5y:   val.avg_dividends_5y,
+    weighted_score:     ws.score,
+    piotroski_score:    pio.score,
+    piotroski_label:    pio.label,
+    buffett_moat_score: moat.score,
+    buffett_moat_label: moat.label,
+    sector:             ind.sector,
+    dividend_growing:   val.flags ? val.flags.dividendo_crescente_ok : false,
+    is_gold: false, is_below_vpa_target: false, is_bronze: false, is_buffett_seal: false,
+  };
+}
+
+function renderElementCard(ticker, dec, val) {
+  const zoneColors = {
+    COMPRA_FORTE: 'var(--green-s)',
+    COMPRA:       'var(--green)',
+    MONITORAR:    'var(--yellow)',
+    CARO:         'var(--red)',
+    SEM_PRECO:    'var(--muted)',
+  };
+  const color = zoneColors[dec.zone] || 'var(--border)';
+
+  const scoreStr   = dec.weighted_score != null ? dec.weighted_score.toFixed(1) + '%' : '—';
+  const scoreColor = dec.weighted_score != null
+    ? (dec.weighted_score >= 65 ? 'var(--green-s)' : dec.weighted_score >= 40 ? 'var(--yellow)' : 'var(--red)')
+    : 'var(--muted)';
+  const healthStr  = dec.piotroski_score != null ? `P:${dec.piotroski_score}/9` : '—';
+  const healthColor = { FORTE: 'var(--green-s)', MODERADO: 'var(--yellow)', FRACO: 'var(--red)' }[dec.piotroski_label] || 'var(--muted)';
+  const moatStr    = dec.buffett_moat_score != null ? `${dec.buffett_moat_score}/10` : '—';
+  const _moatColors = { FORTE: 'var(--green-s)', MODERADO: 'var(--yellow)', FRACO: 'var(--red)' };
+  const moatColor  = _moatColors[dec.buffett_moat_label] || 'var(--muted)';
+
+  const company = (val.companyname || '').toUpperCase();
+  const sector  = dec.sector && dec.sector !== '-' ? dec.sector : '';
+
+  const medal      = dec.is_gold ? '🥇' : dec.is_below_vpa_target ? '🥈' : dec.is_bronze ? '🥉' : '';
+  const buffettSeal = dec.is_buffett_seal ? ' <span style="color:#f5c518;font-size:18px" data-tip="Selo Buffett: Moat FORTE + FCF positivo + Owner Earnings positivo.\nEmpresas com vantagem competitiva durável e geração de caixa de alta qualidade.">★</span>' : '';
+  const foraWarning = val.fora_criterios_pre
+    ? `<div style="margin-top:8px;padding:4px 8px;border-radius:4px;background:rgba(139,148,158,.15);color:var(--muted);font-size:10px;text-align:center" title="Não passou nos filtros obrigatórios do screening">⚠ Fora dos critérios</div>`
+    : '';
+
+  const card = document.getElementById('mElemCard');
+  card.style.borderColor = color;
+  card.innerHTML = `
+    <span class="badge badge-${dec.zone}" style="align-self:center;margin-bottom:6px">${zoneLbl(dec.zone || '')}</span>
+    <div class="elem-symbol" style="color:${color}">${ticker}</div>
+    <div class="elem-name">${company}</div>
+    ${sector ? `<div class="elem-sector">${sector}</div>` : ''}
+    <hr class="elem-divider">
+    <div class="elem-stats">
+      <div class="elem-stat">
+        <span class="elem-stat-label">Score</span>
+        <span class="elem-stat-value" style="color:${scoreColor}">${scoreStr}</span>
+      </div>
+      <div class="elem-stat">
+        <span class="elem-stat-label">MOAT</span>
+        <span class="elem-stat-value" style="color:${moatColor}">${moatStr}</span>
+      </div>
+      <div class="elem-stat">
+        <span class="elem-stat-label">Saúde</span>
+        <span class="elem-stat-value" style="color:${healthColor}">${healthStr}</span>
+      </div>
+    </div>
+    ${(medal || buffettSeal) ? `<div style="text-align:center;font-size:22px;margin-top:10px">${medal}${buffettSeal}</div>` : ''}
+    ${foraWarning}
+  `;
+}
+
+function renderPriceCards(dec, val) {
+  const acum5pct = (dec.accumulation_recent_days != null && dec.accumulation_recent_total > 0)
+    ? dec.accumulation_recent_days / dec.accumulation_recent_total * 100 : null;
+  const cards = [
+    { label: 'Preço Atual',
+      value: fmtR(dec.price_now),
+      sub: 'última cotação',
+      cls: '',
+      tip: 'Último preço negociado em bolsa. Atualizado a cada 30 minutos durante o pregão.' },
+    { label: 'Target 6%',
+      value: fmtR(dec.price_target_6pct),
+      sub: 'Bazin · Barsi',
+      cls: 'pc-green',
+      tip: 'Preço-alvo pelo método Bazin/Barsi: dividendo médio 5 anos ÷ 6%.\nRepresenta o preço máximo para obter renda passiva de 6% a.a. — piso de valuation por dividendos.' },
+    { label: 'Target 8%',
+      value: fmtR(dec.price_target_8pct),
+      sub: 'zona agressiva',
+      cls: 'pc-yellow',
+      tip: 'Zona agressiva Barsi: dividendo médio 5 anos ÷ 8%.\nAbaixo deste preço o ativo oferece yield real ≥ 8% — indica forte margem de segurança e oportunidade de acumulação.' },
+    { label: 'Mín. 6 meses',
+      value: fmtR(dec.price_min_6m),
+      sub: 'suporte técnico',
+      cls: 'pc-blue',
+      tip: 'Preço mínimo registrado nos últimos 6 meses.\nUtilizado como referência de suporte e para calcular a proximidade com a mínima (indicador p/pMin).' },
+    { label: 'Máx. 6 meses',
+      value: fmtR(dec.price_max_6m),
+      sub: 'resistência técnica',
+      cls: '',
+      tip: 'Preço máximo registrado nos últimos 6 meses.\nReferência de resistência técnica — distância entre o preço atual e a máxima indica espaço de valorização no período.' },
+    { label: 'Potencial',
+      value: fmtPct(dec.gain_pct),
+      sub: 'upside até target 6%',
+      cls: (dec.gain_pct != null && dec.gain_pct >= 0) ? 'pc-green' : '',
+      tip: 'Potencial de valorização até o target de 6% (Bazin).\nFórmula: (target6% − preço atual) ÷ preço atual. Positivo = abaixo do target; negativo = acima do target.' },
+    { label: 'DY Real',
+      value: dec.dy_real != null ? dec.dy_real.toFixed(2) + '%' : '—',
+      sub: 'yield com preço atual',
+      cls: 'pc-green',
+      tip: 'Dividend Yield real calculado com o preço atual:\nsoma dos dividendos pagos nos últimos 12 meses ÷ preço atual × 100.\nReferência mínima: 6% a.a. (Bazin/Barsi).' },
+    { label: 'Payout',
+      value: dec.payout != null ? dec.payout.toFixed(1) + '%' : '—',
+      sub: 'distribuição do lucro',
+      cls: dec.payout != null && dec.payout >= 40 && dec.payout <= 80 ? 'pc-green' : '',
+      tip: 'Percentual do lucro líquido distribuído como dividendo.\nFaixa saudável: 40%–80% (Bazin). Abaixo de 40% a empresa retém muito; acima de 80% pode comprometer o reinvestimento e a sustentabilidade dos dividendos.' },
+    { label: 'Div. Médio 5a',
+      value: dec.avg_dividends_5y != null ? 'R$ ' + dec.avg_dividends_5y.toFixed(2) : '—',
+      sub: 'base dos targets',
+      cls: '',
+      tip: 'Média dos proventos pagos por ação nos últimos 5 anos.\nÉ a base de cálculo dos preços-alvo Bazin/Barsi (target 6% e target 8%).' },
+    { label: 'Acumulação 6m',
+      value: dec.accumulation_score != null ? dec.accumulation_score.toFixed(1) + '%' : '—',
+      sub: 'Barsi · pressão compradora',
+      cls: dec.accumulation_score >= 60 ? 'pc-green' : dec.accumulation_score >= 40 ? 'pc-yellow' : '',
+      tip: 'Score de acumulação silenciosa Barsi nos últimos 6 meses.\n% de pregões em que o preço E o volume ficaram abaixo de suas médias móveis — padrão que indica compra institucional discreta.\nReferência: ≥ 50% é sinal relevante.' },
+    { label: 'Acumulação 5d',
+      value: acum5pct != null ? acum5pct.toFixed(1) + '%' : '—',
+      sub: 'pressão recente',
+      cls: acum5pct != null && acum5pct >= 60 ? 'pc-green' : acum5pct != null && acum5pct >= 40 ? 'pc-yellow' : '',
+      tip: 'Score de acumulação silenciosa nos últimos 5 pregões.\nMesmo critério Barsi aplicado na janela mais curta — identifica pressão compradora recente.' },
+  ];
+  document.getElementById('priceCards').innerHTML = cards.map(c =>
+    `<div class="price-card" ${c.tip ? `data-tip="${c.tip.replace(/"/g, '&quot;').replace(/\n/g, '&#10;')}"` : ''}>
+       <div class="pc-label">${c.label}</div>
+       <div class="pc-value ${c.cls}">${c.value}</div>
+       <div class="pc-sub">${c.sub}</div>
+     </div>`
+  ).join('');
+}
+
+function renderCharts(chartData, dec, val) {
+  const loading = document.getElementById('chartLoading');
+  const pCanvas = document.getElementById('priceChart');
+  const vCanvas = document.getElementById('volChart');
+
+  if (!chartData || chartData.error || !chartData.dates) {
+    loading.textContent = 'Gráfico indisponível';
+    return;
+  }
+  loading.style.display = 'none';
+  pCanvas.style.display = 'block';
+  vCanvas.style.display = 'block';
+
+  const labels = chartData.dates;
+  const target6  = dec.price_target_6pct;
+  const target8  = dec.price_target_8pct;
+  const pmin     = dec.price_min_6m;
+
+  // Médias para visualizar zonas de acumulação (Barsi)
+  const closes     = chartData.closes.filter(v => v != null);
+  const avgClose   = closes.length ? closes.reduce((a, b) => a + b, 0) / closes.length : null;
+  const volumes    = chartData.volumes.filter(v => v != null);
+  const avgVolume  = volumes.length ? volumes.reduce((a, b) => a + b, 0) / volumes.length : null;
+
+  // ── Price chart
+  const priceDatasets = [
+    {
+      label: 'Preço',
+      data: chartData.closes,
+      borderColor: '#58a6ff',
+      backgroundColor: 'rgba(88,166,255,.08)',
+      borderWidth: 2,
+      fill: true,
+      tension: 0.3,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+    },
+  ];
+
+  if (target6) priceDatasets.push({
+    label: 'Target 6%',
+    data: labels.map(() => target6),
+    borderColor: '#39d353',
+    borderWidth: 1.5,
+    borderDash: [6,3],
+    pointRadius: 0,
+    fill: false,
+  });
+
+  if (target8) priceDatasets.push({
+    label: 'Target 8%',
+    data: labels.map(() => target8),
+    borderColor: '#d29922',
+    borderWidth: 1.5,
+    borderDash: [4,3],
+    pointRadius: 0,
+    fill: false,
+  });
+
+  if (pmin) priceDatasets.push({
+    label: 'pMin 6m',
+    data: labels.map(() => pmin),
+    borderColor: '#a371f7',
+    borderWidth: 1,
+    borderDash: [3,3],
+    pointRadius: 0,
+    fill: false,
+  });
+
+  if (avgClose) priceDatasets.push({
+    label: 'Média Preço',
+    data: labels.map(() => avgClose),
+    borderColor: '#8b949e',
+    borderWidth: 1,
+    borderDash: [2, 4],
+    pointRadius: 0,
+    fill: false,
+  });
+
+  const gridColor = 'rgba(48,54,61,.8)';
+  const tickColor = '#8b949e';
+
+  priceChartInst = new Chart(pCanvas, {
+    type: 'line',
+    data: { labels, datasets: priceDatasets },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: tickColor, font: { size: 10 }, boxWidth: 20 } },
+        tooltip: {
+          backgroundColor: '#161b22',
+          borderColor: '#30363d',
+          borderWidth: 1,
+          titleColor: '#e6edf3',
+          bodyColor: '#8b949e',
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: R$ ${ctx.parsed.y?.toFixed(2)}` },
+        },
+      },
+      scales: {
+        x: { ticks: { color: tickColor, maxTicksLimit: 8, font: { size: 10 } }, grid: { color: gridColor } },
+        y: { ticks: { color: tickColor, font: { size: 10 }, callback: v => 'R$ ' + v.toFixed(2) }, grid: { color: gridColor } },
+      },
+    },
+  });
+
+  // ── Volume chart
+  const volDatasets = [
+    {
+      label: 'Volume',
+      data: chartData.volumes.map(v => v > 0 ? v : null),
+      backgroundColor: chartData.volumes.map((v, i) => {
+        const c = chartData.closes[i];
+        return (c != null && avgClose != null && v != null && avgVolume != null && c < avgClose && v < avgVolume)
+          ? 'rgba(57,211,83,.45)'   // acumulação silenciosa — verde
+          : 'rgba(88,166,255,.25)'; // normal — azul
+      }),
+      borderColor: 'transparent',
+      borderRadius: 1,
+      type: 'bar',
+    },
+  ];
+  if (avgVolume) volDatasets.push({
+    label: 'Média Volume',
+    data: labels.map(() => avgVolume),
+    borderColor: '#8b949e',
+    borderWidth: 1,
+    borderDash: [2, 4],
+    pointRadius: 0,
+    fill: false,
+    type: 'line',
+  });
+
+  volChartInst = new Chart(vCanvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: volDatasets,
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#161b22',
+          borderColor: '#30363d',
+          borderWidth: 1,
+          titleColor: '#e6edf3',
+          bodyColor: '#8b949e',
+          callbacks: { label: ctx => ` Vol: ${(ctx.parsed.y/1e6).toFixed(2)}M` },
+        },
+      },
+      scales: {
+        x: { ticks: { display: false }, grid: { display: false } },
+        y: {
+          type: 'logarithmic',
+          ticks: {
+            color: tickColor,
+            font: { size: 9 },
+            maxTicksLimit: 4,
+            callback: v => {
+              if (v >= 1e6)  return (v/1e6).toFixed(0)+'M';
+              if (v >= 1e3)  return (v/1e3).toFixed(0)+'K';
+              return v;
+            },
+          },
+          grid: { color: gridColor },
+        },
+      },
+    },
+  });
+}
+
+function renderCriteria(flags) {
+  const total = Object.keys(flags).length;
+  const ok    = Object.values(flags).filter(Boolean).length;
+  document.getElementById('critSummary').innerHTML =
+    `<span style="color:var(--green-s)">${ok}</span>/<span>${total}</span> critérios aprovados`;
+
+  document.getElementById('critList').innerHTML = Object.entries(FLAG_LABELS).map(([key, label]) => {
+    const passed = flags[key] === true;
+    return `<li class="criteria-item ${passed ? 'ci-ok' : 'ci-fail'}">
+      <span class="ci-icon">${passed ? '✅' : '❌'}</span>
+      <span>${label}</span>
+    </li>`;
+  }).join('');
+}
+
+function renderIndicators(ind) {
+  document.getElementById('indGrid').innerHTML = IND_CONF.map(([key, label, fmt]) =>
+    `<div class="ind-row">
+       <span class="ind-label">${label}</span>
+       <span class="ind-value">${fmt(ind[key] ?? null)}</span>
+     </div>`
+  ).join('');
+}
+
+const PIOTROSKI_LABELS = {
+  p1_lucro_positivo:     'P1 — Lucro Líquido positivo no ano mais recente',
+  p2_ebit_positivo:      'P2 — Margem EBIT > 0 (proxy CF operacional positivo)',
+  p3_lucro_crescendo:    'P3 — Lucro crescendo (ano mais recente > anterior)',
+  p4_baixa_alavancagem:  'P4 — DL/PL ≤ 0,5 (alavancagem conservadora)',
+  p5_liq_corrente:       'P5 — Liq. Corrente ≥ 1,5 (cobertura de curto prazo)',
+  p6_passivo_ativo:      'P6 — Passivo/Ativo ≤ 0,4 (balanço conservador)',
+  p7_margens_expandindo: 'P7 — CAGR Lucro > CAGR Receita (margens se expandindo)',
+  p8_receita_crescendo:  'P8 — CAGR Receita > 0 (crescimento real de receita)',
+  p9_roe_forte:          'P9 — ROE ≥ 15% (rentabilidade forte)',
+};
+
+function renderPiotroski(piotroski) {
+  const box = document.getElementById('piotroskiBox');
+  if (!piotroski || !piotroski.flags) {
+    box.innerHTML = '<div style="color:var(--muted);padding:12px">Dados indisponíveis</div>';
+    return;
+  }
+  const { score, score_max, label, flags } = piotroski;
+  box.innerHTML = `
+    <div style="padding:10px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">
+      <span class="piotr-badge piotr-${label}" style="font-size:12px;padding:3px 8px">${score}/${score_max} — ${label}</span>
+      <span style="color:var(--muted);font-size:11px">Saúde financeira da empresa (adaptado de Piotroski)</span>
+    </div>
+    <ul class="criteria-list" style="padding:8px 12px 4px">
+      ${Object.entries(PIOTROSKI_LABELS).map(([key, lbl]) => {
+        const passed = flags[key] === true;
+        return `<li class="criteria-item ${passed ? 'ci-ok' : 'ci-fail'}">
+          <span class="ci-icon">${passed ? '✅' : '❌'}</span>
+          <span>${lbl}</span>
+        </li>`;
+      }).join('')}
+    </ul>`;
+}
+
+const MOAT_LABELS = {
+  moat_margem_bruta:     'Margem Bruta ≥ 40% (peso 2 — pricing power)',
+  moat_margem_liquida:   'Margem Líquida ≥ 20% (Buffett)',
+  moat_roe:              'ROE ≥ 20% (peso 2 — Buffett)',
+  moat_roic:             'ROIC ≥ 15% (Buffett)',
+  moat_baixa_divida:     'DL/PL ≤ 0,5 (dívida muito baixa)',
+  moat_lucro_crescendo:  'CAGR Lucro 5a ≥ 10%',
+  moat_receita_crescendo:'CAGR Receita 5a ≥ 5%',
+  moat_div_crescente:    'Dividendo crescente (5 anos)',
+};
+
+function renderBuffettMoat(moat) {
+  const box = document.getElementById('buffettMoatBox');
+  if (!moat || !moat.flags) {
+    box.innerHTML = '<div style="color:var(--muted);padding:12px">Dados indisponíveis</div>';
+    return;
+  }
+  const { score, score_max, label, flags } = moat;
+  const cf  = moat.cashflow_values || {};
+  const tv  = moat.trends_values   || {};
+  const cfAvail = flags.cashflow_available === true;
+
+  // --- Fase 2: Qualidade do Caixa ---
+  const CASHFLOW_LABELS = {
+    moat_fcf_positivo:      'FCF positivo (geração real de caixa)',
+    moat_fcf_quality:       'FCF/Lucro ≥ 80% (qualidade do lucro)',
+    moat_capex_moat:        'CapEx/Lucro ≤ 25% (baixo reinvestimento = moat forte)',
+    moat_owner_earnings_ok: 'Owner Earnings positivo (caixa real do acionista)',
+  };
+
+  // Barra de qualidade FCF/Lucro
+  const ratio      = cf.fcf_lucro_ratio;
+  const pct        = ratio != null ? Math.min(Math.round(ratio * 100), 100) : null;
+  const barColor   = pct == null ? 'var(--muted)'
+                   : pct >= 80  ? 'var(--green-s)'
+                   : pct >= 50  ? 'var(--yellow)'
+                   : 'var(--red)';
+  const barHtml = pct != null
+    ? `<div style="margin:6px 0 4px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:3px">
+          <span>FCF/Lucro (qualidade do lucro)</span>
+          <span style="color:${barColor};font-weight:600">${pct}%</span>
+        </div>
+        <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden">
+          <div style="width:${pct}%;height:100%;background:${barColor};border-radius:4px;transition:width .4s"></div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">≥ 80% = lucro de alta qualidade (benchmark Buffett)</div>
+      </div>`
+    : `<div style="font-size:11px;color:var(--muted);margin:6px 0">FCF/Lucro: dados insuficientes</div>`;
+
+  // Cards monetários
+  const cardStyle = 'background:var(--card-bg,#161b22);border:1px solid var(--border);border-radius:6px;padding:8px 12px;text-align:center;flex:1;min-width:0';
+  const cardsHtml = cfAvail
+    ? `<div style="display:flex;gap:8px;margin:10px 0 6px">
+        <div style="${cardStyle}">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:2px">Free Cash Flow</div>
+          <div style="font-size:13px;font-weight:600;color:${cf.fcf != null && cf.fcf > 0 ? 'var(--green-s)' : 'var(--red)'}">${fmtBillions(cf.fcf)}</div>
+          <div style="font-size:9px;color:var(--muted)">(FCO − CapEx)</div>
+        </div>
+        <div style="${cardStyle}">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:2px">Owner Earnings</div>
+          <div style="font-size:13px;font-weight:600;color:${cf.owner_earnings != null && cf.owner_earnings > 0 ? 'var(--green-s)' : 'var(--red)'}">${fmtBillions(cf.owner_earnings)}</div>
+          <div style="font-size:9px;color:var(--muted)">(caixa real do acionista)</div>
+        </div>
+        <div style="${cardStyle}">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:2px">Lucro Líquido</div>
+          <div style="font-size:13px;font-weight:600;color:var(--fg)">${fmtBillions(cf.net_income_cf)}</div>
+          <div style="font-size:9px;color:var(--muted)">(reportado)</div>
+        </div>
+      </div>`
+    : '';
+
+  // Seção de cashflow
+  const cashflowSection = `
+    <div style="border-top:1px solid var(--border);padding:8px 12px 6px;margin-top:4px">
+      <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:4px">QUALIDADE DO CAIXA</div>
+      ${cfAvail ? cardsHtml + barHtml : '<div style="font-size:11px;color:var(--muted);padding:4px 0">⚠ Demonstrativo de caixa não disponível para este ativo.</div>'}
+      <ul class="criteria-list" style="padding:4px 0 0;opacity:${cfAvail ? '1' : '0.5'}">
+        ${Object.entries(CASHFLOW_LABELS).map(([key, lbl]) => {
+          const passed = cfAvail && flags[key] === true;
+          const na     = !cfAvail;
+          return `<li class="criteria-item ${na ? '' : passed ? 'ci-ok' : 'ci-fail'}">
+            <span class="ci-icon">${na ? '—' : passed ? '✅' : '❌'}</span>
+            <span>${lbl}</span>
+          </li>`;
+        }).join('')}
+      </ul>
+    </div>`;
+
+  // --- Fase 3: Tendências Históricas ---
+  function _trendColor(trend, inverted) {
+    if (trend === 'CRESCENDO') return inverted ? 'var(--red)'     : 'var(--green-s)';
+    if (trend === 'CAINDO')    return inverted ? 'var(--green-s)' : 'var(--red)';
+    if (trend === 'ESTAVEL')   return 'var(--yellow)';
+    return 'var(--muted)';
+  }
+  function _trendBadge(trend, inverted) {
+    const color = _trendColor(trend, inverted);
+    if (trend === 'CRESCENDO') return `<span style="color:${color};font-size:13px;font-weight:600">↗ Subindo</span>`;
+    if (trend === 'CAINDO')    return `<span style="color:${color};font-size:13px;font-weight:600">↘ Descendo</span>`;
+    if (trend === 'ESTAVEL')   return `<span style="color:${color};font-size:13px;font-weight:600">→ Estável</span>`;
+    return `<span style="color:var(--muted);font-size:13px">—</span>`;
+  }
+  function _fmtPct(v) { return v != null ? v.toFixed(1) + '%' : '—'; }
+  function _fmtVal(v) { return fmtBillions(v); }
+
+  const trAvail = tv.trends_available === true;
+  const anos    = tv.anos ? [...tv.anos].reverse() : [];  // mais antigo primeiro
+
+  function _buildRow(label, hist, trend, fmtFn, inverted) {
+    const vals  = hist ? [...hist].reverse() : [];  // mais antigo primeiro
+    const cells = anos.map((ano, i) => {
+      const v = vals[i] != null ? fmtFn(vals[i]) : '—';
+      return `<td style="text-align:right;padding:8px 8px;font-size:13px;white-space:nowrap">${v}</td>`;
+    }).join('');
+    return `<tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
+      <td style="padding:8px 8px;font-size:13px;white-space:nowrap">${label}</td>
+      ${cells}
+      <td style="padding:8px 8px;text-align:right;white-space:nowrap">${_trendBadge(trend, inverted)}</td>
+    </tr>`;
+  }
+
+  const trendsSection = trAvail ? `
+    <div style="border-top:1px solid var(--border);padding:10px 0 8px;margin-top:4px">
+      <div style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:8px;padding:0 12px">TENDÊNCIAS HISTÓRICAS (4 ANOS)</div>
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;min-width:420px">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border)">
+            <th style="font-size:11px;color:var(--muted);font-weight:400;text-align:left;padding:5px 8px;white-space:nowrap">Indicador</th>
+            ${anos.map(a => `<th style="font-size:11px;color:var(--muted);font-weight:400;text-align:right;padding:5px 8px;white-space:nowrap">${a}</th>`).join('')}
+            <th style="font-size:11px;color:var(--muted);font-weight:400;padding:5px 8px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${_buildRow('Margem Bruta',    tv.margem_bruta_hist,   tv.margem_bruta_trend,   _fmtPct, false)}
+          ${_buildRow('Margem Líquida',  tv.margem_liquida_hist, tv.margem_liquida_trend, _fmtPct, false)}
+          ${_buildRow('ROE',             tv.roe_hist,            tv.roe_trend,            _fmtPct, false)}
+          ${_buildRow('FCF',             tv.fcf_hist,            tv.fcf_trend,            _fmtVal, false)}
+          ${_buildRow('Dívida Líq.',     tv.divida_liq_hist,     tv.divida_trend,         _fmtVal, true)}
+          ${_buildRow('CapEx/Receita',   tv.capex_receita_hist,  tv.capex_receita_trend,  _fmtPct, true)}
+        </tbody>
+      </table>
+      </div>
+      <div style="font-size:9px;color:var(--muted);margin-top:4px;padding:0 12px">Dívida e CapEx/Receita: ↓ CAINDO = positivo (menos dívida / menos reinvestimento)</div>
+    </div>` : `
+    <div style="border-top:1px solid var(--border);padding:8px 12px 6px;margin-top:4px">
+      <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:4px">TENDÊNCIAS HISTÓRICAS (4 ANOS)</div>
+      <div style="font-size:11px;color:var(--muted)">⚠ Dados históricos não disponíveis para este ativo.</div>
+    </div>`;
+
+  box.innerHTML = `
+    <div style="padding:10px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">
+      <span class="moat-pill moat-${moatClass(label)}" style="font-size:12px;padding:3px 8px">${score}/${score_max} — ${label}</span>
+      <span style="color:var(--muted);font-size:11px">Vantagem competitiva durável (Warren Buffett)</span>
+    </div>
+    <ul class="criteria-list" style="padding:8px 12px 4px">
+      ${Object.entries(MOAT_LABELS).map(([key, lbl]) => {
+        const passed = flags[key] === true;
+        return `<li class="criteria-item ${passed ? 'ci-ok' : 'ci-fail'}">
+          <span class="ci-icon">${passed ? '✅' : '❌'}</span>
+          <span>${lbl}</span>
+        </li>`;
+      }).join('')}
+    </ul>
+    ${cashflowSection}
+    ${trendsSection}`;
+}
+
+function fmtBillions(v) {
+  if (v == null) return '—';
+  const abs = Math.abs(v);
+  if (abs >= 1e9) return 'R$ ' + (v / 1e9).toFixed(2) + ' bi';
+  if (abs >= 1e6) return 'R$ ' + (v / 1e6).toFixed(1) + ' M';
+  return 'R$ ' + v.toFixed(0);
+}
+
+function renderDivChart(hist, ytdData) {
+  const perYear = hist.dividends_per_year || {};
+  const avg5y   = hist.avg_dividends_5y   || 0;
+  const years   = Object.keys(perYear).sort();
+  const values  = years.map(y => perYear[y]);
+  const n       = years.length;
+  const curYear = new Date().getFullYear().toString();
+
+  if (!n && !avg5y) return;
+
+  if (divChartInst) divChartInst.destroy();
+
+  const ytdPaid   = (ytdData && ytdData.paid != null) ? ytdData.paid : 0;
+  const hasYtd    = ytdData !== null;
+  const paid      = ytdPaid;
+  const remaining = avg5y > 0 ? Math.max(0, avg5y - paid) : 0;
+  const superou   = hasYtd && avg5y > 0 && paid >= avg5y;
+
+  const allLabels = [...years, curYear + ' ⟳'];
+
+  // Dataset 1 — histórico (verde/vermelho)
+  const histDs = {
+    label: 'Histórico',
+    data:  [...values, 0],
+    backgroundColor: values.map(v => v > 0 ? 'rgba(57,211,83,.5)' : 'rgba(248,81,73,.4)').concat(['transparent']),
+    borderColor:     values.map(v => v > 0 ? '#39d353' : '#f85149').concat(['transparent']),
+    borderWidth: 1, borderRadius: 4, stack: 'div',
+  };
+
+  const excess = superou ? paid - avg5y : 0;
+
+  // Dataset 2 — pago (laranja) OU projetado (verde se superou)
+  const ytdDs = {
+    label: !hasYtd ? `${curYear}: aguardando…`
+         : superou ? `Projetado: R$${avg5y.toFixed(2)}`
+                   : `Pago em ${curYear}: R$${paid.toFixed(2)}`,
+    data:  [...Array(n).fill(0), superou ? avg5y : paid],
+    backgroundColor: superou ? 'rgba(57,211,83,.5)' : 'rgba(255,165,0,.75)',
+    borderColor:     superou ? '#39d353' : '#ffa500',
+    borderWidth: 1, borderRadius: 4, stack: 'div',
+  };
+
+  // Dataset 3 — projeção restante (azul) OU excedente (dourado se superou)
+  const projRestDs = {
+    label: superou
+      ? `✅ Excedente: +R$${excess.toFixed(2)} (+${((excess / avg5y) * 100).toFixed(0)}%)`
+      : `Projeção Restante: R$${remaining.toFixed(2)}`,
+    data: [...Array(n).fill(0), superou ? excess : remaining],
+    backgroundColor: superou ? 'rgba(255,215,0,.75)' : 'rgba(56,139,253,.3)',
+    borderColor:     superou ? '#ffd700' : '#388bfd',
+    borderWidth: 1, borderRadius: 4, stack: 'div',
+    hidden: !superou && remaining === 0,
+  };
+
+  // Dataset 4 — referência da estimativa (sem barra, apenas legenda)
+  const estimadaDs = {
+    label: `Projeção Estimada (média 5a): R$${avg5y.toFixed(2)}`,
+    data: Array(n + 1).fill(null),
+    backgroundColor: 'transparent',
+    borderColor: '#8b949e',
+    borderWidth: 2,
+    stack: 'div',
+  };
+
+  divChartInst = new Chart(document.getElementById('divChart'), {
+    type: 'bar',
+    data: { labels: allLabels, datasets: [histDs, ytdDs, projRestDs, estimadaDs] },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'right',
+          align: 'center',
+          labels: {
+            color: '#8b949e', font: { size: 10 }, boxWidth: 12, padding: 10,
+          },
+        },
+        tooltip: {
+          backgroundColor: '#161b22',
+          borderColor: '#30363d',
+          borderWidth: 1,
+          titleColor: '#e6edf3',
+          bodyColor: '#8b949e',
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              if (!v || v === 0) return null;
+              return ` R$ ${v.toFixed(2)}`;
+            },
+            afterBody: (items) => {
+              // Mostra resumo do ano corrente no tooltip da coluna 2026
+              if (!hasYtd || !items.some(i => i.dataIndex === n)) return [];
+              const lines = [`── Projeção Estimada: R$${avg5y.toFixed(2)}`];
+              if (superou) lines.push(`✅ Excedeu em R$${(paid - avg5y).toFixed(2)} (+${((paid / avg5y - 1) * 100).toFixed(0)}%)`);
+              else lines.push(`Faltam R$${remaining.toFixed(2)} para a projeção`);
+              return lines;
+            },
+          },
+        },
+      },
+      scales: {
+        x: { stacked: true, ticks: { color: '#8b949e', font: { size: 11 } }, grid: { display: false } },
+        y: { stacked: true, ticks: { color: '#8b949e', font: { size: 10 }, callback: v => 'R$ ' + v.toFixed(2) }, grid: { color: 'rgba(48,54,61,.8)' } },
+      },
+    },
+  });
+}
+
+function destroyCharts() {
+  [priceChartInst, volChartInst, divChartInst].forEach(c => { if (c) c.destroy(); });
+  priceChartInst = volChartInst = divChartInst = null;
+}
+
+// ─── Modal close ─────────────────────────────────────────────────
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  destroyCharts();
+}
+
+// ─── Portfolio state ──────────────────────────────────────────────
+let portfolioData = [];
+let ptSortCol = 'retorno_pct';
+let ptSortDir = 'asc';
+
+// ─── Sticky offsets sync ───────────────────────────────────────────
+function syncStickyOffsets() {
+  const headerH = document.querySelector('.header').offsetHeight;
+  document.documentElement.style.setProperty('--header-h', headerH + 'px');
+
+  const isScreening = document.getElementById('screeningView').style.display !== 'none';
+  const summaryEl = document.getElementById(isScreening ? 'screeningSummary' : 'portfolioSummary');
+  const summaryH = summaryEl.offsetHeight;
+  document.documentElement.style.setProperty('--table-top', (headerH + summaryH) + 'px');
+}
+window.addEventListener('resize', syncStickyOffsets);
+
+// ─── Tab switching ─────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    const isScreening = tab === 'screening';
+    document.getElementById('screeningView').style.display  = isScreening ? '' : 'none';
+    document.getElementById('portfolioView').style.display  = isScreening ? 'none' : '';
+    if (!isScreening) loadPortfolio();
+    else requestAnimationFrame(syncStickyOffsets);
+  });
+});
+
+// ─── Portfolio load ────────────────────────────────────────────────
+async function loadPortfolio() {
+  const res  = await fetch('/api/portfolio');
+  const json = await res.json();
+  if (json.error) {
+    document.getElementById('ptbody').innerHTML =
+      `<tr><td colspan="12" style="text-align:center;color:var(--red);padding:20px">${json.error}</td></tr>`;
+    return;
+  }
+  portfolioData = json.positions || [];
+  renderPortfolioSummary(json.summary || {});
+  renderPortfolioTable();
+}
+
+function renderPortfolioSummary(s) {
+  const ret    = s.retorno_total || 0;
+  const retPct = s.retorno_total_pct || 0;
+  const cards  = [
+    { label: 'Ativos',          value: s.count || 0,              cls: '' },
+    { label: 'Total Investido', value: fmtBRL(s.total_investido), cls: '' },
+    { label: 'Valor Atual',     value: fmtBRL(s.total_atual),     cls: 'pc-blue' },
+    { label: 'Retorno',         value: fmtBRL(ret),               cls: ret >= 0 ? 'pc-green' : 'pc-red' },
+    { label: 'Retorno',         value: (retPct >= 0 ? '+' : '') + retPct.toFixed(2) + '%', cls: retPct >= 0 ? 'pc-green' : 'pc-red' },
+  ];
+  document.getElementById('portfolioSummary').innerHTML =
+    `<div style="display:flex;gap:10px;padding:12px 12px 8px;flex-wrap:wrap">
+      ${cards.map(c => `<div class="price-card" style="min-width:130px">
+        <div class="pc-label">${c.label}</div>
+        <div class="pc-value ${c.cls}">${c.value}</div>
+      </div>`).join('')}
+    </div>`;
+  requestAnimationFrame(syncStickyOffsets);
+}
+
+// ─── Portfolio table sort ──────────────────────────────────────────
+document.querySelectorAll('#portfolioTable thead th').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.ptcol;
+    if (!col || col === '#') return;
+    if (ptSortCol === col) {
+      ptSortDir = ptSortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      ptSortCol = col;
+      ptSortDir = 'asc';
+    }
+    document.querySelectorAll('#portfolioTable thead th').forEach(h => {
+      h.classList.remove('sorted-asc', 'sorted-desc');
+    });
+    th.classList.add(ptSortDir === 'asc' ? 'sorted-asc' : 'sorted-desc');
+    renderPortfolioTable();
+  });
+});
+
+function renderPortfolioTable() {
+  let data = [...portfolioData];
+  data.sort((a, b) => {
+    if (ptSortCol === 'zone') {
+      const diff = _zoneRank(a) - _zoneRank(b);
+      return ptSortDir === 'asc' ? diff : -diff;
+    }
+    let va = a[ptSortCol], vb = b[ptSortCol];
+    if (va == null) va = ptSortDir === 'asc' ?  Infinity : -Infinity;
+    if (vb == null) vb = ptSortDir === 'asc' ?  Infinity : -Infinity;
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    if (va < vb) return ptSortDir === 'asc' ? -1 :  1;
+    if (va > vb) return ptSortDir === 'asc' ?  1 : -1;
+    return 0;
+  });
+
+  document.getElementById('ptbody').innerHTML = data.map((p, i) => {
+    const retCls  = (p.retorno_pct || 0) >= 0 ? 'pos' : 'neg';
+    const retStr  = p.retorno_pct != null
+      ? (p.retorno_pct >= 0 ? '+' : '') + p.retorno_pct.toFixed(2)
+      : nd();
+    const zoneTd  = p.recommendation === 'FORA_CRITERIOS'
+      ? `<span class="rec-FORA_CRITERIOS" style="padding:2px 7px;border-radius:4px;font-size:11px" title="Zona real: ${zoneLbl(p.zone || '')} — não passou nos filtros obrigatórios">Fora critérios</span>`
+      : p.zone
+        ? `<span class="badge badge-${p.zone}">${zoneLbl(p.zone)}</span>`
+        : nd();
+    const scoreTd = p.weighted_score != null
+      ? `<span class="wscore-pill wscore-${wscoreClass(p.weighted_score)}">${p.weighted_score.toFixed(1)}</span>`
+      : nd();
+    const moatTd = p.buffett_moat_score != null
+      ? `<span class="moat-pill moat-${moatClass(p.buffett_moat_label)}">${p.buffett_moat_score}/10</span>`
+      : nd();
+    const saudeTd = p.piotroski_label
+      ? `<span class="piotr-badge piotr-${p.piotroski_label}">${p.piotroski_score}/9</span>`
+      : nd();
+    return `<tr onclick="openDetail('${p.ticker}', event)">
+      <td>${i + 1}</td>
+      <td><span class="ticker-link">${p.ticker}</span></td>
+      <td>${p.qtd}</td>
+      <td>${fmtBRLv(p.preco_medio)}</td>
+      <td>${fmtBRLv(p.preco_atual)}</td>
+      <td>${fmtBRLv(p.total_investido)}</td>
+      <td>${fmtBRLv(p.valor_atual)}</td>
+      <td class="${retCls}">${p.retorno != null ? fmtBRLv(p.retorno) : nd()}</td>
+      <td class="${retCls}">${retStr}</td>
+      <td>${p.dy_on_cost != null ? p.dy_on_cost.toFixed(2) : nd()}</td>
+      <td style="text-align:center" title="${p.weighted_score != null ? `Score ${p.weighted_score.toFixed(1)}% · ${p.rank}/${p.rank_max} critérios` : ''}">${scoreTd}</td>
+      <td style="text-align:center" title="${p.buffett_moat_score != null ? `Buffett Moat ${p.buffett_moat_score}/10 · ${p.buffett_moat_label}` : ''}">${moatTd}</td>
+      <td class="col-zone" title="${p.piotroski_label ? `Piotroski ${p.piotroski_score}/9 · ${p.piotroski_label}` : ''}">${saudeTd}</td>
+      <td class="col-zone">${zoneTd}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── Boot ─────────────────────────────────────────────────────────
+loadDecision();
+
+// ─── Tooltip flutuante para price-cards ───────────────────────────
+(function () {
+  const tt = document.createElement('div');
+  tt.id = 'pcTooltip';
+  document.body.appendChild(tt);
+
+  let showTimer = null;
+  let hideTimer = null;
+  let lastEvent = null;
+
+  document.addEventListener('mouseover', e => {
+    const card = e.target.closest('[data-tip]');
+    if (!card) return;
+    clearTimeout(hideTimer);
+    clearTimeout(showTimer);
+    tt.style.opacity = '0';
+    tt.style.display = 'none';
+    lastEvent = e;
+    showTimer = setTimeout(() => {
+      tt.textContent = card.dataset.tip;
+      tt.style.display = 'block';
+      _positionTooltip(lastEvent);
+      requestAnimationFrame(() => { tt.style.opacity = '1'; });
+    }, 1500);
+  });
+
+  document.addEventListener('mousemove', e => {
+    lastEvent = e;
+    if (tt.style.opacity === '1') _positionTooltip(e);
+  });
+
+  document.addEventListener('mouseout', e => {
+    const card = e.target.closest('[data-tip]');
+    if (!card) return;
+    clearTimeout(showTimer);
+    hideTimer = setTimeout(() => {
+      tt.style.opacity = '0';
+      setTimeout(() => { tt.style.display = 'none'; }, 160);
+    }, 80);
+  });
+
+  function _positionTooltip(e) {
+    const gap = 14;
+    const tw = tt.offsetWidth, th = tt.offsetHeight;
+    let x = e.clientX + gap;
+    let y = e.clientY - th / 2;
+    if (x + tw > window.innerWidth - 8)  x = e.clientX - tw - gap;
+    if (y < 8)                            y = 8;
+    if (y + th > window.innerHeight - 8) y = window.innerHeight - th - 8;
+    tt.style.left = x + 'px';
+    tt.style.top  = y + 'px';
+  }
+})();
+</script>
+</body>
+</html>
