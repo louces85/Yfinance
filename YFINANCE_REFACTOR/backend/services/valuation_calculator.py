@@ -169,6 +169,16 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
     flags["moat_capex_moat"]           = cf.get("capex_moat_ok", False)
     flags["moat_owner_earnings_ok"]    = cf.get("owner_earnings_positivo", False)
 
+    # --- Tendências Históricas (Fase 3) — informacionais, não afetam o score ---
+    tr = history.get("buffett_trends") or {}
+    flags["trends_available"]          = tr.get("trends_available", False)
+    flags["moat_mb_trend"]             = tr.get("margem_bruta_trend")
+    flags["moat_ml_trend"]             = tr.get("margem_liquida_trend")
+    flags["moat_roe_trend"]            = tr.get("roe_trend")
+    flags["moat_fcf_trend"]            = tr.get("fcf_trend")
+    flags["moat_divida_trend"]         = tr.get("divida_trend")
+    flags["moat_capex_rec_trend"]      = tr.get("capex_receita_trend")
+
     if score >= 7:
         label = "FORTE"
     elif score >= 4:
@@ -186,12 +196,30 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
         "da":               cf.get("da"),
     }
 
+    trends_values = {
+        "trends_available":      tr.get("trends_available", False),
+        "anos":                  tr.get("anos"),
+        "margem_bruta_hist":     tr.get("margem_bruta_hist"),
+        "margem_bruta_trend":    tr.get("margem_bruta_trend"),
+        "margem_liquida_hist":   tr.get("margem_liquida_hist"),
+        "margem_liquida_trend":  tr.get("margem_liquida_trend"),
+        "roe_hist":              tr.get("roe_hist"),
+        "roe_trend":             tr.get("roe_trend"),
+        "fcf_hist":              tr.get("fcf_hist"),
+        "fcf_trend":             tr.get("fcf_trend"),
+        "divida_liq_hist":       tr.get("divida_liq_hist"),
+        "divida_trend":          tr.get("divida_trend"),
+        "capex_receita_hist":    tr.get("capex_receita_hist"),
+        "capex_receita_trend":   tr.get("capex_receita_trend"),
+    }
+
     return {
         "score":            score,
         "score_max":        10,
         "label":            label,
         "flags":            flags,
         "cashflow_values":  cashflow_values,
+        "trends_values":    trends_values,
     }
 
 

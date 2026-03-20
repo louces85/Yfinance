@@ -1,8 +1,8 @@
 """
-Busca de dados de Fluxo de Caixa para análise Buffett (Fase 2).
+Busca de dados de Fluxo de Caixa para análise Buffett (Fases 2 e 3).
 
-Obtém CapEx, D&A, FCO e Lucro Líquido via yfinance.cashflow e income_stmt,
-calculando FCF, Owner Earnings e métricas de qualidade do caixa.
+Fase 2 — fetch_cashflow(): CapEx, D&A, FCO, FCF, Owner Earnings (ano mais recente).
+Fase 3 — fetch_trends(): tendências históricas de 4 anos para 6 métricas chave.
 
 Chamado por history_fetcher.fetch_history() — não é um pipeline separado.
 
@@ -115,3 +115,177 @@ def fetch_cashflow(ticker: str) -> dict:
 
     except Exception:
         return {"cashflow_available": False}
+
+
+# ---------------------------------------------------------------------------
+# Fase 3 — Tendências Históricas (4 anos)
+# ---------------------------------------------------------------------------
+
+def _safe_series(df, name: str, n: int = 4) -> list:
+    """
+    Extrai lista com até `n` valores históricos de uma linha do DataFrame.
+    Colunas do yfinance são ordenadas do mais recente ao mais antigo.
+    Retorna lista de floats ou None por posição; lista vazia se linha ausente.
+    """
+    if df is None or df.empty or name not in df.index:
+        return []
+    result = []
+    for i in range(min(n, len(df.columns))):
+        try:
+            val = df.loc[name].iloc[i]
+            f = float(val)
+            result.append(None if math.isnan(f) else f)
+        except (TypeError, ValueError, IndexError):
+            result.append(None)
+    return result
+
+
+def _calc_tendencia(valores: list) -> str:
+    """
+    Avalia a direção de uma série temporal (mais recente primeiro).
+    Retorna: CRESCENDO, ESTAVEL ou CAINDO.
+
+    Regra: ≥ 75% dos intervalos consecutivos em alta → CRESCENDO
+            ≤ 25% dos intervalos consecutivos em alta → CAINDO
+            caso contrário → ESTAVEL
+    """
+    limpos = [v for v in valores if v is not None]
+    if len(limpos) < 2:
+        return "INDEFINIDO"
+    # percorre do mais antigo ao mais recente (inverte a lista)
+    serie = list(reversed(limpos))
+    subidas = sum(1 for i in range(len(serie) - 1) if serie[i + 1] > serie[i])
+    total = len(serie) - 1
+    ratio = subidas / total
+    if ratio >= 0.75:
+        return "CRESCENDO"
+    if ratio <= 0.25:
+        return "CAINDO"
+    return "ESTAVEL"
+
+
+def _extrair_anos(df, n: int = 4) -> list:
+    """Extrai rótulos de ano das colunas do DataFrame (mais recente primeiro)."""
+    if df is None or df.empty:
+        return []
+    anos = []
+    for i in range(min(n, len(df.columns))):
+        try:
+            col = df.columns[i]
+            anos.append(str(col.year))
+        except (AttributeError, IndexError):
+            anos.append(f"Ano{i+1}")
+    return anos
+
+
+def fetch_trends(ticker: str) -> dict:
+    """
+    Busca tendências históricas (até 4 anos) para análise Buffett Fase 3.
+
+    Métricas calculadas ano a ano:
+        margem_bruta      Gross Profit / Total Revenue  (%)
+        margem_liquida    Net Income / Total Revenue     (%)
+        roe               Net Income / Stockholders Equity (%)
+        fcf               Operating Cash Flow - |CapEx|  (R$)
+        divida_liquida    Net Debt do balanço            (R$)  [CAINDO = bom]
+        capex_receita     |CapEx| / Total Revenue        (%)   [CAINDO = bom]
+
+    Retorna dict com *_hist (lista) e *_trend (CRESCENDO/ESTAVEL/CAINDO/INDEFINIDO)
+    mais recente primeiro. Em caso de falha retorna {"trends_available": False}.
+    """
+    try:
+        yft = yfinance.Ticker(f"{ticker.upper()}.SA")
+        cf  = yft.cashflow       # DFC anual
+        inc = yft.income_stmt    # DRE anual
+        bs  = yft.balance_sheet  # Balanço anual
+
+        anos = _extrair_anos(inc)
+
+        # --- séries brutas ---
+        gross_profit = _safe_series(inc, "Gross Profit")
+        revenue      = _safe_series(inc, "Total Revenue")
+        net_income   = _safe_series(inc, "Net Income")
+        fco_series   = _safe_series(cf,  "Operating Cash Flow")
+        capex_series = _safe_series(cf,  "Capital Expenditure")
+        equity       = _safe_series(bs,  "Stockholders Equity")
+
+        # Net Debt: tenta campo direto; fallback para Long Term Debt
+        net_debt = _safe_series(bs, "Net Debt")
+        if not any(v is not None for v in net_debt):
+            net_debt = _safe_series(bs, "Long Term Debt")
+
+        n = min(len(anos), 4)
+
+        def _pct(num, den):
+            """num/den * 100, com proteção contra zero e None."""
+            if num is None or den is None or den == 0:
+                return None
+            return round(num / den * 100, 2)
+
+        def _val(lst, i):
+            return lst[i] if i < len(lst) else None
+
+        # --- margem bruta ---
+        mb_hist = [_pct(_val(gross_profit, i), _val(revenue, i)) for i in range(n)]
+
+        # --- margem líquida ---
+        ml_hist = [_pct(_val(net_income, i), _val(revenue, i)) for i in range(n)]
+
+        # --- ROE ---
+        roe_hist = [_pct(_val(net_income, i), _val(equity, i)) for i in range(n)]
+
+        # --- FCF ---
+        fcf_hist = []
+        for i in range(n):
+            fco_i   = _val(fco_series, i)
+            capex_i = _val(capex_series, i)
+            if fco_i is not None and capex_i is not None:
+                fcf_hist.append(round(fco_i - abs(capex_i)))
+            else:
+                fcf_hist.append(None)
+
+        # --- Dívida Líquida ---
+        dl_hist = [
+            round(_val(net_debt, i)) if _val(net_debt, i) is not None else None
+            for i in range(n)
+        ]
+
+        # --- CapEx / Receita ---
+        cr_hist = []
+        for i in range(n):
+            cx  = _val(capex_series, i)
+            rev = _val(revenue, i)
+            cr_hist.append(_pct(abs(cx) if cx is not None else None, rev))
+
+        # --- tendências ---
+        # Dívida e CapEx/Receita: CAINDO é positivo — passamos a série invertida
+        # para _calc_tendencia avaliar corretamente a direção "boa"
+        mb_trend  = _calc_tendencia(mb_hist)
+        ml_trend  = _calc_tendencia(ml_hist)
+        roe_trend = _calc_tendencia(roe_hist)
+        fcf_trend = _calc_tendencia(fcf_hist)
+        dl_trend  = _calc_tendencia(dl_hist)   # CAINDO = boa (menos dívida)
+        cr_trend  = _calc_tendencia(cr_hist)   # CAINDO = boa (menos reinvestimento)
+
+        if not anos:
+            return {"trends_available": False}
+
+        return {
+            "trends_available":      True,
+            "anos":                  anos,
+            "margem_bruta_hist":     mb_hist,
+            "margem_bruta_trend":    mb_trend,
+            "margem_liquida_hist":   ml_hist,
+            "margem_liquida_trend":  ml_trend,
+            "roe_hist":              roe_hist,
+            "roe_trend":             roe_trend,
+            "fcf_hist":              fcf_hist,
+            "fcf_trend":             fcf_trend,
+            "divida_liq_hist":       dl_hist,
+            "divida_trend":          dl_trend,
+            "capex_receita_hist":    cr_hist,
+            "capex_receita_trend":   cr_trend,
+        }
+
+    except Exception:
+        return {"trends_available": False}
