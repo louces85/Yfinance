@@ -14,6 +14,7 @@ import xlrd
 
 from repositories import stock_repository as repo
 from services.price_service import PriceService
+from services import valuation_calculator
 
 B3_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "B3")
 
@@ -156,6 +157,15 @@ def load() -> dict:
             }
         else:
             # Ação conhecida que falhou nos filtros obrigatórios
+            # Tenta calcular análise completa sem restrições de pré-qualificação
+            forced_val = valuation_calculator.calculate(ticker, force=True)
+            if forced_val and preco_atual and preco_atual > 0:
+                # Recalcula price_now com preço atualizado do cache
+                forced_val["price_now"] = round(preco_atual, 2)
+                avg_div_f = forced_val.get("avg_dividends_5y") or 0
+                dy_on_cost_f = round((avg_div_f / preco_medio) * 100, 2) if avg_div_f and preco_medio else None
+            else:
+                dy_on_cost_f = None
             position = {
                 "ticker":            ticker,
                 "qtd":               qtd,
@@ -165,19 +175,19 @@ def load() -> dict:
                 "valor_atual":       round(valor_atual, 2),
                 "retorno":           round(retorno_rs, 2),
                 "retorno_pct":       round(retorno_pct, 2)   if retorno_pct  is not None else None,
-                "dy_on_cost":        None,
-                "zone":              None,
-                "rank":              None,
-                "rank_max":          None,
-                "weighted_score":    None,
-                "piotroski_score":   None,
-                "piotroski_label":   None,
-                "buffett_moat_score":None,
-                "buffett_moat_label":None,
-                "dy_real":           None,
-                "p_now_p_min":       None,
-                "gain_pct":          None,
-                "price_target_6pct": None,
+                "dy_on_cost":        dy_on_cost_f,
+                "zone":              forced_val.get("zone")                                     if forced_val else None,
+                "rank":              forced_val.get("rank")                                     if forced_val else None,
+                "rank_max":          forced_val.get("rank_max")                                 if forced_val else None,
+                "weighted_score":    (forced_val.get("weighted_score") or {}).get("score")      if forced_val else None,
+                "piotroski_score":   (forced_val.get("piotroski") or {}).get("score")           if forced_val else None,
+                "piotroski_label":   (forced_val.get("piotroski") or {}).get("label")           if forced_val else None,
+                "buffett_moat_score":(forced_val.get("buffett_moat") or {}).get("score")        if forced_val else None,
+                "buffett_moat_label":(forced_val.get("buffett_moat") or {}).get("label")        if forced_val else None,
+                "dy_real":           forced_val.get("dy_real")                                  if forced_val else None,
+                "p_now_p_min":       forced_val.get("p_now_p_min")                              if forced_val else None,
+                "gain_pct":          forced_val.get("gain_pct_to_target")                       if forced_val else None,
+                "price_target_6pct": forced_val.get("price_target_6pct")                        if forced_val else None,
                 "recommendation":    "FORA_CRITERIOS",
             }
 

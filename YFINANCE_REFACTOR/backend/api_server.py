@@ -32,6 +32,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from repositories import stock_repository as repo
 from services import decision_service
 from services import portfolio_service
+from services import valuation_calculator
 
 BASE_DIR     = os.path.dirname(os.path.abspath(__file__))
 FRONTEND_DIR = os.path.join(os.path.dirname(BASE_DIR), "frontend")
@@ -67,10 +68,14 @@ def decision():
 
 @app.route("/api/valuation/<ticker>")
 def valuation(ticker):
-    entry = repo.get_valuation(ticker.upper())
+    t = ticker.upper()
+    entry = repo.get_valuation(t)
     if entry is None:
-        return jsonify({"error": "not found"}), 404
-    ind = repo.get_indicators_by_ticker(ticker.upper()) or {}
+        # Fallback: calcula sem restrições (para ativos da carteira fora do screening)
+        entry = valuation_calculator.calculate(t, force=True)
+        if entry is None:
+            return jsonify({"error": "not found"}), 404
+    ind = repo.get_indicators_by_ticker(t) or {}
     entry = dict(entry)
     entry["companyname"] = ind.get("companyname", "")
     return jsonify(entry)

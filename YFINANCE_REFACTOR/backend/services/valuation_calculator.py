@@ -276,10 +276,14 @@ def _calc_piotroski(indicators: dict, history: dict) -> dict:
     }
 
 
-def calculate(ticker: str) -> Optional[dict]:
+def calculate(ticker: str, force: bool = False) -> Optional[dict]:
     """
     Calcula o valuation completo de um ticker.
     Retorna o dict de valuation ou None se dados insuficientes.
+
+    force=True: ignora os filtros de pré-qualificação (usado para ativos
+    da carteira que não passaram no screening, mas precisam de análise).
+    O resultado terá "fora_criterios_pre": True nesses casos.
     """
     ticker = ticker.upper()
 
@@ -300,16 +304,25 @@ def calculate(ticker: str) -> Optional[dict]:
     #   2. Teve lucro líquido positivo em todos os últimos 5 anos
     #   3. Liquidez diária mínima de R$200k (dado do all_indicators.json)
     #   4. P/L positivo (P/L negativo indica prejuízo no período)
+    pre_qual_failed = []
     if not history.get("paid_dividends_5_years", False):
-        return None
+        pre_qual_failed.append("dividendos_5_anos")
+        if not force:
+            return None
     if not history.get("positive_income_5_years", False):
-        return None
+        pre_qual_failed.append("lucro_5_anos")
+        if not force:
+            return None
     liq_diaria_raw = _safe_float(indicators.get("liquidezmediadiaria"), 0)
     if liq_diaria_raw < rules.LIQUIDEZ_DIARIA_MIN:
-        return None
+        pre_qual_failed.append("liquidez_diaria")
+        if not force:
+            return None
     p_l_raw = _safe_float(indicators.get("p_l"))
     if p_l_raw is None or p_l_raw <= 0:
-        return None
+        pre_qual_failed.append("p_l_positivo")
+        if not force:
+            return None
 
     # --- Indicadores fundamentalistas ---
     dy          = _safe_float(indicators.get("dy"))
@@ -419,8 +432,8 @@ def calculate(ticker: str) -> Optional[dict]:
         price_target_5 or 0,
     ) if has_price else "SEM_PRECO"
 
-    return {
-        "price_now":          round(price_now, 2),
+    result = {
+        "price_now":          round(price_now, 2) if price_now else None,
         "price_min_6m":       price_min_6m,
         "price_max_6m":       price_max_6m,
         "avg_dividends_5y":   avg_div_4y,
@@ -461,6 +474,10 @@ def calculate(ticker: str) -> Optional[dict]:
             "segment":              segment,
         },
     }
+    if pre_qual_failed:
+        result["fora_criterios_pre"] = True
+        result["pre_qual_reprovado"] = pre_qual_failed
+    return result
 
 
 def update_ticker(ticker: str) -> Optional[dict]:
