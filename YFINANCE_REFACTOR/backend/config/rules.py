@@ -88,6 +88,10 @@ PIOTROSKI_DL_PL_CONSERVADOR   = 0.5   # Alavancagem conservadora (sinal P4): met
 PIOTROSKI_LIQ_CORRENTE_MIN    = 1.5   # Liq. corrente mínima (sinal P5): entre Graham (2.0) e zero
 PIOTROSKI_PASSIVO_ATIVO_MAX   = 0.4   # Balanço conservador (sinal P6): abaixo de 40%
 
+# --- Buffett Cashflow (Fase 2) ---
+BUFFETT_FCF_QUALITY_MIN = 0.80   # FCF/Lucro mínimo (lucro de alta qualidade)
+BUFFETT_CAPEX_MOAT_MAX  = 0.25   # CapEx/Lucro máximo (moat — baixo reinvestimento)
+
 # --- Validade do ticker ---
 # Número de falhas consecutivas antes de marcar como inválido
 CONSECUTIVE_FAILURES_INVALID = 3

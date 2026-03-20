@@ -99,6 +99,102 @@ def _calc_weighted_score(flags: dict) -> dict:
     }
 
 
+def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
+    """
+    Buffett Moat Score (0-10) — Fase 1 do plano Warren Buffett.
+    Usa apenas dados já disponíveis em all_indicators.json e stock_history.json.
+
+    Critérios e pesos:
+      Margem Bruta >= 40%     : peso 2 (pricing power — critério principal)
+      Margem Líquida >= 20%   : peso 1 (Buffett vs. 10% atual)
+      ROE >= 20%              : peso 2 (eficiência — critério principal)
+      ROIC >= 15%             : peso 1 (Buffett vs. 10% atual)
+      DL/PL <= 0.5            : peso 1 (dívida muito baixa)
+      CAGR Lucro 5a >= 10%    : peso 1 (crescimento acima da inflação)
+      CAGR Receita 5a >= 5%   : peso 1 (crescimento real de receita)
+      Dividendo crescente     : peso 1 (sinal de saúde do negócio)
+
+    Score: 0–10 pontos
+      >= 7 → FORTE    (vantagem competitiva durável provável)
+       4–6 → MODERADO (moat parcial ou em desenvolvimento)
+      <= 3 → FRACO    (sem evidência de moat)
+    """
+    score = 0
+    flags = {}
+
+    # Margem Bruta >= 40% (peso 2 — critério principal de pricing power)
+    mb = indicators_raw.get("margem_bruta")
+    flags["moat_margem_bruta"] = mb is not None and mb >= 40
+    if flags["moat_margem_bruta"]: score += 2
+
+    # Margem Líquida >= 20% (Buffett — mais exigente que o limiar padrão de 10%)
+    ml = indicators_raw.get("margem_liq")
+    flags["moat_margem_liquida"] = ml is not None and ml >= 20
+    if flags["moat_margem_liquida"]: score += 1
+
+    # ROE >= 20% (peso 2 — Buffett: eficiência na conversão de capital em lucro)
+    roe = indicators_raw.get("roe")
+    flags["moat_roe"] = roe is not None and roe >= 20
+    if flags["moat_roe"]: score += 2
+
+    # ROIC >= 15% (Buffett — mais exigente que o limiar padrão de 10%)
+    roic = indicators_raw.get("roic")
+    flags["moat_roic"] = roic is not None and roic >= 15
+    if flags["moat_roic"]: score += 1
+
+    # DL/PL <= 0.5 (empresas com moat real não precisam de muita dívida)
+    dl_pl = indicators_raw.get("dl_pl")
+    flags["moat_baixa_divida"] = dl_pl is not None and dl_pl <= 0.5
+    if flags["moat_baixa_divida"]: score += 1
+
+    # CAGR Lucro 5a >= 10% (crescimento real acima da inflação)
+    cagr_l = indicators_raw.get("cagr_lucro")
+    flags["moat_lucro_crescendo"] = cagr_l is not None and cagr_l >= 10
+    if flags["moat_lucro_crescendo"]: score += 1
+
+    # CAGR Receita 5a >= 5% (crescimento consistente de receita)
+    cagr_r = indicators_raw.get("cagr_receita")
+    flags["moat_receita_crescendo"] = cagr_r is not None and cagr_r >= 5
+    if flags["moat_receita_crescendo"]: score += 1
+
+    # Dividendo crescente (sinal de geração de caixa sustentável)
+    flags["moat_div_crescente"] = history.get("dividend_growing", False)
+    if flags["moat_div_crescente"]: score += 1
+
+    # --- Critérios de Fluxo de Caixa (Fase 2) — informacionais, não afetam o score ---
+    cf = history.get("buffett_cashflow") or {}
+    flags["cashflow_available"]        = cf.get("cashflow_available", False)
+    flags["moat_fcf_positivo"]         = cf.get("fcf_positivo", False)
+    flags["moat_fcf_quality"]          = cf.get("fcf_quality_ok", False)
+    flags["moat_capex_moat"]           = cf.get("capex_moat_ok", False)
+    flags["moat_owner_earnings_ok"]    = cf.get("owner_earnings_positivo", False)
+
+    if score >= 7:
+        label = "FORTE"
+    elif score >= 4:
+        label = "MODERADO"
+    else:
+        label = "FRACO"
+
+    cashflow_values = {
+        "fcf":              cf.get("fcf"),
+        "owner_earnings":   cf.get("owner_earnings"),
+        "net_income_cf":    cf.get("net_income_cf"),
+        "fcf_lucro_ratio":  cf.get("fcf_lucro_ratio"),
+        "capex_lucro_ratio": cf.get("capex_lucro_ratio"),
+        "capex":            cf.get("capex"),
+        "da":               cf.get("da"),
+    }
+
+    return {
+        "score":            score,
+        "score_max":        10,
+        "label":            label,
+        "flags":            flags,
+        "cashflow_values":  cashflow_values,
+    }
+
+
 def _calc_piotroski(indicators: dict, history: dict) -> dict:
     """
     Piotroski F-Score adaptado (9 pontos) com os dados disponíveis.
@@ -230,6 +326,7 @@ def calculate(ticker: str) -> Optional[dict]:
     # estrutural em bancos e seguradoras — depósitos de clientes são passivo circulante).
     # Esses setores ficam isentos dos filtros de liquidez_corrente e passivo_ativo.
     _is_financial = pl_ativo is not None and pl_ativo <= rules.FINANCIAL_PL_ATIVO_MAX
+    m_bruta     = _safe_float(indicators.get("margembruta"))
     m_ebit      = _safe_float(indicators.get("margemebit"))
     m_liq       = _safe_float(indicators.get("margemliquida"))
     roe         = _safe_float(indicators.get("roe"))
@@ -299,18 +396,21 @@ def calculate(ticker: str) -> Optional[dict]:
 
     weighted_score = _calc_weighted_score(flags)
 
-    # Piotroski usa os indicadores brutos (floats) e o histórico de lucros
+    # Piotroski e Buffett Moat usam indicadores brutos (floats) e histórico de lucros
     _indicators_raw = {
         "dl_pl":            dl_pl,
         "passivo_ativo":    passivo_ativo,
         "liquidez_corrente": liq_corrente,
+        "margem_bruta":     m_bruta,
         "margem_ebit":      m_ebit,
+        "margem_liq":       m_liq,
         "roe":              roe,
         "roic":             roic,
         "cagr_receita":     cagr_r,
         "cagr_lucro":       cagr_l,
     }
     piotroski = _calc_piotroski(_indicators_raw, history)
+    buffett_moat = _calc_buffett_moat_score(_indicators_raw, history)
 
     zone = _calc_zone(
         price_now or 0,
@@ -337,8 +437,10 @@ def calculate(ticker: str) -> Optional[dict]:
         "zone":               zone,
         "weighted_score":     weighted_score,
         "piotroski":          piotroski,
+        "buffett_moat":       buffett_moat,
         "flags":              flags,
         "indicators": {
+            "margem_bruta":         m_bruta,
             "dy":                   dy,
             "p_l":                  p_l,
             "p_vp":                 p_vp,
@@ -397,6 +499,8 @@ def update_all(tickers: Optional[list] = None) -> dict:
                 "weighted_score":      entry["weighted_score"]["score"],
                 "piotroski_score":     entry["piotroski"]["score"],
                 "piotroski_label":     entry["piotroski"]["label"],
+                "buffett_moat_score":  entry["buffett_moat"]["score"],
+                "buffett_moat_label":  entry["buffett_moat"]["label"],
                 "zone":                entry["zone"],
                 "price_now":           entry["price_now"],
                 "price_target_6pct":   entry["price_target_6pct"],

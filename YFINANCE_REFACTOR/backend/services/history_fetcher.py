@@ -35,6 +35,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from repositories import stock_repository as repo
 from config.rules import HISTORY_UPDATE_INTERVAL_DAYS, DIVIDEND_YEARS_MIN
+from services.buffett_fetcher import fetch_cashflow
 
 _STATUSINVEST_PAYOUT_URL = "https://statusinvest.com.br/acao/payoutresult?code={ticker}"
 _STATUSINVEST_HEADERS = {
@@ -226,6 +227,9 @@ def fetch_history(ticker: str) -> Optional[dict]:
         # --- Payout: StatusInvest ---
         payout = fetch_payout(ticker)
 
+        # --- Buffett Cashflow (Fase 2): FCF, Owner Earnings, CapEx ---
+        buffett_cf = fetch_cashflow(ticker)
+
         return {
             "price_min_6m":               round(price_min_6m, 2),
             "price_max_6m":               round(price_max_6m, 2),
@@ -242,6 +246,7 @@ def fetch_history(ticker: str) -> Optional[dict]:
             "years_with_positive_income": years_with_positive_income,
             "positive_income_5_years":    positive_income_5_years,
             "payout":                     payout,
+            "buffett_cashflow":           buffett_cf,
         }
 
     except Exception:

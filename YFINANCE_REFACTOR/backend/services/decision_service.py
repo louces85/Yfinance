@@ -113,6 +113,7 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
 
     weighted = valuation.get("weighted_score", {})
     piotroski = valuation.get("piotroski", {})
+    buffett_moat = valuation.get("buffett_moat", {})
 
     return {
         "ticker":               ticker.upper(),
@@ -129,6 +130,8 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
         "weighted_score":       weighted.get("score"),
         "piotroski_score":      piotroski.get("score"),
         "piotroski_label":      piotroski.get("label"),
+        "buffett_moat_score":   buffett_moat.get("score"),
+        "buffett_moat_label":   buffett_moat.get("label"),
         "zone":                 valuation.get("zone"),
         "dy_real":              dy_real,
         "avg_dividends_5y":     avg_div,
