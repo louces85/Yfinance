@@ -1467,8 +1467,21 @@ function renderBuffettMoat(moat) {
     return;
   }
   const { score, score_max, label, flags } = moat;
-  const cf  = moat.cashflow_values || {};
-  const tv  = moat.trends_values   || {};
+  const cf  = moat.cashflow_values  || {};
+  const tv  = moat.trends_values    || {};
+  const mi  = moat.moat_indicators  || {};
+
+  // --- Fase 4: valores reais por critério ---
+  const MOAT_VALUES = {
+    moat_margem_bruta:      mi.margem_bruta  != null ? mi.margem_bruta.toFixed(1)  + '%' : '',
+    moat_margem_liquida:    mi.margem_liq    != null ? mi.margem_liq.toFixed(1)    + '%' : '',
+    moat_roe:               mi.roe           != null ? mi.roe.toFixed(1)           + '%' : '',
+    moat_roic:              mi.roic          != null ? mi.roic.toFixed(1)          + '%' : '',
+    moat_baixa_divida:      mi.dl_pl         != null ? mi.dl_pl.toFixed(2)               : '',
+    moat_lucro_crescendo:   mi.cagr_lucro    != null ? mi.cagr_lucro.toFixed(1)    + '%' : '',
+    moat_receita_crescendo: mi.cagr_receita  != null ? mi.cagr_receita.toFixed(1)  + '%' : '',
+    moat_div_crescente:     '',
+  };
   const cfAvail = flags.cashflow_available === true;
 
   // --- Fase 2: Qualidade do Caixa ---
@@ -1590,27 +1603,52 @@ function renderBuffettMoat(moat) {
           ${_buildRow('FCF',             tv.fcf_hist,            tv.fcf_trend,            _fmtVal, false)}
           ${_buildRow('Dívida Líq.',     tv.divida_liq_hist,     tv.divida_trend,         _fmtVal, true)}
           ${_buildRow('CapEx/Receita',   tv.capex_receita_hist,  tv.capex_receita_trend,  _fmtPct, true)}
+          ${_buildRow('SG&A/Receita',   tv.sga_receita_hist,    tv.sga_receita_trend,    _fmtPct, true)}
         </tbody>
       </table>
       </div>
-      <div style="font-size:9px;color:var(--muted);margin-top:4px;padding:0 12px">Dívida e CapEx/Receita: ↓ CAINDO = positivo (menos dívida / menos reinvestimento)</div>
+      <div style="font-size:9px;color:var(--muted);margin-top:4px;padding:0 12px">Dívida, CapEx/Receita e SG&A/Receita: ↓ CAINDO = positivo</div>
     </div>` : `
     <div style="border-top:1px solid var(--border);padding:8px 12px 6px;margin-top:4px">
       <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:4px">TENDÊNCIAS HISTÓRICAS (4 ANOS)</div>
       <div style="font-size:11px;color:var(--muted)">⚠ Dados históricos não disponíveis para este ativo.</div>
     </div>`;
 
+  // --- Fase 4: Gauge bar ---
+  const gaugePct   = Math.round((score / score_max) * 100);
+  const gaugeColor = score >= 7 ? 'var(--green-s)' : score >= 4 ? 'var(--yellow)' : 'var(--red)';
+  const gaugeHtml  = `
+    <div style="flex:1;min-width:0">
+      <div style="position:relative;background:var(--border);border-radius:4px;height:8px;overflow:hidden;margin-bottom:3px">
+        <div style="width:${gaugePct}%;height:100%;background:${gaugeColor};border-radius:4px;transition:width .4s"></div>
+        <div style="position:absolute;top:0;left:${(4/10)*100}%;width:1px;height:100%;background:rgba(255,255,255,.25)"></div>
+        <div style="position:absolute;top:0;left:${(7/10)*100}%;width:1px;height:100%;background:rgba(255,255,255,.25)"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)">
+        <span>0 — FRACO</span><span style="margin-left:${(4/10)*100}%">4</span><span>7</span><span>10 — FORTE</span>
+      </div>
+    </div>`;
+
   box.innerHTML = `
-    <div style="padding:10px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">
-      <span class="moat-pill moat-${moatClass(label)}" style="font-size:12px;padding:3px 8px">${score}/${score_max} — ${label}</span>
-      <span style="color:var(--muted);font-size:11px">Vantagem competitiva durável (Warren Buffett)</span>
+    <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span class="moat-pill moat-${moatClass(label)}" style="font-size:12px;padding:3px 8px;flex-shrink:0">${score}/${score_max} — ${label}</span>
+        <span style="color:var(--muted);font-size:11px">Vantagem competitiva durável (Warren Buffett)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:0 2px">
+        ${gaugeHtml}
+      </div>
     </div>
     <ul class="criteria-list" style="padding:8px 12px 4px">
       ${Object.entries(MOAT_LABELS).map(([key, lbl]) => {
         const passed = flags[key] === true;
-        return `<li class="criteria-item ${passed ? 'ci-ok' : 'ci-fail'}">
-          <span class="ci-icon">${passed ? '✅' : '❌'}</span>
-          <span>${lbl}</span>
+        const val    = MOAT_VALUES[key] || '';
+        return `<li class="criteria-item ${passed ? 'ci-ok' : 'ci-fail'}" style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <span class="ci-icon">${passed ? '✅' : '❌'}</span>
+            <span>${lbl}</span>
+          </div>
+          ${val ? `<span style="font-size:11px;color:var(--muted);font-weight:600;margin-left:8px;flex-shrink:0">${val}</span>` : ''}
         </li>`;
       }).join('')}
     </ul>

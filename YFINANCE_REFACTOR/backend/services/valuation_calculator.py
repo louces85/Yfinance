@@ -178,6 +178,7 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
     flags["moat_fcf_trend"]            = tr.get("fcf_trend")
     flags["moat_divida_trend"]         = tr.get("divida_trend")
     flags["moat_capex_rec_trend"]      = tr.get("capex_receita_trend")
+    flags["moat_sga_trend"]            = tr.get("sga_receita_trend")
 
     if score >= 7:
         label = "FORTE"
@@ -185,6 +186,16 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
         label = "MODERADO"
     else:
         label = "FRACO"
+
+    moat_indicators = {
+        "margem_bruta":  indicators_raw.get("margem_bruta"),
+        "margem_liq":    indicators_raw.get("margem_liq"),
+        "roe":           indicators_raw.get("roe"),
+        "roic":          indicators_raw.get("roic"),
+        "dl_pl":         indicators_raw.get("dl_pl"),
+        "cagr_lucro":    indicators_raw.get("cagr_lucro"),
+        "cagr_receita":  indicators_raw.get("cagr_receita"),
+    }
 
     cashflow_values = {
         "fcf":              cf.get("fcf"),
@@ -211,6 +222,8 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
         "divida_trend":          tr.get("divida_trend"),
         "capex_receita_hist":    tr.get("capex_receita_hist"),
         "capex_receita_trend":   tr.get("capex_receita_trend"),
+        "sga_receita_hist":      tr.get("sga_receita_hist"),
+        "sga_receita_trend":     tr.get("sga_receita_trend"),
     }
 
     return {
@@ -220,6 +233,7 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
         "flags":            flags,
         "cashflow_values":  cashflow_values,
         "trends_values":    trends_values,
+        "moat_indicators":  moat_indicators,
     }
 
 

@@ -205,6 +205,7 @@ def fetch_trends(ticker: str) -> dict:
         gross_profit = _safe_series(inc, "Gross Profit")
         revenue      = _safe_series(inc, "Total Revenue")
         net_income   = _safe_series(inc, "Net Income")
+        sga_series   = _safe_series(inc, "Selling General And Administration")
         fco_series   = _safe_series(cf,  "Operating Cash Flow")
         capex_series = _safe_series(cf,  "Capital Expenditure")
         equity       = _safe_series(bs,  "Stockholders Equity")
@@ -257,15 +258,20 @@ def fetch_trends(ticker: str) -> dict:
             rev = _val(revenue, i)
             cr_hist.append(_pct(abs(cx) if cx is not None else None, rev))
 
+        # --- SG&A / Receita (Buffett: ≤ 30% = moat forte) ---
+        sga_hist = [
+            _pct(abs(_val(sga_series, i)) if _val(sga_series, i) is not None else None, _val(revenue, i))
+            for i in range(n)
+        ]
+
         # --- tendências ---
-        # Dívida e CapEx/Receita: CAINDO é positivo — passamos a série invertida
-        # para _calc_tendencia avaliar corretamente a direção "boa"
-        mb_trend  = _calc_tendencia(mb_hist)
-        ml_trend  = _calc_tendencia(ml_hist)
-        roe_trend = _calc_tendencia(roe_hist)
-        fcf_trend = _calc_tendencia(fcf_hist)
-        dl_trend  = _calc_tendencia(dl_hist)   # CAINDO = boa (menos dívida)
-        cr_trend  = _calc_tendencia(cr_hist)   # CAINDO = boa (menos reinvestimento)
+        mb_trend   = _calc_tendencia(mb_hist)
+        ml_trend   = _calc_tendencia(ml_hist)
+        roe_trend  = _calc_tendencia(roe_hist)
+        fcf_trend  = _calc_tendencia(fcf_hist)
+        dl_trend   = _calc_tendencia(dl_hist)   # CAINDO = boa (menos dívida)
+        cr_trend   = _calc_tendencia(cr_hist)   # CAINDO = boa (menos reinvestimento)
+        sga_trend  = _calc_tendencia(sga_hist)  # CAINDO = boa (menos gasto com vendas/admin)
 
         if not anos:
             return {"trends_available": False}
@@ -285,6 +291,8 @@ def fetch_trends(ticker: str) -> dict:
             "divida_trend":          dl_trend,
             "capex_receita_hist":    cr_hist,
             "capex_receita_trend":   cr_trend,
+            "sga_receita_hist":      sga_hist,
+            "sga_receita_trend":     sga_trend,
         }
 
     except Exception:
