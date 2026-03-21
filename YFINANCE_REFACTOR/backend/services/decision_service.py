@@ -140,6 +140,7 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
         "piotroski_label":      piotroski.get("label"),
         "buffett_moat_score":   buffett_moat.get("score"),
         "buffett_moat_label":   buffett_moat.get("label"),
+        "fcf_lucro_ratio":      (buffett_moat.get("cashflow_values") or {}).get("fcf_lucro_ratio"),
         "zone":                 valuation.get("zone"),
         "dy_real":              dy_real,
         "avg_dividends_5y":     avg_div,
