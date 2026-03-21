@@ -485,6 +485,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
       <th data-col="weighted_score">Score</th>
       <th data-col="buffett_moat_score">MOAT</th>
       <th data-col="piotroski_score" class="col-zone">Saúde</th>
+      <th data-col="fcf_lucro_ratio" title="FCF/Lucro — qualidade do lucro (Buffett). ≥ 80% = verde" style="text-align:left">FCF/L</th>
       <th data-col="accumulation_score">Acum. 6m (%)</th>
       <th data-col="accumulation_recent_days">Acum. 5d (%)</th>
       <th data-col="zone" class="col-zone">Sinal</th>
@@ -515,6 +516,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
           <th data-ptcol="weighted_score">Score</th>
           <th data-ptcol="buffett_moat_score">MOAT</th>
           <th data-ptcol="piotroski_score" class="col-zone">Saúde</th>
+          <th data-ptcol="fcf_lucro_ratio" title="FCF/Lucro — qualidade do lucro (Buffett). ≥ 80% = verde" style="text-align:left">FCF/L</th>
           <th data-ptcol="zone" class="col-zone">Sinal</th>
         </tr>
       </thead>
@@ -743,6 +745,9 @@ function renderTable() {
       </td>
       <td class="col-zone" title="${s.piotroski_label ? `Piotroski ${s.piotroski_score}/9 · ${s.piotroski_label}` : ''}">
         ${s.piotroski_label ? `<span class="piotr-badge piotr-${s.piotroski_label}">${s.piotroski_score}/9</span>` : '—'}
+      </td>
+      <td style="text-align:left" title="FCF/Lucro ${s.fcf_lucro_ratio != null ? Math.round(s.fcf_lucro_ratio*100)+'%' : 'indisponível'} — qualidade do lucro. ≥ 80% = benchmark Buffett">
+        ${s.fcf_lucro_ratio == null ? nd() : s.fcf_lucro_ratio >= 0.80 ? '<span style="color:var(--green-s);font-size:20px;font-weight:700">✓</span>' : '❌'}
       </td>
       <td style="color:${accColor(s.accumulation_score)};font-weight:600">${s.accumulation_score != null ? s.accumulation_score.toFixed(1) : nd()}</td>
       <td style="color:${accRecentColor(s.accumulation_recent_days, s.accumulation_recent_total)};font-weight:600">${s.accumulation_recent_days != null && s.accumulation_recent_total > 0 ? (s.accumulation_recent_days / s.accumulation_recent_total * 100).toFixed(1) : nd()}</td>
@@ -1072,6 +1077,7 @@ function _decFromVal(ticker, val) {
     piotroski_label:    pio.label,
     buffett_moat_score: moat.score,
     buffett_moat_label: moat.label,
+    fcf_lucro_ratio:    (moat.cashflow_values || {}).fcf_lucro_ratio ?? null,
     sector:             ind.sector,
     dividend_growing:   val.flags ? val.flags.dividendo_crescente_ok : false,
     is_gold: false, is_below_vpa_target: false, is_bronze: false, is_buffett_seal: false,
@@ -1094,6 +1100,10 @@ function renderElementCard(ticker, dec, val) {
     : 'var(--muted)';
   const healthStr  = dec.piotroski_score != null ? `P:${dec.piotroski_score}/9` : '—';
   const healthColor = { FORTE: 'var(--green-s)', MODERADO: 'var(--yellow)', FRACO: 'var(--red)' }[dec.piotroski_label] || 'var(--muted)';
+  const fcfLucroRaw = dec.fcf_lucro_ratio;
+  const fcfLucroPct = fcfLucroRaw != null ? Math.round(fcfLucroRaw * 100) : null;
+  const fcfLucroStr = fcfLucroPct != null ? `${fcfLucroPct}` : '—';
+  const fcfLucroColor = fcfLucroPct == null ? 'var(--muted)' : fcfLucroPct >= 80 ? 'var(--green-s)' : fcfLucroPct >= 50 ? 'var(--yellow)' : 'var(--red)';
   const moatStr    = dec.buffett_moat_score != null ? `${dec.buffett_moat_score}/10` : '—';
   const _moatColors = { FORTE: 'var(--green-s)', MODERADO: 'var(--yellow)', FRACO: 'var(--red)' };
   const moatColor  = _moatColors[dec.buffett_moat_label] || 'var(--muted)';
@@ -1127,6 +1137,10 @@ function renderElementCard(ticker, dec, val) {
       <div class="elem-stat">
         <span class="elem-stat-label">Saúde</span>
         <span class="elem-stat-value" style="color:${healthColor}">${healthStr}</span>
+      </div>
+      <div class="elem-stat" title="FCF/Lucro — qualidade do lucro. ≥ 80% = lucro convertido em caixa real (Buffett)">
+        <span class="elem-stat-label">FCF/L</span>
+        <span class="elem-stat-value" style="color:${fcfLucroColor}">${fcfLucroStr}</span>
       </div>
     </div>
     ${(medal || buffettSeal) ? `<div style="text-align:center;font-size:22px;margin-top:10px">${medal}${buffettSeal}</div>` : ''}
@@ -1548,12 +1562,12 @@ function renderBuffettMoat(moat) {
     const vals  = hist ? [...hist].reverse() : [];  // mais antigo primeiro
     const cells = anos.map((ano, i) => {
       const v = vals[i] != null ? fmtFn(vals[i]) : '—';
-      return `<td style="text-align:right;padding:8px 8px;font-size:13px;white-space:nowrap">${v}</td>`;
+      return `<td style="text-align:left;padding:8px 8px;font-size:13px;white-space:nowrap">${v}</td>`;
     }).join('');
     return `<tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
-      <td style="padding:8px 8px;font-size:13px;white-space:nowrap">${label}</td>
+      <td style="padding:8px 8px;font-size:13px;white-space:nowrap;text-align:left">${label}</td>
       ${cells}
-      <td style="padding:8px 8px;text-align:right;white-space:nowrap">${_trendBadge(trend, inverted)}</td>
+      <td style="padding:8px 8px;text-align:left;white-space:nowrap">${_trendBadge(trend, inverted)}</td>
     </tr>`;
   }
 
@@ -1561,11 +1575,11 @@ function renderBuffettMoat(moat) {
     <div style="border-top:1px solid var(--border);padding:10px 0 8px;margin-top:4px">
       <div style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:8px;padding:0 12px">TENDÊNCIAS HISTÓRICAS (4 ANOS)</div>
       <div style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;min-width:420px">
+      <table style="width:100%;border-collapse:collapse;min-width:420px;text-align:left">
         <thead>
           <tr style="border-bottom:1px solid var(--border)">
             <th style="font-size:11px;color:var(--muted);font-weight:400;text-align:left;padding:5px 8px;white-space:nowrap">Indicador</th>
-            ${anos.map(a => `<th style="font-size:11px;color:var(--muted);font-weight:400;text-align:right;padding:5px 8px;white-space:nowrap">${a}</th>`).join('')}
+            ${anos.map(a => `<th style="font-size:11px;color:var(--muted);font-weight:400;text-align:left;padding:5px 8px;white-space:nowrap">${a}</th>`).join('')}
             <th style="font-size:11px;color:var(--muted);font-weight:400;padding:5px 8px"></th>
           </tr>
         </thead>
@@ -1872,6 +1886,9 @@ function renderPortfolioTable() {
       <td style="text-align:center" title="${p.weighted_score != null ? `Score ${p.weighted_score.toFixed(1)}% · ${p.rank}/${p.rank_max} critérios` : ''}">${scoreTd}</td>
       <td style="text-align:center" title="${p.buffett_moat_score != null ? `Buffett Moat ${p.buffett_moat_score}/10 · ${p.buffett_moat_label}` : ''}">${moatTd}</td>
       <td class="col-zone" title="${p.piotroski_label ? `Piotroski ${p.piotroski_score}/9 · ${p.piotroski_label}` : ''}">${saudeTd}</td>
+      <td style="text-align:left" title="FCF/Lucro ${p.fcf_lucro_ratio != null ? Math.round(p.fcf_lucro_ratio*100)+'%' : 'indisponível'} — qualidade do lucro. ≥ 80% = benchmark Buffett">
+        ${p.fcf_lucro_ratio == null ? nd() : p.fcf_lucro_ratio >= 0.80 ? '<span style="color:var(--green-s);font-size:20px;font-weight:700">✓</span>' : '❌'}
+      </td>
       <td class="col-zone">${zoneTd}</td>
     </tr>`;
   }).join('');
