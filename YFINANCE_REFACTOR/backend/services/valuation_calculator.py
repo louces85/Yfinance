@@ -37,6 +37,7 @@ Uso direto:
     python valuation_calculator.py BBAS3 PETR4      # calcula tickers específicos
 """
 
+import json
 import sys
 import os
 from typing import Optional
@@ -45,6 +46,33 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from repositories import stock_repository as repo
 from config import rules
+
+
+def _load_sectors() -> dict:
+    path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "data", "all_sectors.json"
+    )
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _lookup_sector(ticker: str, sectors: dict) -> dict:
+    """Busca pelo ticker exato; fallback pelo radical de 4 letras."""
+    t = ticker.upper()
+    if t in sectors:
+        return sectors[t]
+    prefix = t[:4]
+    for key, info in sectors.items():
+        if key.startswith(prefix):
+            return info
+    return {}
+
+
+_SECTORS = _load_sectors()
 
 
 def _safe_float(value, default=None) -> Optional[float]:
@@ -419,8 +447,9 @@ def calculate(ticker: str, force: bool = False) -> Optional[dict]:
     cagr_r      = _safe_float(indicators.get("receitas_cagr5"))
     cagr_l      = _safe_float(indicators.get("lucros_cagr5"))
     liq_diaria  = _safe_float(indicators.get("liquidezmediadiaria"), 0)
-    sector      = indicators.get("sectorname", "-")
-    segment     = indicators.get("segmentname", "-")
+    _sec_info   = _lookup_sector(ticker, _SECTORS)
+    sector      = _sec_info.get("setor", "-")
+    segment     = _sec_info.get("segmento", "-")
 
     # --- Histórico ---
     price_min_6m   = _safe_float(history.get("price_min_6m"))
@@ -543,6 +572,7 @@ def calculate(ticker: str, force: bool = False) -> Optional[dict]:
             "cagr_lucro":           cagr_l,
             "liquidez_diaria_milhoes": liq_diaria_m,
             "sector":               sector,
+            "segmento":             segment,
             "segment":              segment,
         },
     }

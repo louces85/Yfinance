@@ -54,6 +54,14 @@ def index():
 # API — decision_stocks.json
 # ---------------------------------------------------------------------------
 
+@app.route("/api/sectors")
+def sectors():
+    path = os.path.join(DATA_DIR, "all_sectors.json")
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    return jsonify(data)
+
+
 @app.route("/api/decision")
 def decision():
     path = os.path.join(DATA_DIR, "decision_stocks.json")

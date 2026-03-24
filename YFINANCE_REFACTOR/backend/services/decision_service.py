@@ -17,6 +17,7 @@ Uso direto:
     python decision_service.py --force        # força novo fetch de preço
 """
 
+import json
 import sys
 import os
 import time
@@ -28,6 +29,57 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from repositories import stock_repository as repo
 from services.price_service import PriceService
+
+
+def _load_sectors() -> dict:
+    """Carrega all_sectors.json — mapeamento ticker → {setor, subsetor, segmento}."""
+    path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "data", "all_sectors.json"
+    )
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _lookup_sector(ticker: str, sectors: dict) -> dict:
+    """
+    Busca setor pelo ticker exato; fallback pelo radical de 4 letras.
+    Ex: SAPR4 não encontrado → tenta qualquer chave que comece com 'SAPR'.
+    Cobre todas as classes (ON/PN/UNT) da mesma empresa.
+    """
+    t = ticker.upper()
+    if t in sectors:
+        return sectors[t]
+    prefix = t[:4]
+    for key, info in sectors.items():
+        if key.startswith(prefix):
+            return info
+    return {}
+
+
+def _is_best(sector_info: dict) -> bool:
+    """
+    Barsi BEST: Bancos · Elétricas · Seguradoras · Transmissão de Energia.
+    Classificação via subsetor/segmento de all_sectors.json.
+    """
+    sub = sector_info.get("subsetor", "")
+    seg = sector_info.get("segmento", "")
+    # B — Bancos
+    if seg == "Bancos":
+        return True
+    # E + T — Energia Elétrica (geração, distribuição, transmissão)
+    if sub == "Energia Elétrica":
+        return True
+    # Saneamento — utilidade pública essencial (Barsi: SAPR11, SBSP3, CSMG3)
+    if sub == "Água e Saneamento":
+        return True
+    # S — Seguradoras e resseguradoras
+    if sub == "Previdência e Seguros" or "Segur" in seg or "Ressegur" in seg:
+        return True
+    return False
 
 
 def _safe_float(value, default=None) -> Optional[float]:
@@ -67,7 +119,7 @@ def _calc_accumulation_recent(ticker: str, close_avg: float, volume_avg: float) 
         return empty
 
 
-def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) -> dict:
+def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict, sectors: dict) -> dict:
     """Constrói a entrada de decisão para um ticker."""
     target_6 = _safe_float(valuation.get("price_target_6pct"))
     target_8 = _safe_float(valuation.get("price_target_8pct"))
@@ -111,6 +163,8 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
 
     indicators = valuation.get("indicators", {})
 
+    sector_info = _lookup_sector(ticker, sectors)
+
     weighted = valuation.get("weighted_score", {})
     piotroski = valuation.get("piotroski", {})
     buffett_moat = valuation.get("buffett_moat", {})
@@ -148,7 +202,9 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict) 
         "accumulation_score":        accumulation_score,
         "accumulation_recent_days":  recent["accumulation_recent_days"],
         "accumulation_recent_total": recent["accumulation_recent_total"],
-        "sector":               indicators.get("sector", "-"),
+        "sector":               sector_info.get("setor", "-"),
+        "segmento":             sector_info.get("segmento", "-"),
+        "is_best":              _is_best(sector_info),
         "dividend_growing":     dividend_growing,
         "is_below_vpa_target":  is_below_vpa_target,
         "is_gold":              is_gold,
@@ -166,6 +222,7 @@ def run(tickers: Optional[List[str]] = None, force: bool = False, delay: float =
     Retorna a lista de entradas gerada.
     """
     svc = PriceService()
+    sectors = _load_sectors()
 
     # Fonte de tickers: argumento ou monitoring_stocks.json
     if tickers is None:
@@ -206,7 +263,7 @@ def run(tickers: Optional[List[str]] = None, force: bool = False, delay: float =
                 time.sleep(delay)
             continue
 
-        entry = _build_entry(ticker, price_now, valuation, history)
+        entry = _build_entry(ticker, price_now, valuation, history, sectors)
         entries.append(entry)
 
         rd = entry["accumulation_recent_days"]
