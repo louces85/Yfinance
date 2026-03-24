@@ -335,6 +335,8 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   flex-direction: column;
   align-items: center;
   gap: 2px;
+  min-width: 0;
+  flex: 1;
 }
 .elem-stat-label {
   font-size: 9px;
@@ -343,9 +345,10 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   letter-spacing: .5px;
 }
 .elem-stat-value {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
   font-family: monospace;
+  white-space: nowrap;
 }
 
 /* ─── Price cards ──────────────────────────────────────────────── */
@@ -401,7 +404,12 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 
 /* ─── Charts ───────────────────────────────────────────────────── */
 .chart-section { margin-bottom: 20px; }
-.chart-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+.chart-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+.chart-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.chart-period-btns { display: flex; gap: 4px; }
+.period-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 4px; padding: 2px 8px; font-size: 11px; cursor: pointer; transition: border-color .15s, color .15s; }
+.period-btn:hover { border-color: var(--blue); color: var(--blue); }
+.period-btn.active { border-color: var(--blue); color: var(--blue); background: rgba(88,166,255,.1); }
 .chart-loading { color: var(--muted); font-size: 12px; padding: 20px; text-align: center; }
 .chart-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
 
@@ -537,7 +545,14 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 
     <!-- Price + volume chart -->
     <div class="chart-section">
-      <div class="chart-title">Preço & Volume — 6 meses</div>
+      <div class="chart-header-row">
+        <div class="chart-title" id="chartPeriodTitle">Preço &amp; Volume — 6 meses</div>
+        <div class="chart-period-btns">
+          <button class="period-btn active" data-months="6">6m</button>
+          <button class="period-btn" data-months="3">3m</button>
+          <button class="period-btn" data-months="1">1m</button>
+        </div>
+      </div>
       <div class="chart-box">
         <div class="chart-loading" id="chartLoading">Carregando gráfico…</div>
         <canvas id="priceChart" style="display:none; max-height:260px"></canvas>
@@ -608,6 +623,9 @@ let priceChartInst = null;
 let volChartInst   = null;
 let divChartInst   = null;
 const chartCache   = new Map(); // ticker → chartData
+let _fullChartData6m = null;  // dados completos 6m para filtro por período
+let _chartDecRef     = null;
+let _chartValRef     = null;
 
 // ─── Helpers ─────────────────────────────────────────────────────
 const nd     = () => '<span class="nd">—</span>';
@@ -985,6 +1003,9 @@ const IND_CONF = [
 async function openDetail(ticker, e) {
   if (e) e.stopPropagation();
   destroyCharts();
+  _fullChartData6m = null;
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.toggle('active', b.dataset.months === '6'));
+  document.getElementById('chartPeriodTitle').textContent = 'Preço & Volume — 6 meses';
 
   document.getElementById('modalOverlay').classList.add('open');
   const elemCard = document.getElementById('mElemCard');
@@ -1037,14 +1058,19 @@ async function openDetail(ticker, e) {
 
   // Gráfico de preço/volume: usa cache ou busca em background
   if (chartCache.has(ticker)) {
-    renderCharts(chartCache.get(ticker), effectiveDec, valRes);
+    const chartData = chartCache.get(ticker);
+    _fullChartData6m = chartData; _chartDecRef = effectiveDec; _chartValRef = valRes;
+    renderCharts(chartData, effectiveDec, valRes);
   } else {
     fetch(`/api/chart/${ticker}`)
       .then(r => r.json())
       .catch(() => null)
       .then(chartRes => {
         if (chartRes && !chartRes.error) chartCache.set(ticker, chartRes);
-        if (isModalOpen()) renderCharts(chartRes, effectiveDec, valRes);
+        if (isModalOpen()) {
+          _fullChartData6m = chartRes; _chartDecRef = effectiveDec; _chartValRef = valRes;
+          renderCharts(chartRes, effectiveDec, valRes);
+        }
       });
   }
 }
@@ -1098,11 +1124,11 @@ function renderElementCard(ticker, dec, val) {
   const scoreColor = dec.weighted_score != null
     ? (dec.weighted_score >= 65 ? 'var(--green-s)' : dec.weighted_score >= 40 ? 'var(--yellow)' : 'var(--red)')
     : 'var(--muted)';
-  const healthStr  = dec.piotroski_score != null ? `P:${dec.piotroski_score}/9` : '—';
+  const healthStr  = dec.piotroski_score != null ? `${dec.piotroski_score}/9` : '—';
   const healthColor = { FORTE: 'var(--green-s)', MODERADO: 'var(--yellow)', FRACO: 'var(--red)' }[dec.piotroski_label] || 'var(--muted)';
   const fcfLucroRaw = dec.fcf_lucro_ratio;
   const fcfLucroPct = fcfLucroRaw != null ? Math.round(fcfLucroRaw * 100) : null;
-  const fcfLucroStr = fcfLucroPct != null ? `${fcfLucroPct}` : '—';
+  const fcfLucroStr = fcfLucroPct != null ? `${fcfLucroPct}%` : '—';
   const fcfLucroColor = fcfLucroPct == null ? 'var(--muted)' : fcfLucroPct >= 80 ? 'var(--green-s)' : fcfLucroPct >= 50 ? 'var(--yellow)' : 'var(--red)';
   const moatStr    = dec.buffett_moat_score != null ? `${dec.buffett_moat_score}/10` : '—';
   const _moatColors = { FORTE: 'var(--green-s)', MODERADO: 'var(--yellow)', FRACO: 'var(--red)' };
@@ -1190,8 +1216,8 @@ function renderPriceCards(dec, val) {
     { label: 'Payout',
       value: dec.payout != null ? dec.payout.toFixed(1) + '%' : '—',
       sub: 'distribuição do lucro',
-      cls: dec.payout != null && dec.payout >= 40 && dec.payout <= 80 ? 'pc-green' : '',
-      tip: 'Percentual do lucro líquido distribuído como dividendo.\nFaixa saudável: 40%–80% (Bazin). Abaixo de 40% a empresa retém muito; acima de 80% pode comprometer o reinvestimento e a sustentabilidade dos dividendos.' },
+      cls: dec.payout != null && dec.payout > 100 ? 'pc-red' : (dec.payout != null && dec.payout <= 100 ? 'pc-green' : ''),
+      tip: 'Percentual do lucro líquido distribuído como dividendo.\nFaixa saudável: 40%–80% (Bazin). Abaixo de 40% a empresa retém muito; acima de 80% pode comprometer o reinvestimento.\n⚠️ Acima de 100%: empresa está pagando dividendo com dívida ou reservas — sinal de insustentabilidade.' },
     { label: 'Div. Médio 5a',
       value: dec.avg_dividends_5y != null ? 'R$ ' + dec.avg_dividends_5y.toFixed(2) : '—',
       sub: 'base dos targets',
@@ -1215,6 +1241,30 @@ function renderPriceCards(dec, val) {
        <div class="pc-sub">${c.sub}</div>
      </div>`
   ).join('');
+}
+
+function makeBgAccumulPlugin(rawVolumes, avgC, avgV) {
+  return {
+    id: 'bgAccumul',
+    beforeDatasetsDraw(chart) {
+      if (!avgC || !avgV) return;
+      const { ctx, chartArea, scales } = chart;
+      const xScale = scales.x;
+      const n = chart.data.labels.length;
+      if (!n) return;
+      const halfW = chartArea.width / n / 2;
+      ctx.save();
+      ctx.fillStyle = 'rgba(57,211,83,.07)';
+      chart.data.datasets[0].data.forEach((p, i) => {
+        const v = rawVolumes[i];
+        if (p != null && p < avgC && v != null && v < avgV) {
+          const cx = xScale.getPixelForValue(i);
+          ctx.fillRect(cx - halfW, chartArea.top, halfW * 2, chartArea.bottom - chartArea.top);
+        }
+      });
+      ctx.restore();
+    },
+  };
 }
 
 function renderCharts(chartData, dec, val) {
@@ -1253,6 +1303,10 @@ function renderCharts(chartData, dec, val) {
       tension: 0.3,
       pointRadius: 0,
       pointHoverRadius: 4,
+      segment: {
+        borderColor: ctx =>
+          (avgClose != null && ctx.p0.parsed.y < avgClose) ? '#39d353' : '#58a6ff',
+      },
     },
   ];
 
@@ -1321,6 +1375,7 @@ function renderCharts(chartData, dec, val) {
         y: { ticks: { color: tickColor, font: { size: 10 }, callback: v => 'R$ ' + v.toFixed(2) }, grid: { color: gridColor } },
       },
     },
+    plugins: [makeBgAccumulPlugin(chartData.volumes, avgClose, avgVolume)],
   });
 
   // ── Volume chart
@@ -1328,10 +1383,9 @@ function renderCharts(chartData, dec, val) {
     {
       label: 'Volume',
       data: chartData.volumes.map(v => v > 0 ? v : null),
-      backgroundColor: chartData.volumes.map((v, i) => {
-        const c = chartData.closes[i];
-        return (c != null && avgClose != null && v != null && avgVolume != null && c < avgClose && v < avgVolume)
-          ? 'rgba(57,211,83,.45)'   // acumulação silenciosa — verde
+      backgroundColor: chartData.volumes.map(v => {
+        return (v != null && avgVolume != null && v < avgVolume)
+          ? 'rgba(57,211,83,.45)'   // volume abaixo da média — verde
           : 'rgba(88,166,255,.25)'; // normal — azul
       }),
       borderColor: 'transparent',
@@ -1388,6 +1442,35 @@ function renderCharts(chartData, dec, val) {
       },
     },
   });
+}
+
+function renderChartsForPeriod(months) {
+  if (!_fullChartData6m || !_fullChartData6m.dates) return;
+
+  const cutoff = new Date();
+  cutoff.setMonth(cutoff.getMonth() - months);
+  const cutoffStr = cutoff.toISOString().slice(0, 10);
+
+  const allDates = _fullChartData6m.dates;
+  let idx = allDates.findIndex(d => d >= cutoffStr);
+  if (idx === -1) idx = 0;
+
+  const sliced = {
+    dates:   allDates.slice(idx),
+    closes:  _fullChartData6m.closes.slice(idx),
+    volumes: _fullChartData6m.volumes.slice(idx),
+  };
+
+  // Destroi apenas price+vol; mantém divChartInst intacto
+  [priceChartInst, volChartInst].forEach(c => { if (c) c.destroy(); });
+  priceChartInst = volChartInst = null;
+
+  renderCharts(sliced, _chartDecRef, _chartValRef);
+
+  const nomes = { 6: '6 meses', 3: '3 meses', 1: '1 mês' };
+  document.getElementById('chartPeriodTitle').textContent = `Preço & Volume — ${nomes[months]}`;
+  document.querySelectorAll('.period-btn').forEach(btn =>
+    btn.classList.toggle('active', +btn.dataset.months === months));
 }
 
 function renderCriteria(flags) {
@@ -1652,6 +1735,29 @@ function renderBuffettMoat(moat) {
         </li>`;
       }).join('')}
     </ul>
+    <ul class="criteria-list" style="padding:4px 12px 8px;border-top:1px solid rgba(255,255,255,0.06)">
+      <li style="font-size:9px;color:var(--muted);letter-spacing:.5px;font-weight:600;padding:4px 0 2px;list-style:none">MODIFICADORES DE TENDÊNCIA</li>
+      ${[
+        { key: 'moat_mb_trend',  label: 'Tendência Margem Bruta',  passed: flags.moat_margem_bruta },
+        { key: 'moat_roe_trend', label: 'Tendência ROE',            passed: flags.moat_roe },
+      ].map(({ key, label, passed }) => {
+        const trend = flags[key];
+        const modifier = trend === 'CAINDO' ? -0.5
+                       : (trend === 'CRESCENDO' && !passed) ? +0.5
+                       : 0;
+        const icon  = trend === 'CRESCENDO' ? '↗' : trend === 'CAINDO' ? '↘' : '→';
+        const color = modifier < 0 ? 'var(--red)' : modifier > 0 ? 'var(--green-s)' : 'var(--muted)';
+        const trendLbl = trend === 'CRESCENDO' ? 'Subindo' : trend === 'CAINDO' ? 'Descendo' : trend === 'ESTAVEL' ? 'Estável' : '—';
+        const modLbl   = modifier > 0 ? ' (+0.5)' : modifier < 0 ? ' (−0.5)' : '';
+        return `<li class="criteria-item" style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <span class="ci-icon" style="color:${color};font-size:14px">${icon}</span>
+            <span style="color:var(--muted)">${label}</span>
+          </div>
+          <span style="font-size:11px;font-weight:600;color:${color};margin-left:8px;flex-shrink:0">${trendLbl}${modLbl}</span>
+        </li>`;
+      }).join('')}
+    </ul>
     ${cashflowSection}
     ${trendsSection}`;
 }
@@ -1777,6 +1883,10 @@ function destroyCharts() {
   [priceChartInst, volChartInst, divChartInst].forEach(c => { if (c) c.destroy(); });
   priceChartInst = volChartInst = divChartInst = null;
 }
+
+// ─── Botões de período do gráfico ────────────────────────────────
+document.querySelectorAll('.period-btn').forEach(btn =>
+  btn.addEventListener('click', () => renderChartsForPeriod(+btn.dataset.months)));
 
 // ─── Modal close ─────────────────────────────────────────────────
 document.getElementById('modalClose').addEventListener('click', closeModal);

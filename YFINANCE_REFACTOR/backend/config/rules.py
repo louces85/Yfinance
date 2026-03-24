@@ -92,6 +92,10 @@ PIOTROSKI_PASSIVO_ATIVO_MAX   = 0.4   # Balanço conservador (sinal P6): abaixo 
 BUFFETT_FCF_QUALITY_MIN = 0.80   # FCF/Lucro mínimo (lucro de alta qualidade)
 BUFFETT_CAPEX_MOAT_MAX  = 0.25   # CapEx/Lucro máximo (moat — baixo reinvestimento)
 
+# --- Buffett Moat: modificadores de tendência (Fase 3) ---
+MOAT_TREND_PENALTY = -0.5  # critério aprovado + tendência CAINDO (moat erodindo)
+MOAT_TREND_BONUS   =  0.5  # critério reprovado + tendência CRESCENDO (moat se construindo)
+
 # --- Validade do ticker ---
 # Número de falhas consecutivas antes de marcar como inválido
 CONSECUTIVE_FAILURES_INVALID = 3

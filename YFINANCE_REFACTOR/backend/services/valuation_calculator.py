@@ -114,6 +114,13 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
       CAGR Receita 5a >= 5%   : peso 1 (crescimento real de receita)
       Dividendo crescente     : peso 1 (sinal de saúde do negócio)
 
+    Modificadores de tendência (Fase 3) — aplicados após os 8 critérios base:
+      MB  aprovado  + tendência CAINDO   : −0.5 (pricing power erodindo)
+      MB  reprovado + tendência CRESCENDO:  +0.5 (pricing power em construção)
+      ROE aprovado  + tendência CAINDO   : −0.5 (eficiência de capital caindo)
+      ROE reprovado + tendência CRESCENDO:  +0.5 (eficiência de capital melhorando)
+      Score final: clampado em [0, 10]
+
     Score: 0–10 pontos
       >= 7 → FORTE    (vantagem competitiva durável provável)
        4–6 → MODERADO (moat parcial ou em desenvolvimento)
@@ -160,6 +167,30 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
     # Dividendo crescente (sinal de geração de caixa sustentável)
     flags["moat_div_crescente"] = history.get("dividend_growing", False)
     if flags["moat_div_crescente"]: score += 1
+
+    # --- Modificadores de tendência (Fase 3) ---
+    # Aplicados sobre o score base dos 8 critérios acima.
+    # Lógica:
+    #   critério aprovado  + tendência CAINDO   → penalidade (moat erodindo silenciosamente)
+    #   critério reprovado + tendência CRESCENDO → bônus     (moat em construção)
+    #   ESTAVEL / INDEFINIDO                    → sem alteração
+    # Apenas MB e ROE (peso 2 cada) recebem modificadores — são os critérios principais
+    # de pricing power e eficiência de capital que Buffett cita explicitamente.
+    _tr = history.get("buffett_trends") or {}
+    _mb_trend  = _tr.get("margem_bruta_trend")
+    _roe_trend = _tr.get("roe_trend")
+
+    if _mb_trend == "CAINDO":
+        score += rules.MOAT_TREND_PENALTY
+    elif _mb_trend == "CRESCENDO" and not flags["moat_margem_bruta"]:
+        score += rules.MOAT_TREND_BONUS
+
+    if _roe_trend == "CAINDO":
+        score += rules.MOAT_TREND_PENALTY
+    elif _roe_trend == "CRESCENDO" and not flags["moat_roe"]:
+        score += rules.MOAT_TREND_BONUS
+
+    score = round(max(0, min(10, score)), 1)  # garante bounds [0, 10]
 
     # --- Critérios de Fluxo de Caixa (Fase 2) — informacionais, não afetam o score ---
     cf = history.get("buffett_cashflow") or {}
@@ -365,7 +396,6 @@ def calculate(ticker: str, force: bool = False) -> Optional[dict]:
         pre_qual_failed.append("p_l_positivo")
         if not force:
             return None
-
     # --- Indicadores fundamentalistas ---
     dy          = _safe_float(indicators.get("dy"))
     p_l         = _safe_float(indicators.get("p_l"))

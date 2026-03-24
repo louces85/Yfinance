@@ -14,6 +14,8 @@ import math
 import sys
 import os
 
+import numpy as np
+
 import yfinance
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -140,26 +142,34 @@ def _safe_series(df, name: str, n: int = 4) -> list:
     return result
 
 
-def _calc_tendencia(valores: list) -> str:
+def _calc_tendencia(valores: list, threshold_rel: float = 0.05) -> str:
     """
-    Avalia a direção de uma série temporal (mais recente primeiro).
-    Retorna: CRESCENDO, ESTAVEL ou CAINDO.
+    Avalia a direção de uma série temporal (mais recente primeiro) via regressão linear.
 
-    Regra: ≥ 75% dos intervalos consecutivos em alta → CRESCENDO
-            ≤ 25% dos intervalos consecutivos em alta → CAINDO
-            caso contrário → ESTAVEL
+    threshold_rel: variação mínima por ano relativa à média para classificar tendência.
+                   Default 5% — abaixo disso classifica como ESTAVEL.
+
+    Retorna: CRESCENDO, ESTAVEL ou CAINDO.
     """
-    limpos = [v for v in valores if v is not None]
-    if len(limpos) < 2:
+    # filtra Nones mantendo posição temporal (mais recente primeiro → inverte para antigo→recente)
+    pares = [(i, v) for i, v in enumerate(reversed(valores)) if v is not None]
+    if len(pares) < 2:
         return "INDEFINIDO"
-    # percorre do mais antigo ao mais recente (inverte a lista)
-    serie = list(reversed(limpos))
-    subidas = sum(1 for i in range(len(serie) - 1) if serie[i + 1] > serie[i])
-    total = len(serie) - 1
-    ratio = subidas / total
-    if ratio >= 0.75:
+
+    xs = np.array([p[0] for p in pares], dtype=float)
+    ys = np.array([p[1] for p in pares], dtype=float)
+
+    slope = np.polyfit(xs, ys, 1)[0]
+    mean_abs = np.mean(np.abs(ys))
+
+    if mean_abs == 0:
+        return "INDEFINIDO"
+
+    rel_slope = slope / mean_abs
+
+    if rel_slope > threshold_rel:
         return "CRESCENDO"
-    if ratio <= 0.25:
+    if rel_slope < -threshold_rel:
         return "CAINDO"
     return "ESTAVEL"
 

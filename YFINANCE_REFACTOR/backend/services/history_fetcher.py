@@ -172,10 +172,15 @@ def fetch_history(ticker: str) -> Optional[dict]:
 
         paid_dividends_5_years = years_with_dividends == DIVIDEND_YEARS_MIN
 
-        # Divide sempre por DIVIDEND_YEARS_MIN (não por len dos anos com dividendo)
-        # para evitar inflar o price_target quando algum ano não pagou dividendo
+        # Média ponderada por recência: anos mais recentes têm peso maior.
+        # Pesos [1, 2, 3, 4, 5] (mais antigo→mais recente).
+        # Divide pela soma total dos pesos (não pelos anos com dividendo):
+        # ano sem dividendo entra como 0 e puxa a média para baixo — correto.
+        _years_asc = sorted(dividends_per_year.keys())  # mais antigo primeiro
+        _weights   = list(range(1, len(_years_asc) + 1))
         avg_dividends_5y = round(
-            sum(v for v in dividends_per_year.values() if not math.isnan(v)) / DIVIDEND_YEARS_MIN, 4
+            sum(dividends_per_year[y] * w for y, w in zip(_years_asc, _weights))
+            / sum(_weights), 4
         )
 
         # --- Soma de dividendos dos últimos 12 meses (yield real Barsi) ---
