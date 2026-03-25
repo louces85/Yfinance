@@ -477,6 +477,15 @@ def calculate(ticker: str, force: bool = False) -> Optional[dict]:
     # --- Payout: StatusInvest (fonte real) ---
     payout = _safe_float(history.get("payout"))
 
+    # --- Payout sobre FCF (Barsi: avalia geração de caixa real) ---
+    _buffett_cf = history.get("buffett_cashflow") or {}
+    _fcf_lucro  = _safe_float(_buffett_cf.get("fcf_lucro_ratio"))
+    payout_fcf        = None
+    payout_divergencia = None
+    if payout is not None and _fcf_lucro is not None and _fcf_lucro > 0:
+        payout_fcf        = round(payout / _fcf_lucro, 1)
+        payout_divergencia = round(abs(payout - payout_fcf), 1)
+
     # --- Flags de critérios ---
     flags = {
         # Critérios independentes do preço atual
@@ -543,6 +552,8 @@ def calculate(ticker: str, force: bool = False) -> Optional[dict]:
         "price_target_5pct":  price_target_5,
         "dy_real":            dy_real,
         "payout":             payout,
+        "payout_fcf":         payout_fcf,
+        "payout_divergencia": payout_divergencia,
         "accumulation_score": accumulation_score,
         "p_now_p_min":        p_now_p_min,
         "gain_pct_to_target": gain_pct,

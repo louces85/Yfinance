@@ -65,6 +65,9 @@ a:hover { text-decoration: underline; }
 .zone-btn[data-zone="MONITORAR"].active     { border-color: var(--yellow);  color: var(--yellow);  background: rgba(210,153,34,.10); }
 .zone-btn[data-zone="CARO"].active          { border-color: var(--red);     color: var(--red);     background: rgba(248,81,73,.10); }
 
+/* ─── BEST filter active ───────────────────────────────────────── */
+.summary-card[data-best="true"].active-best { outline: 2px solid var(--blue); outline-offset: 2px; }
+
 /* ─── VPA toggle ───────────────────────────────────────────────── */
 .toggle-vpa {
   display: flex; align-items: center; gap: 6px;
@@ -218,18 +221,19 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 .piotr-FRACO    { background: rgba(248,81,73,.08);  color: var(--red);     border: 1px solid rgba(248,81,73,.3); }
 
 /* ─── Tabs ─────────────────────────────────────────────────────── */
-.tab-group { display: flex; gap: 6px; }
+.tab-group { display: flex; gap: 8px; }
 .tab-btn {
   border: 1px solid var(--border);
   background: var(--surface2);
   color: var(--muted);
-  padding: 4px 14px;
+  padding: 8px 22px;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: .3px;
+  letter-spacing: .4px;
   transition: all .15s;
+  display: flex; align-items: center; gap: 7px;
 }
 .tab-btn.active { color: var(--blue); border-color: var(--blue); background: rgba(88,166,255,.12); }
 .tab-btn:hover:not(.active) { color: var(--text); }
@@ -345,7 +349,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   letter-spacing: .5px;
 }
 .elem-stat-value {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   font-family: monospace;
   white-space: nowrap;
@@ -394,13 +398,26 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   opacity: 0;
   transition: opacity .15s;
 }
-.price-card .pc-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; text-align: center; }
-.price-card .pc-value { font-size: 18px; font-weight: 700; text-align: center; }
+.price-card .pc-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; height: 13px; display: flex; align-items: center; justify-content: center; }
+.price-card .pc-value { font-size: 18px; font-weight: 700; text-align: center; line-height: 1; }
+/* ─── Summary bar cards: tamanho fixo cross-platform ──────────── */
+#screeningSummary .summary-card {
+  flex: 0 0 96px;
+  width: 96px;
+  max-width: 96px;
+  min-height: 58px;
+  box-sizing: border-box;
+}
 .price-card .pc-sub   { font-size: 10px; color: var(--muted); margin-top: 2px; text-align: center; }
 .pc-green { color: var(--green-s); }
 .pc-red   { color: var(--red); }
 .pc-blue  { color: var(--blue); }
 .pc-yellow { color: var(--yellow); }
+.pc-extra     { border-top: 1px solid rgba(255,255,255,.08); margin-top: 5px; padding-top: 4px; }
+.pc-fcf-row   { display: flex; justify-content: space-between; align-items: center; font-size: 11px; margin-top: 2px; }
+.pc-fcf-label { color: var(--muted); text-transform: uppercase; letter-spacing: .5px; font-size: 10px; }
+.pc-fcf-row .pc-red, .pc-fcf-row .pc-green { font-weight: 700; }
+.pc-fcf-alert { font-size: 10px; color: var(--yellow); margin-top: 3px; line-height: 1.3; text-align: left; }
 
 /* ─── Charts ───────────────────────────────────────────────────── */
 .chart-section { margin-bottom: 20px; }
@@ -466,8 +483,20 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   <span class="header-title">⬡ YFINANCE</span>
 
   <div class="tab-group">
-    <button class="tab-btn active" data-tab="screening">Screening</button>
-    <button class="tab-btn" data-tab="carteira">Carteira</button>
+    <button class="tab-btn active" data-tab="screening">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="6.5" cy="6.5" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/>
+        <line x1="4" y1="6.5" x2="9" y2="6.5"/><line x1="6.5" y1="4" x2="6.5" y2="9"/>
+      </svg>
+      Screening
+    </button>
+    <button class="tab-btn" data-tab="carteira">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="4" width="14" height="10" rx="2"/><path d="M5 4V3a3 3 0 0 1 6 0v1"/>
+        <line x1="8" y1="8" x2="8" y2="11"/><line x1="6" y1="9.5" x2="10" y2="9.5"/>
+      </svg>
+      Carteira
+    </button>
   </div>
 
   <div class="header-meta" id="lastUpdated">
@@ -619,6 +648,7 @@ let goldOnly      = false;
 let bronzeOnly    = false;
 let buffettOnly   = false;
 let hideAcima   = true;
+let bestOnly    = false;
 let priceChartInst = null;
 let volChartInst   = null;
 let divChartInst   = null;
@@ -704,6 +734,7 @@ function renderTable() {
   // Filter
   if (hideAcima && zoneFilter !== 'CARO') data = data.filter(s => s.zone !== 'CARO');
   if (zoneFilter !== 'ALL') data = data.filter(s => s.zone === zoneFilter);
+  if (bestOnly)     data = data.filter(s => s.is_best);
   if (vpaOnly)      data = data.filter(s => s.is_below_vpa_target && !s.is_gold);
   if (goldOnly)     data = data.filter(s => s.is_gold);
   if (bronzeOnly)   data = data.filter(s => s.is_bronze);
@@ -823,6 +854,7 @@ function renderScreeningSummary() {
   const bronze   = allData.filter(s => s.is_bronze).length;
   const buffett  = allData.filter(s => s.is_buffett_seal).length;
 
+  const bestCount = allData.filter(s => s.is_best).length;
   const cards = [
     { label: 'Ativos',       value: total,     color: 'var(--text)',    zone: 'ALL',          vpa: false, gold: false, bronze: false },
     { label: 'Compra Forte', value: forte,     color: 'var(--green-s)', zone: 'COMPRA_FORTE', vpa: false, gold: false, bronze: false },
@@ -833,17 +865,18 @@ function renderScreeningSummary() {
     { label: '🥈', value: silver,  color: '#a0a0a0',        zone: null, vpa: true,  gold: false, bronze: false, title: 'Prata: Valor abaixo do VPA e do Alvo Bazin 6%.\nMargem de segurança dupla: desconto patrimonial e preço dentro da zona de compra por dividendos.' },
     { label: '🥉', value: bronze,  color: '#cd7f32',        zone: null, vpa: false, gold: false, bronze: true,   buffett: false, title: 'Bronze: Abaixo do Alvo Bazin 6%, porém acima do VPA.\nAtrativo por dividendos, sem desconto sobre o valor patrimonial.' },
     { label: '<span style="color:#f5c518">★</span>',  value: buffett, color: '#f5c518',        zone: null, vpa: false, gold: false, bronze: false,  buffett: true,  title: 'Selo Buffett: Moat FORTE com FCF positivo e Owner Earnings positivo.\nEmpresas com vantagem competitiva durável e geração de caixa de alta qualidade.' },
+    { label: 'BEST', value: bestCount, color: '#58a6ff', zone: null, vpa: false, gold: false, bronze: false, buffett: false, best: true, title: 'Barsi BEST: Bancos · Elétricas · Seguradoras · Transmissão de Energia.\nFiltro dos setores considerados essenciais por Luís Barsi Filho.\nRespeita o filtro ACIMA ativo.' },
   ];
 
   document.getElementById('screeningSummary').innerHTML =
-    `<div style="display:flex;gap:10px;padding:12px 12px 4px;flex-wrap:wrap;align-items:flex-start;padding-bottom:8px">
+    `<div style="display:flex;gap:10px;padding:12px 12px 8px;flex-wrap:wrap;align-items:stretch">
       ${cards.map((c, i) => {
-        const isActive = c.acima ? !hideAcima : c.gold ? goldOnly : c.bronze ? bronzeOnly : c.vpa ? vpaOnly : c.buffett ? buffettOnly : (!vpaOnly && !goldOnly && !bronzeOnly && !buffettOnly && zoneFilter === c.zone);
+        const isActive = c.acima ? !hideAcima : c.best ? bestOnly : c.gold ? goldOnly : c.bronze ? bronzeOnly : c.vpa ? vpaOnly : c.buffett ? buffettOnly : (!vpaOnly && !goldOnly && !bronzeOnly && !buffettOnly && !bestOnly && zoneFilter === c.zone);
         const activeStyle = isActive ? `outline:2px solid ${c.color};outline-offset:2px;` : '';
         const opacityStyle = c.acima && hideAcima ? 'opacity:0.4;' : '';
-        return `<div class="price-card summary-card" data-zone="${c.zone || ''}" data-vpa="${c.vpa}" data-gold="${c.gold}" data-bronze="${c.bronze}" data-buffett="${c.buffett || false}" data-acima="${c.acima || false}"
+        return `<div class="price-card summary-card" data-zone="${c.zone || ''}" data-vpa="${c.vpa}" data-gold="${c.gold}" data-bronze="${c.bronze}" data-buffett="${c.buffett || false}" data-acima="${c.acima || false}" data-best="${c.best || false}"
                   ${c.title ? `data-tip="${c.title}"` : ''}
-                  style="min-width:90px;cursor:pointer;transition:all .15s;${opacityStyle}${activeStyle}">
+                  style="cursor:pointer;transition:all .15s;${opacityStyle}${activeStyle}">
           <div class="pc-label">${c.label}</div>
           <div class="pc-value" style="color:${c.color}">${c.value}</div>
         </div>`;
@@ -857,6 +890,7 @@ function renderScreeningSummary() {
       const isBronze  = card.dataset.bronze  === 'true';
       const isBuffett = card.dataset.buffett === 'true';
       const isAcima   = card.dataset.acima   === 'true';
+      const isBest    = card.dataset.best    === 'true';
       const zone      = card.dataset.zone;
       if (isAcima) {
         if (hideAcima) {
@@ -870,29 +904,41 @@ function renderScreeningSummary() {
         goldOnly    = false;
         bronzeOnly  = false;
         buffettOnly = false;
+        bestOnly    = false;
+      } else if (isBest) {
+        bestOnly    = !bestOnly;
+        vpaOnly     = false;
+        goldOnly    = false;
+        bronzeOnly  = false;
+        buffettOnly = false;
+        zoneFilter  = 'ALL';
       } else if (isGold) {
         goldOnly    = !goldOnly;
         vpaOnly     = false;
         bronzeOnly  = false;
         buffettOnly = false;
+        bestOnly    = false;
         zoneFilter  = 'ALL';
       } else if (isVpa) {
         vpaOnly     = !vpaOnly;
         goldOnly    = false;
         bronzeOnly  = false;
         buffettOnly = false;
+        bestOnly    = false;
         zoneFilter  = 'ALL';
       } else if (isBronze) {
         bronzeOnly  = !bronzeOnly;
         goldOnly    = false;
         vpaOnly     = false;
         buffettOnly = false;
+        bestOnly    = false;
         zoneFilter  = 'ALL';
       } else if (isBuffett) {
         buffettOnly = !buffettOnly;
         goldOnly    = false;
         vpaOnly     = false;
         bronzeOnly  = false;
+        bestOnly    = false;
         zoneFilter  = 'ALL';
       } else {
         zoneFilter  = zone || 'ALL';
@@ -900,6 +946,7 @@ function renderScreeningSummary() {
         goldOnly    = false;
         bronzeOnly  = false;
         buffettOnly = false;
+        bestOnly    = false;
       }
       renderScreeningSummary();
       renderTable();
@@ -1105,6 +1152,8 @@ function _decFromVal(ticker, val) {
     buffett_moat_label: moat.label,
     fcf_lucro_ratio:    (moat.cashflow_values || {}).fcf_lucro_ratio ?? null,
     sector:             ind.sector,
+    segmento:           ind.segmento,
+    is_best:            false,
     dividend_growing:   val.flags ? val.flags.dividendo_crescente_ok : false,
     is_gold: false, is_below_vpa_target: false, is_bronze: false, is_buffett_seal: false,
   };
@@ -1135,7 +1184,9 @@ function renderElementCard(ticker, dec, val) {
   const moatColor  = _moatColors[dec.buffett_moat_label] || 'var(--muted)';
 
   const company = (val.companyname || '').toUpperCase();
-  const sector  = dec.sector && dec.sector !== '-' ? dec.sector : '';
+  // Prefere segmento (mais específico); fallback para setor
+  const segmento = dec.segmento && dec.segmento !== '-' ? dec.segmento : null;
+  const sector   = segmento || (dec.sector && dec.sector !== '-' ? dec.sector : '');
 
   const medal      = dec.is_gold ? '🥇' : dec.is_below_vpa_target ? '🥈' : dec.is_bronze ? '🥉' : '';
   const buffettSeal = dec.is_buffett_seal ? ' <span style="color:#f5c518;font-size:18px" data-tip="Selo Buffett: Moat FORTE + FCF positivo + Owner Earnings positivo.\nEmpresas com vantagem competitiva durável e geração de caixa de alta qualidade.">★</span>' : '';
@@ -1217,7 +1268,16 @@ function renderPriceCards(dec, val) {
       value: dec.payout != null ? dec.payout.toFixed(1) + '%' : '—',
       sub: 'distribuição do lucro',
       cls: dec.payout != null && dec.payout > 100 ? 'pc-red' : (dec.payout != null && dec.payout <= 100 ? 'pc-green' : ''),
-      tip: 'Percentual do lucro líquido distribuído como dividendo.\nFaixa saudável: 40%–80% (Bazin). Abaixo de 40% a empresa retém muito; acima de 80% pode comprometer o reinvestimento.\n⚠️ Acima de 100%: empresa está pagando dividendo com dívida ou reservas — sinal de insustentabilidade.' },
+      tip: 'Percentual do lucro líquido distribuído como dividendo.\nFaixa saudável: 40%–80% (Bazin). Abaixo de 40% a empresa retém muito; acima de 80% pode comprometer o reinvestimento.\n⚠️ Acima de 100%: empresa está pagando dividendo com dívida ou reservas — sinal de insustentabilidade.\n\nPayout FCF = payout contábil ÷ (FCF/Lucro). Empresas com alto D&A podem ter FCF > lucro, tornando o payout real menor que o contábil.',
+      extra: (() => {
+        if (dec.payout_fcf == null) return '';
+        const fcfCls = dec.payout_fcf > 100 ? 'pc-red' : 'pc-green';
+        let html = `<div class="pc-fcf-row"><span class="pc-fcf-label">FCF</span><span class="${fcfCls}">${dec.payout_fcf.toFixed(1)}%</span></div>`;
+        if (dec.payout_divergencia != null && dec.payout_divergencia > 30) {
+          html += `<div class="pc-fcf-alert">⚠ divergência ${dec.payout_divergencia.toFixed(0)}p.p. — verifique JCP e amortizações</div>`;
+        }
+        return html;
+      })() },
     { label: 'Div. Médio 5a',
       value: dec.avg_dividends_5y != null ? 'R$ ' + dec.avg_dividends_5y.toFixed(2) : '—',
       sub: 'base dos targets',
@@ -1239,6 +1299,7 @@ function renderPriceCards(dec, val) {
        <div class="pc-label">${c.label}</div>
        <div class="pc-value ${c.cls}">${c.value}</div>
        <div class="pc-sub">${c.sub}</div>
+       ${c.extra ? `<div class="pc-extra">${c.extra}</div>` : ''}
      </div>`
   ).join('');
 }

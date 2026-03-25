@@ -1,0 +1,1187 @@
+{
+  "PETR4": {
+    "setor": "Petróleo, Gás e Biocombustíveis",
+    "subsetor": "Petróleo, Gás e Biocombustíveis",
+    "segmento": "Exploração, Refino e Distribuição"
+  },
+  "ITUB4": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "VALE3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Mineração",
+    "segmento": "Minerais Metálicos"
+  },
+  "BPAC11": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "ABEV3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Bebidas",
+    "segmento": "Cervejas e Refrigerantes"
+  },
+  "WEGE3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Máquinas e Equipamentos",
+    "segmento": "Motores, Compressores e Outros"
+  },
+  "BBDC3": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "AXIA3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "ITSA4": {
+    "setor": "Financeiro",
+    "subsetor": "Holdings Diversificadas",
+    "segmento": "Holdings Diversificadas"
+  },
+  "BBAS3": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "VIVT3": {
+    "setor": "Telecomunicações",
+    "subsetor": "Telecomunicações",
+    "segmento": "Telecomunicações"
+  },
+  "SANB11": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "SBSP3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Água e Saneamento",
+    "segmento": "Água e Saneamento"
+  },
+  "B3SA3": {
+    "setor": "Financeiro",
+    "subsetor": "Serviços Financeiros Diversos",
+    "segmento": "Serviços Financeiros Diversos"
+  },
+  "RDOR3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "BBSE3": {
+    "setor": "Financeiro",
+    "subsetor": "Previdência e Seguros",
+    "segmento": "Seguradoras"
+  },
+  "CPLE3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "SUZB3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Madeira e Papel",
+    "segmento": "Papel e Celulose"
+  },
+  "TIMS3": {
+    "setor": "Telecomunicações",
+    "subsetor": "Telecomunicações",
+    "segmento": "Telecomunicações"
+  },
+  "PRIO3": {
+    "setor": "Petróleo, Gás e Biocombustíveis",
+    "subsetor": "Petróleo, Gás e Biocombustíveis",
+    "segmento": "Exploração, Refino e Distribuição"
+  },
+  "EMBJ3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Material de Transporte",
+    "segmento": "Material Aeronáutico e de Defesa"
+  },
+  "CPFE3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "CXSE3": {
+    "setor": "Financeiro",
+    "subsetor": "Previdência e Seguros",
+    "segmento": "Seguradoras"
+  },
+  "RENT3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Aluguel de carros"
+  },
+  "EQTL3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "ENEV3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "RADL3": {
+    "setor": "Saúde",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Medicamentos e Outros Produtos"
+  },
+  "NEOE3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "CMIG4": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "VBBR3": {
+    "setor": "Petróleo, Gás e Biocombustíveis",
+    "subsetor": "Petróleo, Gás e Biocombustíveis",
+    "segmento": "Exploração, Refino e Distribuição"
+  },
+  "EGIE3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "GGBR3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Siderurgia e Metalurgia",
+    "segmento": "Siderurgia"
+  },
+  "PSSA3": {
+    "setor": "Financeiro",
+    "subsetor": "Previdência e Seguros",
+    "segmento": "Seguradoras"
+  },
+  "MOTV3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Exploração de Rodovias"
+  },
+  "RAIL3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Transporte Ferroviário"
+  },
+  "UGPA3": {
+    "setor": "Petróleo, Gás e Biocombustíveis",
+    "subsetor": "Petróleo, Gás e Biocombustíveis",
+    "segmento": "Exploração, Refino e Distribuição"
+  },
+  "CMIN3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Mineração",
+    "segmento": "Minerais Metálicos"
+  },
+  "MBRF3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Alimentos Processados",
+    "segmento": "Carnes e Derivados"
+  },
+  "ENGI11": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "KLBN11": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Madeira e Papel",
+    "segmento": "Papel e Celulose"
+  },
+  "CSAN3": {
+    "setor": "Petróleo, Gás e Biocombustíveis",
+    "subsetor": "Petróleo, Gás e Biocombustíveis",
+    "segmento": "Exploração, Refino e Distribuição"
+  },
+  "TOTS3": {
+    "setor": "Tecnologia da Informação",
+    "subsetor": "Programas e Serviços",
+    "segmento": "Programas e Serviços"
+  },
+  "CSMG3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Água e Saneamento",
+    "segmento": "Água e Saneamento"
+  },
+  "ISAE4": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "CGAS3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Gás",
+    "segmento": "Gás"
+  },
+  "BPAN4": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "MULT3": {
+    "setor": "Financeiro",
+    "subsetor": "Exploração de Imóveis",
+    "segmento": "Exploração de Imóveis"
+  },
+  "REDE3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "LREN3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Tecidos, Vestuário e Calçados"
+  },
+  "ALOS3": {
+    "setor": "Financeiro",
+    "subsetor": "Exploração de Imóveis",
+    "segmento": "Exploração de Imóveis"
+  },
+  "MRSA3B": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Transporte Ferroviário"
+  },
+  "TAEE11": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "HYPE3": {
+    "setor": "Saúde",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Medicamentos e Outros Produtos"
+  },
+  "EQPA3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "CEGR3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Gás",
+    "segmento": "Gás"
+  },
+  "SAPR11": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Água e Saneamento",
+    "segmento": "Água e Saneamento"
+  },
+  "NATU3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Produtos de Uso Pessoal e de Limpeza",
+    "segmento": "Produtos de Uso Pessoal"
+  },
+  "CEEB3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "GGPS3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Construção e Engenharia",
+    "segmento": "Serviços Diversos"
+  },
+  "AURE3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "CYRE3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "BNBR3": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "ALUP11": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "SMFT3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Viagens e Lazer",
+    "segmento": "Atividades Esportivas"
+  },
+  "ENMT4": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "CURY3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "ASAI3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Alimentos"
+  },
+  "GOAU4": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Siderurgia e Metalurgia",
+    "segmento": "Siderurgia"
+  },
+  "GMAT3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Produtos Diversos"
+  },
+  "AZUL54": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Transporte Aéreo"
+  },
+  "SLCE3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Agropecuária",
+    "segmento": "Agricultura"
+  },
+  "USIM5": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Siderurgia e Metalurgia",
+    "segmento": "Siderurgia"
+  },
+  "CSNA3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Siderurgia e Metalurgia",
+    "segmento": "Siderurgia"
+  },
+  "FLRY3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "EKTR3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "ALPA4": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Tecidos, Vestuário e Calçados",
+    "segmento": "Calçados"
+  },
+  "CASN3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Água e Saneamento",
+    "segmento": "Água e Saneamento"
+  },
+  "BRAP4": {
+    "setor": "Financeiro",
+    "subsetor": "Holdings Diversificadas",
+    "segmento": "Holdings Diversificadas"
+  },
+  "BRAV3": {
+    "setor": "Petróleo, Gás e Biocombustíveis",
+    "subsetor": "Petróleo, Gás e Biocombustíveis",
+    "segmento": "Exploração, Refino e Distribuição"
+  },
+  "SRNA3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "BRKM5": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Químicos",
+    "segmento": "Petroquímicos"
+  },
+  "TTEN3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Agropecuária",
+    "segmento": "Agricultura"
+  },
+  "IGTI3": {
+    "setor": "Financeiro",
+    "subsetor": "Exploração de Imóveis",
+    "segmento": "Exploração de Imóveis"
+  },
+  "POMO4": {
+    "setor": "Bens Industriais",
+    "subsetor": "Material de Transporte",
+    "segmento": "Material Rodoviário"
+  },
+  "BMEB4": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "MDIA3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Alimentos Processados",
+    "segmento": "Alimentos Diversos"
+  },
+  "BRSR6": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "DIRR3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "ODPV3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "UNIP6": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Químicos",
+    "segmento": "Químicos Diversos"
+  },
+  "MGLU3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Utilidades Domésticas",
+    "segmento": "Eletrodomésticos"
+  },
+  "CBAV3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Máquinas e Equipamentos",
+    "segmento": "Máquinas e Equipamentos Industriais"
+  },
+  "ORVR3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Água e Saneamento",
+    "segmento": "Água e Saneamento"
+  },
+  "WHRL4": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Eletrodomésticos"
+  },
+  "SMTO3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Alimentos Processados",
+    "segmento": "Açucar e Alcool"
+  },
+  "ABCB4": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "VIVA3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Tecidos, Vestuário e Calçados",
+    "segmento": "Acessórios"
+  },
+  "COGN3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Serviços Educacionais"
+  },
+  "JHSF3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "FRAS3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Material de Transporte",
+    "segmento": "Material Rodoviário"
+  },
+  "ECOR3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Exploração de Rodovias"
+  },
+  "RAIZ4": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Alimentos Processados",
+    "segmento": "Açucar e Alcool"
+  },
+  "AZZA3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Tecidos, Vestuário e Calçados"
+  },
+  "EQMA3B": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "VULC3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Tecidos, Vestuário e Calçados",
+    "segmento": "Calçados"
+  },
+  "CLSC4": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "HBSA3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Transporte Hidroviário"
+  },
+  "SHUL4": {
+    "setor": "Bens Industriais",
+    "subsetor": "Máquinas e Equipamentos",
+    "segmento": "Motores, Compressores e Outros"
+  },
+  "INTB3": {
+    "setor": "Telecomunicações",
+    "subsetor": "Telecomunicações",
+    "segmento": "Telecomunicações"
+  },
+  "LEVE3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Automóveis e Motocicletas",
+    "segmento": "Automóveis e Motocicletas"
+  },
+  "SIMH3": {
+    "setor": "Financeiro",
+    "subsetor": "Holdings Diversificadas",
+    "segmento": "Holdings Diversificadas"
+  },
+  "HAPV3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "BAZA3": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "RIAA3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Tecidos, Vestuário e Calçados"
+  },
+  "DASA3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "PGMN3": {
+    "setor": "Saúde",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Medicamentos e Outros Produtos"
+  },
+  "IRBR3": {
+    "setor": "Financeiro",
+    "subsetor": "Previdência e Seguros",
+    "segmento": "Seguradoras"
+  },
+  "CBEE3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "MOVI3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Aluguel de carros"
+  },
+  "DXCO3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Madeira e Papel",
+    "segmento": "Madeira"
+  },
+  "MRVE3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "GRND3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Tecidos, Vestuário e Calçados",
+    "segmento": "Calçados"
+  },
+  "BEEF3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Alimentos Processados",
+    "segmento": "Carnes e Derivados"
+  },
+  "EZTC3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "TEND3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "RECV3": {
+    "setor": "Petróleo, Gás e Biocombustíveis",
+    "subsetor": "Petróleo, Gás e Biocombustíveis",
+    "segmento": "Exploração, Refino e Distribuição"
+  },
+  "VAMO3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Comércio",
+    "segmento": "Material de Transporte"
+  },
+  "CEAB3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Tecidos, Vestuário e Calçados"
+  },
+  "COCE5": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "LOGN3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Transporte Hidroviário"
+  },
+  "GEPA4": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "MDNE3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "MILS3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Construção e Engenharia",
+    "segmento": "Serviços Diversos"
+  },
+  "EMAE4": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "FESA4": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Siderurgia e Metalurgia",
+    "segmento": "Siderurgia"
+  },
+  "YDUQ3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Serviços Educacionais"
+  },
+  "BMGB4": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "BEES3": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "PINE4": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "SBFG3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Produtos Diversos"
+  },
+  "PLPL3": {
+    "setor": "Financeiro",
+    "subsetor": "Exploração de Imóveis",
+    "segmento": "Intermediação Imobiliária"
+  },
+  "LAVV3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "ONCO3": {
+    "setor": "Saúde",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Medicamentos e Outros Produtos"
+  },
+  "BHIA3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Eletrodomésticos"
+  },
+  "AUAU3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Produtos Diversos"
+  },
+  "TFCO4": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Tecidos, Vestuário e Calçados",
+    "segmento": "Vestuário"
+  },
+  "FIQE3": {
+    "setor": "Telecomunicações",
+    "subsetor": "Telecomunicações",
+    "segmento": "Telecomunicações"
+  },
+  "LOGG3": {
+    "setor": "Financeiro",
+    "subsetor": "Exploração de Imóveis",
+    "segmento": "Exploração de Imóveis"
+  },
+  "BLAU3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "CEBR3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "LWSA3": {
+    "setor": "Tecnologia da Informação",
+    "subsetor": "Programas e Serviços",
+    "segmento": "Programas e Serviços"
+  },
+  "PNVL3": {
+    "setor": "Saúde",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Medicamentos e Outros Produtos"
+  },
+  "CSED3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Serviços Educacionais"
+  },
+  "AGRO3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Agropecuária",
+    "segmento": "Agricultura"
+  },
+  "RANI3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Madeira e Papel",
+    "segmento": "Papel e Celulose"
+  },
+  "BSLI3": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "BMOB3": {
+    "setor": "Tecnologia da Informação",
+    "subsetor": "Programas e Serviços",
+    "segmento": "Programas e Serviços"
+  },
+  "DESK3": {
+    "setor": "Telecomunicações",
+    "subsetor": "Telecomunicações",
+    "segmento": "Telecomunicações"
+  },
+  "VTRU3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Serviços Educacionais"
+  },
+  "CAML3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Alimentos Processados",
+    "segmento": "Alimentos Diversos"
+  },
+  "TGMA3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Transporte Rodoviário"
+  },
+  "MATD3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "EUCA3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Madeira e Papel",
+    "segmento": "Madeira"
+  },
+  "JSLG3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Transporte Rodoviário"
+  },
+  "OPCT3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Água e Saneamento",
+    "segmento": "Água e Saneamento"
+  },
+  "ARML3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Construção e Engenharia",
+    "segmento": "Construção Pesada"
+  },
+  "RAPT4": {
+    "setor": "Bens Industriais",
+    "subsetor": "Material de Transporte",
+    "segmento": "Material Rodoviário"
+  },
+  "VLID3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Construção e Engenharia",
+    "segmento": "Serviços Diversos"
+  },
+  "ANIM3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Serviços Educacionais"
+  },
+  "SEQL3": {
+    "setor": "Tecnologia da Informação",
+    "subsetor": "Programas e Serviços",
+    "segmento": "Programas e Serviços"
+  },
+  "TUPY3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Material de Transporte",
+    "segmento": "Material Rodoviário"
+  },
+  "KEPL3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Máquinas e Equipamentos",
+    "segmento": "Máquinas e Equipamentos Industriais"
+  },
+  "EVEN3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "OFSA3": {
+    "setor": "Saúde",
+    "subsetor": "Medicamentos e Outros Produtos",
+    "segmento": "Medicamentos e Outros Produtos"
+  },
+  "ZAMP3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Hoteis e Restaurantes",
+    "segmento": "Restaurante e Similares"
+  },
+  "MYPK3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Automóveis e Motocicletas",
+    "segmento": "Automóveis e Motocicletas"
+  },
+  "TRIS3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "WIZC3": {
+    "setor": "Financeiro",
+    "subsetor": "Previdência e Seguros",
+    "segmento": "Corretoras de Seguros"
+  },
+  "TELB3": {
+    "setor": "Telecomunicações",
+    "subsetor": "Telecomunicações",
+    "segmento": "Telecomunicações"
+  },
+  "SEER3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Serviços Educacionais"
+  },
+  "OBTC3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Serviços Educacionais"
+  },
+  "BRST3": {
+    "setor": "Telecomunicações",
+    "subsetor": "Telecomunicações",
+    "segmento": "Telecomunicações"
+  },
+  "SOJA3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Agropecuária",
+    "segmento": "Agricultura"
+  },
+  "PRNR3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Construção e Engenharia",
+    "segmento": "Serviços Diversos"
+  },
+  "CVCB3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Viagens e Lazer",
+    "segmento": "Viagens e Turismo"
+  },
+  "FRIO3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Máquinas e Equipamentos",
+    "segmento": "Máquinas e Equipamentos Industriais"
+  },
+  "BGIP4": {
+    "setor": "Financeiro",
+    "subsetor": "Intermediários Financeiros",
+    "segmento": "Bancos"
+  },
+  "PCAR3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Alimentos"
+  },
+  "MOSI3": {
+    "setor": "Tecnologia da Informação",
+    "subsetor": "Programas e Serviços",
+    "segmento": "Programas e Serviços"
+  },
+  "MLAS3": {
+    "setor": "Tecnologia da Informação",
+    "subsetor": "Computadores e Equipamentos",
+    "segmento": "Computadores e Equipamentos"
+  },
+  "BIOM3": {
+    "setor": "Saúde",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Medicamentos e Outros Produtos"
+  },
+  "GPAR3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "JALL3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Alimentos Processados",
+    "segmento": "Açucar e Alcool"
+  },
+  "ALPK3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Construção e Engenharia",
+    "segmento": "Serviços Diversos"
+  },
+  "PFRM3": {
+    "setor": "Saúde",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Medicamentos e Outros Produtos"
+  },
+  "DEXP3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Químicos",
+    "segmento": "Petroquímicos"
+  },
+  "LAND3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Agropecuária",
+    "segmento": "Agricultura"
+  },
+  "WLMM3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Comércio",
+    "segmento": "Material de Transporte"
+  },
+  "PATI3": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Siderurgia e Metalurgia",
+    "segmento": "Artefatos de Ferro e Aço"
+  },
+  "SCAR3": {
+    "setor": "Financeiro",
+    "subsetor": "Exploração de Imóveis",
+    "segmento": "Exploração de Imóveis"
+  },
+  "TASA3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Máquinas e Equipamentos",
+    "segmento": "Armas e Munições"
+  },
+  "CSUD3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Serviços",
+    "segmento": "Serviços Diversos"
+  },
+  "PEAB3": {
+    "setor": "Financeiro",
+    "subsetor": "Holdings Diversificadas",
+    "segmento": "Holdings Diversificadas"
+  },
+  "SYNE3": {
+    "setor": "Financeiro",
+    "subsetor": "Exploração de Imóveis",
+    "segmento": "Exploração de Imóveis"
+  },
+  "MELK3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "ALLD3": {
+    "setor": "Telecomunicações",
+    "subsetor": "Telecomunicações",
+    "segmento": "Telecomunicações"
+  },
+  "ROMI3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Máquinas e Equipamentos",
+    "segmento": "Máquinas e Equipamentos Industriais"
+  },
+  "CEED3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "TKNO4": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Siderurgia e Metalurgia",
+    "segmento": "Artefatos de Ferro e Aço"
+  },
+  "CGRA4": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Tecidos, Vestuário e Calçados"
+  },
+  "VITT3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Agropecuária",
+    "segmento": "Agricultura"
+  },
+  "AALR3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "MTSA4": {
+    "setor": "Bens Industriais",
+    "subsetor": "Máquinas e Equipamentos",
+    "segmento": "Máquinas e Equipamentos de Construção e Agrícolas"
+  },
+  "POSI3": {
+    "setor": "Tecnologia da Informação",
+    "subsetor": "Computadores e Equipamentos",
+    "segmento": "Computadores e Equipamentos"
+  },
+  "QUAL3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "CRPG5": {
+    "setor": "Materiais Básicos",
+    "subsetor": "Químicos",
+    "segmento": "Químicos Diversos"
+  },
+  "TECN3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Tecidos, Vestuário e Calçados",
+    "segmento": "Acessórios"
+  },
+  "RPAD3": {
+    "setor": "Financeiro",
+    "subsetor": "Serviços Financeiros Diversos",
+    "segmento": "Serviços Financeiros Diversos"
+  },
+  "AFLT3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "AMOB3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Automóveis e Motocicletas",
+    "segmento": "Automóveis e Motocicletas"
+  },
+  "PTBL3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Construção e Engenharia",
+    "segmento": "Produtos para Construção"
+  },
+  "AMAR3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Tecidos, Vestuário e Calçados"
+  },
+  "CASH3": {
+    "setor": "Tecnologia da Informação",
+    "subsetor": "Programas e Serviços",
+    "segmento": "Programas e Serviços"
+  },
+  "ESPA3": {
+    "setor": "Financeiro",
+    "subsetor": "Outros",
+    "segmento": "Outros"
+  },
+  "DOHL4": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Tecidos, Vestuário e Calçados",
+    "segmento": "Fios e Tecidos"
+  },
+  "RNEW4": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Energia Elétrica",
+    "segmento": "Energia Elétrica"
+  },
+  "LJQQ3": {
+    "setor": "Consumo não Cíclico",
+    "subsetor": "Diversos",
+    "segmento": "Produtos Diversos"
+  },
+  "PTNT4": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Tecidos, Vestuário e Calçados",
+    "segmento": "Fios e Tecidos"
+  },
+  "CAMB3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Tecidos, Vestuário e Calçados",
+    "segmento": "Calçados"
+  },
+  "VVEO3": {
+    "setor": "Saúde",
+    "subsetor": "Serviços Médicos Hospitalares, Análises e Diagnósticos",
+    "segmento": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
+  },
+  "VSTE3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Comércio",
+    "segmento": "Tecidos, Vestuário e Calçados"
+  },
+  "MTRE3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "HBOR3": {
+    "setor": "Consumo Cíclico",
+    "subsetor": "Construção Civil",
+    "segmento": "Incorporações"
+  },
+  "AMBP3": {
+    "setor": "Utilidade Pública",
+    "subsetor": "Água e Saneamento",
+    "segmento": "Água e Saneamento"
+  },
+  "DMVF3": {
+    "setor": "Saúde",
+    "subsetor": "Comércio e Distribuição",
+    "segmento": "Medicamentos e Outros Produtos"
+  },
+  "EALT4": {
+    "setor": "Bens Industriais",
+    "subsetor": "Máquinas e Equipamentos",
+    "segmento": "Máquinas e Equipamentos Industriais"
+  },
+  "TPIS3": {
+    "setor": "Bens Industriais",
+    "subsetor": "Transportes",
+    "segmento": "Exploração de Rodovias"
+  }
+}

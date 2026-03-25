@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-22T22:36:29.190064",
+  "last_updated": "2026-03-24T21:19:07.173811",
   "total": 127,
   "stocks": [
     {
@@ -12,13 +12,13 @@
       "buffett_moat_score": 7,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA_FORTE",
-      "price_now": 13.69,
+      "price_now": 13.93,
       "price_target_6pct": 18.81,
       "price_target_8pct": 14.11,
-      "dy_real": 19.57,
+      "dy_real": 19.23,
       "avg_dividends_5y": 1.1288,
       "payout": 78.13,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "CYRE3",
@@ -30,13 +30,13 @@
       "buffett_moat_score": 5.5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA",
-      "price_now": 25.05,
+      "price_now": 27.21,
       "price_target_6pct": 29.04,
       "price_target_8pct": 21.78,
-      "dy_real": 15.17,
+      "dy_real": 13.96,
       "avg_dividends_5y": 1.7422,
       "payout": 94.15,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "TGMA3",
@@ -48,13 +48,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 28.0,
+      "price_now": 29.32,
       "price_target_6pct": 45.72,
       "price_target_8pct": 34.29,
-      "dy_real": 15.82,
+      "dy_real": 15.11,
       "avg_dividends_5y": 2.7433,
       "payout": 104.32,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "VULC3",
@@ -66,13 +66,13 @@
       "buffett_moat_score": 9,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA_FORTE",
-      "price_now": 16.23,
+      "price_now": 17.14,
       "price_target_6pct": 46.83,
       "price_target_8pct": 35.12,
-      "dy_real": 31.35,
+      "dy_real": 29.68,
       "avg_dividends_5y": 2.8096,
       "payout": 107.96,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "DEXP3",
@@ -84,13 +84,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 7.1,
+      "price_now": 7.21,
       "price_target_6pct": 8.95,
       "price_target_8pct": 6.71,
-      "dy_real": 11.79,
+      "dy_real": 11.61,
       "avg_dividends_5y": 0.5367,
       "payout": 115.03,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "DIRR3",
@@ -102,13 +102,13 @@
       "buffett_moat_score": 7.5,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA_FORTE",
-      "price_now": 13.41,
+      "price_now": 13.99,
       "price_target_6pct": 19.36,
       "price_target_8pct": 14.52,
-      "dy_real": 16.53,
+      "dy_real": 15.84,
       "avg_dividends_5y": 1.1615,
       "payout": 102.21,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "EZTC3",
@@ -120,13 +120,13 @@
       "buffett_moat_score": 6.5,
       "buffett_moat_label": "MODERADO",
       "zone": "MONITORAR",
-      "price_now": 13.21,
+      "price_now": 13.89,
       "price_target_6pct": 12.83,
       "price_target_8pct": 9.62,
-      "dy_real": 9.25,
+      "dy_real": 8.8,
       "avg_dividends_5y": 0.7699,
       "payout": 74.36,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "GRND3",
@@ -138,13 +138,13 @@
       "buffett_moat_score": 8,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA_FORTE",
-      "price_now": 4.62,
+      "price_now": 4.67,
       "price_target_6pct": 17.55,
       "price_target_8pct": 13.16,
-      "dy_real": 36.87,
+      "dy_real": 36.47,
       "avg_dividends_5y": 1.0528,
       "payout": 171.53,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "ITSA3",
@@ -156,13 +156,13 @@
       "buffett_moat_score": 4.5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA",
-      "price_now": 13.11,
+      "price_now": 13.4,
       "price_target_6pct": 15.53,
       "price_target_8pct": 11.65,
-      "dy_real": 9.72,
+      "dy_real": 9.51,
       "avg_dividends_5y": 0.9317,
       "payout": 128.81,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "ITSA4",
@@ -174,13 +174,13 @@
       "buffett_moat_score": 4.5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA",
-      "price_now": 13.1,
+      "price_now": 13.5,
       "price_target_6pct": 15.55,
       "price_target_8pct": 11.66,
-      "dy_real": 9.72,
+      "dy_real": 9.44,
       "avg_dividends_5y": 0.9329,
       "payout": 128.81,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "SHUL4",
@@ -192,13 +192,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 5.14,
+      "price_now": 5.3,
       "price_target_6pct": 7.3,
       "price_target_8pct": 5.47,
-      "dy_real": 12.31,
+      "dy_real": 11.94,
       "avg_dividends_5y": 0.4378,
       "payout": 172.15,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "CMIG4",
@@ -210,13 +210,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 12.24,
+      "price_now": 12.34,
       "price_target_6pct": 22.64,
       "price_target_8pct": 16.98,
-      "dy_real": 13.49,
+      "dy_real": 13.38,
       "avg_dividends_5y": 1.3581,
       "payout": 63.74,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "CSUD3",
@@ -228,13 +228,13 @@
       "buffett_moat_score": 9,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA_FORTE",
-      "price_now": 17.74,
+      "price_now": 18.0,
       "price_target_6pct": 26.45,
       "price_target_8pct": 19.84,
-      "dy_real": 15.71,
+      "dy_real": 15.48,
       "avg_dividends_5y": 1.587,
       "payout": 92.57,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "POMO3",
@@ -246,13 +246,13 @@
       "buffett_moat_score": 6.5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 5.45,
+      "price_now": 5.77,
       "price_target_6pct": 9.76,
       "price_target_8pct": 7.32,
-      "dy_real": 17.18,
+      "dy_real": 16.23,
       "avg_dividends_5y": 0.5856,
       "payout": 128.46,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "POMO4",
@@ -264,13 +264,13 @@
       "buffett_moat_score": 6.5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 5.77,
+      "price_now": 6.12,
       "price_target_6pct": 9.84,
       "price_target_8pct": 7.38,
-      "dy_real": 16.23,
+      "dy_real": 15.3,
       "avg_dividends_5y": 0.5902,
       "payout": 128.46,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "TRIS3",
@@ -282,13 +282,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 5.4,
+      "price_now": 5.68,
       "price_target_6pct": 7.65,
       "price_target_8pct": 5.74,
-      "dy_real": 20.14,
+      "dy_real": 19.15,
       "avg_dividends_5y": 0.4591,
       "payout": 100.27,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "KEPL3",
@@ -300,13 +300,13 @@
       "buffett_moat_score": 4.0,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 7.77,
+      "price_now": 8.63,
       "price_target_6pct": 15.49,
       "price_target_8pct": 11.62,
-      "dy_real": 10.77,
+      "dy_real": 9.7,
       "avg_dividends_5y": 0.9294,
       "payout": 49.76,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "BLAU3",
@@ -318,13 +318,13 @@
       "buffett_moat_score": 4.0,
       "buffett_moat_label": "MODERADO",
       "zone": "MONITORAR",
-      "price_now": 9.62,
+      "price_now": 9.91,
       "price_target_6pct": 8.37,
       "price_target_8pct": 6.28,
-      "dy_real": 8.19,
+      "dy_real": 7.95,
       "avg_dividends_5y": 0.5022,
       "payout": 92.34,
-      "sector": "-"
+      "sector": "Saúde"
     },
     {
       "ticker": "ALLD3",
@@ -336,13 +336,13 @@
       "buffett_moat_score": 6.0,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 7.23,
+      "price_now": 7.72,
       "price_target_6pct": 31.28,
       "price_target_8pct": 23.46,
-      "dy_real": 42.28,
+      "dy_real": 39.59,
       "avg_dividends_5y": 1.8769,
       "payout": 75.72,
-      "sector": "-"
+      "sector": "Telecomunicações"
     },
     {
       "ticker": "JHSF3",
@@ -354,13 +354,13 @@
       "buffett_moat_score": 6.0,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 8.34,
+      "price_now": 8.65,
       "price_target_6pct": 5.96,
       "price_target_8pct": 4.47,
-      "dy_real": 5.83,
+      "dy_real": 5.62,
       "avg_dividends_5y": 0.3574,
       "payout": 15.92,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "SAPR4",
@@ -372,13 +372,13 @@
       "buffett_moat_score": 7.5,
       "buffett_moat_label": "FORTE",
       "zone": "CARO",
-      "price_now": 8.14,
+      "price_now": 8.04,
       "price_target_6pct": 5.73,
       "price_target_8pct": 4.3,
-      "dy_real": 4.91,
+      "dy_real": 4.97,
       "avg_dividends_5y": 0.3439,
       "payout": 197.89,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "UNIP3",
@@ -390,13 +390,13 @@
       "buffett_moat_score": 4.0,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 57.85,
+      "price_now": 57.48,
       "price_target_6pct": 127.63,
       "price_target_8pct": 95.72,
-      "dy_real": 19.61,
+      "dy_real": 19.73,
       "avg_dividends_5y": 7.6579,
       "payout": 439.13,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "UNIP6",
@@ -408,13 +408,13 @@
       "buffett_moat_score": 4.0,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 58.6,
+      "price_now": 57.55,
       "price_target_6pct": 140.4,
       "price_target_8pct": 105.3,
-      "dy_real": 21.29,
+      "dy_real": 21.68,
       "avg_dividends_5y": 8.4237,
       "payout": 439.13,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "ABCB4",
@@ -426,13 +426,13 @@
       "buffett_moat_score": 3,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 25.19,
+      "price_now": 25.22,
       "price_target_6pct": 33.01,
       "price_target_8pct": 24.75,
-      "dy_real": 10.39,
+      "dy_real": 10.38,
       "avg_dividends_5y": 1.9803,
       "payout": 63.92,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "INTB3",
@@ -444,13 +444,13 @@
       "buffett_moat_score": 2.5,
       "buffett_moat_label": "FRACO",
       "zone": "MONITORAR",
-      "price_now": 13.95,
+      "price_now": 14.84,
       "price_target_6pct": 13.18,
       "price_target_8pct": 9.88,
-      "dy_real": 10.06,
+      "dy_real": 9.45,
       "avg_dividends_5y": 0.7905,
       "payout": 76.56,
-      "sector": "-"
+      "sector": "Telecomunicações"
     },
     {
       "ticker": "VIVA3",
@@ -462,13 +462,13 @@
       "buffett_moat_score": 10,
       "buffett_moat_label": "FORTE",
       "zone": "CARO",
-      "price_now": 25.59,
+      "price_now": 26.42,
       "price_target_6pct": 10.9,
       "price_target_8pct": 8.17,
-      "dy_real": 5.31,
+      "dy_real": 5.14,
       "avg_dividends_5y": 0.6539,
       "payout": 37.28,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "MILS3",
@@ -480,13 +480,13 @@
       "buffett_moat_score": 4.5,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 13.29,
+      "price_now": 13.83,
       "price_target_6pct": 7.43,
       "price_target_8pct": 5.58,
-      "dy_real": 3.49,
+      "dy_real": 3.36,
       "avg_dividends_5y": 0.446,
       "payout": 48.87,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "RANI3",
@@ -498,13 +498,13 @@
       "buffett_moat_score": 3.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 8.97,
+      "price_now": 9.3,
       "price_target_6pct": 11.07,
       "price_target_8pct": 8.31,
-      "dy_real": 8.64,
+      "dy_real": 8.33,
       "avg_dividends_5y": 0.6645,
       "payout": 24.64,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "SAPR11",
@@ -516,13 +516,13 @@
       "buffett_moat_score": 7.5,
       "buffett_moat_label": "FORTE",
       "zone": "CARO",
-      "price_now": 42.67,
+      "price_now": 41.91,
       "price_target_6pct": 28.13,
       "price_target_8pct": 21.1,
-      "dy_real": 4.59,
+      "dy_real": 4.68,
       "avg_dividends_5y": 1.688,
       "payout": 197.89,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "SAPR3",
@@ -534,13 +534,13 @@
       "buffett_moat_score": 7.5,
       "buffett_moat_label": "FORTE",
       "zone": "CARO",
-      "price_now": 9.99,
+      "price_now": 9.8,
       "price_target_6pct": 5.21,
       "price_target_8pct": 3.91,
-      "dy_real": 3.63,
+      "dy_real": 3.71,
       "avg_dividends_5y": 0.3126,
       "payout": 197.89,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "BAZA3",
@@ -552,13 +552,13 @@
       "buffett_moat_score": 2.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 83.32,
+      "price_now": 83.45,
       "price_target_6pct": 110.48,
       "price_target_8pct": 82.86,
-      "dy_real": 9.62,
+      "dy_real": 9.6,
       "avg_dividends_5y": 6.629,
       "payout": null,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "CEBR6",
@@ -570,13 +570,13 @@
       "buffett_moat_score": 4.5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 30.8,
+      "price_now": 30.7,
       "price_target_6pct": 76.58,
       "price_target_8pct": 57.43,
-      "dy_real": 16.0,
+      "dy_real": 16.06,
       "avg_dividends_5y": 4.5946,
       "payout": 358.32,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "CMIG3",
@@ -588,13 +588,13 @@
       "buffett_moat_score": 2.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 15.99,
+      "price_now": 16.32,
       "price_target_6pct": 23.66,
       "price_target_8pct": 17.74,
-      "dy_real": 10.32,
+      "dy_real": 10.11,
       "avg_dividends_5y": 1.4193,
       "payout": 63.74,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "ODPV3",
@@ -606,31 +606,13 @@
       "buffett_moat_score": 7.5,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA",
-      "price_now": 13.0,
+      "price_now": 13.28,
       "price_target_6pct": 13.32,
       "price_target_8pct": 9.99,
-      "dy_real": 6.26,
+      "dy_real": 6.13,
       "avg_dividends_5y": 0.7993,
       "payout": 76.23,
-      "sector": "-"
-    },
-    {
-      "ticker": "ALOS3",
-      "rank": 14,
-      "rank_max": 21,
-      "weighted_score": 71.2,
-      "piotroski_score": 7,
-      "piotroski_label": "FORTE",
-      "buffett_moat_score": 6.5,
-      "buffett_moat_label": "MODERADO",
-      "zone": "CARO",
-      "price_now": 28.8,
-      "price_target_6pct": 17.29,
-      "price_target_8pct": 12.97,
-      "dy_real": 6.19,
-      "avg_dividends_5y": 1.0375,
-      "payout": null,
-      "sector": "-"
+      "sector": "Saúde"
     },
     {
       "ticker": "MELK3",
@@ -642,13 +624,13 @@
       "buffett_moat_score": 4,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 3.43,
+      "price_now": 3.42,
       "price_target_6pct": 12.38,
       "price_target_8pct": 9.28,
-      "dy_real": 41.71,
+      "dy_real": 41.84,
       "avg_dividends_5y": 0.7426,
       "payout": 98.74,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "ABEV3",
@@ -660,13 +642,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA",
-      "price_now": 14.47,
+      "price_now": 14.7,
       "price_target_6pct": 17.33,
       "price_target_8pct": 13.0,
-      "dy_real": 11.79,
+      "dy_real": 11.6,
       "avg_dividends_5y": 1.0397,
       "payout": 113.27,
-      "sector": "-"
+      "sector": "Consumo não Cíclico"
     },
     {
       "ticker": "CSED3",
@@ -678,31 +660,13 @@
       "buffett_moat_score": 7.5,
       "buffett_moat_label": "FORTE",
       "zone": "CARO",
-      "price_now": 5.75,
+      "price_now": 6.0,
       "price_target_6pct": 4.71,
       "price_target_8pct": 3.53,
-      "dy_real": 8.44,
+      "dy_real": 8.09,
       "avg_dividends_5y": 0.2824,
       "payout": 38.12,
-      "sector": "-"
-    },
-    {
-      "ticker": "FIQE3",
-      "rank": 14,
-      "rank_max": 21,
-      "weighted_score": 70.0,
-      "piotroski_score": 5,
-      "piotroski_label": "MODERADO",
-      "buffett_moat_score": 6.5,
-      "buffett_moat_label": "MODERADO",
-      "zone": "COMPRA",
-      "price_now": 5.66,
-      "price_target_6pct": 6.29,
-      "price_target_8pct": 4.72,
-      "dy_real": 13.41,
-      "avg_dividends_5y": 0.3777,
-      "payout": 93.84,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "LREN3",
@@ -714,13 +678,13 @@
       "buffett_moat_score": 5,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 14.84,
+      "price_now": 15.68,
       "price_target_6pct": 11.29,
       "price_target_8pct": 8.46,
-      "dy_real": 5.65,
+      "dy_real": 5.35,
       "avg_dividends_5y": 0.6771,
       "payout": 57.91,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "PETR4",
@@ -732,13 +696,13 @@
       "buffett_moat_score": 6.5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 45.67,
+      "price_now": 47.27,
       "price_target_6pct": 117.95,
       "price_target_8pct": 88.46,
-      "dy_real": 7.18,
+      "dy_real": 6.94,
       "avg_dividends_5y": 7.0767,
       "payout": 27.87,
-      "sector": "-"
+      "sector": "Petróleo, Gás e Biocombustíveis"
     },
     {
       "ticker": "PLPL3",
@@ -750,13 +714,13 @@
       "buffett_moat_score": 7,
       "buffett_moat_label": "FORTE",
       "zone": "MONITORAR",
-      "price_now": 12.94,
+      "price_now": 13.8,
       "price_target_6pct": 11.68,
       "price_target_8pct": 8.76,
-      "dy_real": 3.81,
+      "dy_real": 3.57,
       "avg_dividends_5y": 0.7007,
       "payout": 11.48,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "CURY3",
@@ -768,13 +732,13 @@
       "buffett_moat_score": 7,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA",
-      "price_now": 33.06,
+      "price_now": 35.55,
       "price_target_6pct": 38.08,
       "price_target_8pct": 28.56,
-      "dy_real": 13.25,
+      "dy_real": 12.33,
       "avg_dividends_5y": 2.2847,
       "payout": 121.77,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "LOGG3",
@@ -786,13 +750,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 26.21,
+      "price_now": 27.15,
       "price_target_6pct": 38.11,
       "price_target_8pct": 28.58,
-      "dy_real": 15.13,
+      "dy_real": 14.6,
       "avg_dividends_5y": 2.2863,
       "payout": 98.22,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "WIZC3",
@@ -804,13 +768,31 @@
       "buffett_moat_score": 7.5,
       "buffett_moat_label": "FORTE",
       "zone": "MONITORAR",
-      "price_now": 8.43,
+      "price_now": 8.75,
       "price_target_6pct": 7.71,
       "price_target_8pct": 5.78,
-      "dy_real": 6.72,
+      "dy_real": 6.47,
       "avg_dividends_5y": 0.4625,
       "payout": 33.37,
-      "sector": "-"
+      "sector": "Financeiro"
+    },
+    {
+      "ticker": "ALOS3",
+      "rank": 13,
+      "rank_max": 21,
+      "weighted_score": 67.5,
+      "piotroski_score": 7,
+      "piotroski_label": "FORTE",
+      "buffett_moat_score": 6.5,
+      "buffett_moat_label": "MODERADO",
+      "zone": "CARO",
+      "price_now": 29.85,
+      "price_target_6pct": 17.29,
+      "price_target_8pct": 12.97,
+      "dy_real": 5.97,
+      "avg_dividends_5y": 1.0375,
+      "payout": null,
+      "sector": "Financeiro"
     },
     {
       "ticker": "BRAP3",
@@ -822,13 +804,13 @@
       "buffett_moat_score": 0.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 18.81,
+      "price_now": 19.42,
       "price_target_6pct": 52.35,
       "price_target_8pct": 39.26,
-      "dy_real": 15.84,
+      "dy_real": 15.34,
       "avg_dividends_5y": 3.141,
       "payout": 50.26,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "BRAP4",
@@ -840,13 +822,31 @@
       "buffett_moat_score": 0.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 21.36,
+      "price_now": 22.24,
       "price_target_6pct": 57.59,
       "price_target_8pct": 43.19,
-      "dy_real": 15.34,
+      "dy_real": 14.73,
       "avg_dividends_5y": 3.4551,
       "payout": 50.26,
-      "sector": "-"
+      "sector": "Financeiro"
+    },
+    {
+      "ticker": "BSLI3",
+      "rank": 15,
+      "rank_max": 21,
+      "weighted_score": 67.5,
+      "piotroski_score": 3,
+      "piotroski_label": "FRACO",
+      "buffett_moat_score": 3.5,
+      "buffett_moat_label": "FRACO",
+      "zone": "COMPRA_FORTE",
+      "price_now": 4.31,
+      "price_target_6pct": 5.86,
+      "price_target_8pct": 4.39,
+      "dy_real": 9.48,
+      "avg_dividends_5y": 0.3515,
+      "payout": 62.96,
+      "sector": "Financeiro"
     },
     {
       "ticker": "TFCO4",
@@ -858,13 +858,13 @@
       "buffett_moat_score": 9,
       "buffett_moat_label": "FORTE",
       "zone": "CARO",
-      "price_now": 15.59,
+      "price_now": 16.37,
       "price_target_6pct": 3.67,
       "price_target_8pct": 2.75,
-      "dy_real": 1.83,
+      "dy_real": 1.75,
       "avg_dividends_5y": 0.2201,
       "payout": 126.71,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "AZZA3",
@@ -876,13 +876,31 @@
       "buffett_moat_score": 5.5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA",
-      "price_now": 26.62,
+      "price_now": 26.8,
       "price_target_6pct": 30.27,
       "price_target_8pct": 22.7,
-      "dy_real": 9.3,
+      "dy_real": 9.24,
       "avg_dividends_5y": 1.816,
       "payout": 56.11,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
+    },
+    {
+      "ticker": "FIQE3",
+      "rank": 13,
+      "rank_max": 21,
+      "weighted_score": 66.2,
+      "piotroski_score": 5,
+      "piotroski_label": "MODERADO",
+      "buffett_moat_score": 6.5,
+      "buffett_moat_label": "MODERADO",
+      "zone": "MONITORAR",
+      "price_now": 6.48,
+      "price_target_6pct": 6.29,
+      "price_target_8pct": 4.72,
+      "dy_real": 11.71,
+      "avg_dividends_5y": 0.3777,
+      "payout": 93.84,
+      "sector": "Telecomunicações"
     },
     {
       "ticker": "FLRY3",
@@ -894,13 +912,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 14.91,
+      "price_now": 15.4,
       "price_target_6pct": 16.98,
       "price_target_8pct": 12.73,
-      "dy_real": 11.24,
+      "dy_real": 10.88,
       "avg_dividends_5y": 1.0186,
       "payout": 96.33,
-      "sector": "-"
+      "sector": "Saúde"
     },
     {
       "ticker": "PETR3",
@@ -912,13 +930,13 @@
       "buffett_moat_score": 6.5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 50.34,
+      "price_now": 51.95,
       "price_target_6pct": 121.5,
       "price_target_8pct": 91.12,
-      "dy_real": 6.52,
+      "dy_real": 6.32,
       "avg_dividends_5y": 7.29,
       "payout": 27.87,
-      "sector": "-"
+      "sector": "Petróleo, Gás e Biocombustíveis"
     },
     {
       "ticker": "TAEE11",
@@ -930,13 +948,13 @@
       "buffett_moat_score": 7.0,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA_FORTE",
-      "price_now": 40.83,
+      "price_now": 41.99,
       "price_target_6pct": 59.15,
       "price_target_8pct": 44.36,
-      "dy_real": 7.91,
+      "dy_real": 7.69,
       "avg_dividends_5y": 3.5489,
       "payout": 266.81,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "TAEE3",
@@ -948,13 +966,13 @@
       "buffett_moat_score": 7.0,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA_FORTE",
-      "price_now": 13.49,
+      "price_now": 13.85,
       "price_target_6pct": 19.72,
       "price_target_8pct": 14.79,
-      "dy_real": 7.98,
+      "dy_real": 7.77,
       "avg_dividends_5y": 1.1829,
       "payout": 266.81,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "TAEE4",
@@ -966,13 +984,13 @@
       "buffett_moat_score": 7.0,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA_FORTE",
-      "price_now": 13.78,
+      "price_now": 14.15,
       "price_target_6pct": 19.72,
       "price_target_8pct": 14.79,
-      "dy_real": 7.81,
+      "dy_real": 7.61,
       "avg_dividends_5y": 1.1829,
       "payout": 266.81,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "TOTS3",
@@ -984,13 +1002,13 @@
       "buffett_moat_score": 6.5,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 33.96,
+      "price_now": 34.99,
       "price_target_6pct": 8.12,
       "price_target_8pct": 6.09,
-      "dy_real": 1.8,
+      "dy_real": 1.74,
       "avg_dividends_5y": 0.4873,
       "payout": 41.0,
-      "sector": "-"
+      "sector": "Tecnologia da Informação"
     },
     {
       "ticker": "BMGB4",
@@ -1002,13 +1020,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 4.85,
+      "price_now": 4.97,
       "price_target_6pct": 7.0,
       "price_target_8pct": 5.25,
-      "dy_real": 11.15,
+      "dy_real": 10.88,
       "avg_dividends_5y": 0.4202,
       "payout": 56.55,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "CGRA4",
@@ -1020,31 +1038,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 26.76,
+      "price_now": 26.5,
       "price_target_6pct": 39.71,
       "price_target_8pct": 29.79,
-      "dy_real": 9.41,
+      "dy_real": 9.5,
       "avg_dividends_5y": 2.3829,
       "payout": 76.49,
-      "sector": "-"
-    },
-    {
-      "ticker": "ITUB3",
-      "rank": 13,
-      "rank_max": 21,
-      "weighted_score": 65.0,
-      "piotroski_score": 6,
-      "piotroski_label": "MODERADO",
-      "buffett_moat_score": 5,
-      "buffett_moat_label": "MODERADO",
-      "zone": "COMPRA",
-      "price_now": 40.49,
-      "price_target_6pct": 40.77,
-      "price_target_8pct": 30.58,
-      "dy_real": 8.45,
-      "avg_dividends_5y": 2.4461,
-      "payout": 98.28,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "MULT3",
@@ -1056,31 +1056,13 @@
       "buffett_moat_score": 5.5,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 29.92,
+      "price_now": 31.24,
       "price_target_6pct": 16.2,
       "price_target_8pct": 12.15,
-      "dy_real": 3.42,
+      "dy_real": 3.27,
       "avg_dividends_5y": 0.9719,
       "payout": 46.0,
-      "sector": "-"
-    },
-    {
-      "ticker": "BSLI3",
-      "rank": 14,
-      "rank_max": 21,
-      "weighted_score": 63.7,
-      "piotroski_score": 3,
-      "piotroski_label": "FRACO",
-      "buffett_moat_score": 3.5,
-      "buffett_moat_label": "FRACO",
-      "zone": "COMPRA",
-      "price_now": 4.53,
-      "price_target_6pct": 5.86,
-      "price_target_8pct": 4.39,
-      "dy_real": 9.02,
-      "avg_dividends_5y": 0.3515,
-      "payout": 62.96,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "RDOR3",
@@ -1092,13 +1074,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 37.23,
+      "price_now": 38.82,
       "price_target_6pct": 30.7,
       "price_target_8pct": 23.03,
-      "dy_real": 11.53,
+      "dy_real": 11.06,
       "avg_dividends_5y": 1.842,
       "payout": 209.61,
-      "sector": "-"
+      "sector": "Saúde"
     },
     {
       "ticker": "TKNO4",
@@ -1110,13 +1092,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 220.02,
+      "price_now": 222.01,
       "price_target_6pct": 180.43,
       "price_target_8pct": 135.33,
-      "dy_real": 9.33,
+      "dy_real": 9.25,
       "avg_dividends_5y": 10.826,
       "payout": 510.76,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "LEVE3",
@@ -1128,13 +1110,13 @@
       "buffett_moat_score": 5,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 34.58,
+      "price_now": 35.12,
       "price_target_6pct": 71.34,
       "price_target_8pct": 53.51,
-      "dy_real": 7.87,
+      "dy_real": 7.75,
       "avg_dividends_5y": 4.2806,
       "payout": 23.37,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "WEGE3",
@@ -1146,13 +1128,13 @@
       "buffett_moat_score": 7,
       "buffett_moat_label": "FORTE",
       "zone": "CARO",
-      "price_now": 45.96,
+      "price_now": 47.45,
       "price_target_6pct": 20.64,
       "price_target_8pct": 15.48,
-      "dy_real": 5.33,
+      "dy_real": 5.16,
       "avg_dividends_5y": 1.2383,
       "payout": 87.04,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "BRSR6",
@@ -1164,13 +1146,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 16.73,
+      "price_now": 17.33,
       "price_target_6pct": 19.49,
       "price_target_8pct": 14.62,
-      "dy_real": 10.9,
+      "dy_real": 10.52,
       "avg_dividends_5y": 1.1694,
       "payout": 47.19,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "CMIN3",
@@ -1182,13 +1164,13 @@
       "buffett_moat_score": 7,
       "buffett_moat_label": "FORTE",
       "zone": "COMPRA_FORTE",
-      "price_now": 4.75,
+      "price_now": 5.03,
       "price_target_6pct": 11.0,
       "price_target_8pct": 8.25,
-      "dy_real": 10.18,
+      "dy_real": 9.61,
       "avg_dividends_5y": 0.66,
       "payout": 150.76,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "EVEN3",
@@ -1200,13 +1182,49 @@
       "buffett_moat_score": 0.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 6.9,
+      "price_now": 7.09,
       "price_target_6pct": 11.2,
       "price_target_8pct": 8.4,
-      "dy_real": 11.09,
+      "dy_real": 10.79,
       "avg_dividends_5y": 0.6719,
       "payout": null,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
+    },
+    {
+      "ticker": "ITUB3",
+      "rank": 12,
+      "rank_max": 21,
+      "weighted_score": 61.3,
+      "piotroski_score": 6,
+      "piotroski_label": "MODERADO",
+      "buffett_moat_score": 5,
+      "buffett_moat_label": "MODERADO",
+      "zone": "MONITORAR",
+      "price_now": 41.37,
+      "price_target_6pct": 40.77,
+      "price_target_8pct": 30.58,
+      "dy_real": 8.27,
+      "avg_dividends_5y": 2.4461,
+      "payout": 98.28,
+      "sector": "Financeiro"
+    },
+    {
+      "ticker": "VITT3",
+      "rank": 14,
+      "rank_max": 21,
+      "weighted_score": 61.3,
+      "piotroski_score": 6,
+      "piotroski_label": "MODERADO",
+      "buffett_moat_score": 1.0,
+      "buffett_moat_label": "FRACO",
+      "zone": "COMPRA",
+      "price_now": 4.1,
+      "price_target_6pct": 4.17,
+      "price_target_8pct": 3.13,
+      "dy_real": 6.89,
+      "avg_dividends_5y": 0.2501,
+      "payout": 55.42,
+      "sector": "Consumo não Cíclico"
     },
     {
       "ticker": "ALUP11",
@@ -1218,31 +1236,13 @@
       "buffett_moat_score": 2.5,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 33.53,
+      "price_now": 34.45,
       "price_target_6pct": 22.0,
       "price_target_8pct": 16.5,
-      "dy_real": 3.85,
+      "dy_real": 3.74,
       "avg_dividends_5y": 1.32,
       "payout": 119.59,
-      "sector": "-"
-    },
-    {
-      "ticker": "JSLG3",
-      "rank": 13,
-      "rank_max": 21,
-      "weighted_score": 60.0,
-      "piotroski_score": 3,
-      "piotroski_label": "FRACO",
-      "buffett_moat_score": 1.5,
-      "buffett_moat_label": "FRACO",
-      "zone": "COMPRA_FORTE",
-      "price_now": 5.69,
-      "price_target_6pct": 14.88,
-      "price_target_8pct": 11.16,
-      "dy_real": 33.59,
-      "avg_dividends_5y": 0.8926,
-      "payout": 764.05,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "FESA4",
@@ -1254,13 +1254,13 @@
       "buffett_moat_score": 2.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 7.26,
+      "price_now": 7.66,
       "price_target_6pct": 11.93,
       "price_target_8pct": 8.95,
-      "dy_real": 10.05,
+      "dy_real": 9.53,
       "avg_dividends_5y": 0.716,
       "payout": 251.16,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "FRAS3",
@@ -1272,13 +1272,13 @@
       "buffett_moat_score": 2,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 20.85,
+      "price_now": 21.44,
       "price_target_6pct": 9.5,
       "price_target_8pct": 7.12,
-      "dy_real": 3.4,
+      "dy_real": 3.31,
       "avg_dividends_5y": 0.5698,
       "payout": 71.83,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "SBSP3",
@@ -1290,13 +1290,13 @@
       "buffett_moat_score": 5.0,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 148.5,
+      "price_now": 152.71,
       "price_target_6pct": 47.55,
       "price_target_8pct": 35.66,
-      "dy_real": 4.77,
+      "dy_real": 4.64,
       "avg_dividends_5y": 2.8531,
       "payout": 32.26,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "BBDC3",
@@ -1308,13 +1308,13 @@
       "buffett_moat_score": 1.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 15.81,
+      "price_now": 16.3,
       "price_target_6pct": 18.97,
       "price_target_8pct": 14.23,
-      "dy_real": 8.37,
+      "dy_real": 8.12,
       "avg_dividends_5y": 1.1383,
       "payout": 103.45,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "ITUB4",
@@ -1326,13 +1326,13 @@
       "buffett_moat_score": 5,
       "buffett_moat_label": "MODERADO",
       "zone": "MONITORAR",
-      "price_now": 41.55,
+      "price_now": 42.54,
       "price_target_6pct": 40.77,
       "price_target_8pct": 30.58,
-      "dy_real": 8.24,
+      "dy_real": 8.05,
       "avg_dividends_5y": 2.4461,
       "payout": 98.28,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "PFRM3",
@@ -1344,31 +1344,31 @@
       "buffett_moat_score": 4.5,
       "buffett_moat_label": "MODERADO",
       "zone": "MONITORAR",
-      "price_now": 7.39,
+      "price_now": 7.41,
       "price_target_6pct": 6.96,
       "price_target_8pct": 5.22,
-      "dy_real": 8.72,
+      "dy_real": 8.7,
       "avg_dividends_5y": 0.4174,
       "payout": 50.41,
-      "sector": "-"
+      "sector": "Saúde"
     },
     {
-      "ticker": "VITT3",
-      "rank": 13,
+      "ticker": "JSLG3",
+      "rank": 12,
       "rank_max": 21,
-      "weighted_score": 57.5,
-      "piotroski_score": 6,
-      "piotroski_label": "MODERADO",
-      "buffett_moat_score": 1.0,
+      "weighted_score": 56.2,
+      "piotroski_score": 3,
+      "piotroski_label": "FRACO",
+      "buffett_moat_score": 1.5,
       "buffett_moat_label": "FRACO",
-      "zone": "MONITORAR",
-      "price_now": 4.19,
-      "price_target_6pct": 4.17,
-      "price_target_8pct": 3.13,
-      "dy_real": 6.74,
-      "avg_dividends_5y": 0.2501,
-      "payout": 55.42,
-      "sector": "-"
+      "zone": "COMPRA_FORTE",
+      "price_now": 6.67,
+      "price_target_6pct": 14.88,
+      "price_target_8pct": 11.16,
+      "dy_real": 28.66,
+      "avg_dividends_5y": 0.8926,
+      "payout": 764.05,
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "CLSC4",
@@ -1380,13 +1380,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 144.66,
+      "price_now": 146.21,
       "price_target_6pct": 119.66,
       "price_target_8pct": 89.75,
-      "dy_real": 6.72,
+      "dy_real": 6.65,
       "avg_dividends_5y": 7.1798,
       "payout": 20.6,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "UGPA3",
@@ -1398,13 +1398,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 26.16,
+      "price_now": 27.86,
       "price_target_6pct": 15.52,
       "price_target_8pct": 11.64,
-      "dy_real": 6.69,
+      "dy_real": 6.28,
       "avg_dividends_5y": 0.9313,
       "payout": 59.12,
-      "sector": "-"
+      "sector": "Petróleo, Gás e Biocombustíveis"
     },
     {
       "ticker": "BBDC4",
@@ -1416,13 +1416,13 @@
       "buffett_moat_score": 1.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 18.33,
+      "price_now": 18.94,
       "price_target_6pct": 20.87,
       "price_target_8pct": 15.65,
-      "dy_real": 7.94,
+      "dy_real": 7.68,
       "avg_dividends_5y": 1.2521,
       "payout": 103.45,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "BPAC11",
@@ -1434,13 +1434,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 52.74,
+      "price_now": 55.63,
       "price_target_6pct": 16.07,
       "price_target_8pct": 12.05,
-      "dy_real": 2.37,
+      "dy_real": 2.24,
       "avg_dividends_5y": 0.9639,
       "payout": 136.24,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "CXSE3",
@@ -1452,13 +1452,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "MONITORAR",
-      "price_now": 17.35,
+      "price_now": 17.62,
       "price_target_6pct": 16.89,
       "price_target_8pct": 12.67,
-      "dy_real": 7.51,
+      "dy_real": 7.39,
       "avg_dividends_5y": 1.0136,
       "payout": 68.51,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "CSMG3",
@@ -1470,13 +1470,13 @@
       "buffett_moat_score": 4.5,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 53.45,
+      "price_now": 54.72,
       "price_target_6pct": 36.55,
       "price_target_8pct": 27.42,
-      "dy_real": 4.28,
+      "dy_real": 4.18,
       "avg_dividends_5y": 2.1933,
       "payout": 64.07,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "HYPE3",
@@ -1488,13 +1488,13 @@
       "buffett_moat_score": 3.5,
       "buffett_moat_label": "FRACO",
       "zone": "MONITORAR",
-      "price_now": 22.14,
+      "price_now": 22.9,
       "price_target_6pct": 19.7,
       "price_target_8pct": 14.78,
-      "dy_real": 5.23,
+      "dy_real": 5.06,
       "avg_dividends_5y": 1.1821,
       "payout": 62.0,
-      "sector": "-"
+      "sector": "Saúde"
     },
     {
       "ticker": "MTRE3",
@@ -1506,13 +1506,13 @@
       "buffett_moat_score": 2,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 3.64,
+      "price_now": 3.73,
       "price_target_6pct": 8.03,
       "price_target_8pct": 6.02,
-      "dy_real": 13.25,
+      "dy_real": 12.93,
       "avg_dividends_5y": 0.4816,
       "payout": 72.56,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "ROMI3",
@@ -1524,31 +1524,13 @@
       "buffett_moat_score": 1.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 7.16,
+      "price_now": 7.27,
       "price_target_6pct": 11.84,
       "price_target_8pct": 8.88,
-      "dy_real": 10.06,
+      "dy_real": 9.9,
       "avg_dividends_5y": 0.7104,
       "payout": 78.82,
-      "sector": "-"
-    },
-    {
-      "ticker": "TIMS3",
-      "rank": 10,
-      "rank_max": 21,
-      "weighted_score": 52.5,
-      "piotroski_score": 3,
-      "piotroski_label": "FRACO",
-      "buffett_moat_score": 6,
-      "buffett_moat_label": "MODERADO",
-      "zone": "COMPRA",
-      "price_now": 26.13,
-      "price_target_6pct": 26.58,
-      "price_target_8pct": 19.93,
-      "dy_real": 9.3,
-      "avg_dividends_5y": 1.5947,
-      "payout": 199.3,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "VIVT3",
@@ -1560,13 +1542,13 @@
       "buffett_moat_score": 5.5,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 40.27,
+      "price_now": 41.05,
       "price_target_6pct": 24.59,
       "price_target_8pct": 18.44,
-      "dy_real": 2.62,
+      "dy_real": 2.57,
       "avg_dividends_5y": 1.4754,
       "payout": 51.23,
-      "sector": "-"
+      "sector": "Telecomunicações"
     },
     {
       "ticker": "BPAC3",
@@ -1578,13 +1560,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 35.57,
+      "price_now": 35.6,
       "price_target_6pct": 5.35,
       "price_target_8pct": 4.02,
       "dy_real": 1.17,
       "avg_dividends_5y": 0.3213,
       "payout": 136.24,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "MDIA3",
@@ -1596,13 +1578,13 @@
       "buffett_moat_score": 2.5,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 21.25,
+      "price_now": 21.86,
       "price_target_6pct": 14.97,
       "price_target_8pct": 11.23,
-      "dy_real": 6.43,
+      "dy_real": 6.25,
       "avg_dividends_5y": 0.8985,
       "payout": 52.73,
-      "sector": "-"
+      "sector": "Consumo não Cíclico"
     },
     {
       "ticker": "PSSA3",
@@ -1614,13 +1596,13 @@
       "buffett_moat_score": 8,
       "buffett_moat_label": "FORTE",
       "zone": "CARO",
-      "price_now": 47.45,
+      "price_now": 49.0,
       "price_target_6pct": 29.06,
       "price_target_8pct": 21.79,
-      "dy_real": 5.46,
+      "dy_real": 5.29,
       "avg_dividends_5y": 1.7435,
       "payout": 38.01,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "SMTO3",
@@ -1632,13 +1614,31 @@
       "buffett_moat_score": 0,
       "buffett_moat_label": "FRACO",
       "zone": "MONITORAR",
-      "price_now": 18.78,
+      "price_now": 19.95,
       "price_target_6pct": 17.77,
       "price_target_8pct": 13.33,
-      "dy_real": 2.43,
+      "dy_real": 2.29,
       "avg_dividends_5y": 1.0664,
       "payout": 19.54,
-      "sector": "-"
+      "sector": "Consumo não Cíclico"
+    },
+    {
+      "ticker": "TIMS3",
+      "rank": 9,
+      "rank_max": 21,
+      "weighted_score": 48.8,
+      "piotroski_score": 3,
+      "piotroski_label": "FRACO",
+      "buffett_moat_score": 6,
+      "buffett_moat_label": "MODERADO",
+      "zone": "MONITORAR",
+      "price_now": 26.95,
+      "price_target_6pct": 26.58,
+      "price_target_8pct": 19.93,
+      "dy_real": 9.02,
+      "avg_dividends_5y": 1.5947,
+      "payout": 199.3,
+      "sector": "Telecomunicações"
     },
     {
       "ticker": "GOAU3",
@@ -1650,13 +1650,13 @@
       "buffett_moat_score": 1.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 7.76,
+      "price_now": 8.09,
       "price_target_6pct": 11.16,
       "price_target_8pct": 8.37,
-      "dy_real": 4.51,
+      "dy_real": 4.33,
       "avg_dividends_5y": 0.6695,
       "payout": 127.91,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "GOAU4",
@@ -1668,13 +1668,13 @@
       "buffett_moat_score": 1.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 7.82,
+      "price_now": 8.24,
       "price_target_6pct": 11.16,
       "price_target_8pct": 8.37,
-      "dy_real": 4.48,
+      "dy_real": 4.25,
       "avg_dividends_5y": 0.6695,
       "payout": 127.91,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "NEOE3",
@@ -1686,13 +1686,13 @@
       "buffett_moat_score": 1.5,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 33.2,
+      "price_now": 33.24,
       "price_target_6pct": 14.21,
       "price_target_8pct": 10.66,
-      "dy_real": 4.4,
+      "dy_real": 4.39,
       "avg_dividends_5y": 0.8529,
       "payout": 24.81,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "RADL3",
@@ -1704,13 +1704,13 @@
       "buffett_moat_score": 5,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 22.48,
+      "price_now": 23.55,
       "price_target_6pct": 5.68,
       "price_target_8pct": 4.26,
-      "dy_real": 1.96,
+      "dy_real": 1.87,
       "avg_dividends_5y": 0.341,
       "payout": 52.53,
-      "sector": "-"
+      "sector": "Saúde"
     },
     {
       "ticker": "ENGI11",
@@ -1722,13 +1722,13 @@
       "buffett_moat_score": 1.5,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 48.84,
+      "price_now": 50.3,
       "price_target_6pct": 39.37,
       "price_target_8pct": 29.53,
-      "dy_real": 3.17,
+      "dy_real": 3.07,
       "avg_dividends_5y": 2.3622,
       "payout": 236.89,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "KLBN11",
@@ -1740,13 +1740,13 @@
       "buffett_moat_score": 1.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 18.4,
+      "price_now": 19.14,
       "price_target_6pct": 22.63,
       "price_target_8pct": 16.97,
-      "dy_real": 9.13,
+      "dy_real": 8.78,
       "avg_dividends_5y": 1.3576,
       "payout": 467.58,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "KLBN3",
@@ -1758,13 +1758,13 @@
       "buffett_moat_score": 1.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 3.71,
+      "price_now": 3.85,
       "price_target_6pct": 4.53,
       "price_target_8pct": 3.39,
-      "dy_real": 9.06,
+      "dy_real": 8.73,
       "avg_dividends_5y": 0.2715,
       "payout": 467.58,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "KLBN4",
@@ -1776,13 +1776,13 @@
       "buffett_moat_score": 1.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 3.7,
+      "price_now": 3.84,
       "price_target_6pct": 4.53,
       "price_target_8pct": 3.39,
-      "dy_real": 9.08,
+      "dy_real": 8.75,
       "avg_dividends_5y": 0.2715,
       "payout": 467.58,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "VAMO3",
@@ -1794,13 +1794,13 @@
       "buffett_moat_score": 3,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 3.19,
+      "price_now": 3.57,
       "price_target_6pct": 3.87,
       "price_target_8pct": 2.9,
-      "dy_real": 4.39,
+      "dy_real": 3.92,
       "avg_dividends_5y": 0.2321,
       "payout": 59.75,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "BBAS3",
@@ -1812,13 +1812,13 @@
       "buffett_moat_score": 0.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 23.27,
+      "price_now": 23.65,
       "price_target_6pct": 28.5,
       "price_target_8pct": 21.38,
-      "dy_real": 6.33,
+      "dy_real": 6.23,
       "avg_dividends_5y": 1.7101,
       "payout": 31.01,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "COCE5",
@@ -1830,13 +1830,13 @@
       "buffett_moat_score": 0,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 31.42,
+      "price_now": 30.86,
       "price_target_6pct": 21.27,
       "price_target_8pct": 15.95,
-      "dy_real": 4.3,
+      "dy_real": 4.38,
       "avg_dividends_5y": 1.2759,
       "payout": null,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "GGBR3",
@@ -1848,13 +1848,13 @@
       "buffett_moat_score": 1.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 15.74,
+      "price_now": 16.27,
       "price_target_6pct": 20.48,
       "price_target_8pct": 15.36,
-      "dy_real": 4.57,
+      "dy_real": 4.43,
       "avg_dividends_5y": 1.2289,
       "payout": 178.68,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "GGBR4",
@@ -1866,13 +1866,13 @@
       "buffett_moat_score": 1.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 17.45,
+      "price_now": 18.24,
       "price_target_6pct": 20.48,
       "price_target_8pct": 15.36,
-      "dy_real": 4.13,
+      "dy_real": 3.95,
       "avg_dividends_5y": 1.2289,
       "payout": 178.68,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "SLCE3",
@@ -1884,13 +1884,13 @@
       "buffett_moat_score": 1.5,
       "buffett_moat_label": "FRACO",
       "zone": "MONITORAR",
-      "price_now": 18.21,
+      "price_now": 18.48,
       "price_target_6pct": 17.03,
       "price_target_8pct": 12.77,
-      "dy_real": 7.09,
+      "dy_real": 6.98,
       "avg_dividends_5y": 1.0219,
       "payout": 81.32,
-      "sector": "-"
+      "sector": "Consumo não Cíclico"
     },
     {
       "ticker": "ARML3",
@@ -1901,14 +1901,14 @@
       "piotroski_label": "FRACO",
       "buffett_moat_score": 2.0,
       "buffett_moat_label": "FRACO",
-      "zone": "MONITORAR",
-      "price_now": 4.44,
+      "zone": "CARO",
+      "price_now": 5.05,
       "price_target_6pct": 4.15,
       "price_target_8pct": 3.11,
-      "dy_real": 13.91,
+      "dy_real": 12.23,
       "avg_dividends_5y": 0.2487,
       "payout": 402.96,
-      "sector": "-"
+      "sector": "Bens Industriais"
     },
     {
       "ticker": "B3SA3",
@@ -1920,13 +1920,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 16.19,
+      "price_now": 17.38,
       "price_target_6pct": 6.66,
       "price_target_8pct": 5.0,
-      "dy_real": 3.67,
+      "dy_real": 3.42,
       "avg_dividends_5y": 0.3997,
       "payout": 33.92,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "BBSE3",
@@ -1938,13 +1938,13 @@
       "buffett_moat_score": 4,
       "buffett_moat_label": "MODERADO",
       "zone": "COMPRA_FORTE",
-      "price_now": 34.09,
+      "price_now": 34.46,
       "price_target_6pct": 52.57,
       "price_target_8pct": 39.42,
-      "dy_real": 13.34,
+      "dy_real": 13.2,
       "avg_dividends_5y": 3.1539,
       "payout": 99.63,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "BMEB3",
@@ -1956,13 +1956,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 65.99,
+      "price_now": 65.76,
       "price_target_6pct": 14.27,
       "price_target_8pct": 10.7,
-      "dy_real": 2.59,
+      "dy_real": 2.6,
       "avg_dividends_5y": 0.8559,
       "payout": 68.22,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "EGIE3",
@@ -1974,13 +1974,13 @@
       "buffett_moat_score": 2.5,
       "buffett_moat_label": "FRACO",
       "zone": "MONITORAR",
-      "price_now": 31.31,
+      "price_now": 31.71,
       "price_target_6pct": 29.01,
       "price_target_8pct": 21.75,
-      "dy_real": 4.29,
+      "dy_real": 4.24,
       "avg_dividends_5y": 1.7404,
       "payout": 42.85,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "EQTL3",
@@ -1992,13 +1992,13 @@
       "buffett_moat_score": 1.5,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 39.98,
+      "price_now": 41.17,
       "price_target_6pct": 18.53,
       "price_target_8pct": 13.9,
-      "dy_real": 5.71,
+      "dy_real": 5.55,
       "avg_dividends_5y": 1.1119,
       "payout": 95.0,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "AXIA3",
@@ -2010,13 +2010,13 @@
       "buffett_moat_score": 5.0,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 55.65,
+      "price_now": 57.65,
       "price_target_6pct": 35.98,
       "price_target_8pct": 26.99,
-      "dy_real": 8.16,
+      "dy_real": 7.88,
       "avg_dividends_5y": 2.1591,
       "payout": 191.8,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "BMEB4",
@@ -2028,13 +2028,13 @@
       "buffett_moat_score": 6,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 74.6,
+      "price_now": 75.07,
       "price_target_6pct": 17.34,
       "price_target_8pct": 13.01,
-      "dy_real": 2.45,
+      "dy_real": 2.43,
       "avg_dividends_5y": 1.0406,
       "payout": 68.22,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "ETER3",
@@ -2046,10 +2046,10 @@
       "buffett_moat_score": 1.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 3.74,
+      "price_now": 3.82,
       "price_target_6pct": 4.94,
       "price_target_8pct": 3.71,
-      "dy_real": 0.99,
+      "dy_real": 0.97,
       "avg_dividends_5y": 0.2965,
       "payout": null,
       "sector": "-"
@@ -2064,13 +2064,13 @@
       "buffett_moat_score": 1.5,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 8.65,
+      "price_now": 8.67,
       "price_target_6pct": 4.32,
       "price_target_8pct": 3.24,
       "dy_real": 3.06,
       "avg_dividends_5y": 0.259,
       "payout": null,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "VALE3",
@@ -2082,13 +2082,13 @@
       "buffett_moat_score": 0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA_FORTE",
-      "price_now": 75.55,
+      "price_now": 78.1,
       "price_target_6pct": 119.51,
       "price_target_8pct": 89.63,
-      "dy_real": 10.08,
+      "dy_real": 9.76,
       "avg_dividends_5y": 7.1703,
       "payout": 176.01,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "MYPK3",
@@ -2100,13 +2100,13 @@
       "buffett_moat_score": 1.0,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 8.87,
+      "price_now": 9.05,
       "price_target_6pct": 9.45,
       "price_target_8pct": 7.08,
-      "dy_real": 5.66,
+      "dy_real": 5.54,
       "avg_dividends_5y": 0.5668,
       "payout": 47.99,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "HBOR3",
@@ -2118,13 +2118,13 @@
       "buffett_moat_score": 0,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 2.66,
+      "price_now": 2.72,
       "price_target_6pct": 1.72,
       "price_target_8pct": 1.29,
-      "dy_real": 8.76,
+      "dy_real": 8.57,
       "avg_dividends_5y": 0.1035,
       "payout": null,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "RENT3",
@@ -2136,13 +2136,13 @@
       "buffett_moat_score": 2.0,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 43.21,
+      "price_now": 46.44,
       "price_target_6pct": 26.52,
       "price_target_8pct": 19.89,
-      "dy_real": 4.61,
+      "dy_real": 4.29,
       "avg_dividends_5y": 1.5915,
       "payout": 119.5,
-      "sector": "-"
+      "sector": "Consumo Cíclico"
     },
     {
       "ticker": "AXIA6",
@@ -2154,13 +2154,13 @@
       "buffett_moat_score": 5.0,
       "buffett_moat_label": "MODERADO",
       "zone": "CARO",
-      "price_now": 61.02,
+      "price_now": 62.94,
       "price_target_6pct": 40.07,
       "price_target_8pct": 30.05,
-      "dy_real": 5.35,
+      "dy_real": 5.19,
       "avg_dividends_5y": 2.4044,
       "payout": 191.8,
-      "sector": "-"
+      "sector": "Utilidade Pública"
     },
     {
       "ticker": "CAML3",
@@ -2172,13 +2172,13 @@
       "buffett_moat_score": 0.5,
       "buffett_moat_label": "FRACO",
       "zone": "MONITORAR",
-      "price_now": 5.47,
+      "price_now": 5.64,
       "price_target_6pct": 4.98,
       "price_target_8pct": 3.73,
-      "dy_real": 6.7,
+      "dy_real": 6.5,
       "avg_dividends_5y": 0.2988,
       "payout": 44.08,
-      "sector": "-"
+      "sector": "Consumo não Cíclico"
     },
     {
       "ticker": "DXCO3",
@@ -2190,13 +2190,13 @@
       "buffett_moat_score": 0,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 4.46,
+      "price_now": 4.65,
       "price_target_6pct": 3.27,
       "price_target_8pct": 2.45,
-      "dy_real": 0.15,
+      "dy_real": 0.14,
       "avg_dividends_5y": 0.196,
       "payout": null,
-      "sector": "-"
+      "sector": "Materiais Básicos"
     },
     {
       "ticker": "SANB11",
@@ -2208,31 +2208,13 @@
       "buffett_moat_score": 0.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 29.25,
+      "price_now": 29.97,
       "price_target_6pct": 31.27,
       "price_target_8pct": 23.45,
-      "dy_real": 7.44,
+      "dy_real": 7.26,
       "avg_dividends_5y": 1.8763,
       "payout": 236.24,
-      "sector": "-"
-    },
-    {
-      "ticker": "SANB3",
-      "rank": 6,
-      "rank_max": 21,
-      "weighted_score": 26.2,
-      "piotroski_score": 3,
-      "piotroski_label": "FRACO",
-      "buffett_moat_score": 0.5,
-      "buffett_moat_label": "FRACO",
-      "zone": "COMPRA",
-      "price_now": 14.45,
-      "price_target_6pct": 14.89,
-      "price_target_8pct": 11.17,
-      "dy_real": 7.17,
-      "avg_dividends_5y": 0.8935,
-      "payout": 236.24,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "SANB4",
@@ -2244,13 +2226,13 @@
       "buffett_moat_score": 0.5,
       "buffett_moat_label": "FRACO",
       "zone": "COMPRA",
-      "price_now": 14.83,
+      "price_now": 15.06,
       "price_target_6pct": 16.38,
       "price_target_8pct": 12.29,
-      "dy_real": 7.68,
+      "dy_real": 7.57,
       "avg_dividends_5y": 0.9828,
       "payout": 236.24,
-      "sector": "-"
+      "sector": "Financeiro"
     },
     {
       "ticker": "PNVL3",
@@ -2262,13 +2244,31 @@
       "buffett_moat_score": 1,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 13.86,
+      "price_now": 14.4,
       "price_target_6pct": 4.06,
       "price_target_8pct": 3.05,
-      "dy_real": 2.49,
+      "dy_real": 2.4,
       "avg_dividends_5y": 0.2437,
       "payout": 36.34,
-      "sector": "-"
+      "sector": "Saúde"
+    },
+    {
+      "ticker": "SANB3",
+      "rank": 5,
+      "rank_max": 21,
+      "weighted_score": 22.5,
+      "piotroski_score": 3,
+      "piotroski_label": "FRACO",
+      "buffett_moat_score": 0.5,
+      "buffett_moat_label": "FRACO",
+      "zone": "MONITORAR",
+      "price_now": 14.9,
+      "price_target_6pct": 14.89,
+      "price_target_8pct": 11.17,
+      "dy_real": 6.95,
+      "avg_dividends_5y": 0.8935,
+      "payout": 236.24,
+      "sector": "Financeiro"
     },
     {
       "ticker": "VBBR3",
@@ -2280,13 +2280,13 @@
       "buffett_moat_score": 1,
       "buffett_moat_label": "FRACO",
       "zone": "CARO",
-      "price_now": 29.09,
+      "price_now": 30.85,
       "price_target_6pct": 21.48,
       "price_target_8pct": 16.11,
-      "dy_real": 5.25,
+      "dy_real": 4.95,
       "avg_dividends_5y": 1.2888,
       "payout": 64.44,
-      "sector": "-"
+      "sector": "Petróleo, Gás e Biocombustíveis"
     }
   ]
 }
