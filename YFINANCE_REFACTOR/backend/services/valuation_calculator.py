@@ -202,7 +202,7 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
     #   critério aprovado  + tendência CAINDO   → penalidade (moat erodindo silenciosamente)
     #   critério reprovado + tendência CRESCENDO → bônus     (moat em construção)
     #   ESTAVEL / INDEFINIDO                    → sem alteração
-    # Apenas MB e ROE (peso 2 cada) recebem modificadores — são os critérios principais
+    # MB, ROE e FCF recebem modificadores de tendência — os critérios centrais de Buffett.
     # de pricing power e eficiência de capital que Buffett cita explicitamente.
     _tr = history.get("buffett_trends") or {}
     _mb_trend  = _tr.get("margem_bruta_trend")
@@ -216,6 +216,15 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
     if _roe_trend == "CAINDO":
         score += rules.MOAT_TREND_PENALTY
     elif _roe_trend == "CRESCENDO" and not flags["moat_roe"]:
+        score += rules.MOAT_TREND_BONUS
+
+    # FCF trend modifier — mesmo padrão de MB e ROE (Buffett: FCF em queda = moat erodindo)
+    _fcf_trend = _tr.get("fcf_trend")
+    _fcf_cf    = history.get("buffett_cashflow") or {}
+    _fcf_pos   = _fcf_cf.get("fcf_positivo")  # None = dado ausente
+    if _fcf_trend == "CAINDO":
+        score += rules.MOAT_TREND_PENALTY
+    elif _fcf_trend == "CRESCENDO" and _fcf_pos is False:  # bônus só quando explicitamente negativo
         score += rules.MOAT_TREND_BONUS
 
     score = round(max(0, min(10, score)), 1)  # garante bounds [0, 10]

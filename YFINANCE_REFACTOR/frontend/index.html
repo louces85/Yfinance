@@ -1801,10 +1801,11 @@ function renderBuffettMoat(moat) {
       ${[
         { key: 'moat_mb_trend',  label: 'Tendência Margem Bruta',  passed: flags.moat_margem_bruta },
         { key: 'moat_roe_trend', label: 'Tendência ROE',            passed: flags.moat_roe },
+        { key: 'moat_fcf_trend', label: 'Tendência FCF',            passed: flags.moat_fcf_positivo },
       ].map(({ key, label, passed }) => {
         const trend = flags[key];
         const modifier = trend === 'CAINDO' ? -0.5
-                       : (trend === 'CRESCENDO' && !passed) ? +0.5
+                       : (trend === 'CRESCENDO' && passed === false) ? +0.5
                        : 0;
         const icon  = trend === 'CRESCENDO' ? '↗' : trend === 'CAINDO' ? '↘' : '→';
         const color = modifier < 0 ? 'var(--red)' : modifier > 0 ? 'var(--green-s)' : 'var(--muted)';
