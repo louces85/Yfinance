@@ -292,6 +292,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 /* ─── Periodic element card ────────────────────────────────────── */
 .elem-card {
   flex-shrink: 0;
+  position: relative;
   display: flex;
   flex-direction: column;
   border: 2px solid var(--border);
@@ -473,6 +474,168 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 12px;
+}
+
+/* ─── Report button (elem-card) ─────────────────────────────────── */
+.btn-report {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all .15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-family: inherit;
+}
+.btn-report:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+  background: rgba(88,166,255,.10);
+}
+.btn-report .rpt-tooltip {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  transform: none;
+  background: #1c2128;
+  color: #e6edf3;
+  font-size: 11px;
+  white-space: nowrap;
+  padding: 4px 9px;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s;
+  border: 1px solid var(--border);
+  z-index: 10;
+}
+.btn-report .rpt-tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  right: 9px;
+  border: 5px solid transparent;
+  border-bottom-color: var(--border);
+}
+.btn-report.rpt-tip-visible .rpt-tooltip { opacity: 1; }
+
+/* ─── Report overlay ────────────────────────────────────────────── */
+.report-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  z-index: 300;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 24px 16px;
+}
+.report-dialog {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 780px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+.report-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 1;
+  border-radius: 10px 10px 0 0;
+}
+.report-toolbar-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.report-toolbar-actions { display: flex; gap: 8px; }
+.report-btn-print, .report-btn-close {
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--muted);
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+}
+.report-btn-print:hover { color: var(--green-s); border-color: var(--green-s); }
+.report-btn-close:hover  { color: var(--red); border-color: var(--red); }
+
+/* ─── Report body ───────────────────────────────────────────────── */
+.report-body {
+  padding: 20px 24px 32px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.rpt-header {
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+.rpt-header-title { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: .5px; }
+.rpt-header-date  { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.rpt-section {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.rpt-section:last-child { border-bottom: none; }
+.rpt-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 8px;
+}
+.rpt-row { display: flex; gap: 8px; margin-bottom: 4px; }
+.rpt-label { color: var(--muted); min-width: 220px; flex-shrink: 0; font-size: 12px; }
+.rpt-value { color: var(--text); font-weight: 600; font-size: 12px; }
+.rpt-criteria-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+  margin-bottom: 4px;
+}
+.rpt-ci-ok   { color: var(--green); font-size: 12px; }
+.rpt-ci-fail { color: var(--red);   font-size: 12px; opacity: .75; }
+
+/* ─── Print ─────────────────────────────────────────────────────── */
+@media print {
+  body > *:not(.report-overlay) { display: none !important; }
+  .report-overlay {
+    position: static;
+    background: white;
+    padding: 0;
+    overflow: visible;
+  }
+  .report-dialog { border: none; max-width: 100%; box-shadow: none; }
+  .report-toolbar { display: none !important; }
+  .report-body { overflow: visible; padding: 0; color: #000; font-size: 10.5pt; }
+  .rpt-section { page-break-inside: avoid; }
+  .rpt-section-title, .rpt-header-date, .rpt-label { color: #555; }
+  .rpt-value { color: #000; }
+  .rpt-ci-ok  { color: #1a6b2a; opacity: 1; }
+  .rpt-ci-fail { color: #a11; opacity: 1; }
 }
 </style>
 </head>
@@ -656,6 +819,9 @@ const chartCache   = new Map(); // ticker → chartData
 let _fullChartData6m = null;  // dados completos 6m para filtro por período
 let _chartDecRef     = null;
 let _chartValRef     = null;
+let _currentHistRef  = null;
+let _currentDecRef   = null;
+let _currentValRef   = null;
 
 // ─── Helpers ─────────────────────────────────────────────────────
 const nd     = () => '<span class="nd">—</span>';
@@ -1081,6 +1247,11 @@ async function openDetail(ticker, e) {
   // pois dec (decision_stocks) estará vazio para esses ativos
   const effectiveDec = dec.ticker ? dec : _decFromVal(ticker, valRes);
 
+  // Armazena refs para o relatório
+  _currentHistRef = histRes;
+  _currentDecRef  = effectiveDec;
+  _currentValRef  = valRes;
+
   // ── Render immediately with fast data
   renderElementCard(ticker, effectiveDec, valRes);
   renderPriceCards(effectiveDec, valRes);
@@ -1220,9 +1391,273 @@ function renderElementCard(ticker, dec, val) {
         <span class="elem-stat-value" style="color:${fcfLucroColor}">${fcfLucroStr}</span>
       </div>
     </div>
+    <button class="btn-report" onclick="generateReport()" onmouseenter="_rptTipIn(this)" onmouseleave="_rptTipOut(this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <line x1="10" y1="9" x2="8" y2="9"/>
+      </svg>
+      <span class="rpt-tooltip">Gerar relatório completo</span>
+    </button>
     ${(medal || buffettSeal) ? `<div style="text-align:center;font-size:22px;margin-top:10px">${medal}${buffettSeal}</div>` : ''}
     ${foraWarning}
   `;
+}
+
+// ─── Relatório ────────────────────────────────────────────────────
+function generateReport() {
+  const dec  = _currentDecRef || {};
+  const val  = _currentValRef || {};
+  const hist = _currentHistRef || {};
+  const ticker = dec.ticker || '—';
+  if (!dec.ticker) { console.warn('generateReport: dados não carregados'); return; }
+
+  const ind   = val.indicators  || {};
+  const flags = val.flags       || {};
+  const pio   = val.piotroski   || {};
+  const moat  = val.buffett_moat || {};
+  const cf    = moat.cashflow_values || {};
+  const tv    = moat.trends_values   || {};
+  const mi    = moat.moat_indicators || {};
+  const mflag = moat.flags           || {};
+
+  const now = new Date().toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+
+  // helpers sem HTML
+  const r   = v => v != null ? 'R$ ' + v.toFixed(2) : '—';
+  const p   = v => v != null ? v.toFixed(2) + '%' : '—';
+  const n2  = v => v != null ? v.toFixed(2) : '—';
+  const n1  = v => v != null ? v.toFixed(1) : '—';
+  const pct = v => v != null ? (v >= 0 ? '+' : '') + v.toFixed(2) + '%' : '—';
+  const bi  = v => fmtBillions(v);
+  const bool = v => v ? 'Sim' : 'Não';
+
+  const zoneLabel = { COMPRA_FORTE: 'COMPRA FORTE', COMPRA: 'COMPRA', MONITORAR: 'MONITORAR', CARO: 'CARO' };
+  const medal = dec.is_gold ? '🥇 Ouro (abaixo VPA + Target + div. crescente)'
+    : dec.is_below_vpa_target ? '🥈 Prata (abaixo VPA + Target)'
+    : dec.is_bronze ? '🥉 Bronze (abaixo Target 6%)'
+    : '—';
+
+  const acum5pct = (dec.accumulation_recent_days != null && dec.accumulation_recent_total > 0)
+    ? (dec.accumulation_recent_days / dec.accumulation_recent_total * 100).toFixed(1) + '%' : '—';
+
+  const approvedCount = Object.values(flags).filter(Boolean).length;
+  const totalFlags    = Object.keys(flags).length || 21;
+
+  // ── Seções ───────────────────────────────────────────────────────
+  const row = (label, value) =>
+    `<div class="rpt-row"><span class="rpt-label">${label}</span><span class="rpt-value">${value}</span></div>`;
+
+  const trendIcon = t => ({ CRESCENDO: '↗ CRESCENDO', CAINDO: '↘ CAINDO', ESTAVEL: '→ ESTÁVEL' }[t] || t || '—');
+
+  // Section: Identificação
+  const sIdent = `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Identificação</div>
+      ${row('Empresa', (val.companyname || ind.companyname || ticker).toUpperCase())}
+      ${row('Setor', ind.sector || dec.sector || '—')}
+      ${row('Segmento', ind.segmento || dec.segmento || '—')}
+      ${row('Zona', zoneLabel[dec.zone] || dec.zone || '—')}
+      ${row('Classificação (medalha)', medal)}
+      ${row('Selo Buffett ★', dec.is_buffett_seal ? '★ Sim (Moat FORTE + FCF qualidade + Owner Earnings +)' : 'Não')}
+    </div>`;
+
+  // Section: Preços e Targets
+  const sPrecos = `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Preços e Targets</div>
+      ${row('Preço Atual', r(dec.price_now))}
+      ${row('Preço Médio 6 meses', r(hist.close_avg_6m))}
+      ${row('Target 6% (Bazin / Barsi)', r(dec.price_target_6pct))}
+      ${row('Target 8% (zona agressiva)', r(dec.price_target_8pct))}
+      ${row('Mínimo 6 meses (suporte)', r(dec.price_min_6m))}
+      ${row('Máximo 6 meses (resistência)', r(dec.price_max_6m))}
+      ${row('Potencial (upside até Target 6%)', pct(dec.gain_pct))}
+      ${row('P / Pmin (proximidade da mínima)', dec.p_now_p_min != null ? dec.p_now_p_min.toFixed(3) : '—')}
+    </div>`;
+
+  // Section: Dividendos
+  const divByYear = Object.entries(hist.dividends_per_year || {}).sort().map(([y, v]) =>
+    `${y}: R$ ${v != null ? v.toFixed(4) : '—'}`).join(' | ');
+  const sDivid = `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Dividendos</div>
+      ${row('DY Real (últimos 12m / preço atual)', p(dec.dy_real))}
+      ${row('Dividendo Médio 5 anos (base dos targets)', r(dec.avg_dividends_5y))}
+      ${row('Dividendos últimos 12m', r(hist.dividends_sum_12m))}
+      ${row('Payout (% do lucro distribuído)', dec.payout != null ? dec.payout.toFixed(1) + '%' : '—')}
+      ${row('Payout FCF', dec.payout_fcf != null ? dec.payout_fcf.toFixed(1) + '%' : '—')}
+      ${row('Divergência Payout vs. Payout FCF', dec.payout_divergencia != null ? dec.payout_divergencia.toFixed(1) + ' p.p.' : '—')}
+      ${row('Dividendo crescente (5 anos)', bool(hist.dividend_growing))}
+      ${row('Anos com dividendos', hist.years_with_dividends != null ? hist.years_with_dividends : '—')}
+      ${row('Dividendos por ano', divByYear || '—')}
+    </div>`;
+
+  // Section: Acumulação
+  const volMedio = hist.volume_avg_6m != null
+    ? Math.round(hist.volume_avg_6m).toLocaleString('pt-BR') + ' un.' : '—';
+  const sAcum = `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Acumulação (Barsi)</div>
+      ${row('Acumulação 6 meses (pressão compradora)', dec.accumulation_score != null ? dec.accumulation_score.toFixed(1) + '%' : '—')}
+      ${row('Acumulação 5 dias (recente)', acum5pct)}
+      ${row('Volume Médio 6 meses', volMedio)}
+    </div>`;
+
+  // Section: Scores
+  const sScores = `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Scores e Qualidade</div>
+      ${row('Score Ponderado', dec.weighted_score != null ? dec.weighted_score.toFixed(1) + '%' : '—')}
+      ${row('MOAT Buffett', dec.buffett_moat_score != null ? dec.buffett_moat_score + '/10 — ' + (dec.buffett_moat_label || '') : '—')}
+      ${row('Saúde Piotroski F-Score', dec.piotroski_score != null ? dec.piotroski_score + '/9 — ' + (dec.piotroski_label || '') : '—')}
+      ${row('FCF / Lucro (qualidade do caixa)', dec.fcf_lucro_ratio != null ? Math.round(dec.fcf_lucro_ratio * 100) + '%' : '—')}
+      ${row('Critérios aprovados', approvedCount + ' / ' + totalFlags)}
+      ${row('Risco BEST (Barsi)', dec.is_best ? 'Sim (Banco/Seguro/Saneamento/Energia)' : 'Não')}
+    </div>`;
+
+  // Section: Indicadores
+  const sInd = `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Indicadores Fundamentalistas</div>
+      ${IND_CONF.map(([key, label, fmt]) => row(label, fmt(ind[key]))).join('')}
+    </div>`;
+
+  // Section: Critérios (grid 2 colunas)
+  const criteriaRows = Object.entries(FLAG_LABELS).map(([key, label]) => {
+    const ok = flags[key] === true;
+    return `<div class="${ok ? 'rpt-ci-ok' : 'rpt-ci-fail'}">${ok ? '✅' : '❌'} ${label}</div>`;
+  }).join('');
+  const sCrit = `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Critérios (${approvedCount}/${totalFlags} aprovados)</div>
+      <div class="rpt-criteria-grid">${criteriaRows}</div>
+    </div>`;
+
+  // Section: Piotroski
+  const PIOTROSKI_LABELS_LOCAL = {
+    p1_lucro_positivo:    'P1 — Lucro líquido positivo (ROA > 0)',
+    p2_ebit_positivo:     'P2 — Fluxo de caixa operacional positivo',
+    p3_lucro_crescendo:   'P3 — ROA crescendo vs. ano anterior',
+    p4_baixa_alavancagem: 'P4 — Alavancagem DL/PL reduzindo',
+    p5_liq_corrente:      'P5 — Liquidez corrente melhorando',
+    p6_passivo_ativo:     'P6 — Sem novas ações emitidas',
+    p7_margens_expandindo:'P7 — Margem bruta melhorando',
+    p8_receita_crescendo: 'P8 — Giro do ativo crescendo',
+    p9_roe_forte:         'P9 — ROE ≥ 10%',
+  };
+  const pioFlags = pio.flags || {};
+  const pioRows = Object.entries(PIOTROSKI_LABELS_LOCAL).map(([key, label]) => {
+    const ok = pioFlags[key] === true;
+    return `<div class="${ok ? 'rpt-ci-ok' : 'rpt-ci-fail'}">${ok ? '✅' : '❌'} ${label}</div>`;
+  }).join('');
+  const sPio = `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Piotroski F-Score (${pio.score != null ? pio.score : '—'}/9 — ${pio.label || '—'})</div>
+      <div class="rpt-criteria-grid">${pioRows}</div>
+    </div>`;
+
+  // Section: Buffett Moat
+  const moatRows = Object.entries(MOAT_LABELS).map(([key, label]) => {
+    const ok = mflag[key] === true;
+    return `<div class="${ok ? 'rpt-ci-ok' : 'rpt-ci-fail'}">${ok ? '✅' : '❌'} ${label}</div>`;
+  }).join('');
+  const CASHFLOW_LABELS_LOCAL = {
+    moat_fcf_positivo:      'FCF positivo (geração real de caixa)',
+    moat_fcf_quality:       'FCF/Lucro ≥ 80% (qualidade do lucro)',
+    moat_capex_moat:        'CapEx/Lucro ≤ 25% (baixo reinvestimento = moat forte)',
+    moat_owner_earnings_ok: 'Owner Earnings positivo (caixa real do acionista)',
+  };
+  const cfRows = Object.entries(CASHFLOW_LABELS_LOCAL).map(([key, label]) => {
+    const ok = mflag[key] === true;
+    return `<div class="${ok ? 'rpt-ci-ok' : 'rpt-ci-fail'}">${ok ? '✅' : '❌'} ${label}</div>`;
+  }).join('');
+  const trendsRows = tv.trends_available ? [
+    ['Margem Bruta',    tv.margem_bruta_trend,    tv.margem_bruta_hist],
+    ['Margem Líquida',  tv.margem_liquida_trend,  tv.margem_liquida_hist],
+    ['ROE',             tv.roe_trend,             tv.roe_hist],
+    ['FCF',             tv.fcf_trend,             tv.fcf_hist],
+    ['Dívida Líquida',  tv.divida_trend,          tv.divida_liq_hist],
+    ['CapEx/Receita',   tv.capex_receita_trend,   tv.capex_receita_hist],
+    ['SG&A/Receita',    tv.sga_receita_trend,     tv.sga_receita_hist],
+  ].map(([label, trend, hist_arr]) => {
+    const vals = (hist_arr || []).map(v => v != null ? v.toFixed(1) : '—').join(' → ');
+    return row(label, `${trendIcon(trend)} | ${vals}`);
+  }).join('') : row('Tendências', 'Indisponível');
+
+  const sMoat = `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Buffett Moat Score (${moat.score != null ? moat.score : '—'}/10 — ${moat.label || '—'})</div>
+      <div style="margin-bottom:8px"><strong style="font-size:11px;color:var(--muted)">CRITÉRIOS CORE</strong></div>
+      <div class="rpt-criteria-grid">${moatRows}</div>
+      <div style="margin:10px 0 8px"><strong style="font-size:11px;color:var(--muted)">QUALIDADE DO CAIXA (FASE 2)</strong></div>
+      <div class="rpt-criteria-grid">${cfRows}</div>
+      <div style="margin:10px 0 8px"><strong style="font-size:11px;color:var(--muted)">VALORES FCF</strong></div>
+      ${row('FCF (Free Cash Flow)', bi(cf.fcf))}
+      ${row('Owner Earnings', bi(cf.owner_earnings))}
+      ${row('Lucro Líquido (CF)', bi(cf.net_income_cf))}
+      ${row('FCF / Lucro', cf.fcf_lucro_ratio != null ? Math.round(cf.fcf_lucro_ratio * 100) + '%' : '—')}
+      ${row('CapEx / Lucro', cf.capex_lucro_ratio != null ? Math.round(cf.capex_lucro_ratio * 100) + '%' : '—')}
+      ${row('CapEx', bi(cf.capex))}
+      ${row('D&A', bi(cf.da))}
+      <div style="margin:10px 0 8px"><strong style="font-size:11px;color:var(--muted)">TENDÊNCIAS HISTÓRICAS</strong></div>
+      ${trendsRows}
+    </div>`;
+
+  // Section: Lucro por ano
+  const niRows = Object.entries(hist.net_income_per_year || {}).sort().map(([y, v]) =>
+    row(y, bi(v))).join('');
+  const sNI = niRows ? `
+    <div class="rpt-section">
+      <div class="rpt-section-title">Lucro Líquido por Ano</div>
+      ${niRows}
+    </div>` : '';
+
+  // ── Monta HTML final ─────────────────────────────────────────────
+  const html = `
+    <div class="rpt-header">
+      <div class="rpt-header-title">📊 RELATÓRIO DE ANÁLISE — ${ticker}</div>
+      <div class="rpt-header-date">Gerado em: ${now}</div>
+    </div>
+    ${sIdent}${sPrecos}${sDivid}${sAcum}${sScores}${sInd}${sCrit}${sPio}${sMoat}${sNI}
+  `;
+
+  showReportOverlay(html);
+}
+
+function showReportOverlay(htmlContent) {
+  const existing = document.getElementById('reportOverlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'reportOverlay';
+  overlay.className = 'report-overlay';
+  overlay.innerHTML = `
+    <div class="report-dialog">
+      <div class="report-toolbar">
+        <span class="report-toolbar-title">Relatório de Análise</span>
+        <div class="report-toolbar-actions">
+          <button class="report-btn-print" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
+          <button class="report-btn-close" id="reportClose">✕ Fechar</button>
+        </div>
+      </div>
+      <div class="report-body">${htmlContent}</div>
+    </div>`;
+
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.getElementById('reportClose').addEventListener('click', () => overlay.remove());
+}
+
+let _rptTipTimer = null;
+function _rptTipIn(btn) {
+  _rptTipTimer = setTimeout(() => btn.classList.add('rpt-tip-visible'), 1500);
+}
+function _rptTipOut(btn) {
+  clearTimeout(_rptTipTimer);
+  btn.classList.remove('rpt-tip-visible');
 }
 
 function renderPriceCards(dec, val) {
@@ -1615,6 +2050,14 @@ function renderBuffettMoat(moat) {
   const tv  = moat.trends_values    || {};
   const mi  = moat.moat_indicators  || {};
 
+  const anosHist = moat.anos_hist_disponiveis || 0;
+  const confLow  = moat.data_confidence_low === true;
+  const dataQualityBadge = confLow
+    ? `<div style="margin:6px 12px 2px;padding:5px 8px;background:rgba(210,153,34,.12);border:1px solid rgba(210,153,34,.35);border-radius:6px;font-size:11px;color:var(--yellow)">⚠ Score baseado em ${anosHist} anos. Buffett recomenda 10 anos mínimo para confirmar moat.</div>`
+    : anosHist >= 6
+      ? `<div style="margin:4px 12px 2px;font-size:10px;color:var(--muted)">✓ Tendências calculadas com ${anosHist} anos de histórico (DRE StatusInvest)</div>`
+      : '';
+
   // --- Fase 4: valores reais por critério ---
   const MOAT_VALUES = {
     moat_margem_bruta:      mi.margem_bruta  != null ? mi.margem_bruta.toFixed(1)  + '%' : '',
@@ -1712,25 +2155,46 @@ function renderBuffettMoat(moat) {
   function _fmtPct(v) { return v != null ? v.toFixed(1) + '%' : '—'; }
   function _fmtVal(v) { return fmtBillions(v); }
 
-  const trAvail = tv.trends_available === true;
-  const anos    = tv.anos ? [...tv.anos].reverse() : [];  // mais antigo primeiro
+  const trAvail  = tv.trends_available === true;
+  const anos     = tv.anos ? [...tv.anos].reverse() : [];  // mais antigo primeiro (4a yfinance)
 
-  function _buildRow(label, hist, trend, fmtFn, inverted) {
+  // Dados estendidos (até 10 anos, StatusInvest)
+  const useExt   = tv.ext_anos && tv.ext_anos.length >= 2;
+  const anosExib = useExt ? [...tv.ext_anos].reverse() : anos;  // mais antigo primeiro
+  const nAnos    = anosExib.length;
+  const srcLabel = useExt ? ` — StatusInvest` : ` — yfinance`;
+
+  function _buildRow(rowLabel, hist, trend, fmtFn, inverted, anosRef) {
+    const _anos = anosRef || anos;
     const vals  = hist ? [...hist].reverse() : [];  // mais antigo primeiro
-    const cells = anos.map((ano, i) => {
+    const cells = _anos.map((ano, i) => {
       const v = vals[i] != null ? fmtFn(vals[i]) : '—';
       return `<td style="text-align:left;padding:8px 8px;font-size:13px;white-space:nowrap">${v}</td>`;
     }).join('');
     return `<tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
-      <td style="padding:8px 8px;font-size:13px;white-space:nowrap;text-align:left">${label}</td>
+      <td style="padding:8px 8px;font-size:13px;white-space:nowrap;text-align:left">${rowLabel}</td>
       ${cells}
       <td style="padding:8px 8px;text-align:left;white-space:nowrap">${_trendBadge(trend, inverted)}</td>
     </tr>`;
   }
 
-  const trendsSection = trAvail ? `
-    <div style="border-top:1px solid var(--border);padding:10px 0 8px;margin-top:4px">
-      <div style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:8px;padding:0 12px">TENDÊNCIAS HISTÓRICAS (4 ANOS)</div>
+  // Tabela principal: MB/ML/ROE com anos estendidos quando disponível
+  const mainTableRows = useExt
+    ? `${_buildRow('Margem Bruta',   tv.ext_margem_bruta_hist,   tv.ext_margem_bruta_trend,   _fmtPct, false, anosExib)}
+       ${_buildRow('Margem Líquida', tv.ext_margem_liquida_hist, tv.ext_margem_liquida_trend, _fmtPct, false, anosExib)}
+       ${_buildRow('ROE',            tv.ext_roe_hist,            tv.ext_roe_trend,            _fmtPct, false, anosExib)}`
+    : `${_buildRow('Margem Bruta',   tv.margem_bruta_hist,   tv.margem_bruta_trend,   _fmtPct, false)}
+       ${_buildRow('Margem Líquida', tv.margem_liquida_hist, tv.margem_liquida_trend, _fmtPct, false)}
+       ${_buildRow('ROE',            tv.roe_hist,            tv.roe_trend,            _fmtPct, false)}
+       ${_buildRow('FCF',            tv.fcf_hist,            tv.fcf_trend,            _fmtVal, false)}
+       ${_buildRow('Dívida Líq.',    tv.divida_liq_hist,     tv.divida_trend,         _fmtVal, true)}
+       ${_buildRow('CapEx/Receita',  tv.capex_receita_hist,  tv.capex_receita_trend,  _fmtPct, true)}
+       ${_buildRow('SG&A/Receita',   tv.sga_receita_hist,    tv.sga_receita_trend,    _fmtPct, true)}`;
+
+  // Tabela secundária (apenas quando ext disponível): FCF/Dívida/CapEx/SGA em 4 anos
+  const cashTrendTable = useExt && anos.length > 0 ? `
+    <div style="margin-top:8px">
+      <div style="font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.4px;margin-bottom:4px;padding:0 12px">CAIXA / DÍVIDA (4 ANOS — yfinance)</div>
       <div style="overflow-x:auto">
       <table style="width:100%;border-collapse:collapse;min-width:420px;text-align:left">
         <thead>
@@ -1741,20 +2205,38 @@ function renderBuffettMoat(moat) {
           </tr>
         </thead>
         <tbody>
-          ${_buildRow('Margem Bruta',    tv.margem_bruta_hist,   tv.margem_bruta_trend,   _fmtPct, false)}
-          ${_buildRow('Margem Líquida',  tv.margem_liquida_hist, tv.margem_liquida_trend, _fmtPct, false)}
-          ${_buildRow('ROE',             tv.roe_hist,            tv.roe_trend,            _fmtPct, false)}
-          ${_buildRow('FCF',             tv.fcf_hist,            tv.fcf_trend,            _fmtVal, false)}
-          ${_buildRow('Dívida Líq.',     tv.divida_liq_hist,     tv.divida_trend,         _fmtVal, true)}
-          ${_buildRow('CapEx/Receita',   tv.capex_receita_hist,  tv.capex_receita_trend,  _fmtPct, true)}
-          ${_buildRow('SG&A/Receita',   tv.sga_receita_hist,    tv.sga_receita_trend,    _fmtPct, true)}
+          ${_buildRow('FCF',           tv.fcf_hist,           tv.fcf_trend,           _fmtVal, false)}
+          ${_buildRow('Dívida Líq.',   tv.divida_liq_hist,    tv.divida_trend,        _fmtVal, true)}
+          ${_buildRow('CapEx/Receita', tv.capex_receita_hist, tv.capex_receita_trend, _fmtPct, true)}
+          ${_buildRow('SG&A/Receita',  tv.sga_receita_hist,   tv.sga_receita_trend,   _fmtPct, true)}
         </tbody>
       </table>
       </div>
       <div style="font-size:9px;color:var(--muted);margin-top:4px;padding:0 12px">Dívida, CapEx/Receita e SG&A/Receita: ↓ CAINDO = positivo</div>
+    </div>` : '';
+
+  const trendsSection = trAvail ? `
+    <div style="border-top:1px solid var(--border);padding:10px 0 8px;margin-top:4px">
+      <div style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:8px;padding:0 12px">TENDÊNCIAS HISTÓRICAS (${nAnos} ANOS${srcLabel})</div>
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;min-width:420px;text-align:left">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border)">
+            <th style="font-size:11px;color:var(--muted);font-weight:400;text-align:left;padding:5px 8px;white-space:nowrap">Indicador</th>
+            ${anosExib.map(a => `<th style="font-size:11px;color:var(--muted);font-weight:400;text-align:left;padding:5px 8px;white-space:nowrap">${a}</th>`).join('')}
+            <th style="font-size:11px;color:var(--muted);font-weight:400;padding:5px 8px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${mainTableRows}
+        </tbody>
+      </table>
+      </div>
+      ${cashTrendTable}
+      ${!useExt ? '<div style="font-size:9px;color:var(--muted);margin-top:4px;padding:0 12px">Dívida, CapEx/Receita e SG&A/Receita: ↓ CAINDO = positivo</div>' : ''}
     </div>` : `
     <div style="border-top:1px solid var(--border);padding:8px 12px 6px;margin-top:4px">
-      <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:4px">TENDÊNCIAS HISTÓRICAS (4 ANOS)</div>
+      <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:4px">TENDÊNCIAS HISTÓRICAS</div>
       <div style="font-size:11px;color:var(--muted)">⚠ Dados históricos não disponíveis para este ativo.</div>
     </div>`;
 
@@ -1783,6 +2265,7 @@ function renderBuffettMoat(moat) {
         ${gaugeHtml}
       </div>
     </div>
+    ${dataQualityBadge}
     <ul class="criteria-list" style="padding:8px 12px 4px">
       ${Object.entries(MOAT_LABELS).map(([key, lbl]) => {
         const passed = flags[key] === true;
@@ -1955,7 +2438,13 @@ document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalOverlay').addEventListener('click', e => {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const rpt = document.getElementById('reportOverlay');
+    if (rpt) { rpt.remove(); return; }
+    closeModal();
+  }
+});
 
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('open');

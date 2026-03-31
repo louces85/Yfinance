@@ -105,3 +105,9 @@ VALIDATION_INTERVAL_DAYS = 7
 PRICE_UPDATE_INTERVAL_HOURS = 0.5
 # Intervalo mínimo entre atualizações de histórico (em dias)
 HISTORY_UPDATE_INTERVAL_DAYS = 7
+
+# --- Demonstrativos Financeiros Históricos ---
+# Intervalo mínimo entre atualizações (demonstrativos são anuais — 30 dias é suficiente)
+FINANCIALS_UPDATE_INTERVAL_DAYS = 30
+# Quantidade de anos de histórico a buscar no StatusInvest
+FINANCIALS_YEARS = 10

@@ -46,6 +46,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from repositories import stock_repository as repo
 from config import rules
+from services.buffett_fetcher import _calc_tendencia
 
 
 def _load_sectors() -> dict:
@@ -127,7 +128,34 @@ def _calc_weighted_score(flags: dict) -> dict:
     }
 
 
-def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
+def _extract_dre_hist(dre: dict, metric: str, n: int = 10) -> tuple:
+    """Extrai série histórica de DRE (mais recente primeiro). Retorna (anos, valores)."""
+    raw = dre.get(metric, {})
+    pairs = []
+    for k, v in raw.items():
+        try:
+            pairs.append((int(k), float(v) if v is not None else None))
+        except (ValueError, TypeError):
+            continue
+    pairs.sort(key=lambda x: x[0], reverse=True)
+    pairs = pairs[:n]
+    return [str(p[0]) for p in pairs], [p[1] for p in pairs]
+
+
+def _align_hist_to_anos(dre: dict, metric: str, anos: list) -> list:
+    """Alinha valores de uma métrica DRE à lista de anos dada (None se ausente)."""
+    raw = dre.get(metric, {})
+    result = []
+    for year in anos:
+        v = raw.get(year)
+        try:
+            result.append(float(v) if v is not None else None)
+        except (TypeError, ValueError):
+            result.append(None)
+    return result
+
+
+def _calc_buffett_moat_score(indicators_raw: dict, history: dict, financials_hist: dict = None) -> dict:
     """
     Buffett Moat Score (0-10) — Fase 1 do plano Warren Buffett.
     Usa apenas dados já disponíveis em all_indicators.json e stock_history.json.
@@ -208,6 +236,25 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
     _mb_trend  = _tr.get("margem_bruta_trend")
     _roe_trend = _tr.get("roe_trend")
 
+    # --- Tendências estendidas via financials_history (DRE até 10 anos) ---
+    _ext_anos        = []
+    _ext_mb_hist     = []
+    _ext_ml_hist     = []
+    _ext_roe_hist    = []
+    _anos_disponiveis = 0
+    _trend_source    = "yfinance_4a"
+
+    if financials_hist:
+        _dre = financials_hist.get("dre", {})
+        _ext_anos, _ext_mb_hist = _extract_dre_hist(_dre, "margem_bruta")
+        _ext_ml_hist  = _align_hist_to_anos(_dre, "margem_liquida", _ext_anos)
+        _ext_roe_hist = _align_hist_to_anos(_dre, "roe", _ext_anos)
+        _anos_disponiveis = len(_ext_anos)
+        if _anos_disponiveis >= 2:
+            _trend_source = f"hist_{_anos_disponiveis}a"
+            _mb_trend  = _calc_tendencia(_ext_mb_hist)   # substitui trend yfinance 4a
+            _roe_trend = _calc_tendencia(_ext_roe_hist)
+
     if _mb_trend == "CAINDO":
         score += rules.MOAT_TREND_PENALTY
     elif _mb_trend == "CRESCENDO" and not flags["moat_margem_bruta"]:
@@ -240,9 +287,9 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
     # --- Tendências Históricas (Fase 3) — informacionais, não afetam o score ---
     tr = history.get("buffett_trends") or {}
     flags["trends_available"]          = tr.get("trends_available", False)
-    flags["moat_mb_trend"]             = tr.get("margem_bruta_trend")
+    flags["moat_mb_trend"]             = _mb_trend
     flags["moat_ml_trend"]             = tr.get("margem_liquida_trend")
-    flags["moat_roe_trend"]            = tr.get("roe_trend")
+    flags["moat_roe_trend"]            = _roe_trend
     flags["moat_fcf_trend"]            = tr.get("fcf_trend")
     flags["moat_divida_trend"]         = tr.get("divida_trend")
     flags["moat_capex_rec_trend"]      = tr.get("capex_receita_trend")
@@ -254,6 +301,10 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
         label = "MODERADO"
     else:
         label = "FRACO"
+
+    _data_confidence_low = (
+        label == "FORTE" and 0 < _anos_disponiveis < 6
+    )
 
     moat_indicators = {
         "margem_bruta":  indicators_raw.get("margem_bruta"),
@@ -292,16 +343,27 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict) -> dict:
         "capex_receita_trend":   tr.get("capex_receita_trend"),
         "sga_receita_hist":      tr.get("sga_receita_hist"),
         "sga_receita_trend":     tr.get("sga_receita_trend"),
+        # Séries estendidas via financials_history (até 10 anos, StatusInvest)
+        "ext_anos":                _ext_anos,
+        "ext_margem_bruta_hist":   _ext_mb_hist,
+        "ext_margem_bruta_trend":  _calc_tendencia(_ext_mb_hist)  if len(_ext_mb_hist)  >= 2 else None,
+        "ext_margem_liquida_hist": _ext_ml_hist,
+        "ext_margem_liquida_trend":_calc_tendencia(_ext_ml_hist)  if len(_ext_ml_hist)  >= 2 else None,
+        "ext_roe_hist":            _ext_roe_hist,
+        "ext_roe_trend":           _calc_tendencia(_ext_roe_hist) if len(_ext_roe_hist) >= 2 else None,
     }
 
     return {
-        "score":            score,
-        "score_max":        10,
-        "label":            label,
-        "flags":            flags,
-        "cashflow_values":  cashflow_values,
-        "trends_values":    trends_values,
-        "moat_indicators":  moat_indicators,
+        "score":                  score,
+        "score_max":              10,
+        "label":                  label,
+        "anos_hist_disponiveis":  _anos_disponiveis,
+        "data_confidence_low":    _data_confidence_low,
+        "trend_source":           _trend_source,
+        "flags":                  flags,
+        "cashflow_values":        cashflow_values,
+        "trends_values":          trends_values,
+        "moat_indicators":        moat_indicators,
     }
 
 
@@ -398,9 +460,10 @@ def calculate(ticker: str, force: bool = False) -> Optional[dict]:
     ticker = ticker.upper()
 
     # --- Fontes de dados ---
-    indicators = repo.get_indicators_by_ticker(ticker)
-    history    = repo.get_history(ticker)
-    price_now  = repo.get_price(ticker)
+    indicators      = repo.get_indicators_by_ticker(ticker)
+    history         = repo.get_history(ticker)
+    price_now       = repo.get_price(ticker)
+    financials_hist = repo.get_financials(ticker)   # DRE 10 anos (StatusInvest); None se indisponível
 
     if indicators is None:
         return None
@@ -542,7 +605,7 @@ def calculate(ticker: str, force: bool = False) -> Optional[dict]:
         "cagr_lucro":       cagr_l,
     }
     piotroski = _calc_piotroski(_indicators_raw, history)
-    buffett_moat = _calc_buffett_moat_score(_indicators_raw, history)
+    buffett_moat = _calc_buffett_moat_score(_indicators_raw, history, financials_hist)
 
     zone = _calc_zone(
         price_now or 0,

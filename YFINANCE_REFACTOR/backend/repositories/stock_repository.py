@@ -19,6 +19,7 @@ PATHS = {
     "valuations":         os.path.join(DATA_DIR, "valuations.json"),
     "validity":           os.path.join(DATA_DIR, "stock_validity.json"),
     "monitoring_stocks":  os.path.join(DATA_DIR, "monitoring_stocks.json"),
+    "financials_history": os.path.join(DATA_DIR, "financials_history.json"),
 }
 
 
@@ -259,3 +260,48 @@ def get_monitoring_stocks() -> List[dict]:
         return data.get("stocks", [])
     except FileNotFoundError:
         return []
+
+
+# ---------------------------------------------------------------------------
+# financials_history.json
+# ---------------------------------------------------------------------------
+
+def get_financials(ticker: str) -> Optional[dict]:
+    """Retorna o bloco de demonstrativos históricos de um ticker, ou None."""
+    try:
+        data = _load(PATHS["financials_history"])
+        return data.get("stocks", {}).get(ticker.upper())
+    except FileNotFoundError:
+        return None
+
+
+def save_financials(ticker: str, entry: dict) -> None:
+    """
+    Grava/atualiza os demonstrativos históricos de um ticker.
+    entry deve conter as seções 'dre', 'balanco', 'fluxo_caixa'.
+    """
+    try:
+        data = _load(PATHS["financials_history"])
+    except FileNotFoundError:
+        data = {
+            "_description": (
+                "Demonstrativos financeiros históricos por ticker: "
+                "DRE + Balanço (StatusInvest, até 10 anos), "
+                "Fluxo de Caixa (yfinance, até 4 anos). "
+                "Atualizado via financials_fetcher.py."
+            ),
+            "stocks": {},
+        }
+    entry["ticker"]       = ticker.upper()
+    entry["last_updated"] = _now()
+    data.setdefault("stocks", {})[ticker.upper()] = entry
+    data["last_updated"] = _now()
+    _save(PATHS["financials_history"], data)
+
+
+def get_all_financials() -> dict:
+    """Retorna o mapa completo ticker -> entry de demonstrativos históricos."""
+    try:
+        return _load(PATHS["financials_history"]).get("stocks", {})
+    except FileNotFoundError:
+        return {}
