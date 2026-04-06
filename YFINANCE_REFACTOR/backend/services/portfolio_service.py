@@ -8,9 +8,11 @@ FIIs e outros ativos sem cobertura são ignorados silenciosamente.
 
 import os
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 import xlrd
+import yfinance as yf
 
 from repositories import stock_repository as repo
 from services.price_service import PriceService
@@ -47,11 +49,11 @@ def _recommend(val: dict) -> str:
 def load() -> dict:
     """
     Lê o arquivo de custódia B3, cruza com valuations e retorna
-    { summary: {...}, positions: [...] }.
+    { summary, positions, fiis, fiis_summary }.
 
     - Ativo em valuations.json       → dados completos + recomendação
     - Ativo em stocks_list mas não em valuations → incluído como "FORA_CRITERIOS"
-    - Ativo desconhecido (FII, etc.) → ignorado silenciosamente
+    - FIIs e outros ativos fora do screening → retornados separadamente em "fiis"
     """
     b3_file = _find_b3_file()
     if not b3_file:
@@ -71,7 +73,8 @@ def load() -> dict:
     all_prices     = repo.get_all_prices()        # evita N leituras de stock_prices.json
 
     # ── Ler linhas válidas da planilha ─────────────────────────────
-    rows = []
+    rows     = []
+    fii_rows = []
     for i in range(1, sh.nrows):
         row = sh.row_values(i)
         try:
@@ -86,11 +89,71 @@ def load() -> dict:
             continue
         val = all_valuations.get(ticker)
         if val is None and ticker not in known_tickers:
-            continue  # FII / Tesouro — ignora
+            fii_rows.append((ticker, qtd, preco_medio, total_inv, retorno))
+            continue
         rows.append((ticker, qtd, preco_medio, total_inv, retorno, val))
 
+    # ── Consolidar posições duplicadas (mesmo ativo em corretoras diferentes) ──
+    consolidated: dict = {}
+    for (ticker, qtd, preco_medio, total_inv, retorno, val) in rows:
+        if ticker in consolidated:
+            prev          = consolidated[ticker]
+            new_qtd       = prev["qtd"] + qtd
+            new_total_inv = prev["total_inv"] + total_inv
+            new_retorno   = prev["retorno"] + retorno
+            new_preco     = new_total_inv / new_qtd if new_qtd else preco_medio
+            consolidated[ticker] = {
+                "qtd":        new_qtd,
+                "preco_medio": round(new_preco, 6),
+                "total_inv":  new_total_inv,
+                "retorno":    new_retorno,
+                "val":        val,
+            }
+        else:
+            consolidated[ticker] = {
+                "qtd":        qtd,
+                "preco_medio": preco_medio,
+                "total_inv":  total_inv,
+                "retorno":    retorno,
+                "val":        val,
+            }
+
+    rows = [
+        (t, d["qtd"], d["preco_medio"], d["total_inv"], d["retorno"], d["val"])
+        for t, d in consolidated.items()
+    ]
+
+    # ── Consolidar FIIs duplicados (corretoras diferentes) ────────
+    fii_consolidated: dict = {}
+    for (ticker, qtd, preco_medio, total_inv, retorno) in fii_rows:
+        if ticker in fii_consolidated:
+            prev          = fii_consolidated[ticker]
+            new_qtd       = prev["qtd"] + qtd
+            new_total_inv = prev["total_inv"] + total_inv
+            new_retorno   = prev["retorno"] + retorno
+            new_preco     = new_total_inv / new_qtd if new_qtd else preco_medio
+            fii_consolidated[ticker] = {
+                "qtd":        new_qtd,
+                "preco_medio": round(new_preco, 6),
+                "total_inv":  new_total_inv,
+                "retorno":    new_retorno,
+            }
+        else:
+            fii_consolidated[ticker] = {
+                "qtd":        qtd,
+                "preco_medio": preco_medio,
+                "total_inv":  total_inv,
+                "retorno":    retorno,
+            }
+
+    fii_list = [
+        (t, d["qtd"], d["preco_medio"], d["total_inv"], d["retorno"])
+        for t, d in fii_consolidated.items()
+    ]
+
     # ── Verificar staleness em memória (sem leitura de disco) ─────
-    tickers_needed = [r[0] for r in rows]
+    fii_tickers    = [f[0] for f in fii_list]
+    tickers_needed = [r[0] for r in rows] + fii_tickers
     stale_tickers  = [t for t in tickers_needed if price_svc.needs_update(t)]
 
     if stale_tickers:
@@ -197,15 +260,98 @@ def load() -> dict:
         total_investido += total_inv
         total_atual     += valor_atual  # já recalculado com preço do cache
 
-    retorno_total     = total_atual - total_investido
-    retorno_total_pct = ((retorno_total / total_investido) * 100) if total_investido else 0.0
+    # ── FIIs — buscar dividendos últimos 12 meses via yfinance ──────
+    def _fii_dy(ticker: str) -> Optional[float]:
+        """Retorna dividends_sum_12m para um FII via yfinance."""
+        try:
+            divs = yf.Ticker(f"{ticker}.SA").dividends
+            if divs is None or len(divs) == 0:
+                return None
+            cutoff = datetime.now(tz=divs.index.tz) - timedelta(days=365)
+            return float(divs[divs.index >= cutoff].sum()) or None
+        except Exception:
+            return None
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        fii_div_sums = dict(zip(
+            [f[0] for f in fii_list],
+            pool.map(_fii_dy, [f[0] for f in fii_list])
+        ))
+
+    # ── FIIs — posições simplificadas ────────────────────────────────
+    fii_positions       = []
+    fii_total_investido = 0.0
+    fii_total_atual     = 0.0
+
+    for (ticker, qtd, preco_medio, total_inv, retorno) in fii_list:
+        preco_atual = prices_cache.get(ticker)
+        if preco_atual and preco_atual > 0:
+            valor_atual = preco_atual * qtd
+        else:
+            valor_atual = total_inv + retorno
+            preco_atual = (valor_atual / qtd) if qtd else None
+
+        retorno_rs  = valor_atual - total_inv
+        retorno_pct = ((retorno_rs / total_inv) * 100) if total_inv else None
+
+        div_sum12 = fii_div_sums.get(ticker)
+        dy_real   = round((div_sum12 / preco_atual) * 100, 2) if (div_sum12 and preco_atual) else None
+        dy_on_cost = round((div_sum12 / preco_medio) * 100, 2) if (div_sum12 and preco_medio) else None
+
+        fii_positions.append({
+            "ticker":          ticker,
+            "qtd":             qtd,
+            "preco_medio":     round(preco_medio, 2),
+            "preco_atual":     round(preco_atual, 2) if preco_atual is not None else None,
+            "total_investido": round(total_inv, 2),
+            "valor_atual":     round(valor_atual, 2),
+            "retorno":         round(retorno_rs, 2),
+            "retorno_pct":     round(retorno_pct, 2) if retorno_pct is not None else None,
+            "dy_real":         dy_real,
+            "dy_on_cost":      dy_on_cost,
+            "dividends_sum_12m": round(div_sum12, 4) if div_sum12 else None,
+        })
+        fii_total_investido += total_inv
+        fii_total_atual     += valor_atual
+
+    # ── Summary combinado (ações + FIIs) ─────────────────────────
+    grand_investido   = total_investido + fii_total_investido
+    grand_atual       = total_atual + fii_total_atual
+    grand_retorno     = grand_atual - grand_investido
+    grand_retorno_pct = ((grand_retorno / grand_investido) * 100) if grand_investido else 0.0
 
     summary = {
+        "total_investido":   round(grand_investido, 2),
+        "total_atual":       round(grand_atual, 2),
+        "retorno_total":     round(grand_retorno, 2),
+        "retorno_total_pct": round(grand_retorno_pct, 2),
+        "count":             len(positions) + len(fii_positions),
+    }
+
+    acoes_retorno     = total_atual - total_investido
+    acoes_retorno_pct = ((acoes_retorno / total_investido) * 100) if total_investido else 0.0
+    acoes_summary = {
         "total_investido":   round(total_investido, 2),
         "total_atual":       round(total_atual, 2),
-        "retorno_total":     round(retorno_total, 2),
-        "retorno_total_pct": round(retorno_total_pct, 2),
+        "retorno_total":     round(acoes_retorno, 2),
+        "retorno_total_pct": round(acoes_retorno_pct, 2),
         "count":             len(positions),
     }
 
-    return {"summary": summary, "positions": positions}
+    fii_retorno     = fii_total_atual - fii_total_investido
+    fii_retorno_pct = ((fii_retorno / fii_total_investido) * 100) if fii_total_investido else 0.0
+    fiis_summary = {
+        "total_investido":   round(fii_total_investido, 2),
+        "total_atual":       round(fii_total_atual, 2),
+        "retorno_total":     round(fii_retorno, 2),
+        "retorno_total_pct": round(fii_retorno_pct, 2),
+        "count":             len(fii_positions),
+    }
+
+    return {
+        "summary":       summary,
+        "acoes_summary": acoes_summary,
+        "positions":     positions,
+        "fiis":          fii_positions,
+        "fiis_summary":  fiis_summary,
+    }

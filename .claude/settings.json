@@ -1,7 +1,8 @@
 {
   "permissions": {
-    "allow": [
-      "WebFetch(domain:ntguardian.wordpress.com)"
+   "allow": [
+      "WebFetch",
+      "WebSearch"
     ]
   }
 }

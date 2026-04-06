@@ -5,6 +5,7 @@ Todos os serviços leem e escrevem exclusivamente por aqui.
 
 import json
 import os
+import tempfile
 from datetime import datetime
 from typing import List, Optional
 
@@ -29,8 +30,20 @@ def _load(path: str) -> dict:
 
 
 def _save(path: str, data: dict) -> None:
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    """Escrita atômica: grava em arquivo temporário e substitui com os.replace.
+    Garante que leitores concorrentes nunca vejam JSON incompleto/corrompido."""
+    dir_name = os.path.dirname(path)
+    fd, tmp_path = tempfile.mkstemp(dir=dir_name, suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        os.replace(tmp_path, path)  # atômico no Linux — sem janela de arquivo vazio
+    except Exception:
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass
+        raise
 
 
 def _now() -> str:
