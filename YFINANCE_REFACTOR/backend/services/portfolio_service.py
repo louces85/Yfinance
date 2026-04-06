@@ -217,6 +217,7 @@ def load() -> dict:
                 "p_now_p_min":       val.get("p_now_p_min"),
                 "gain_pct":          val.get("gain_pct_to_target"),
                 "price_target_6pct": val.get("price_target_6pct"),
+                "avg_dividends_5y":  round(avg_div, 4) if avg_div else None,
                 "recommendation":    _recommend(val),
             }
         else:
@@ -253,6 +254,7 @@ def load() -> dict:
                 "p_now_p_min":       forced_val.get("p_now_p_min")                              if forced_val else None,
                 "gain_pct":          forced_val.get("gain_pct_to_target")                       if forced_val else None,
                 "price_target_6pct": forced_val.get("price_target_6pct")                        if forced_val else None,
+                "avg_dividends_5y":  round(avg_div_f, 4) if (forced_val and avg_div_f) else None,
                 "recommendation":    "FORA_CRITERIOS",
             }
 

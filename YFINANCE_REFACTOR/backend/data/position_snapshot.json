@@ -1,0 +1,513 @@
+{
+  "saved_at": "2026-03-19T10:57:56.022145",
+  "stocks": [
+    {
+      "ticker": "TGMA3",
+      "position_rank": 1
+    },
+    {
+      "ticker": "VIVA3",
+      "position_rank": 2
+    },
+    {
+      "ticker": "CMIN3",
+      "position_rank": 3
+    },
+    {
+      "ticker": "MDIA3",
+      "position_rank": 4
+    },
+    {
+      "ticker": "TOTS3",
+      "position_rank": 5
+    },
+    {
+      "ticker": "MYPK3",
+      "position_rank": 6
+    },
+    {
+      "ticker": "VULC3",
+      "position_rank": 7
+    },
+    {
+      "ticker": "ETER3",
+      "position_rank": 8
+    },
+    {
+      "ticker": "ROMI3",
+      "position_rank": 9
+    },
+    {
+      "ticker": "RDOR3",
+      "position_rank": 10
+    },
+    {
+      "ticker": "DXCO3",
+      "position_rank": 11
+    },
+    {
+      "ticker": "FRAS3",
+      "position_rank": 12
+    },
+    {
+      "ticker": "GGBR4",
+      "position_rank": 13
+    },
+    {
+      "ticker": "PSSA3",
+      "position_rank": 14
+    },
+    {
+      "ticker": "MELK3",
+      "position_rank": 15
+    },
+    {
+      "ticker": "COCE5",
+      "position_rank": 16
+    },
+    {
+      "ticker": "POMO4",
+      "position_rank": 17
+    },
+    {
+      "ticker": "PLPL3",
+      "position_rank": 18
+    },
+    {
+      "ticker": "GGBR3",
+      "position_rank": 19
+    },
+    {
+      "ticker": "VITT3",
+      "position_rank": 20
+    },
+    {
+      "ticker": "HYPE3",
+      "position_rank": 21
+    },
+    {
+      "ticker": "POMO3",
+      "position_rank": 22
+    },
+    {
+      "ticker": "DIRR3",
+      "position_rank": 23
+    },
+    {
+      "ticker": "DEXP3",
+      "position_rank": 24
+    },
+    {
+      "ticker": "SANB4",
+      "position_rank": 25
+    },
+    {
+      "ticker": "EVEN3",
+      "position_rank": 26
+    },
+    {
+      "ticker": "GOAU4",
+      "position_rank": 27
+    },
+    {
+      "ticker": "BLAU3",
+      "position_rank": 28
+    },
+    {
+      "ticker": "TFCO4",
+      "position_rank": 29
+    },
+    {
+      "ticker": "KEPL3",
+      "position_rank": 30
+    },
+    {
+      "ticker": "GOAU3",
+      "position_rank": 31
+    },
+    {
+      "ticker": "CYRE3",
+      "position_rank": 32
+    },
+    {
+      "ticker": "EGIE3",
+      "position_rank": 33
+    },
+    {
+      "ticker": "ALUP11",
+      "position_rank": 34
+    },
+    {
+      "ticker": "MTRE3",
+      "position_rank": 35
+    },
+    {
+      "ticker": "RANI3",
+      "position_rank": 36
+    },
+    {
+      "ticker": "SANB11",
+      "position_rank": 37
+    },
+    {
+      "ticker": "BAZA3",
+      "position_rank": 38
+    },
+    {
+      "ticker": "BBDC4",
+      "position_rank": 39
+    },
+    {
+      "ticker": "WIZC3",
+      "position_rank": 40
+    },
+    {
+      "ticker": "ALLD3",
+      "position_rank": 41
+    },
+    {
+      "ticker": "BBDC3",
+      "position_rank": 42
+    },
+    {
+      "ticker": "FLRY3",
+      "position_rank": 43
+    },
+    {
+      "ticker": "HBOR3",
+      "position_rank": 44
+    },
+    {
+      "ticker": "MULT3",
+      "position_rank": 45
+    },
+    {
+      "ticker": "CMIG4",
+      "position_rank": 46
+    },
+    {
+      "ticker": "BBSE3",
+      "position_rank": 47
+    },
+    {
+      "ticker": "CMIG3",
+      "position_rank": 48
+    },
+    {
+      "ticker": "KLBN11",
+      "position_rank": 49
+    },
+    {
+      "ticker": "EZTC3",
+      "position_rank": 50
+    },
+    {
+      "ticker": "BBAS3",
+      "position_rank": 51
+    },
+    {
+      "ticker": "KLBN4",
+      "position_rank": 52
+    },
+    {
+      "ticker": "KLBN3",
+      "position_rank": 53
+    },
+    {
+      "ticker": "UNIP6",
+      "position_rank": 54
+    },
+    {
+      "ticker": "SANB3",
+      "position_rank": 55
+    },
+    {
+      "ticker": "CGRA4",
+      "position_rank": 56
+    },
+    {
+      "ticker": "ENGI11",
+      "position_rank": 57
+    },
+    {
+      "ticker": "LREN3",
+      "position_rank": 58
+    },
+    {
+      "ticker": "AXIA3",
+      "position_rank": 59
+    },
+    {
+      "ticker": "EQTL3",
+      "position_rank": 60
+    },
+    {
+      "ticker": "CSUD3",
+      "position_rank": 61
+    },
+    {
+      "ticker": "TAEE11",
+      "position_rank": 62
+    },
+    {
+      "ticker": "TRIS3",
+      "position_rank": 63
+    },
+    {
+      "ticker": "BSLI3",
+      "position_rank": 64
+    },
+    {
+      "ticker": "TAEE4",
+      "position_rank": 65
+    },
+    {
+      "ticker": "SAPR4",
+      "position_rank": 66
+    },
+    {
+      "ticker": "TAEE3",
+      "position_rank": 67
+    },
+    {
+      "ticker": "MILS3",
+      "position_rank": 68
+    },
+    {
+      "ticker": "BPAC11",
+      "position_rank": 69
+    },
+    {
+      "ticker": "AZZA3",
+      "position_rank": 70
+    },
+    {
+      "ticker": "VAMO3",
+      "position_rank": 71
+    },
+    {
+      "ticker": "TIMS3",
+      "position_rank": 72
+    },
+    {
+      "ticker": "ITUB4",
+      "position_rank": 73
+    },
+    {
+      "ticker": "CAML3",
+      "position_rank": 74
+    },
+    {
+      "ticker": "RENT3",
+      "position_rank": 75
+    },
+    {
+      "ticker": "SAPR11",
+      "position_rank": 76
+    },
+    {
+      "ticker": "ODPV3",
+      "position_rank": 77
+    },
+    {
+      "ticker": "CURY3",
+      "position_rank": 78
+    },
+    {
+      "ticker": "PFRM3",
+      "position_rank": 79
+    },
+    {
+      "ticker": "FESA4",
+      "position_rank": 80
+    },
+    {
+      "ticker": "CSED3",
+      "position_rank": 81
+    },
+    {
+      "ticker": "LAVV3",
+      "position_rank": 82
+    },
+    {
+      "ticker": "SHUL4",
+      "position_rank": 83
+    },
+    {
+      "ticker": "ABCB4",
+      "position_rank": 84
+    },
+    {
+      "ticker": "UNIP3",
+      "position_rank": 85
+    },
+    {
+      "ticker": "SBSP3",
+      "position_rank": 86
+    },
+    {
+      "ticker": "NEOE3",
+      "position_rank": 87
+    },
+    {
+      "ticker": "GRND3",
+      "position_rank": 88
+    },
+    {
+      "ticker": "VIVT3",
+      "position_rank": 89
+    },
+    {
+      "ticker": "ALOS3",
+      "position_rank": 90
+    },
+    {
+      "ticker": "LEVE3",
+      "position_rank": 91
+    },
+    {
+      "ticker": "CXSE3",
+      "position_rank": 92
+    },
+    {
+      "ticker": "WEGE3",
+      "position_rank": 93
+    },
+    {
+      "ticker": "ITSA4",
+      "position_rank": 94
+    },
+    {
+      "ticker": "ITSA3",
+      "position_rank": 95
+    },
+    {
+      "ticker": "RADL3",
+      "position_rank": 96
+    },
+    {
+      "ticker": "SAPR3",
+      "position_rank": 97
+    },
+    {
+      "ticker": "SLCE3",
+      "position_rank": 98
+    },
+    {
+      "ticker": "BRAP3",
+      "position_rank": 99
+    },
+    {
+      "ticker": "ITUB3",
+      "position_rank": 100
+    },
+    {
+      "ticker": "UGPA3",
+      "position_rank": 101
+    },
+    {
+      "ticker": "VALE3",
+      "position_rank": 102
+    },
+    {
+      "ticker": "ABEV3",
+      "position_rank": 103
+    },
+    {
+      "ticker": "BMGB4",
+      "position_rank": 104
+    },
+    {
+      "ticker": "CEBR6",
+      "position_rank": 105
+    },
+    {
+      "ticker": "TKNO4",
+      "position_rank": 106
+    },
+    {
+      "ticker": "B3SA3",
+      "position_rank": 107
+    },
+    {
+      "ticker": "VBBR3",
+      "position_rank": 108
+    },
+    {
+      "ticker": "BRAP4",
+      "position_rank": 109
+    },
+    {
+      "ticker": "LOGG3",
+      "position_rank": 110
+    },
+    {
+      "ticker": "INTB3",
+      "position_rank": 111
+    },
+    {
+      "ticker": "CLSC4",
+      "position_rank": 112
+    },
+    {
+      "ticker": "SMTO3",
+      "position_rank": 113
+    },
+    {
+      "ticker": "JSLG3",
+      "position_rank": 114
+    },
+    {
+      "ticker": "JHSF3",
+      "position_rank": 115
+    },
+    {
+      "ticker": "BPAC3",
+      "position_rank": 116
+    },
+    {
+      "ticker": "AXIA6",
+      "position_rank": 117
+    },
+    {
+      "ticker": "BRSR6",
+      "position_rank": 118
+    },
+    {
+      "ticker": "PNVL3",
+      "position_rank": 119
+    },
+    {
+      "ticker": "BMEB3",
+      "position_rank": 120
+    },
+    {
+      "ticker": "FIQE3",
+      "position_rank": 121
+    },
+    {
+      "ticker": "BMEB4",
+      "position_rank": 122
+    },
+    {
+      "ticker": "PETR4",
+      "position_rank": 123
+    },
+    {
+      "ticker": "CSMG3",
+      "position_rank": 124
+    },
+    {
+      "ticker": "ARML3",
+      "position_rank": 125
+    },
+    {
+      "ticker": "PETR3",
+      "position_rank": 126
+    },
+    {
+      "ticker": "PTNT4",
+      "position_rank": 127
+    }
+  ]
+}
