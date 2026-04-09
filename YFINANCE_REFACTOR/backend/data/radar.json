@@ -8,7 +8,7 @@
     },
     {
       "added_at": "2026-04-06T19:00:04.125Z",
-      "price_buy": 9.03,
+      "price_buy": 7.74,
       "price_sell": null,
       "ticker": "KEPL3"
     },
@@ -20,7 +20,7 @@
     },
     {
       "added_at": "2026-04-06T19:09:19.302Z",
-      "price_buy": 6.23,
+      "price_buy": 5.77,
       "price_sell": null,
       "ticker": "POMO4"
     },
@@ -38,7 +38,7 @@
     },
     {
       "added_at": "2026-04-06T19:11:14.166Z",
-      "price_buy": 18.39,
+      "price_buy": 16.23,
       "price_sell": null,
       "ticker": "VULC3"
     },
@@ -50,7 +50,7 @@
     },
     {
       "added_at": "2026-04-06T19:12:16.597Z",
-      "price_buy": 5.46,
+      "price_buy": 4.75,
       "price_sell": null,
       "ticker": "CMIN3"
     },
@@ -62,7 +62,7 @@
     },
     {
       "added_at": "2026-04-06T19:13:18.803Z",
-      "price_buy": 62.11,
+      "price_buy": 57.17,
       "price_sell": null,
       "ticker": "UNIP6"
     },
@@ -80,13 +80,13 @@
     },
     {
       "added_at": "2026-04-06T19:15:14.529Z",
-      "price_buy": 7.52,
+      "price_buy": 6.71,
       "price_sell": null,
       "ticker": "ALLD3"
     },
     {
       "added_at": "2026-04-06T19:15:38.829Z",
-      "price_buy": 7.93,
+      "price_buy": 7,
       "price_sell": null,
       "ticker": "ROMI3"
     },
@@ -99,7 +99,7 @@
     {
       "added_at": "2026-04-06T19:18:06.799Z",
       "price_buy": null,
-      "price_sell": 2.022222222222222,
+      "price_sell": 2.5,
       "ticker": "QUAL3"
     },
     {
@@ -119,8 +119,14 @@
       "price_buy": 29.85,
       "price_sell": null,
       "ticker": "TGMA3"
+    },
+    {
+      "ticker": "AZZA3",
+      "price_buy": 22.59,
+      "price_sell": null,
+      "added_at": "2026-04-07T12:56:22.462Z"
     }
   ],
   "dismissed": [],
-  "last_updated": "2026-04-06T19:02:08.701182"
+  "last_updated": "2026-04-07T14:06:33.715468"
 }

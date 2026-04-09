@@ -11,7 +11,7 @@
       }
     }
   },
-  "last_updated": "2026-04-06T19:05:51.024605",
+  "last_updated": "2026-04-09T17:43:16.244168",
   "stocks": {
     "AALR3": {
       "ticker": "AALR3",
@@ -21,14 +21,14 @@
     },
     "ABCB4": {
       "ticker": "ABCB4",
-      "price_now": 26.23,
-      "last_updated": "2026-04-06T18:57:46.539906",
+      "price_now": 27.15,
+      "last_updated": "2026-04-09T17:31:13.020799",
       "source": "google_finance"
     },
     "ABEV3": {
       "ticker": "ABEV3",
-      "price_now": 15.45,
-      "last_updated": "2026-04-06T18:58:06.469336",
+      "price_now": 16.06,
+      "last_updated": "2026-04-09T17:31:31.795416",
       "source": "google_finance"
     },
     "AERI3": {
@@ -75,14 +75,14 @@
     },
     "ALLD3": {
       "ticker": "ALLD3",
-      "price_now": 6.9,
-      "last_updated": "2026-04-06T18:57:40.768056",
+      "price_now": 6.85,
+      "last_updated": "2026-04-09T17:31:06.810511",
       "source": "google_finance"
     },
     "ALOS3": {
       "ticker": "ALOS3",
-      "price_now": 30.47,
-      "last_updated": "2026-04-06T18:58:03.605341",
+      "price_now": 32.29,
+      "last_updated": "2026-04-09T17:31:30.349232",
       "source": "google_finance"
     },
     "ALPA3": {
@@ -105,8 +105,8 @@
     },
     "ALUP11": {
       "ticker": "ALUP11",
-      "price_now": 35.13,
-      "last_updated": "2026-04-06T18:58:49.847934",
+      "price_now": 36.81,
+      "last_updated": "2026-04-09T17:32:16.746150",
       "source": "google_finance"
     },
     "ALUP3": {
@@ -153,8 +153,8 @@
     },
     "ARML3": {
       "ticker": "ARML3",
-      "price_now": 5.26,
-      "last_updated": "2026-04-06T18:59:46.648842",
+      "price_now": 5.43,
+      "last_updated": "2026-04-09T17:33:09.096029",
       "source": "google_finance"
     },
     "ARND3": {
@@ -195,8 +195,8 @@
     },
     "AXIA3": {
       "ticker": "AXIA3",
-      "price_now": 58.95,
-      "last_updated": "2026-04-06T18:59:55.473374",
+      "price_now": 64.35,
+      "last_updated": "2026-04-09T17:33:15.816066",
       "source": "google_finance"
     },
     "AXIA5": {
@@ -207,8 +207,8 @@
     },
     "AXIA6": {
       "ticker": "AXIA6",
-      "price_now": 64.74,
-      "last_updated": "2026-04-06T19:00:07.294338",
+      "price_now": 70.69,
+      "last_updated": "2026-04-09T17:33:27.585308",
       "source": "google_finance"
     },
     "AXIA7": {
@@ -243,14 +243,14 @@
     },
     "AZZA3": {
       "ticker": "AZZA3",
-      "price_now": 24.0,
-      "last_updated": "2026-04-06T18:58:24.034011",
+      "price_now": 23.34,
+      "last_updated": "2026-04-09T17:31:48.294904",
       "source": "google_finance"
     },
     "B3SA3": {
       "ticker": "B3SA3",
-      "price_now": 18.43,
-      "last_updated": "2026-04-06T18:59:48.078192",
+      "price_now": 19.16,
+      "last_updated": "2026-04-09T17:32:53.183716",
       "source": "google_finance"
     },
     "BALM3": {
@@ -273,32 +273,32 @@
     },
     "BAZA3": {
       "ticker": "BAZA3",
-      "price_now": 82.45,
-      "last_updated": "2026-04-06T18:57:47.751640",
+      "price_now": 82.6,
+      "last_updated": "2026-04-09T17:31:14.342536",
       "source": "google_finance"
     },
     "BBAS3": {
       "ticker": "BBAS3",
-      "price_now": 23.43,
-      "last_updated": "2026-04-06T18:59:39.340424",
+      "price_now": 24.72,
+      "last_updated": "2026-04-09T17:33:18.487100",
       "source": "google_finance"
     },
     "BBDC3": {
       "ticker": "BBDC3",
-      "price_now": 16.81,
-      "last_updated": "2026-04-06T18:58:55.705840",
+      "price_now": 17.57,
+      "last_updated": "2026-04-09T17:32:29.165875",
       "source": "google_finance"
     },
     "BBDC4": {
       "ticker": "BBDC4",
-      "price_now": 19.33,
-      "last_updated": "2026-04-06T18:59:05.410528",
+      "price_now": 20.29,
+      "last_updated": "2026-04-09T17:32:30.573238",
       "source": "google_finance"
     },
     "BBSE3": {
       "ticker": "BBSE3",
-      "price_now": 35.44,
-      "last_updated": "2026-04-06T18:59:49.414046",
+      "price_now": 35.9,
+      "last_updated": "2026-04-09T17:33:10.419116",
       "source": "google_finance"
     },
     "BDLL3": {
@@ -357,26 +357,26 @@
     },
     "BLAU3": {
       "ticker": "BLAU3",
-      "price_now": 10.69,
-      "last_updated": "2026-04-06T18:57:39.139530",
+      "price_now": 11.21,
+      "last_updated": "2026-04-09T17:31:15.736096",
       "source": "google_finance"
     },
     "BMEB3": {
       "ticker": "BMEB3",
-      "price_now": 65.25,
-      "last_updated": "2026-04-06T18:59:50.814359",
+      "price_now": 66.4,
+      "last_updated": "2026-04-09T17:33:11.733630",
       "source": "google_finance"
     },
     "BMEB4": {
       "ticker": "BMEB4",
-      "price_now": 78.5,
-      "last_updated": "2026-04-06T18:59:56.760611",
+      "price_now": 77.96,
+      "last_updated": "2026-04-09T17:33:17.194392",
       "source": "google_finance"
     },
     "BMGB4": {
       "ticker": "BMGB4",
-      "price_now": 5.3,
-      "last_updated": "2026-04-06T18:58:35.431905",
+      "price_now": 5.69,
+      "last_updated": "2026-04-09T17:32:09.706357",
       "source": "google_finance"
     },
     "BMIN3": {
@@ -417,14 +417,14 @@
     },
     "BPAC11": {
       "ticker": "BPAC11",
-      "price_now": 57.71,
-      "last_updated": "2026-04-06T18:59:06.690854",
+      "price_now": 63.05,
+      "last_updated": "2026-04-09T17:32:31.898350",
       "source": "google_finance"
     },
     "BPAC3": {
       "ticker": "BPAC3",
-      "price_now": 29.0,
-      "last_updated": "2026-04-06T18:59:18.538791",
+      "price_now": 29.46,
+      "last_updated": "2026-04-09T17:32:44.021740",
       "source": "google_finance"
     },
     "BPAC5": {
@@ -435,14 +435,14 @@
     },
     "BRAP3": {
       "ticker": "BRAP3",
-      "price_now": 20.11,
-      "last_updated": "2026-04-06T18:58:18.143137",
+      "price_now": 20.45,
+      "last_updated": "2026-04-09T17:32:00.164588",
       "source": "google_finance"
     },
     "BRAP4": {
       "ticker": "BRAP4",
-      "price_now": 23.46,
-      "last_updated": "2026-04-06T18:58:19.491421",
+      "price_now": 24.33,
+      "last_updated": "2026-04-09T17:32:17.811357",
       "source": "google_finance"
     },
     "BRAV3": {
@@ -489,8 +489,8 @@
     },
     "BRSR6": {
       "ticker": "BRSR6",
-      "price_now": 17.84,
-      "last_updated": "2026-04-06T18:58:45.533225",
+      "price_now": 18.65,
+      "last_updated": "2026-04-09T17:32:10.760147",
       "source": "google_finance"
     },
     "BRST3": {
@@ -501,8 +501,8 @@
     },
     "BSLI3": {
       "ticker": "BSLI3",
-      "price_now": 4.04,
-      "last_updated": "2026-04-06T18:58:21.181006",
+      "price_now": 3.99,
+      "last_updated": "2026-04-09T17:31:44.180251",
       "source": "google_finance"
     },
     "BSLI4": {
@@ -525,8 +525,8 @@
     },
     "CAML3": {
       "ticker": "CAML3",
-      "price_now": 6.63,
-      "last_updated": "2026-04-06T19:00:08.684662",
+      "price_now": 7.32,
+      "last_updated": "2026-04-09T17:33:30.313166",
       "source": "google_finance"
     },
     "CASH3": {
@@ -573,8 +573,8 @@
     },
     "CEBR6": {
       "ticker": "CEBR6",
-      "price_now": 31.65,
-      "last_updated": "2026-04-06T18:57:59.222668",
+      "price_now": 30.7,
+      "last_updated": "2026-04-09T17:31:28.810327",
       "source": "google_finance"
     },
     "CEDO3": {
@@ -639,8 +639,8 @@
     },
     "CGRA4": {
       "ticker": "CGRA4",
-      "price_now": 26.1,
-      "last_updated": "2026-04-06T18:58:36.476088",
+      "price_now": 26.67,
+      "last_updated": "2026-04-09T17:32:11.809711",
       "source": "google_finance"
     },
     "CLSC3": {
@@ -651,26 +651,26 @@
     },
     "CLSC4": {
       "ticker": "CLSC4",
-      "price_now": 143.97,
-      "last_updated": "2026-04-06T18:59:02.796920",
+      "price_now": 144.31,
+      "last_updated": "2026-04-09T17:32:27.862937",
       "source": "google_finance"
     },
     "CMIG3": {
       "ticker": "CMIG3",
-      "price_now": 17.25,
-      "last_updated": "2026-04-06T18:58:00.662507",
+      "price_now": 19.58,
+      "last_updated": "2026-04-09T17:31:55.815906",
       "source": "google_finance"
     },
     "CMIG4": {
       "ticker": "CMIG4",
-      "price_now": 12.81,
-      "last_updated": "2026-04-06T18:57:30.747544",
+      "price_now": 13.52,
+      "last_updated": "2026-04-09T17:31:08.105928",
       "source": "google_finance"
     },
     "CMIN3": {
       "ticker": "CMIN3",
-      "price_now": 4.88,
-      "last_updated": "2026-04-06T18:58:46.921055",
+      "price_now": 5.08,
+      "last_updated": "2026-04-09T17:32:13.139187",
       "source": "google_finance"
     },
     "COCE3": {
@@ -681,8 +681,8 @@
     },
     "COCE5": {
       "ticker": "COCE5",
-      "price_now": 31.79,
-      "last_updated": "2026-04-06T18:59:40.827484",
+      "price_now": 32.36,
+      "last_updated": "2026-04-09T17:33:01.421613",
       "source": "google_finance"
     },
     "COGN3": {
@@ -729,14 +729,14 @@
     },
     "CSED3": {
       "ticker": "CSED3",
-      "price_now": 5.74,
-      "last_updated": "2026-04-06T18:58:08.266832",
+      "price_now": 6.02,
+      "last_updated": "2026-04-09T17:31:33.166307",
       "source": "google_finance"
     },
     "CSMG3": {
       "ticker": "CSMG3",
-      "price_now": 57.5,
-      "last_updated": "2026-04-06T18:59:09.261619",
+      "price_now": 60.35,
+      "last_updated": "2026-04-09T17:32:35.920960",
       "source": "google_finance"
     },
     "CSNA3": {
@@ -747,8 +747,8 @@
     },
     "CSUD3": {
       "ticker": "CSUD3",
-      "price_now": 17.73,
-      "last_updated": "2026-04-06T18:57:32.266913",
+      "price_now": 18.15,
+      "last_updated": "2026-04-09T17:31:01.374094",
       "source": "google_finance"
     },
     "CTAX3": {
@@ -789,8 +789,8 @@
     },
     "CURY3": {
       "ticker": "CURY3",
-      "price_now": 36.03,
-      "last_updated": "2026-04-06T18:58:13.938439",
+      "price_now": 37.01,
+      "last_updated": "2026-04-09T17:31:40.086403",
       "source": "google_finance"
     },
     "CVCB3": {
@@ -801,14 +801,14 @@
     },
     "CXSE3": {
       "ticker": "CXSE3",
-      "price_now": 18.78,
-      "last_updated": "2026-04-06T18:59:07.857171",
+      "price_now": 19.41,
+      "last_updated": "2026-04-09T17:32:33.005724",
       "source": "google_finance"
     },
     "CYRE3": {
       "ticker": "CYRE3",
-      "price_now": 26.89,
-      "last_updated": "2026-04-06T18:57:17.395358",
+      "price_now": 28.06,
+      "last_updated": "2026-04-09T17:30:46.130827",
       "source": "google_finance"
     },
     "CYRE4": {
@@ -831,8 +831,8 @@
     },
     "DEXP3": {
       "ticker": "DEXP3",
-      "price_now": 7.04,
-      "last_updated": "2026-04-06T18:57:21.321573",
+      "price_now": 7.45,
+      "last_updated": "2026-04-09T17:30:51.825442",
       "source": "google_finance"
     },
     "DEXP4": {
@@ -843,8 +843,8 @@
     },
     "DIRR3": {
       "ticker": "DIRR3",
-      "price_now": 13.38,
-      "last_updated": "2026-04-06T18:57:22.578506",
+      "price_now": 14.22,
+      "last_updated": "2026-04-09T17:30:53.366113",
       "source": "google_finance"
     },
     "DMVF3": {
@@ -879,8 +879,8 @@
     },
     "DXCO3": {
       "ticker": "DXCO3",
-      "price_now": 5.02,
-      "last_updated": "2026-04-06T19:00:09.991828",
+      "price_now": 5.32,
+      "last_updated": "2026-04-09T17:33:29.038844",
       "source": "google_finance"
     },
     "EALT3": {
@@ -903,8 +903,8 @@
     },
     "EGIE3": {
       "ticker": "EGIE3",
-      "price_now": 33.3,
-      "last_updated": "2026-04-06T18:59:52.459795",
+      "price_now": 34.46,
+      "last_updated": "2026-04-09T17:33:13.084370",
       "source": "google_finance"
     },
     "EKTR3": {
@@ -945,8 +945,8 @@
     },
     "ENGI11": {
       "ticker": "ENGI11",
-      "price_now": 53.01,
-      "last_updated": "2026-04-06T18:59:32.639246",
+      "price_now": 56.48,
+      "last_updated": "2026-04-09T17:32:54.688985",
       "source": "google_finance"
     },
     "ENGI3": {
@@ -1011,8 +1011,8 @@
     },
     "EQTL3": {
       "ticker": "EQTL3",
-      "price_now": 40.46,
-      "last_updated": "2026-04-06T18:59:53.999059",
+      "price_now": 43.8,
+      "last_updated": "2026-04-09T17:33:14.376266",
       "source": "google_finance"
     },
     "ESPA3": {
@@ -1035,8 +1035,8 @@
     },
     "ETER3": {
       "ticker": "ETER3",
-      "price_now": 4.02,
-      "last_updated": "2026-04-06T18:59:58.390645",
+      "price_now": 4.1,
+      "last_updated": "2026-04-09T17:33:19.641342",
       "source": "google_finance"
     },
     "EUCA3": {
@@ -1053,14 +1053,14 @@
     },
     "EVEN3": {
       "ticker": "EVEN3",
-      "price_now": 7.17,
-      "last_updated": "2026-04-06T18:58:48.314378",
+      "price_now": 7.22,
+      "last_updated": "2026-04-09T17:32:14.536567",
       "source": "google_finance"
     },
     "EZTC3": {
       "ticker": "EZTC3",
-      "price_now": 14.26,
-      "last_updated": "2026-04-06T18:57:23.811045",
+      "price_now": 15.05,
+      "last_updated": "2026-04-09T17:30:54.704293",
       "source": "google_finance"
     },
     "FESA3": {
@@ -1071,8 +1071,8 @@
     },
     "FESA4": {
       "ticker": "FESA4",
-      "price_now": 7.97,
-      "last_updated": "2026-04-06T18:58:51.262566",
+      "price_now": 8.43,
+      "last_updated": "2026-04-09T17:32:19.448449",
       "source": "google_finance"
     },
     "FHER3": {
@@ -1101,20 +1101,20 @@
     },
     "FIQE3": {
       "ticker": "FIQE3",
-      "price_now": 6.82,
-      "last_updated": "2026-04-06T18:58:25.505954",
+      "price_now": 7.69,
+      "last_updated": "2026-04-09T17:31:34.495205",
       "source": "google_finance"
     },
     "FLRY3": {
       "ticker": "FLRY3",
-      "price_now": 15.92,
-      "last_updated": "2026-04-06T18:58:26.754029",
+      "price_now": 16.78,
+      "last_updated": "2026-04-09T17:31:49.646110",
       "source": "google_finance"
     },
     "FRAS3": {
       "ticker": "FRAS3",
-      "price_now": 21.95,
-      "last_updated": "2026-04-06T18:58:52.779207",
+      "price_now": 22.11,
+      "last_updated": "2026-04-09T17:32:20.863862",
       "source": "google_finance"
     },
     "FRIO3": {
@@ -1149,14 +1149,14 @@
     },
     "GGBR3": {
       "ticker": "GGBR3",
-      "price_now": 18.2,
-      "last_updated": "2026-04-06T18:59:41.863799",
+      "price_now": 18.54,
+      "last_updated": "2026-04-09T17:33:02.775310",
       "source": "google_finance"
     },
     "GGBR4": {
       "ticker": "GGBR4",
-      "price_now": 19.62,
-      "last_updated": "2026-04-06T18:59:43.551342",
+      "price_now": 21.33,
+      "last_updated": "2026-04-09T17:33:04.069049",
       "source": "google_finance"
     },
     "GGPS3": {
@@ -1173,14 +1173,14 @@
     },
     "GOAU3": {
       "ticker": "GOAU3",
-      "price_now": 8.54,
-      "last_updated": "2026-04-06T18:59:25.864956",
+      "price_now": 8.8,
+      "last_updated": "2026-04-09T17:33:05.392551",
       "source": "google_finance"
     },
     "GOAU4": {
       "ticker": "GOAU4",
-      "price_now": 8.75,
-      "last_updated": "2026-04-06T18:59:27.605498",
+      "price_now": 9.54,
+      "last_updated": "2026-04-09T17:33:06.424987",
       "source": "google_finance"
     },
     "GOLL54": {
@@ -1197,8 +1197,8 @@
     },
     "GRND3": {
       "ticker": "GRND3",
-      "price_now": 4.64,
-      "last_updated": "2026-04-06T18:57:25.144073",
+      "price_now": 4.83,
+      "last_updated": "2026-04-09T17:30:56.231203",
       "source": "google_finance"
     },
     "GSHP3": {
@@ -1233,8 +1233,8 @@
     },
     "HBOR3": {
       "ticker": "HBOR3",
-      "price_now": 2.4,
-      "last_updated": "2026-04-06T19:00:04.126145",
+      "price_now": 2.5,
+      "last_updated": "2026-04-09T17:33:25.115484",
       "source": "google_finance"
     },
     "HBRE3": {
@@ -1275,8 +1275,8 @@
     },
     "HYPE3": {
       "ticker": "HYPE3",
-      "price_now": 22.87,
-      "last_updated": "2026-04-06T18:59:10.779648",
+      "price_now": 23.8,
+      "last_updated": "2026-04-09T17:32:37.312676",
       "source": "google_finance"
     },
     "IFCM3": {
@@ -1317,8 +1317,8 @@
     },
     "INTB3": {
       "ticker": "INTB3",
-      "price_now": 13.86,
-      "last_updated": "2026-04-06T18:57:49.099785",
+      "price_now": 14.17,
+      "last_updated": "2026-04-09T17:31:17.346216",
       "source": "google_finance"
     },
     "IRBR3": {
@@ -1335,32 +1335,32 @@
     },
     "ISAE4": {
       "ticker": "ISAE4",
-      "price_now": 29.02,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 30.65,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "ITSA3": {
       "ticker": "ITSA3",
-      "price_now": 13.92,
-      "last_updated": "2026-04-06T18:57:26.638918",
+      "price_now": 14.52,
+      "last_updated": "2026-04-09T17:30:57.584459",
       "source": "google_finance"
     },
     "ITSA4": {
       "ticker": "ITSA4",
-      "price_now": 13.88,
-      "last_updated": "2026-04-06T18:57:28.155634",
+      "price_now": 14.74,
+      "last_updated": "2026-04-09T17:30:58.668521",
       "source": "google_finance"
     },
     "ITUB3": {
       "ticker": "ITUB3",
-      "price_now": 42.92,
-      "last_updated": "2026-04-06T18:58:37.547492",
+      "price_now": 45.85,
+      "last_updated": "2026-04-09T17:32:15.635358",
       "source": "google_finance"
     },
     "ITUB4": {
       "ticker": "ITUB4",
-      "price_now": 43.49,
-      "last_updated": "2026-04-06T18:58:57.013299",
+      "price_now": 45.75,
+      "last_updated": "2026-04-09T17:32:23.565657",
       "source": "google_finance"
     },
     "JALL3": {
@@ -1377,8 +1377,8 @@
     },
     "JHSF3": {
       "ticker": "JHSF3",
-      "price_now": 10.75,
-      "last_updated": "2026-04-06T18:57:42.322479",
+      "price_now": 12.55,
+      "last_updated": "2026-04-09T17:31:21.820279",
       "source": "google_finance"
     },
     "JOPA3": {
@@ -1395,32 +1395,32 @@
     },
     "JSLG3": {
       "ticker": "JSLG3",
-      "price_now": 7.8,
-      "last_updated": "2026-04-06T18:59:01.272387",
+      "price_now": 8.57,
+      "last_updated": "2026-04-09T17:32:26.479500",
       "source": "google_finance"
     },
     "KEPL3": {
       "ticker": "KEPL3",
-      "price_now": 8.03,
-      "last_updated": "2026-04-06T18:57:37.795049",
+      "price_now": 8.22,
+      "last_updated": "2026-04-09T17:31:05.466979",
       "source": "google_finance"
     },
     "KLBN11": {
       "ticker": "KLBN11",
-      "price_now": 19.05,
-      "last_updated": "2026-04-06T18:59:34.015090",
+      "price_now": 19.04,
+      "last_updated": "2026-04-09T17:32:56.249185",
       "source": "google_finance"
     },
     "KLBN3": {
       "ticker": "KLBN3",
       "price_now": 3.79,
-      "last_updated": "2026-04-06T18:59:35.332480",
+      "last_updated": "2026-04-09T17:32:57.340718",
       "source": "google_finance"
     },
     "KLBN4": {
       "ticker": "KLBN4",
-      "price_now": 3.82,
-      "last_updated": "2026-04-06T18:59:36.791028",
+      "price_now": 3.83,
+      "last_updated": "2026-04-09T17:32:58.770588",
       "source": "google_finance"
     },
     "LAND3": {
@@ -1431,14 +1431,14 @@
     },
     "LAVV3": {
       "ticker": "LAVV3",
-      "price_now": 14.38,
-      "last_updated": "2026-04-06T18:57:15.730972",
+      "price_now": 14.94,
+      "last_updated": "2026-04-09T17:30:47.775365",
       "source": "google_finance"
     },
     "LEVE3": {
       "ticker": "LEVE3",
-      "price_now": 35.23,
-      "last_updated": "2026-04-06T18:58:43.077450",
+      "price_now": 37.66,
+      "last_updated": "2026-04-09T17:32:05.707825",
       "source": "google_finance"
     },
     "LIGT3": {
@@ -1455,8 +1455,8 @@
     },
     "LOGG3": {
       "ticker": "LOGG3",
-      "price_now": 27.77,
-      "last_updated": "2026-04-06T18:58:15.377354",
+      "price_now": 28.21,
+      "last_updated": "2026-04-09T17:31:41.258664",
       "source": "google_finance"
     },
     "LOGN3": {
@@ -1473,8 +1473,8 @@
     },
     "LREN3": {
       "ticker": "LREN3",
-      "price_now": 14.65,
-      "last_updated": "2026-04-06T18:58:09.701639",
+      "price_now": 15.91,
+      "last_updated": "2026-04-09T17:31:36.115139",
       "source": "google_finance"
     },
     "LUPA3": {
@@ -1521,8 +1521,8 @@
     },
     "MDIA3": {
       "ticker": "MDIA3",
-      "price_now": 23.04,
-      "last_updated": "2026-04-06T18:59:20.527793",
+      "price_now": 24.24,
+      "last_updated": "2026-04-09T17:32:49.542310",
       "source": "google_finance"
     },
     "MDNE3": {
@@ -1539,8 +1539,8 @@
     },
     "MELK3": {
       "ticker": "MELK3",
-      "price_now": 3.5,
-      "last_updated": "2026-04-06T18:58:05.077136",
+      "price_now": 3.55,
+      "last_updated": "2026-04-09T17:31:18.730067",
       "source": "google_finance"
     },
     "MERC3": {
@@ -1569,8 +1569,8 @@
     },
     "MILS3": {
       "ticker": "MILS3",
-      "price_now": 13.85,
-      "last_updated": "2026-04-06T18:57:52.535649",
+      "price_now": 14.25,
+      "last_updated": "2026-04-09T17:31:37.429606",
       "source": "google_finance"
     },
     "MLAS3": {
@@ -1647,8 +1647,8 @@
     },
     "MTRE3": {
       "ticker": "MTRE3",
-      "price_now": 3.79,
-      "last_updated": "2026-04-06T18:59:12.061411",
+      "price_now": 3.91,
+      "last_updated": "2026-04-09T17:32:38.727523",
       "source": "google_finance"
     },
     "MTSA3": {
@@ -1665,8 +1665,8 @@
     },
     "MULT3": {
       "ticker": "MULT3",
-      "price_now": 31.77,
-      "last_updated": "2026-04-06T18:58:38.914232",
+      "price_now": 33.65,
+      "last_updated": "2026-04-09T17:31:57.242306",
       "source": "google_finance"
     },
     "MWET3": {
@@ -1683,8 +1683,8 @@
     },
     "MYPK3": {
       "ticker": "MYPK3",
-      "price_now": 9.12,
-      "last_updated": "2026-04-06T19:00:02.731238",
+      "price_now": 9.64,
+      "last_updated": "2026-04-09T17:33:23.948781",
       "source": "google_finance"
     },
     "NATU3": {
@@ -1695,8 +1695,8 @@
     },
     "NEOE3": {
       "ticker": "NEOE3",
-      "price_now": 33.43,
-      "last_updated": "2026-04-06T18:59:29.176777",
+      "price_now": 33.5,
+      "last_updated": "2026-04-09T17:32:50.663842",
       "source": "google_finance"
     },
     "NEXP3": {
@@ -1737,8 +1737,8 @@
     },
     "ODPV3": {
       "ticker": "ODPV3",
-      "price_now": 13.73,
-      "last_updated": "2026-04-06T18:58:01.896103",
+      "price_now": 15.21,
+      "last_updated": "2026-04-09T17:31:58.742026",
       "source": "google_finance"
     },
     "OFSA3": {
@@ -1827,20 +1827,20 @@
     },
     "PETR3": {
       "ticker": "PETR3",
-      "price_now": 53.71,
-      "last_updated": "2026-04-06T18:58:28.220859",
+      "price_now": 52.69,
+      "last_updated": "2026-04-09T17:32:02.020762",
       "source": "google_finance"
     },
     "PETR4": {
       "ticker": "PETR4",
-      "price_now": 48.94,
-      "last_updated": "2026-04-06T18:58:11.090299",
+      "price_now": 47.9,
+      "last_updated": "2026-04-09T17:31:45.413541",
       "source": "google_finance"
     },
     "PFRM3": {
       "ticker": "PFRM3",
-      "price_now": 8.28,
-      "last_updated": "2026-04-06T18:58:58.485429",
+      "price_now": 8.45,
+      "last_updated": "2026-04-09T17:32:34.502470",
       "source": "google_finance"
     },
     "PGMN3": {
@@ -1869,8 +1869,8 @@
     },
     "PLPL3": {
       "ticker": "PLPL3",
-      "price_now": 13.44,
-      "last_updated": "2026-04-06T18:58:12.524442",
+      "price_now": 13.83,
+      "last_updated": "2026-04-09T17:31:38.635250",
       "source": "google_finance"
     },
     "PMAM3": {
@@ -1881,26 +1881,26 @@
     },
     "PNVL3": {
       "ticker": "PNVL3",
-      "price_now": 14.39,
-      "last_updated": "2026-04-06T19:00:15.197768",
+      "price_now": 15.15,
+      "last_updated": "2026-04-09T17:33:32.913106",
       "source": "google_finance"
     },
     "POMO3": {
       "ticker": "POMO3",
-      "price_now": 5.86,
-      "last_updated": "2026-04-06T18:57:33.575603",
+      "price_now": 6.14,
+      "last_updated": "2026-04-09T17:31:02.680639",
       "source": "google_finance"
     },
     "POMO4": {
       "ticker": "POMO4",
-      "price_now": 6.23,
-      "last_updated": "2026-04-06T18:57:34.935544",
+      "price_now": 6.62,
+      "last_updated": "2026-04-09T17:31:04.122642",
       "source": "google_finance"
     },
     "POSI3": {
       "ticker": "POSI3",
-      "price_now": 4.27,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 4.57,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "PPLA11": {
@@ -1923,8 +1923,8 @@
     },
     "PSSA3": {
       "ticker": "PSSA3",
-      "price_now": 50.24,
-      "last_updated": "2026-04-06T18:59:22.460275",
+      "price_now": 52.42,
+      "last_updated": "2026-04-09T17:32:45.336840",
       "source": "google_finance"
     },
     "PTBL3": {
@@ -1941,20 +1941,20 @@
     },
     "PTNT4": {
       "ticker": "PTNT4",
-      "price_now": 8.69,
-      "last_updated": "2026-04-06T18:59:59.817035",
+      "price_now": 8.72,
+      "last_updated": "2026-04-09T17:33:21.048629",
       "source": "google_finance"
     },
     "QUAL3": {
       "ticker": "QUAL3",
-      "price_now": 2.03,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 2.38,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "RADL3": {
       "ticker": "RADL3",
-      "price_now": 21.86,
-      "last_updated": "2026-04-06T18:59:30.924034",
+      "price_now": 23.47,
+      "last_updated": "2026-04-09T17:32:52.048030",
       "source": "google_finance"
     },
     "RAIL3": {
@@ -1971,8 +1971,8 @@
     },
     "RANI3": {
       "ticker": "RANI3",
-      "price_now": 9.43,
-      "last_updated": "2026-04-06T18:57:54.213026",
+      "price_now": 9.54,
+      "last_updated": "2026-04-09T17:31:23.204473",
       "source": "google_finance"
     },
     "RAPT3": {
@@ -2001,14 +2001,14 @@
     },
     "RDOR3": {
       "ticker": "RDOR3",
-      "price_now": 39.73,
-      "last_updated": "2026-04-06T18:58:40.561275",
+      "price_now": 40.99,
+      "last_updated": "2026-04-09T17:32:03.320489",
       "source": "google_finance"
     },
     "RECV3": {
       "ticker": "RECV3",
-      "price_now": 13.89,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 13.99,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "REDE3": {
@@ -2019,8 +2019,8 @@
     },
     "RENT3": {
       "ticker": "RENT3",
-      "price_now": 47.14,
-      "last_updated": "2026-04-06T19:00:05.603527",
+      "price_now": 50.04,
+      "last_updated": "2026-04-09T17:33:26.485902",
       "source": "google_finance"
     },
     "RENT4": {
@@ -2044,7 +2044,7 @@
     "ROMI3": {
       "ticker": "ROMI3",
       "price_now": 7.43,
-      "last_updated": "2026-04-06T18:59:13.563039",
+      "last_updated": "2026-04-09T17:32:40.038819",
       "source": "google_finance"
     },
     "RPAD3": {
@@ -2085,38 +2085,38 @@
     },
     "SANB11": {
       "ticker": "SANB11",
-      "price_now": 31.06,
-      "last_updated": "2026-04-06T19:00:11.114056",
+      "price_now": 31.98,
+      "last_updated": "2026-04-09T17:33:33.959314",
       "source": "google_finance"
     },
     "SANB3": {
       "ticker": "SANB3",
-      "price_now": 15.2,
-      "last_updated": "2026-04-06T19:00:12.456332",
+      "price_now": 15.78,
+      "last_updated": "2026-04-09T17:33:35.282113",
       "source": "google_finance"
     },
     "SANB4": {
       "ticker": "SANB4",
-      "price_now": 15.83,
-      "last_updated": "2026-04-06T19:00:13.859828",
+      "price_now": 16.21,
+      "last_updated": "2026-04-09T17:33:31.832262",
       "source": "google_finance"
     },
     "SAPR11": {
       "ticker": "SAPR11",
       "price_now": 45.51,
-      "last_updated": "2026-04-06T18:57:55.547191",
+      "last_updated": "2026-04-09T17:31:24.665379",
       "source": "google_finance"
     },
     "SAPR3": {
       "ticker": "SAPR3",
-      "price_now": 10.4,
-      "last_updated": "2026-04-06T18:57:56.621897",
+      "price_now": 10.49,
+      "last_updated": "2026-04-09T17:31:25.750058",
       "source": "google_finance"
     },
     "SAPR4": {
       "ticker": "SAPR4",
-      "price_now": 8.7,
-      "last_updated": "2026-04-06T18:57:57.939859",
+      "price_now": 8.74,
+      "last_updated": "2026-04-09T17:31:27.141000",
       "source": "google_finance"
     },
     "SBFG3": {
@@ -2127,8 +2127,8 @@
     },
     "SBSP3": {
       "ticker": "SBSP3",
-      "price_now": 156.02,
-      "last_updated": "2026-04-06T18:58:54.202892",
+      "price_now": 166.4,
+      "last_updated": "2026-04-09T17:32:22.175590",
       "source": "google_finance"
     },
     "SCAR3": {
@@ -2163,8 +2163,8 @@
     },
     "SHUL4": {
       "ticker": "SHUL4",
-      "price_now": 5.07,
-      "last_updated": "2026-04-06T18:57:29.572978",
+      "price_now": 5.29,
+      "last_updated": "2026-04-09T17:30:59.998856",
       "source": "google_finance"
     },
     "SIMH3": {
@@ -2175,8 +2175,8 @@
     },
     "SLCE3": {
       "ticker": "SLCE3",
-      "price_now": 18.38,
-      "last_updated": "2026-04-06T18:59:45.115140",
+      "price_now": 18.61,
+      "last_updated": "2026-04-09T17:33:07.771680",
       "source": "google_finance"
     },
     "SMFT3": {
@@ -2187,8 +2187,8 @@
     },
     "SMTO3": {
       "ticker": "SMTO3",
-      "price_now": 19.69,
-      "last_updated": "2026-04-06T18:59:24.326623",
+      "price_now": 18.31,
+      "last_updated": "2026-04-09T17:32:46.719244",
       "source": "google_finance"
     },
     "SNSY3": {
@@ -2247,20 +2247,20 @@
     },
     "TAEE11": {
       "ticker": "TAEE11",
-      "price_now": 42.94,
-      "last_updated": "2026-04-06T18:58:29.547611",
+      "price_now": 44.9,
+      "last_updated": "2026-04-09T17:31:51.019368",
       "source": "google_finance"
     },
     "TAEE3": {
       "ticker": "TAEE3",
-      "price_now": 14.2,
-      "last_updated": "2026-04-06T18:58:30.888549",
+      "price_now": 14.75,
+      "last_updated": "2026-04-09T17:31:52.430330",
       "source": "google_finance"
     },
     "TAEE4": {
       "ticker": "TAEE4",
-      "price_now": 14.35,
-      "last_updated": "2026-04-06T18:58:32.682678",
+      "price_now": 15.04,
+      "last_updated": "2026-04-09T17:32:07.078225",
       "source": "google_finance"
     },
     "TASA3": {
@@ -2271,8 +2271,8 @@
     },
     "TASA4": {
       "ticker": "TASA4",
-      "price_now": 5.09,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 5.25,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "TCSA3": {
@@ -2307,20 +2307,20 @@
     },
     "TFCO4": {
       "ticker": "TFCO4",
-      "price_now": 15.73,
-      "last_updated": "2026-04-06T18:58:22.651057",
+      "price_now": 16.35,
+      "last_updated": "2026-04-09T17:31:46.944088",
       "source": "google_finance"
     },
     "TGMA3": {
       "ticker": "TGMA3",
-      "price_now": 31.2,
-      "last_updated": "2026-04-06T18:57:18.694427",
+      "price_now": 34.43,
+      "last_updated": "2026-04-09T17:30:49.103679",
       "source": "google_finance"
     },
     "TIMS3": {
       "ticker": "TIMS3",
-      "price_now": 26.72,
-      "last_updated": "2026-04-06T18:59:15.328511",
+      "price_now": 27.73,
+      "last_updated": "2026-04-09T17:32:48.233738",
       "source": "google_finance"
     },
     "TKNO3": {
@@ -2332,7 +2332,7 @@
     "TKNO4": {
       "ticker": "TKNO4",
       "price_now": 212.0,
-      "last_updated": "2026-04-06T18:58:41.982674",
+      "last_updated": "2026-04-09T17:32:04.416101",
       "source": "google_finance"
     },
     "TOKY3": {
@@ -2343,8 +2343,8 @@
     },
     "TOTS3": {
       "ticker": "TOTS3",
-      "price_now": 35.1,
-      "last_updated": "2026-04-06T18:58:34.037971",
+      "price_now": 34.44,
+      "last_updated": "2026-04-09T17:31:54.188377",
       "source": "google_finance"
     },
     "TPIS3": {
@@ -2361,8 +2361,8 @@
     },
     "TRIS3": {
       "ticker": "TRIS3",
-      "price_now": 5.77,
-      "last_updated": "2026-04-06T18:57:36.551237",
+      "price_now": 5.88,
+      "last_updated": "2026-04-09T17:31:09.546794",
       "source": "google_finance"
     },
     "TTEN3": {
@@ -2397,14 +2397,14 @@
     },
     "UGPA3": {
       "ticker": "UGPA3",
-      "price_now": 29.3,
-      "last_updated": "2026-04-06T18:59:04.325966",
+      "price_now": 29.74,
+      "last_updated": "2026-04-09T17:32:41.342184",
       "source": "google_finance"
     },
     "UNIP3": {
       "ticker": "UNIP3",
-      "price_now": 61.0,
-      "last_updated": "2026-04-06T18:57:43.666976",
+      "price_now": 61.22,
+      "last_updated": "2026-04-09T17:31:10.632392",
       "source": "google_finance"
     },
     "UNIP5": {
@@ -2415,8 +2415,8 @@
     },
     "UNIP6": {
       "ticker": "UNIP6",
-      "price_now": 62.14,
-      "last_updated": "2026-04-06T18:57:45.003271",
+      "price_now": 65.56,
+      "last_updated": "2026-04-09T17:31:11.978014",
       "source": "google_finance"
     },
     "USIM3": {
@@ -2439,32 +2439,32 @@
     },
     "VALE3": {
       "ticker": "VALE3",
-      "price_now": 83.09,
-      "last_updated": "2026-04-06T19:00:01.190510",
+      "price_now": 84.69,
+      "last_updated": "2026-04-09T17:33:22.528269",
       "source": "google_finance"
     },
     "VAMO3": {
       "ticker": "VAMO3",
-      "price_now": 3.58,
-      "last_updated": "2026-04-06T18:59:38.086104",
+      "price_now": 4.0,
+      "last_updated": "2026-04-09T17:33:00.202384",
       "source": "google_finance"
     },
     "VBBR3": {
       "ticker": "VBBR3",
-      "price_now": 31.29,
-      "last_updated": "2026-04-06T19:00:16.582614",
+      "price_now": 33.0,
+      "last_updated": "2026-04-09T17:33:36.647935",
       "source": "google_finance"
     },
     "VITT3": {
       "ticker": "VITT3",
       "price_now": 4.28,
-      "last_updated": "2026-04-06T18:58:59.915870",
+      "last_updated": "2026-04-09T17:32:25.120676",
       "source": "google_finance"
     },
     "VIVA3": {
       "ticker": "VIVA3",
-      "price_now": 26.03,
-      "last_updated": "2026-04-06T18:57:50.490908",
+      "price_now": 27.98,
+      "last_updated": "2026-04-09T17:31:20.407782",
       "source": "google_finance"
     },
     "VIVR3": {
@@ -2475,8 +2475,8 @@
     },
     "VIVT3": {
       "ticker": "VIVT3",
-      "price_now": 40.71,
-      "last_updated": "2026-04-06T18:59:16.898879",
+      "price_now": 42.75,
+      "last_updated": "2026-04-09T17:32:42.638225",
       "source": "google_finance"
     },
     "VLID3": {
@@ -2499,8 +2499,8 @@
     },
     "VULC3": {
       "ticker": "VULC3",
-      "price_now": 17.06,
-      "last_updated": "2026-04-06T18:57:19.857225",
+      "price_now": 17.36,
+      "last_updated": "2026-04-09T17:30:50.505561",
       "source": "google_finance"
     },
     "VVEO3": {
@@ -2517,8 +2517,8 @@
     },
     "WEGE3": {
       "ticker": "WEGE3",
-      "price_now": 50.62,
-      "last_updated": "2026-04-06T18:58:44.093638",
+      "price_now": 52.5,
+      "last_updated": "2026-04-09T17:32:08.338050",
       "source": "google_finance"
     },
     "WEST3": {
@@ -2541,8 +2541,8 @@
     },
     "WIZC3": {
       "ticker": "WIZC3",
-      "price_now": 9.2,
-      "last_updated": "2026-04-06T18:58:16.710317",
+      "price_now": 9.69,
+      "last_updated": "2026-04-09T17:31:42.682882",
       "source": "google_finance"
     },
     "WLMM3": {
@@ -2565,68 +2565,68 @@
     },
     "BTHF11": {
       "ticker": "BTHF11",
-      "price_now": 9.39,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 9.29,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "GARE11": {
       "ticker": "GARE11",
-      "price_now": 8.48,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 8.3,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "TRXF11": {
       "ticker": "TRXF11",
-      "price_now": 91.5,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 91.7,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "MXRF11": {
       "ticker": "MXRF11",
-      "price_now": 9.77,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 9.73,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "RZTR11": {
       "ticker": "RZTR11",
-      "price_now": 93.85,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 94.0,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "IRIM11": {
       "ticker": "IRIM11",
-      "price_now": 65.43,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 66.1,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "HGLG11": {
       "ticker": "HGLG11",
-      "price_now": 156.9,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 156.69,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "VGHF11": {
       "ticker": "VGHF11",
-      "price_now": 6.98,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 6.97,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "BTLG11": {
       "ticker": "BTLG11",
-      "price_now": 103.85,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 103.99,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "XPLG11": {
       "ticker": "XPLG11",
-      "price_now": 100.09,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 100.01,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     },
     "XPML11": {
       "ticker": "XPML11",
-      "price_now": 109.51,
-      "last_updated": "2026-04-06T19:05:51.024605",
+      "price_now": 110.47,
+      "last_updated": "2026-04-09T17:43:16.244168",
       "source": "google_finance"
     }
   }

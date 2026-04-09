@@ -79,10 +79,17 @@ a:hover { text-decoration: underline; }
 .toggle-vpa input { display: none; }
 
 /* ─── Sticky summary bars ──────────────────────────────────────── */
-#screeningSummary, #portfolioSummary {
+#screeningSummary {
   position: sticky;
   top: var(--header-h, 54px);
   z-index: 95;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+#portfolioStickyTop {
+  position: sticky;
+  top: var(--header-h, 54px);
+  z-index: 96;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
@@ -132,6 +139,7 @@ th.col-ticker { text-align: left; }
 td.col-zone   { text-align: left; }
 th.col-zone   { text-align: left; }
 td:first-child  { color: var(--muted); font-size: 12px; }
+
 
 /* ─── Ticker cell ──────────────────────────────────────────────── */
 .ticker-link { font-weight: 700; font-size: 13px; color: var(--text); }
@@ -727,6 +735,11 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 .radar-add-btn:hover { background:rgba(88,166,255,.22); }
 .radar-table { width:100%; border-collapse:collapse; font-size:12px; }
 .radar-table th { font-size:10px; color:var(--muted); font-weight:400; padding:6px 8px; text-align:center; border-bottom:1px solid var(--border); white-space:nowrap; }
+.radar-table th.sortable { cursor:pointer; user-select:none; }
+.radar-table th.sortable:hover { color:var(--text); }
+.radar-table th.sort-active { color:var(--text); }
+.sort-arrow { margin-left:3px; opacity:.35; font-size:9px; }
+.radar-table th.sort-active .sort-arrow { opacity:1; color:var(--blue); }
 .radar-table td { padding:7px 8px; border-bottom:1px solid rgba(255,255,255,.04); white-space:nowrap; text-align:center; }
 .radar-table tr:hover td { background:rgba(255,255,255,.03); }
 .radar-cell-wrap { display:inline-flex; align-items:center; justify-content:center; width:140px; gap:4px; }
@@ -757,7 +770,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 .bell-btn { background:none; border:1px solid var(--border); border-radius:50%; width:30px; height:30px; cursor:pointer; color:var(--muted); font-size:15px; display:flex; align-items:center; justify-content:center; transition:color .15s,border-color .15s; position:relative; padding:0; }
 .bell-btn:hover { color:var(--text); border-color:var(--muted); }
 .bell-btn.has-alerts { color:var(--yellow); border-color:var(--yellow); }
-.bell-badge { position:absolute; top:-4px; right:-4px; background:var(--red); color:#fff; font-size:9px; font-weight:700; border-radius:10px; padding:1px 4px; line-height:1.4; pointer-events:none; display:none; }
+.bell-badge { position:absolute; top:-4px; right:-4px; background:var(--red); color:#fff; font-size:13px; font-weight:700; border-radius:10px; padding:1px 5px; line-height:1.4; pointer-events:none; display:none; }
 .bell-panel { position:absolute; top:calc(100% + 8px); right:0; width:300px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:0 8px 28px rgba(0,0,0,.5); z-index:150; display:none; }
 .bell-panel.open { display:block; }
 .bell-panel-header { padding:8px 12px; font-size:11px; font-weight:600; color:var(--muted); border-bottom:1px solid var(--border); text-transform:uppercase; letter-spacing:.5px; }
@@ -856,12 +869,15 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 
 <!-- ═══════════════════════ CARTEIRA ═════════════════════════════ -->
 <div id="portfolioView" style="display:none;position:relative">
-  <div id="portfolioTabBar" style="display:none;flex-direction:column;gap:6px;margin:10px 12px 0">
-    <div style="display:flex;align-items:center;gap:6px">
-      <button class="tab-btn ptab-btn active" data-ptab="acoes" data-sub="1">Ações</button>
-      <button class="tab-btn ptab-btn" data-ptab="fiis" data-sub="1">FIIs</button>
+  <div id="portfolioStickyTop">
+    <div id="portfolioTabBar" style="display:none;flex-direction:column;gap:6px;margin:10px 12px 0">
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="tab-btn ptab-btn active" data-ptab="acoes" data-sub="1">Ações</button>
+        <button class="tab-btn ptab-btn" data-ptab="fiis" data-sub="1">FIIs</button>
+      </div>
+      <span id="portfolioHeaderMeta" style="font-size:11px;color:var(--muted)"></span>
     </div>
-    <span id="portfolioHeaderMeta" style="font-size:11px;color:var(--muted)"></span>
+    <div id="portfolioSummary"></div>
   </div>
 
   <!-- Loading overlay -->
@@ -881,16 +897,15 @@ td:first-child  { color: var(--muted); font-size: 12px; }
     </div>
   </div>
 
-  <div id="portfolioSummary"></div>
-
   <div id="acoesSection">
-    <div class="table-wrap" style="max-height:none;overflow:visible">
+    <div class="table-wrap" id="acoesTableWrap" style="max-height:calc(100vh - var(--pt-header-top, 260px));overflow:auto">
       <table id="portfolioTable">
         <thead>
           <tr>
             <th data-ptcol="#">#</th>
             <th data-ptcol="ticker">Ativo</th>
             <th data-ptcol="qtd">Qtd</th>
+            <th data-ptcol="pt_pct" title="% do ativo frente ao patrimônio total de Ações" style="text-align:center">PT %</th>
             <th data-ptcol="preco_medio">PM (R$)</th>
             <th data-ptcol="preco_atual">Preço (R$)</th>
             <th data-ptcol="total_investido">Investido (R$)</th>
@@ -911,13 +926,14 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   </div>
 
   <div id="fiiSection" style="display:none">
-    <div class="table-wrap" style="max-height:none;overflow:visible">
+    <div class="table-wrap" id="fiiTableWrap" style="max-height:calc(100vh - var(--pt-header-top, 260px));overflow:auto">
       <table id="fiiTable">
         <thead>
           <tr>
             <th data-fiicol="#">#</th>
             <th data-fiicol="ticker">Ativo</th>
             <th data-fiicol="qtd">Qtd</th>
+            <th data-fiicol="pt_pct" title="% do ativo frente ao patrimônio total de FIIs" style="text-align:center">PT %</th>
             <th data-fiicol="preco_medio">PM (R$)</th>
             <th data-fiicol="preco_atual">Preço (R$)</th>
             <th data-fiicol="total_investido">Investido (R$)</th>
@@ -1013,8 +1029,10 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   <div style="overflow-x:auto">
     <table class="radar-table">
       <thead><tr>
-        <th>Ticker</th><th>Preço Atual</th>
-        <th>Alerta Compra (≤)</th><th>Alerta Venda (≥)</th>
+        <th id="radarTh_ticker" class="sortable" onclick="_radarSetSort('ticker')">Ticker <span class="sort-arrow">↕</span></th>
+        <th id="radarTh_price" class="sortable" onclick="_radarSetSort('price')">Preço Atual <span class="sort-arrow">↕</span></th>
+        <th id="radarTh_buy_pct" class="sortable" onclick="_radarSetSort('buy_pct')">Alerta Compra (≤) <span class="sort-arrow">↕</span></th>
+        <th id="radarTh_sell_pct" class="sortable" onclick="_radarSetSort('sell_pct')">Alerta Venda (≥) <span class="sort-arrow">↕</span></th>
         <th>Status</th><th></th>
       </tr></thead>
       <tbody id="radarTbody"></tbody>
@@ -3069,28 +3087,57 @@ function _buildFavTable(list) {
 function _buildFavSummary(list) {
   const valid = list.filter(x => x.s);
   if (!valid.length) return '';
-  const total = valid.length;
+  const total    = valid.length;
   const avgScore = valid.reduce((a,x) => a + (x.s.weighted_score||0), 0) / total;
   const avgDy    = valid.reduce((a,x) => a + (x.s.dy_real||0), 0) / total;
-  const nForte   = valid.filter(x => x.s.zone === 'COMPRA_FORTE').length;
-  const nCompra  = valid.filter(x => x.s.zone === 'COMPRA').length;
-  const nSeal    = valid.filter(x => x.s.is_buffett_seal).length;
-  const nGold    = valid.filter(x => x.s.is_gold).length;
-  const nSilver  = valid.filter(x => x.s.is_below_vpa_target && !x.s.is_gold).length;
-  const nBronze  = valid.filter(x => x.s.is_bronze && !x.s.is_gold && !x.s.is_below_vpa_target).length;
-  const nPioForte = valid.filter(x => x.s.piotroski_score >= 7).length;
   return `
     <div class="fav-stat"><span>${total}</span> ativos</div>
     <div class="fav-stat">Score avg <span>${avgScore.toFixed(1)}%</span></div>
     <div class="fav-stat">DY avg <span>${avgDy.toFixed(1)}%</span></div>
-    <div class="fav-stat" style="color:var(--green-s)">FORTE <span style="color:var(--green-s)">${nForte}</span></div>
-    <div class="fav-stat" style="color:var(--green)">COMPRA <span style="color:var(--green)">${nCompra}</span></div>
-    <div class="fav-stat">F≥7 <span>${nPioForte}</span></div>
-    <div class="fav-stat"><span style="color:#f5c518">★</span> Seal <span>${nSeal}</span></div>
-    ${nGold   ? `<div class="fav-stat">🥇 <span>${nGold}</span></div>`   : ''}
-    ${nSilver ? `<div class="fav-stat">🥈 <span>${nSilver}</span></div>` : ''}
-    ${nBronze ? `<div class="fav-stat">🥉 <span>${nBronze}</span></div>` : ''}
   `;
+}
+
+// ─── Favoritos: atualiza contagens nos botões de filtro ───────────────
+function _updateFavBtnCounts(allList) {
+  const valid = allList.filter(x => x.s);
+  const c = n => n > 0 ? ` <span style="font-size:10px;opacity:.65;font-weight:400">${n}</span>` : '';
+
+  const zona = {
+    todos:        valid.length,
+    COMPRA_FORTE: valid.filter(x => x.s.zone === 'COMPRA_FORTE').length,
+    COMPRA:       valid.filter(x => x.s.zone === 'COMPRA').length,
+    MONITORAR:    valid.filter(x => x.s.zone === 'MONITORAR').length,
+    CARO:         valid.filter(x => x.s.zone === 'CARO').length,
+  };
+  const qual = {
+    piotroski: valid.filter(x => (x.s.piotroski_score||0) >= 7).length,
+    moat:      valid.filter(x => (x.s.buffett_moat_score||0) >= 7).length,
+    seal:      valid.filter(x => x.s.is_buffett_seal).length,
+    gold:      valid.filter(x => x.s.is_gold).length,
+    silver:    valid.filter(x => x.s.is_below_vpa_target && !x.s.is_gold).length,
+    bronze:    valid.filter(x => x.s.is_bronze).length,
+    barsi_dy:  valid.filter(x => (x.s.dy_real||0) >= 6).length,
+  };
+
+  [['todos','Todos'], ['COMPRA_FORTE','FORTE'], ['COMPRA','COMPRA'], ['MONITORAR','AGUARDAR'], ['CARO','CARO']]
+    .forEach(([z, label]) => {
+      const btn = document.querySelector(`[data-fav-zona="${z}"]`);
+      if (btn) btn.innerHTML = label + c(zona[z]);
+    });
+
+  const qualLabels = {
+    piotroski: 'F≥7',
+    moat:      'Moat≥7',
+    seal:      '<span style="color:#f5c518">★</span> Seal',
+    gold:      '🥇',
+    silver:    '🥈',
+    bronze:    '🥉',
+    barsi_dy:  'DY≥6%',
+  };
+  Object.entries(qualLabels).forEach(([q, label]) => {
+    const btn = document.querySelector(`[data-fav-qual="${q}"]`);
+    if (btn) btn.innerHTML = label + c(qual[q]);
+  });
 }
 
 // ─── Favoritos: painel Barsi ─────────────────────────────────────────
@@ -3208,6 +3255,7 @@ function renderFavoritos() {
   const allList = favs.map(t => ({ ticker: t, s: allData.find(d => d.ticker === t)||null }));
   sumBar.innerHTML = _buildFavSummary(allList);
   sumBar.style.display = allList.filter(x=>x.s).length ? 'flex' : 'none';
+  _updateFavBtnCounts(allList);
 
   // Painel Barsi
   barsiPanel.style.display = '';
@@ -3231,6 +3279,7 @@ let _radarCache       = { items: [], dismissed: [] };
 let _radarAlertsCache = [];
 let _radarPricesCache = {};
 let _radarFilter      = 'todos';
+let _radarSort        = { col: 'buy_pct', dir: 'asc' };
 let _bellOpen         = false;
 
 async function loadRadarFromServer() {
@@ -3321,11 +3370,60 @@ document.addEventListener('click', e => {
   }
 });
 
+function _radarSetSort(col) {
+  if (_radarSort.col === col) {
+    _radarSort.dir = _radarSort.dir === 'asc' ? 'desc' : 'asc';
+  } else {
+    _radarSort.col = col;
+    _radarSort.dir = 'asc';
+  }
+  renderRadarView();
+}
+
 function renderRadarView() {
   let items = _radarCache.items;
   if (_radarFilter !== 'todos') {
     items = items.filter(item => _radarStatus(item).label === _radarFilter);
   }
+
+  // Sort
+  const _getPrice = item => {
+    const s = allData.find(d => d.ticker === item.ticker);
+    return (s && s.price_now != null) ? s.price_now : (_radarPricesCache[item.ticker] ?? null);
+  };
+  items = [...items].sort((a, b) => {
+    let va, vb;
+    const pa = _getPrice(a), pb = _getPrice(b);
+    switch (_radarSort.col) {
+      case 'ticker': va = a.ticker; vb = b.ticker; break;
+      case 'price':
+        va = pa ?? ((_radarSort.dir === 'asc') ? Infinity : -Infinity);
+        vb = pb ?? ((_radarSort.dir === 'asc') ? Infinity : -Infinity);
+        break;
+      case 'buy_pct':
+        va = (a.price_buy != null && pa != null) ? (pa - a.price_buy) / a.price_buy * 100 : Infinity;
+        vb = (b.price_buy != null && pb != null) ? (pb - b.price_buy) / b.price_buy * 100 : Infinity;
+        break;
+      case 'sell_pct':
+        va = (a.price_sell != null && pa != null) ? (a.price_sell - pa) / pa * 100 : Infinity;
+        vb = (b.price_sell != null && pb != null) ? (b.price_sell - pb) / pb * 100 : Infinity;
+        break;
+      default: return 0;
+    }
+    if (va < vb) return _radarSort.dir === 'asc' ? -1 : 1;
+    if (va > vb) return _radarSort.dir === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  // Update header arrows
+  ['ticker','price','buy_pct','sell_pct'].forEach(col => {
+    const th = document.getElementById('radarTh_' + col);
+    if (!th) return;
+    th.classList.toggle('sort-active', _radarSort.col === col);
+    const arrow = th.querySelector('.sort-arrow');
+    if (arrow) arrow.textContent = (_radarSort.col === col) ? (_radarSort.dir === 'asc' ? '↑' : '↓') : '↕';
+  });
+
   const tbody = document.getElementById('radarTbody');
   const empty = document.getElementById('radarEmpty');
   if (!items.length) { tbody.innerHTML = ''; empty.style.display = ''; return; }
@@ -3399,7 +3497,7 @@ function _bellUpdateBadge() {
   document.getElementById('bellBtn').classList.toggle('has-alerts', n > 0);
   const badge = document.getElementById('bellBadge');
   badge.textContent   = n > 0 ? String(Math.min(n, 99)) + (n > 99 ? '+' : '') : '';
-  badge.style.display = n > 0 ? '' : 'none';
+  badge.style.display = n > 0 ? 'inline-block' : 'none';
 }
 
 function _bellToggle() {
@@ -3535,6 +3633,15 @@ async function loadPortfolio() {
     renderPortfolioSummary(_acoesSummary);
     renderPortfolioTable();
     renderFiiTable();
+    // Calcula altura total acima da tabela para max-height do table-wrap
+    requestAnimationFrame(() => {
+      const header    = document.querySelector('.header');
+      const stickyTop = document.getElementById('portfolioStickyTop');
+      if (header && stickyTop) {
+        const total = header.offsetHeight + stickyTop.offsetHeight;
+        document.documentElement.style.setProperty('--pt-header-top', total + 'px');
+      }
+    });
   });
 }
 
@@ -3596,13 +3703,15 @@ document.querySelectorAll('#portfolioTable thead th').forEach(th => {
 });
 
 function renderPortfolioTable() {
+  const _ptTotal = _acoesSummary.total_atual || 0;
   let data = [...portfolioData];
   data.sort((a, b) => {
     if (ptSortCol === 'zone') {
       const diff = _zoneRank(a) - _zoneRank(b);
       return ptSortDir === 'asc' ? diff : -diff;
     }
-    let va = a[ptSortCol], vb = b[ptSortCol];
+    let va = ptSortCol === 'pt_pct' ? (_ptTotal > 0 && a.valor_atual != null ? a.valor_atual / _ptTotal : null) : a[ptSortCol];
+    let vb = ptSortCol === 'pt_pct' ? (_ptTotal > 0 && b.valor_atual != null ? b.valor_atual / _ptTotal : null) : b[ptSortCol];
     if (va == null) va = ptSortDir === 'asc' ?  Infinity : -Infinity;
     if (vb == null) vb = ptSortDir === 'asc' ?  Infinity : -Infinity;
     if (typeof va === 'string') va = va.toLowerCase();
@@ -3635,6 +3744,7 @@ function renderPortfolioTable() {
       <td>${i + 1}</td>
       <td><span class="ticker-link">${p.ticker}</span></td>
       <td>${p.qtd}</td>
+      <td style="text-align:center;color:#fff">${_ptTotal > 0 && p.valor_atual != null ? (p.valor_atual / _ptTotal * 100).toFixed(1) + '%' : nd()}</td>
       <td>${fmtBRLv(p.preco_medio)}</td>
       <td>${fmtBRLv(p.preco_atual)}</td>
       <td>${fmtBRLv(p.total_investido)}</td>
@@ -3724,9 +3834,11 @@ document.querySelectorAll('#fiiTable thead th').forEach(th => {
 });
 
 function renderFiiTable() {
+  const _fiiTotal = _fiisSummary.total_atual || 0;
   let data = [...fiiData];
   data.sort((a, b) => {
-    let va = a[fiiSortCol], vb = b[fiiSortCol];
+    let va = fiiSortCol === 'pt_pct' ? (_fiiTotal > 0 && a.valor_atual != null ? a.valor_atual / _fiiTotal : null) : a[fiiSortCol];
+    let vb = fiiSortCol === 'pt_pct' ? (_fiiTotal > 0 && b.valor_atual != null ? b.valor_atual / _fiiTotal : null) : b[fiiSortCol];
     if (va == null) va = fiiSortDir === 'asc' ?  Infinity : -Infinity;
     if (vb == null) vb = fiiSortDir === 'asc' ?  Infinity : -Infinity;
     if (typeof va === 'string') va = va.toLowerCase();
@@ -3745,6 +3857,7 @@ function renderFiiTable() {
       <td>${i + 1}</td>
       <td>${f.ticker}</td>
       <td>${f.qtd}</td>
+      <td style="text-align:center;color:#fff">${_fiiTotal > 0 && f.valor_atual != null ? (f.valor_atual / _fiiTotal * 100).toFixed(1) + '%' : nd()}</td>
       <td>${fmtBRLv(f.preco_medio)}</td>
       <td>${fmtBRLv(f.preco_atual)}</td>
       <td>${fmtBRLv(f.total_investido)}</td>

@@ -82,6 +82,17 @@ def _is_best(sector_info: dict) -> bool:
     return False
 
 
+def _calc_zone(price_now: float, target_6: float, target_8: float, target_5: float) -> str:
+    """Recalcula a zona com o preço atual — desacoplado do valuation_calculator."""
+    if target_8 and price_now <= target_8:
+        return "COMPRA_FORTE"
+    if target_6 and price_now <= target_6:
+        return "COMPRA"
+    if target_5 and price_now <= target_5:
+        return "MONITORAR"
+    return "CARO"
+
+
 def _safe_float(value, default=None) -> Optional[float]:
     try:
         return float(value)
@@ -195,7 +206,7 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict, 
         "buffett_moat_score":   buffett_moat.get("score"),
         "buffett_moat_label":   buffett_moat.get("label"),
         "fcf_lucro_ratio":      (buffett_moat.get("cashflow_values") or {}).get("fcf_lucro_ratio"),
-        "zone":                 valuation.get("zone"),
+        "zone":                 _calc_zone(price_now, target_6 or 0, target_8 or 0, target_5 or 0),
         "dy_real":              dy_real,
         "avg_dividends_5y":     avg_div,
         "payout":               valuation.get("payout"),
