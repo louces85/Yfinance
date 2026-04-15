@@ -97,12 +97,6 @@
       "ticker": "FLRY3"
     },
     {
-      "added_at": "2026-04-06T19:18:06.799Z",
-      "price_buy": null,
-      "price_sell": 2.5,
-      "ticker": "QUAL3"
-    },
-    {
       "added_at": "2026-04-06T19:26:39.840Z",
       "price_buy": null,
       "price_sell": 6.58,
@@ -121,12 +115,12 @@
       "ticker": "TGMA3"
     },
     {
-      "ticker": "AZZA3",
+      "added_at": "2026-04-07T12:56:22.462Z",
       "price_buy": 22.59,
       "price_sell": null,
-      "added_at": "2026-04-07T12:56:22.462Z"
+      "ticker": "AZZA3"
     }
   ],
   "dismissed": [],
-  "last_updated": "2026-04-07T14:06:33.715468"
+  "last_updated": "2026-04-10T15:23:35.296538"
 }

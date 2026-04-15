@@ -12,7 +12,7 @@
   --bg:        #0d1117;
   --surface:   #161b22;
   --surface2:  #21262d;
-  --border:    #30363d;
+  --border:    #30363d;                                                                                                                                                                                                                                       
   --text:      #e6edf3;
   --muted:     #8b949e;
   --green-s:   #39d353;
@@ -858,7 +858,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
       <th data-col="piotroski_score" class="col-zone">Saúde</th>
       <th data-col="fcf_lucro_ratio" title="FCF/Lucro — qualidade do lucro (Buffett). ≥ 80% = verde" style="text-align:left">FCF/L</th>
       <th data-col="accumulation_score">Acum. 6m (%)</th>
-      <th data-col="accumulation_recent_days">Acum. 5d (%)</th>
+      <th data-col="accumulation_30d_days">Acum. 30d (%)</th>
       <th data-col="zone" class="col-zone">Sinal</th>
     </tr>
   </thead>
@@ -1272,7 +1272,7 @@ function renderTable() {
         ${s.fcf_lucro_ratio == null ? nd() : s.fcf_lucro_ratio >= 0.80 ? '<span style="color:var(--green-s);font-size:20px;font-weight:700">✓</span>' : '❌'}
       </td>
       <td style="color:${accColor(s.accumulation_score)};font-weight:600">${s.accumulation_score != null ? s.accumulation_score.toFixed(1) : nd()}</td>
-      <td style="color:${accRecentColor(s.accumulation_recent_days, s.accumulation_recent_total)};font-weight:600">${s.accumulation_recent_days != null && s.accumulation_recent_total > 0 ? (s.accumulation_recent_days / s.accumulation_recent_total * 100).toFixed(1) : nd()}</td>
+      <td style="color:${accRecentColor(s.accumulation_30d_days, s.accumulation_30d_total)};font-weight:600">${s.accumulation_30d_days != null && s.accumulation_30d_total > 0 ? (s.accumulation_30d_days / s.accumulation_30d_total * 100).toFixed(1) : nd()}</td>
       <td class="col-zone"><span class="badge badge-${s.zone}">${zoneLbl(s.zone)}</span></td>
     </tr>`;
   }).join('');
@@ -1961,8 +1961,8 @@ function _rptTipOut(btn) {
 }
 
 function renderPriceCards(dec, val) {
-  const acum5pct = (dec.accumulation_recent_days != null && dec.accumulation_recent_total > 0)
-    ? dec.accumulation_recent_days / dec.accumulation_recent_total * 100 : null;
+  const acum30pct = (dec.accumulation_30d_days != null && dec.accumulation_30d_total > 0)
+    ? dec.accumulation_30d_days / dec.accumulation_30d_total * 100 : null;
   const cards = [
     { label: 'Preço Atual',
       value: fmtR(dec.price_now),
@@ -2018,11 +2018,11 @@ function renderPriceCards(dec, val) {
       sub: 'Barsi · pressão compradora',
       cls: dec.accumulation_score >= 60 ? 'pc-green' : dec.accumulation_score >= 40 ? 'pc-yellow' : '',
       tip: 'Score de acumulação silenciosa Barsi nos últimos 6 meses.\n% de pregões em que o preço E o volume ficaram abaixo de suas médias móveis — padrão que indica compra institucional discreta.\nReferência: ≥ 50% é sinal relevante.' },
-    { label: 'Acumulação 5d',
-      value: acum5pct != null ? acum5pct.toFixed(1) + '%' : '—',
-      sub: 'pressão recente',
-      cls: acum5pct != null && acum5pct >= 60 ? 'pc-green' : acum5pct != null && acum5pct >= 40 ? 'pc-yellow' : '',
-      tip: 'Score de acumulação silenciosa nos últimos 5 pregões.\nMesmo critério Barsi aplicado na janela mais curta — identifica pressão compradora recente.' },
+    { label: 'Acumulação 30d',
+      value: acum30pct != null ? acum30pct.toFixed(1) + '%' : '—',
+      sub: 'pressão de médio prazo',
+      cls: acum30pct != null && acum30pct >= 60 ? 'pc-green' : acum30pct != null && acum30pct >= 40 ? 'pc-yellow' : '',
+      tip: 'Score de acumulação silenciosa nos últimos ~21 pregões (1 mês).\nMesmo critério Barsi — identifica pressão compradora de médio prazo.' },
   ];
   document.getElementById('priceCards').innerHTML = cards.map(c =>
     `<div class="price-card" ${c.tip ? `data-tip="${c.tip.replace(/"/g, '&quot;').replace(/\n/g, '&#10;')}"` : ''}>

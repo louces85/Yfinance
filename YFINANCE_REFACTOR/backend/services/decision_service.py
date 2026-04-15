@@ -100,31 +100,24 @@ def _safe_float(value, default=None) -> Optional[float]:
         return default
 
 
-def _calc_accumulation_recent(ticker: str, close_avg: float, volume_avg: float) -> dict:
+def _calc_accumulation_30d(ticker: str, close_avg: float, volume_avg: float) -> dict:
     """
-    Busca os últimos 5 pregões via yfinance (period='5d') e conta quantos dias
+    Busca ~21 pregões via yfinance (period='1mo') e conta quantos dias
     tiveram preço de fechamento E volume ambos abaixo da média dos 6 meses.
-
-    Filtra dias com volume == 0 para evitar o bug do Yahoo Finance que zera o
-    volume do dia corrente quando consultado fora do horário do pregão.
-
-    Retorna:
-      accumulation_recent_days  — int: dias com sinal de acumulação (ex: 3)
-      accumulation_recent_total — int: total de pregões válidos no período (ex: 5)
+    Mesmo critério Barsi, janela de ~30 dias corridos.
     """
-    empty = {"accumulation_recent_days": None, "accumulation_recent_total": None}
+    empty = {"accumulation_30d_days": None, "accumulation_30d_total": None}
     if not close_avg or not volume_avg:
         return empty
     try:
-        df = yfinance.Ticker(f"{ticker}.SA").history(period="5d")
-        # Remove dias sem negociação (bug Yahoo: volume zerado fora do pregão)
+        df = yfinance.Ticker(f"{ticker}.SA").history(period="1mo")
         df = df[df["Volume"] > 0].dropna(subset=["Close", "Volume"])
         if df.empty:
             return empty
-        cond  = (df["Close"] < close_avg) & (df["Volume"] < volume_avg)
+        cond = (df["Close"] < close_avg) & (df["Volume"] < volume_avg)
         return {
-            "accumulation_recent_days":  int(cond.sum()),
-            "accumulation_recent_total": len(df),
+            "accumulation_30d_days":  int(cond.sum()),
+            "accumulation_30d_total": len(df),
         }
     except Exception:
         return empty
@@ -152,10 +145,10 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict, 
     # Score de acumulação silenciosa histórico (6 meses, calculado no history_fetcher)
     accumulation_score = _safe_float(history.get("accumulation_score"))
 
-    # Acumulação recente (última semana): consulta 5d ao yfinance com médias do histórico
+    # Acumulação 30d: consulta 1mo ao yfinance com médias do histórico
     close_avg_6m  = _safe_float(history.get("close_avg_6m"))
     volume_avg_6m = _safe_float(history.get("volume_avg_6m"))
-    recent = _calc_accumulation_recent(ticker, close_avg_6m, volume_avg_6m)
+    recent_30d = _calc_accumulation_30d(ticker, close_avg_6m, volume_avg_6m)
 
     # is_below_vpa_target: abaixo do VPA e do target de 6% simultaneamente
     vpa = _safe_float(valuation.get("indicators", {}).get("vpa"))
@@ -213,8 +206,8 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict, 
         "payout_fcf":           valuation.get("payout_fcf"),
         "payout_divergencia":   valuation.get("payout_divergencia"),
         "accumulation_score":        accumulation_score,
-        "accumulation_recent_days":  recent["accumulation_recent_days"],
-        "accumulation_recent_total": recent["accumulation_recent_total"],
+        "accumulation_30d_days":     recent_30d["accumulation_30d_days"],
+        "accumulation_30d_total":    recent_30d["accumulation_30d_total"],
         "sector":               sector_info.get("setor", "-"),
         "segmento":             sector_info.get("segmento", "-"),
         "is_best":              _is_best(sector_info),
