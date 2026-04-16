@@ -44,6 +44,15 @@ a:hover { text-decoration: underline; }
 .header-meta  { color: var(--muted); font-size: 11px; margin-left: auto; display: grid; grid-template-columns: auto auto; column-gap: 6px; row-gap: 2px; justify-items: start; }
 .header-meta .meta-label { color: var(--muted); white-space: nowrap; }
 .header-meta .meta-val   { color: var(--muted); white-space: nowrap; }
+/* ─── Market bar ───────────────────────────────────────────────── */
+.mkt-bar { display: flex; align-items: center; gap: 14px; margin-left: 18px; }
+.mkt-item { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+.mkt-label { font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: .6px; text-transform: uppercase; line-height: 1; }
+.mkt-val   { font-size: 11px; font-weight: 600; color: var(--text); line-height: 1.4; white-space: nowrap; }
+.mkt-chg   { font-size: 10px; font-weight: 500; line-height: 1; }
+.mkt-chg.pos { color: var(--green-s); }
+.mkt-chg.neg { color: var(--red); }
+.mkt-chg.neu { color: var(--muted); }
 .filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .filter-label { color: var(--muted); font-size: 11px; }
 
@@ -822,6 +831,8 @@ td:first-child  { color: var(--muted); font-size: 12px; }
     </button>
   </div>
 
+  <div class="mkt-bar" id="mktBar"></div>
+
   <div class="header-meta" id="lastUpdated">
     <span class="meta-label">Atualizado:</span><span class="meta-val" id="lastUpdatedLine">—</span>
   </div>
@@ -854,6 +865,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
       <th data-col="price_max_6m">Máx. 6m (R$)</th>
       <th data-col="p_now_p_min">Dist. Mín.</th>
       <th data-col="weighted_score">Score</th>
+      <th data-col="unified_rank" title="Ranking unificado Buffett×Barsi×Bazin (0-100). Pondera Score 30%, MOAT 20%, Saúde 20%, DY 15%, FCF/L 10%, Payout 5%. Penaliza Owner Earnings negativo e FCF negativo.">BRank</th>
       <th data-col="buffett_moat_score">MOAT</th>
       <th data-col="piotroski_score" class="col-zone">Saúde</th>
       <th data-col="fcf_lucro_ratio" title="FCF/Lucro — qualidade do lucro (Buffett). ≥ 80% = verde" style="text-align:left">FCF/L</th>
@@ -914,6 +926,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
             <th data-ptcol="retorno_pct">Retorno (%)</th>
             <th data-ptcol="dy_on_cost">DY s/PM (%)</th>
             <th data-ptcol="weighted_score">Score</th>
+            <th data-ptcol="unified_rank" title="Ranking unificado Buffett×Barsi×Bazin (0-100). Pondera Score 30%, MOAT 20%, Saúde 20%, DY 15%, FCF/L 10%, Payout 5%. Penaliza Owner Earnings negativo e FCF negativo." style="text-align:center">BRank</th>
             <th data-ptcol="buffett_moat_score">MOAT</th>
             <th data-ptcol="piotroski_score" class="col-zone">Saúde</th>
             <th data-ptcol="fcf_lucro_ratio" title="FCF/Lucro — qualidade do lucro (Buffett). ≥ 80% = verde" style="text-align:left">FCF/L</th>
@@ -1262,6 +1275,9 @@ function renderTable() {
       <td style="text-align:center" title="${s.weighted_score != null ? `Score ${s.weighted_score.toFixed(1)}% · ${s.rank}/${s.rank_max} critérios` : ''}">
         ${s.weighted_score != null ? `<span class="wscore-pill wscore-${wscoreClass(s.weighted_score)}">${s.weighted_score.toFixed(1)}</span>` : nd()}
       </td>
+      <td style="text-align:center" title="${s.unified_rank != null ? `BRank ${s.unified_rank} — Score 30% · MOAT 20% · Saúde 20% · DY 15% · FCF/L 10% · Payout 5%` : 'BRank indisponível'}">
+        ${s.unified_rank != null ? `<span class="wscore-pill wscore-${wscoreClass(s.unified_rank)}">${s.unified_rank.toFixed(0)}</span>` : nd()}
+      </td>
       <td style="text-align:center" title="${s.buffett_moat_score != null ? `Buffett Moat ${s.buffett_moat_score}/10 · ${s.buffett_moat_label}` : ''}">
         ${s.buffett_moat_score != null ? `<span class="moat-pill moat-${moatClass(s.buffett_moat_label)}">${s.buffett_moat_score}/10</span>` : nd()}
       </td>
@@ -1442,8 +1458,42 @@ function _applyDecision(json) {
   document.getElementById('lastUpdatedLine').textContent = updatedStr;
 }
 
+// ─── Market bar ───────────────────────────────────────────────────
+function _renderMarketBar(mkt) {
+  const bar = document.getElementById('mktBar');
+  if (!bar || !mkt || !mkt.data) return;
+
+  const cfg = [
+    { key: 'IBOV',  label: 'IBOV',  fmt: v => v.toLocaleString('pt-BR', {maximumFractionDigits: 0}) + ' pts' },
+    { key: 'USD',   label: 'USD',   fmt: v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) },
+    { key: 'SP500', label: 'S&P',   fmt: v => v.toLocaleString('pt-BR', {maximumFractionDigits: 0}) + ' pts' },
+    { key: 'OURO',  label: 'OURO',  fmt: v => 'US$ ' + v.toLocaleString('pt-BR', {maximumFractionDigits: 0}) + '/oz' },
+  ];
+
+  bar.innerHTML = cfg.map(({ key, label, fmt }) => {
+    const d = mkt.data[key];
+    if (!d || d.price == null) return '';
+    const chg = d.change_pct;
+    const chgCls = chg == null ? 'neu' : chg > 0 ? 'pos' : chg < 0 ? 'neg' : 'neu';
+    const chgStr = chg == null ? '—' : (chg > 0 ? '+' : '') + chg.toFixed(2).replace('.', ',') + '%';
+    return `<div class="mkt-item">
+      <span class="mkt-label">${label}</span>
+      <span class="mkt-val">${fmt(d.price)}</span>
+      <span class="mkt-chg ${chgCls}">${chgStr}</span>
+    </div>`;
+  }).join('');
+}
+
+async function loadMarket() {
+  try {
+    const res = await fetch('/api/market');
+    const data = await res.json();
+    _renderMarketBar(data);
+  } catch (_) {}
+}
+
 async function loadDecision() {
-  const [res] = await Promise.all([fetch('/api/decision'), loadFavoritosFromServer(), loadRadarFromServer()]);
+  const [res] = await Promise.all([fetch('/api/decision'), loadFavoritosFromServer(), loadRadarFromServer(), loadMarket()]);
   const json = await res.json();
   _applyDecision(json);
 
@@ -1457,13 +1507,18 @@ async function loadDecision() {
 // ─── Silent auto-refresh (sem piscar) ────────────────────────────
 async function silentRefresh() {
   try {
-    const res  = await fetch('/api/decision');
+    const [res] = await Promise.all([fetch('/api/decision'), loadMarket()]);
     const json = await res.json();
     if (!json.stocks || json.last_updated === lastUpdatedTs) return; // sem mudança
 
     _applyDecision(json);
     renderScreeningSummary();
     renderTable();
+
+    // Atualiza favoritos silenciosamente (usa allData)
+    if (document.getElementById('favoritosView').style.display !== 'none') {
+      renderFavoritos();
+    }
 
     // Badge sutil: aparece e desaparece em 3s
     const el = document.getElementById('lastUpdated');
@@ -1472,6 +1527,28 @@ async function silentRefresh() {
     setTimeout(() => { el.style.opacity = '1'; }, 300);
   } catch (_) { /* falha silenciosa */ }
   _pollRadarAlerts();
+
+  // Atualiza carteira silenciosamente (API separada)
+  if (_portfolioLoaded) {
+    try {
+      const pres  = await fetch('/api/portfolio');
+      const pjson = await pres.json();
+      if (!pjson.error) {
+        portfolioData   = pjson.positions     || [];
+        fiiData         = pjson.fiis          || [];
+        _acoesSummary   = pjson.acoes_summary || {};
+        _fiisSummary    = pjson.fiis_summary  || {};
+        _portfolioTotal = pjson.summary       || {};
+        if (document.getElementById('portfolioView').style.display !== 'none') {
+          const activePtab = document.querySelector('.ptab-btn.active');
+          const ptab = activePtab ? activePtab.dataset.ptab : 'acoes';
+          renderPortfolioSummary(ptab === 'fiis' ? _fiisSummary : _acoesSummary);
+          renderPortfolioTable();
+          renderFiiTable();
+        }
+      }
+    } catch (_) { /* falha silenciosa */ }
+  }
 }
 
 // Polling a cada 5 minutos
@@ -2746,6 +2823,7 @@ function renderRadarChart(dec, ytdData) {
   const payout = dec.payout;
   const fcfRaw = dec.fcf_lucro_ratio;
   const fcfPct = fcfRaw != null ? fcfRaw * 100 : null; // converte para %
+  const brank  = dec.unified_rank;
 
   // Normaliza: ponta de cada eixo = 100 (representa o valor de referência mostrado no label)
   const nScore = score  != null ? Math.min(Math.max(score, 0), 100) : 0;
@@ -2753,11 +2831,12 @@ function renderRadarChart(dec, ytdData) {
   const nSaude = saude  != null ? Math.min(saude / 9 * 100, 100)   : 0;  // ref: 9/9
   const nDy    = dy     != null ? Math.min(Math.max(dy, 0) / 12 * 100, 100) : 0; // ref: 12%
   const nFcf   = fcfPct != null ? Math.min(Math.max(fcfPct, 0), 100) : 0; // ref: 100%
+  const nBrank = brank  != null ? Math.min(Math.max(brank, 0), 100) : 0;  // ref: 100
 
   // Payout: % do lucro distribuído como dividendos; ponta = 100%
   const nPayout = payout != null ? Math.min(Math.max(payout, 0), 100) : 0;
 
-  const values = [nScore, nMoat, nSaude, nDy, nPayout, nFcf];
+  const values = [nScore, nMoat, nSaude, nDy, nPayout, nFcf, nBrank];
 
   // Cor do polígono conforme a zona
   const zoneHex = {
@@ -2776,8 +2855,9 @@ function renderRadarChart(dec, ytdData) {
   const dyColor    = dy     == null ? '#8b949e' : dy    >= 6  ? G : dy    >= 3  ? Y : R;
   const payoutColor = payout == null ? '#8b949e' : payout <= 80 ? G : payout <= 95 ? Y : R;
   const fcfColor   = fcfPct == null ? '#8b949e' : fcfPct >= 80 ? G : fcfPct >= 50 ? Y : R;
+  const brankColor = brank  == null ? '#8b949e' : brank  >= 70 ? G : brank  >= 45 ? Y : R;
 
-  const pointColors = [scoreColor, moatColor, saudeColor, dyColor, payoutColor, fcfColor];
+  const pointColors = [scoreColor, moatColor, saudeColor, dyColor, payoutColor, fcfColor, brankColor];
 
   // Labels das pontas: linha 1 = nome do eixo, linha 2 = valor de referência (= 100%)
   const axisLabels = [
@@ -2787,16 +2867,18 @@ function renderRadarChart(dec, ytdData) {
     ['DY',          '12%'],
     ['Payout',      '100%'],
     ['FCF/L',       '100%'],
+    ['BRank',       '100'],
   ];
 
   // Valores correntes reais — exibidos no tooltip ao passar o mouse
   const currentVals = [
-    score  != null ? score.toFixed(1)+'%'                                             : '—',
-    moat   != null ? `${moat}/10`                                                     : '—',
-    saude  != null ? `${saude}/9`                                                     : '—',
-    dy     != null ? dy.toFixed(1)+'%'                                                : '—',
-    payout != null ? payout.toFixed(1)+'%' : '—',
-    fcfPct != null ? `${Math.round(fcfPct)}%`                                         : '—',
+    score  != null ? score.toFixed(1)+'%'         : '—',
+    moat   != null ? `${moat}/10`                 : '—',
+    saude  != null ? `${saude}/9`                 : '—',
+    dy     != null ? dy.toFixed(1)+'%'            : '—',
+    payout != null ? payout.toFixed(1)+'%'        : '—',
+    fcfPct != null ? `${Math.round(fcfPct)}%`     : '—',
+    brank  != null ? brank.toFixed(0)             : '—',
   ];
 
   radarChartInst = new Chart(canvas, {
@@ -3032,6 +3114,7 @@ function _buildFavCard(s, ticker) {
     <div class="fav-card-price">${price} <span class="badge badge-${s ? s.zone : ''}" style="font-size:9px;padding:1px 5px;vertical-align:middle">${zone}</span></div>
     <div class="fav-card-meta">
       <span>Score ${score}</span>
+      <span title="BRank: Ranking unificado Buffett×Barsi×Bazin (0-100)">BRank ${s && s.unified_rank != null ? s.unified_rank.toFixed(0) : '—'}</span>
       <span>DY ${dy}</span>
       <span style="color:${gainColor}">Ganho ${gain}</span>
     </div>
@@ -3066,6 +3149,7 @@ function _buildFavTable(list) {
       <td>${price}</td>
       <td><span class="badge badge-${s ? s.zone : ''}" style="font-size:9px;padding:1px 5px">${zone}</span></td>
       <td>${score}</td>
+      <td>${s && s.unified_rank != null ? `<span style="font-size:11px;font-weight:600;color:${s.unified_rank>=70?'var(--green)':s.unified_rank>=45?'var(--yellow)':'var(--red)'}">${s.unified_rank.toFixed(0)}</span>` : '—'}</td>
       <td>${dy}</td>
       <td style="color:${gainColor}">${gain}</td>
       <td>${pio}</td>
@@ -3076,7 +3160,7 @@ function _buildFavTable(list) {
   });
   return `<div style="overflow-x:auto"><table class="fav-table">
     <thead><tr>
-      <th>Ticker</th><th>Preço</th><th>Zona</th><th>Score</th><th>DY</th>
+      <th>Ticker</th><th>Preço</th><th>Zona</th><th>Score</th><th title="BRank: Ranking unificado Buffett×Barsi×Bazin (0-100)">BRank</th><th>DY</th>
       <th>Ganho</th><th>Piotroski</th><th>Moat</th><th>Setor</th><th></th>
     </tr></thead>
     <tbody>${rows.join('')}</tbody>
@@ -3744,7 +3828,7 @@ function renderPortfolioTable() {
       <td>${i + 1}</td>
       <td><span class="ticker-link">${p.ticker}</span></td>
       <td>${p.qtd}</td>
-      <td style="text-align:center;color:#fff">${_ptTotal > 0 && p.valor_atual != null ? (p.valor_atual / _ptTotal * 100).toFixed(1) + '%' : nd()}</td>
+      <td style="text-align:center;color:#fff">${_ptTotal > 0 && p.valor_atual != null ? (p.valor_atual / _ptTotal * 100).toFixed(1) : nd()}</td>
       <td>${fmtBRLv(p.preco_medio)}</td>
       <td>${fmtBRLv(p.preco_atual)}</td>
       <td>${fmtBRLv(p.total_investido)}</td>
@@ -3753,6 +3837,9 @@ function renderPortfolioTable() {
       <td class="${retCls}">${retStr}</td>
       <td>${p.dy_on_cost != null ? p.dy_on_cost.toFixed(2) : nd()}</td>
       <td style="text-align:center" title="${p.weighted_score != null ? `Score ${p.weighted_score.toFixed(1)}% · ${p.rank}/${p.rank_max} critérios` : ''}">${scoreTd}</td>
+      <td style="text-align:center" title="${p.unified_rank != null ? `BRank ${p.unified_rank.toFixed(0)} — Score 30% · MOAT 20% · Saúde 20% · DY 15% · FCF/L 10% · Payout 5%` : 'BRank indisponível'}">
+        ${p.unified_rank != null ? `<span class="wscore-pill wscore-${wscoreClass(p.unified_rank)}">${p.unified_rank.toFixed(0)}</span>` : nd()}
+      </td>
       <td style="text-align:center" title="${p.buffett_moat_score != null ? `Buffett Moat ${p.buffett_moat_score}/10 · ${p.buffett_moat_label}` : ''}">${moatTd}</td>
       <td class="col-zone" title="${p.piotroski_label ? `Piotroski ${p.piotroski_score}/9 · ${p.piotroski_label}` : ''}">${saudeTd}</td>
       <td style="text-align:left" title="FCF/Lucro ${p.fcf_lucro_ratio != null ? Math.round(p.fcf_lucro_ratio*100)+'%' : 'indisponível'} — qualidade do lucro. ≥ 80% = benchmark Buffett">
@@ -3857,15 +3944,15 @@ function renderFiiTable() {
       <td>${i + 1}</td>
       <td>${f.ticker}</td>
       <td>${f.qtd}</td>
-      <td style="text-align:center;color:#fff">${_fiiTotal > 0 && f.valor_atual != null ? (f.valor_atual / _fiiTotal * 100).toFixed(1) + '%' : nd()}</td>
+      <td style="text-align:center;color:#fff">${_fiiTotal > 0 && f.valor_atual != null ? (f.valor_atual / _fiiTotal * 100).toFixed(1) : nd()}</td>
       <td>${fmtBRLv(f.preco_medio)}</td>
       <td>${fmtBRLv(f.preco_atual)}</td>
       <td>${fmtBRLv(f.total_investido)}</td>
       <td>${fmtBRLv(f.valor_atual)}</td>
       <td class="${retCls}">${f.retorno != null ? fmtBRLv(f.retorno) : nd()}</td>
       <td class="${retCls}">${retStr}</td>
-      <td class="pos">${f.dy_real != null ? f.dy_real.toFixed(2) + '%' : nd()}</td>
-      <td class="pos">${f.dy_on_cost != null ? f.dy_on_cost.toFixed(2) + '%' : nd()}</td>
+      <td class="pos">${f.dy_real != null ? f.dy_real.toFixed(2) : nd()}</td>
+      <td class="pos">${f.dy_on_cost != null ? f.dy_on_cost.toFixed(2) : nd()}</td>
     </tr>`;
   }).join('');
 }

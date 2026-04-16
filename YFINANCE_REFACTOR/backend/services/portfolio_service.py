@@ -17,6 +17,8 @@ import yfinance as yf
 from repositories import stock_repository as repo
 from services.price_service import PriceService
 from services import valuation_calculator
+from services.decision_service import _calc_unified_rank
+import json as _json
 
 B3_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "B3")
 
@@ -71,6 +73,20 @@ def load() -> dict:
     # ── Pré-carregar dados do disco uma única vez ──────────────────
     all_valuations = repo.get_all_valuations()   # evita 25+ leituras de valuations.json
     all_prices     = repo.get_all_prices()        # evita N leituras de stock_prices.json
+
+    # Lookup de unified_rank pré-calculado (paridade exata com a tabela de screening)
+    _decision_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "data", "decision_stocks.json"
+    )
+    try:
+        with open(_decision_path, encoding="utf-8") as _f:
+            decision_rank_map: dict = {
+                s["ticker"]: s.get("unified_rank")
+                for s in _json.load(_f).get("stocks", [])
+            }
+    except Exception:
+        decision_rank_map = {}
 
     # ── Ler linhas válidas da planilha ─────────────────────────────
     rows     = []
@@ -219,6 +235,7 @@ def load() -> dict:
                 "price_target_6pct": val.get("price_target_6pct"),
                 "avg_dividends_5y":  round(avg_div, 4) if avg_div else None,
                 "recommendation":    _recommend(val),
+                "unified_rank":      decision_rank_map.get(ticker),
             }
         else:
             # Ação conhecida que falhou nos filtros obrigatórios
@@ -231,6 +248,16 @@ def load() -> dict:
                 dy_on_cost_f = round((avg_div_f / preco_medio) * 100, 2) if avg_div_f and preco_medio else None
             else:
                 dy_on_cost_f = None
+            _rank_input = {
+                "weighted_score":    (forced_val.get("weighted_score") or {}).get("score")                                           if forced_val else None,
+                "buffett_moat_score":(forced_val.get("buffett_moat") or {}).get("score")                                             if forced_val else None,
+                "piotroski_score":   (forced_val.get("piotroski") or {}).get("score")                                                if forced_val else None,
+                "fcf_lucro_ratio":   ((forced_val.get("buffett_moat") or {}).get("cashflow_values") or {}).get("fcf_lucro_ratio")    if forced_val else None,
+                "dy_real":           forced_val.get("dy_real")  if forced_val else None,
+                "payout":            forced_val.get("payout")   if forced_val else None,
+                # owner_earnings_positivo não disponível em valuations.json; _calc_unified_rank usa True por padrão (sem penalty)
+            }
+            forced_unified_rank = _calc_unified_rank(_rank_input) if forced_val else None
             position = {
                 "ticker":            ticker,
                 "qtd":               qtd,
@@ -256,6 +283,7 @@ def load() -> dict:
                 "price_target_6pct": forced_val.get("price_target_6pct")                        if forced_val else None,
                 "avg_dividends_5y":  round(avg_div_f, 4) if (forced_val and avg_div_f) else None,
                 "recommendation":    "FORA_CRITERIOS",
+                "unified_rank":      forced_unified_rank,
             }
 
         positions.append(position)

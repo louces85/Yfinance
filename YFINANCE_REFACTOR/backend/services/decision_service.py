@@ -175,13 +175,16 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict, 
 
     # Selo Buffett: Moat FORTE (>=7) + FCF quality ok + Owner Earnings positivo
     buffett_cf = history.get("buffett_cashflow") or {}
+    oe_positivo = buffett_cf.get("owner_earnings_positivo", False)
     is_buffett_seal = (
         buffett_moat.get("score", 0) >= 7
         and buffett_cf.get("fcf_quality_ok", False)
-        and buffett_cf.get("owner_earnings_positivo", False)
+        and oe_positivo
     )
 
-    return {
+    fcf_lucro_ratio = (buffett_moat.get("cashflow_values") or {}).get("fcf_lucro_ratio")
+
+    entry = {
         "ticker":               ticker.upper(),
         "price_now":            round(price_now, 2),
         "price_target_6pct":    target_6,
@@ -198,7 +201,7 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict, 
         "piotroski_label":      piotroski.get("label"),
         "buffett_moat_score":   buffett_moat.get("score"),
         "buffett_moat_label":   buffett_moat.get("label"),
-        "fcf_lucro_ratio":      (buffett_moat.get("cashflow_values") or {}).get("fcf_lucro_ratio"),
+        "fcf_lucro_ratio":      fcf_lucro_ratio,
         "zone":                 _calc_zone(price_now, target_6 or 0, target_8 or 0, target_5 or 0),
         "dy_real":              dy_real,
         "avg_dividends_5y":     avg_div,
@@ -216,7 +219,63 @@ def _build_entry(ticker: str, price_now: float, valuation: dict, history: dict, 
         "is_gold":              is_gold,
         "is_bronze":            is_bronze,
         "is_buffett_seal":      is_buffett_seal,
+        "owner_earnings_positivo": oe_positivo,
     }
+    entry["unified_rank"] = _calc_unified_rank(entry)
+    return entry
+
+
+def _calc_unified_rank(e: dict):
+    """
+    Ranking unificado Buffett × Barsi × Bazin (0-100).
+
+    Pesos:
+      30% weighted_score  — amplitude (21 critérios Graham/Barsi/Bazin)
+      20% buffett_moat    — qualidade/vantagem competitiva
+      20% piotroski       — saúde financeira independente
+      15% dy_real         — renda contínua (Barsi/Bazin)
+      10% fcf_lucro_ratio — qualidade do lucro (Buffett)
+       5% payout          — sustentabilidade do dividendo (Bazin)
+
+    Gates multiplicativos (não aditivos):
+      owner_earnings negativo → ×0.85
+      FCF negativo            → ×0.85
+    """
+    score_n = (e.get("weighted_score") or 0) / 100.0
+    moat_n  = (e.get("buffett_moat_score") or 0) / 10.0
+    pio_n   = (e.get("piotroski_score") or 0) / 9.0
+
+    fcf_r = e.get("fcf_lucro_ratio")
+    fcf_n = (min(max(fcf_r, 0), 1.5) / 1.5) if fcf_r is not None else 0.3
+
+    dy_n = min((e.get("dy_real") or 0) / 12.0, 1.0)
+
+    pw = e.get("payout")
+    if pw is None or pw < 0:
+        payout_n = 0.0
+    elif pw <= 60:
+        payout_n = pw / 60.0
+    elif pw <= 100:
+        payout_n = (100.0 - pw) / 40.0
+    else:
+        payout_n = 0.0
+
+    base = (
+        0.30 * score_n +
+        0.20 * moat_n  +
+        0.20 * pio_n   +
+        0.15 * dy_n    +
+        0.10 * fcf_n   +
+        0.05 * payout_n
+    )
+
+    penalty = 1.0
+    if not e.get("owner_earnings_positivo", True):
+        penalty *= 0.85
+    if fcf_r is not None and fcf_r < 0:
+        penalty *= 0.85
+
+    return round(base * penalty * 100, 1)
 
 
 def run(tickers: Optional[List[str]] = None, force: bool = False, delay: float = 0.3) -> List[dict]:
@@ -272,8 +331,8 @@ def run(tickers: Optional[List[str]] = None, force: bool = False, delay: float =
         entry = _build_entry(ticker, price_now, valuation, history, sectors)
         entries.append(entry)
 
-        rd = entry["accumulation_recent_days"]
-        rt = entry["accumulation_recent_total"]
+        rd = entry["accumulation_30d_days"]
+        rt = entry["accumulation_30d_total"]
         recent_str = f"{rd}/{rt}d" if rd is not None else "-"
         print(
             f"[{i:4d}/{total}] {ticker:<12} "

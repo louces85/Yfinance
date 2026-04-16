@@ -31,6 +31,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from repositories import stock_repository as repo
 from services import decision_service
+from services import market_service
 from services import portfolio_service
 from services import valuation_calculator
 from services.price_service import PriceService as _PriceService
@@ -70,6 +71,14 @@ def decision():
     path = os.path.join(DATA_DIR, "decision_stocks.json")
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
+    return jsonify(data)
+
+
+@app.route("/api/market")
+def market():
+    data = market_service.load()
+    if data is None:
+        data = market_service.fetch()
     return jsonify(data)
 
 
@@ -321,7 +330,7 @@ def chart(ticker):
 REFRESH_INTERVAL_HOURS = 0.5
 
 def _run_decision():
-    """Executa o decision_service e registra o horário."""
+    """Executa o decision_service e market_service e registra o horário."""
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"[scheduler] {now} — iniciando decision_service...")
     try:
@@ -329,6 +338,11 @@ def _run_decision():
         print(f"[scheduler] {now} — decision_service concluído.")
     except Exception as e:
         print(f"[scheduler] ERRO em decision_service: {e}")
+    try:
+        market_service.fetch()
+        print(f"[scheduler] {now} — market_service concluído.")
+    except Exception as e:
+        print(f"[scheduler] ERRO em market_service: {e}")
 
 
 def _scheduler_loop():
