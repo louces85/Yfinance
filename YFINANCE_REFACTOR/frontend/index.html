@@ -2560,6 +2560,14 @@ function renderBuffettMoat(moat) {
   const nAnos    = anosExib.length;
   const srcLabel = useExt ? ` — StatusInvest` : ` — yfinance`;
 
+  // Anos faltantes: entre o último ano disponível e o ano atual (exclusive)
+  const _anoAtual = new Date().getFullYear();
+  const _ultimoAno = anosExib.length > 0 ? parseInt(anosExib[anosExib.length - 1]) : _anoAtual;
+  const anosFaltantes = [];
+  for (let y = _ultimoAno + 1; y < _anoAtual; y++) anosFaltantes.push(String(y));
+  const dataDesatualizada = anosFaltantes.length > 0;
+  const naoRecorrente = tv.resultado_nao_recorrente === true;
+
   function _buildRow(rowLabel, hist, trend, fmtFn, inverted, anosRef) {
     const _anos = anosRef || anos;
     const vals  = hist ? [...hist].reverse() : [];  // mais antigo primeiro
@@ -2574,14 +2582,31 @@ function renderBuffettMoat(moat) {
     </tr>`;
   }
 
+  function _buildRowMissing(rowLabel, hist, trend, fmtFn, inverted, anosRef) {
+    const _anos = anosRef || anos;
+    const vals  = hist ? [...hist].reverse() : [];
+    const cells = _anos.map((ano, i) => {
+      const v = vals[i] != null ? fmtFn(vals[i]) : '—';
+      return `<td style="text-align:left;padding:8px 8px;font-size:13px;white-space:nowrap">${v}</td>`;
+    }).join('');
+    const missingCells = anosFaltantes.map(() =>
+      `<td style="text-align:left;padding:8px 8px;font-size:13px;white-space:nowrap;color:var(--red);font-weight:600">--%</td>`
+    ).join('');
+    return `<tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
+      <td style="padding:8px 8px;font-size:13px;white-space:nowrap;text-align:left">${rowLabel}</td>
+      ${cells}${missingCells}
+      <td style="padding:8px 8px;text-align:left;white-space:nowrap">${_trendBadge(trend, inverted)}</td>
+    </tr>`;
+  }
+
   // Tabela principal: MB/ML/ROE com anos estendidos quando disponível
   const mainTableRows = useExt
-    ? `${_buildRow('Margem Bruta',   tv.ext_margem_bruta_hist,   tv.ext_margem_bruta_trend,   _fmtPct, false, anosExib)}
-       ${_buildRow('Margem Líquida', tv.ext_margem_liquida_hist, tv.ext_margem_liquida_trend, _fmtPct, false, anosExib)}
-       ${_buildRow('ROE',            tv.ext_roe_hist,            tv.ext_roe_trend,            _fmtPct, false, anosExib)}`
-    : `${_buildRow('Margem Bruta',   tv.margem_bruta_hist,   tv.margem_bruta_trend,   _fmtPct, false)}
-       ${_buildRow('Margem Líquida', tv.margem_liquida_hist, tv.margem_liquida_trend, _fmtPct, false)}
-       ${_buildRow('ROE',            tv.roe_hist,            tv.roe_trend,            _fmtPct, false)}
+    ? `${_buildRowMissing('Margem Bruta',   tv.ext_margem_bruta_hist,   tv.ext_margem_bruta_trend,   _fmtPct, false, anosExib)}
+       ${_buildRowMissing('Margem Líquida', tv.ext_margem_liquida_hist, tv.ext_margem_liquida_trend, _fmtPct, false, anosExib)}
+       ${_buildRowMissing('ROE',            tv.ext_roe_hist,            tv.ext_roe_trend,            _fmtPct, false, anosExib)}`
+    : `${_buildRowMissing('Margem Bruta',   tv.margem_bruta_hist,   tv.margem_bruta_trend,   _fmtPct, false)}
+       ${_buildRowMissing('Margem Líquida', tv.margem_liquida_hist, tv.margem_liquida_trend, _fmtPct, false)}
+       ${_buildRowMissing('ROE',            tv.roe_hist,            tv.roe_trend,            _fmtPct, false)}
        ${_buildRow('FCF',            tv.fcf_hist,            tv.fcf_trend,            _fmtVal, false)}
        ${_buildRow('Dívida Líq.',    tv.divida_liq_hist,     tv.divida_trend,         _fmtVal, true)}
        ${_buildRow('CapEx/Receita',  tv.capex_receita_hist,  tv.capex_receita_trend,  _fmtPct, true)}
@@ -2611,15 +2636,30 @@ function renderBuffettMoat(moat) {
       <div style="font-size:9px;color:var(--muted);margin-top:4px;padding:0 12px">Dívida, CapEx/Receita e SG&A/Receita: ↓ CAINDO = positivo</div>
     </div>` : '';
 
+  const _desatualizadoBadge = dataDesatualizada
+    ? `<div style="margin:0 12px 8px;padding:5px 8px;background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.4);border-radius:6px;font-size:11px;color:var(--red);display:flex;align-items:center;gap:6px">
+        <span style="font-size:13px">⚠</span>
+        <span>Dados desatualizados: faltam ${anosFaltantes.join(', ')} — atualize via <code>financials_fetcher.py</code> + <code>valuation_calculator.py</code></span>
+       </div>`
+    : '';
+  const _nrBadge = naoRecorrente
+    ? `<div style="margin:0 12px 8px;padding:5px 8px;background:rgba(210,153,34,.1);border:1px solid rgba(210,153,34,.4);border-radius:6px;font-size:11px;color:var(--yellow);display:flex;align-items:center;gap:6px">
+        <span style="font-size:13px">⚠</span>
+        <span><strong>Possível resultado não recorrente:</strong> margem líquida do último ano é ≥ 1,8× a média dos 4 anos anteriores com receita estagnada. Verifique eventos tributários ou extraordinários antes de usar os scores.</span>
+       </div>`
+    : '';
+
   const trendsSection = trAvail ? `
     <div style="border-top:1px solid var(--border);padding:10px 0 8px;margin-top:4px">
       <div style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.5px;margin-bottom:8px;padding:0 12px">TENDÊNCIAS HISTÓRICAS (${nAnos} ANOS${srcLabel})</div>
+      ${_desatualizadoBadge}${_nrBadge}
       <div style="overflow-x:auto">
       <table style="width:100%;border-collapse:collapse;min-width:420px;text-align:left">
         <thead>
           <tr style="border-bottom:1px solid var(--border)">
             <th style="font-size:11px;color:var(--muted);font-weight:400;text-align:left;padding:5px 8px;white-space:nowrap">Indicador</th>
             ${anosExib.map(a => `<th style="font-size:11px;color:var(--muted);font-weight:400;text-align:left;padding:5px 8px;white-space:nowrap">${a}</th>`).join('')}
+            ${anosFaltantes.map(a => `<th style="font-size:11px;color:var(--red);font-weight:600;text-align:left;padding:5px 8px;white-space:nowrap">${a}</th>`).join('')}
             <th style="font-size:11px;color:var(--muted);font-weight:400;padding:5px 8px"></th>
           </tr>
         </thead>

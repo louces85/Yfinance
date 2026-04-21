@@ -350,6 +350,62 @@ unified_rank = round(BRank_base * penalty * 100, 1)
 
 ---
 
+### 7.11 Detector de Resultado Não Recorrente
+
+**Campo JSON:** `resultado_nao_recorrente` (bool) em `buffett_moat.trends_values`
+**Implementação:** `valuation_calculator.py` → `_calc_buffett_moat_score()`, após construir `_ext_ml_hist`
+
+#### Problema que resolve
+
+Eventos tributários ou judiciais irrepetíveis (créditos da Lei do Bem, recuperação de DIFAL, IR diferido) inflam o lucro líquido de um único ano, distorcendo todos os scores derivados:
+- Piotroski P3 (`lucro_crescendo`) e P7 (`margens_expandindo`) disparam `True` incorretamente
+- Buffett Moat: `moat_ml_trend = CRESCENDO` e `moat_roe_trend = CRESCENDO` por spike de ML/ROE
+- BRank: sobe por melhora ilusória de margens e rentabilidade
+
+**Exemplo real — ALLD3 2025:**
+- ML 2025: 6,04% (inclui R$389M em crédito Lei do Bem + DIFAL = 117% do LL)
+- ML média 2021–2024: 2,81%
+- Ratio: 6,04 / 2,81 = **2,2× → acima do limiar 1,8×**
+- Receita 2025: −0,3% → **abaixo de 10%**
+- Resultado: `resultado_nao_recorrente = True`
+
+#### Fórmula
+
+```python
+# Requer ext_ml_hist com pelo menos 5 anos
+ml_ultimo      = ext_ml_hist[0]          # ML do ano mais recente
+prev_valid     = [v for v in ext_ml_hist[1:5] if v is not None]  # até 4 anos anteriores
+ml_media_prev  = sum(prev_valid) / len(prev_valid)   # exige >= 3 anos válidos
+
+rec_ultimo     = dre["receita_liquida"][ext_anos[0]]
+rec_anterior   = dre["receita_liquida"][ext_anos[1]]
+rec_growth     = (rec_ultimo / rec_anterior) - 1     # crescimento YoY
+
+resultado_nao_recorrente = (
+    ml_media_prev > 0
+    and (ml_ultimo / ml_media_prev) >= 1.8   # ML spike: >= 1.8× média anterior
+    and (rec_growth is None or rec_growth < 0.10)  # receita flat (<10%)
+)
+```
+
+#### Limiares
+
+| Parâmetro | Valor | Justificativa |
+|-----------|-------|--------------|
+| Ratio ML mínimo para spike | **1,8×** | Captura spikes como ALLD3 2025 (2,2×) e 2021 (2,5×) sem gerar falsos positivos em turnarounds genuínos |
+| Receita máxima aceita | **10%** | Turnaround real geralmente vem acompanhado de crescimento de receita |
+| Anos anteriores mínimos | **3** (de 4 buscados) | Evita falso positivo quando há poucos anos históricos |
+
+#### Comportamento quando ativado
+
+O flag é **apenas informacional** — não altera scores diretamente. O impacto é na **UI** (ver `brain_frontend.md`):
+- Badge amarelo ⚠ no modal de tendências históricas
+- Alerta ao usuário para investigar notas explicativas antes de usar os scores
+
+> **Nota:** O flag detecta o *sintoma* (spike de ML com receita flat), não a causa. Pode ativar em turnarounds legítimos de margens sem crescimento de receita. Sempre validar contra as notas dos demonstrativos financeiros.
+
+---
+
 ### 7.10 DCF — Valor Intrínseco (VI)
 
 **Implementação:** `valuation_calculator.py` → `_calc_dcf(price_now, p_l, cagr_lucro, fcf_lucro_ratio, moat_label)`

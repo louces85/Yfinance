@@ -392,6 +392,41 @@ Fluxo de Caixa:
 
 > **Nota importante sobre CapEx:** A linha de CapEx do StatusInvest não é confiável. Por isso, o CapEx é buscado diretamente do `yfinance.cashflow` e combinado com os dados do SI.
 
+**Flags de linha de comando:**
+
+| Comando | Comportamento |
+|---------|--------------|
+| `python financials_fetcher.py` | Atualiza todos os tickers válidos (respeita intervalo 30 dias) |
+| `python financials_fetcher.py BBAS3 PETR4` | Tickers específicos |
+| `python financials_fetcher.py --force` | Força todos, ignora intervalo |
+| `python financials_fetcher.py BBAS3 --force` | Força ticker específico |
+| `python financials_fetcher.py --update` | **Detecta e atualiza apenas tickers defasados** (≥ 2 anos) |
+| `python financials_fetcher.py --update --force` | Força todos os defasados, ignora intervalo |
+
+**Detecção de tickers defasados (`get_stale_tickers`):**
+
+```python
+def get_stale_tickers(min_gap: int = 2) -> List[tuple]:
+    """
+    Lê financials_history.json e retorna tickers onde:
+        ano_atual - ultimo_ano_dre >= min_gap
+
+    Exemplo em 2026: dados até 2024 → gap=2 → defasado.
+                     dados até 2025 → gap=1 → OK.
+
+    Retorna lista de (ticker, ultimo_ano) ordenada por último ano ASC.
+    """
+```
+
+```python
+def _latest_dre_year(entry: dict) -> Optional[int]:
+    """Extrai o maior ano inteiro das chaves da DRE, excluindo 'ttm'."""
+```
+
+**Comportamento de `--update`:**
+- `--update` sem `--force`: respeita o intervalo de 30 dias → tickers defasados mas buscados recentemente são SKIPados (evita re-fetch desnecessário quando o StatusInvest ainda não publicou o ano mais recente)
+- `--update --force`: força o fetch de todos os defasados independente de quando foram buscados pela última vez
+
 ---
 
 ### 5.8 `services/valuation_calculator.py` — Motor Principal
@@ -417,6 +452,21 @@ Fluxo de Caixa:
 | `_calc_piotroski(...)` | dict com score 0-9, flags individuais |
 | `_calc_weighted_score(flags)` | dict com score 0-100 |
 | `_calc_zone(price, t6, t8, t5)` | string: COMPRA_FORTE \| COMPRA \| MONITORAR \| CARO |
+
+**Detector de resultado não recorrente (`resultado_nao_recorrente`):**
+
+Calculado dentro de `_calc_buffett_moat_score()` após construir as tendências estendidas. Detecta anos com spike de margem líquida causado por eventos tributários/extraordinários não recorrentes.
+
+```python
+# Condições simultâneas para ativar o flag:
+# 1. ML do último ano >= 1.8× a média dos 4 anos anteriores
+# 2. Crescimento de receita do último ano < 10%
+# Se ambos verdadeiros: resultado_nao_recorrente = True
+```
+
+O campo `resultado_nao_recorrente: bool` é persistido em `valuations.json` dentro de `buffett_moat.trends_values`. Ver detalhes da fórmula em `brain_calculations.md` seção 7.11.
+
+**Linha de comando:** `python valuation_calculator.py TICKER1 TICKER2` para recalcular tickers específicos.
 
 ---
 

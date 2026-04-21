@@ -237,12 +237,13 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict, financials_his
     _roe_trend = _tr.get("roe_trend")
 
     # --- Tendências estendidas via financials_history (DRE até 10 anos) ---
-    _ext_anos        = []
-    _ext_mb_hist     = []
-    _ext_ml_hist     = []
-    _ext_roe_hist    = []
+    _ext_anos         = []
+    _ext_mb_hist      = []
+    _ext_ml_hist      = []
+    _ext_roe_hist     = []
     _anos_disponiveis = 0
-    _trend_source    = "yfinance_4a"
+    _trend_source     = "yfinance_4a"
+    _resultado_nao_recorrente = False
 
     if financials_hist:
         _dre = financials_hist.get("dre", {})
@@ -254,6 +255,25 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict, financials_his
             _trend_source = f"hist_{_anos_disponiveis}a"
             _mb_trend  = _calc_tendencia(_ext_mb_hist)   # substitui trend yfinance 4a
             _roe_trend = _calc_tendencia(_ext_roe_hist)
+
+        # Detector de spike de ML: resultado possivelmente não recorrente
+        # Condição: último ML >= 1.8x a média dos 4 anos anteriores E receita flat (<10%)
+        if len(_ext_ml_hist) >= 5 and _ext_ml_hist[0] is not None:
+            _prev_valid = [v for v in _ext_ml_hist[1:5] if v is not None]
+            if len(_prev_valid) >= 3:
+                _ml_media_prev = sum(_prev_valid) / len(_prev_valid)
+                _ml_ultimo = _ext_ml_hist[0]
+                _rec_raw = _dre.get("receita_liquida", {})
+                _rec_ultimo  = _rec_raw.get(_ext_anos[0]) if _ext_anos else None
+                _rec_anterior = _rec_raw.get(_ext_anos[1]) if len(_ext_anos) > 1 else None
+                if _rec_ultimo and _rec_anterior and _rec_anterior != 0:
+                    _rec_growth = (_rec_ultimo / _rec_anterior) - 1
+                else:
+                    _rec_growth = None
+                if (_ml_media_prev > 0
+                        and (_ml_ultimo / _ml_media_prev) >= 1.8
+                        and (_rec_growth is None or _rec_growth < 0.10)):
+                    _resultado_nao_recorrente = True
 
     if _mb_trend == "CAINDO":
         score += rules.MOAT_TREND_PENALTY
@@ -351,6 +371,7 @@ def _calc_buffett_moat_score(indicators_raw: dict, history: dict, financials_his
         "ext_margem_liquida_trend":_calc_tendencia(_ext_ml_hist)  if len(_ext_ml_hist)  >= 2 else None,
         "ext_roe_hist":            _ext_roe_hist,
         "ext_roe_trend":           _calc_tendencia(_ext_roe_hist) if len(_ext_roe_hist) >= 2 else None,
+        "resultado_nao_recorrente": _resultado_nao_recorrente,
     }
 
     return {
@@ -445,6 +466,65 @@ def _calc_piotroski(indicators: dict, history: dict) -> dict:
             "p8_receita_crescendo":   p8,
             "p9_roe_forte":           p9,
         },
+    }
+
+
+def _calc_dcf(price_now, p_l, cagr_lucro, fcf_lucro_ratio, moat_label):
+    """
+    DCF 2-stage Buffett. Taxa de desconto: 10% (mínimo Buffett, independe da Selic).
+    Base: LPA = preço / P·L.
+    FCF quality penaliza o crescimento (não escala a base — evita distorção em FCF baixo).
+    """
+    if not price_now or not p_l or p_l <= 0:
+        return None
+    lpa = price_now / p_l
+    if lpa <= 0:
+        return None
+
+    # Penalidade de crescimento por qualidade FCF:
+    #   >= 0.8 → pleno  |  0–0.8 → escala linear 0.5..1.0  |  < 0 → 50%
+    if fcf_lucro_ratio is None:
+        fcf_penalty = 0.75
+    elif fcf_lucro_ratio < 0:
+        fcf_penalty = 0.50
+    elif fcf_lucro_ratio >= 0.8:
+        fcf_penalty = 1.00
+    else:
+        fcf_penalty = 0.50 + 0.50 * (fcf_lucro_ratio / 0.8)
+
+    moat_cap = {
+        'FORTE':    rules.DCF_MOAT_CAP_FORTE,
+        'MODERADO': rules.DCF_MOAT_CAP_MODERADO,
+        'FRACO':    rules.DCF_MOAT_CAP_FRACO,
+    }
+    cagr_raw = (cagr_lucro / 100.0) if cagr_lucro is not None else 0.03
+    g1_base = min(max(cagr_raw, 0.0), moat_cap.get(moat_label, rules.DCF_MOAT_CAP_FRACO))
+    g1 = g1_base * fcf_penalty
+    g2 = g1 * 0.5
+
+    r  = rules.DCF_DISCOUNT_RATE
+    gT = rules.DCF_TERMINAL_GROWTH
+    n  = rules.DCF_PROJECTION_YEARS
+
+    iv = 0.0
+    cf = lpa
+    for t in range(1, n + 1):
+        g  = g1 if t <= n // 2 else g2
+        cf = cf * (1.0 + g)
+        iv += cf / (1.0 + r) ** t
+
+    tv  = cf * (1.0 + gT) / (r - gT)
+    iv += tv / (1.0 + r) ** n
+
+    mos = (iv - price_now) / iv * 100.0 if iv > 0 else None
+
+    return {
+        "intrinsic_value":  round(iv, 2),
+        "margin_of_safety": round(mos, 1) if mos is not None else None,
+        "lpa":              round(lpa, 4),
+        "g1_pct":           round(g1 * 100, 2),
+        "g2_pct":           round(g2 * 100, 2),
+        "fcf_penalty":      round(fcf_penalty, 2),
     }
 
 
@@ -604,8 +684,12 @@ def calculate(ticker: str, force: bool = False) -> Optional[dict]:
         "cagr_receita":     cagr_r,
         "cagr_lucro":       cagr_l,
     }
-    piotroski = _calc_piotroski(_indicators_raw, history)
+    piotroski    = _calc_piotroski(_indicators_raw, history)
     buffett_moat = _calc_buffett_moat_score(_indicators_raw, history, financials_hist)
+
+    _moat_label = buffett_moat.get("label")
+    _fcf_lr     = _safe_float((_buffett_cf or {}).get("fcf_lucro_ratio"))
+    dcf         = _calc_dcf(price_now, p_l, cagr_l, _fcf_lr, _moat_label)
 
     zone = _calc_zone(
         price_now or 0,
@@ -635,6 +719,7 @@ def calculate(ticker: str, force: bool = False) -> Optional[dict]:
         "weighted_score":     weighted_score,
         "piotroski":          piotroski,
         "buffett_moat":       buffett_moat,
+        "dcf":                dcf,
         "flags":              flags,
         "indicators": {
             "margem_bruta":         m_bruta,

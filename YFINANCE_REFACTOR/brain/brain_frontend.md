@@ -268,6 +268,54 @@ Atualização: manual (download do portal B3)
 
 ## 12. Limitações e Considerações Conhecidas
 
+### 11.5 Alertas Visuais no Modal de Tendências Históricas
+
+O modal de Buffett Moat (seção "TENDÊNCIAS HISTÓRICAS") exibe dois tipos de alertas automáticos baseados nos dados do `buffett_moat.trends_values`:
+
+#### Badge de Dados Desatualizados (⚠ vermelho)
+
+Aparece quando o último ano disponível na DRE do StatusInvest (`ext_anos`) está defasado em relação ao ano atual.
+
+```javascript
+// Lógica frontend (index.html)
+const _anoAtual     = new Date().getFullYear();
+const _ultimoAno    = parseInt(anosExib[anosExib.length - 1]);  // último ano disponível
+const anosFaltantes = [];
+for (let y = _ultimoAno + 1; y < _anoAtual; y++) anosFaltantes.push(String(y));
+const dataDesatualizada = anosFaltantes.length > 0;
+```
+
+**Threshold:** `ano_atual - ultimo_ano >= 2` — em 2026, dados até 2024 disparam o alerta.
+
+**Visual:**
+- Badge vermelho acima da tabela listando os anos faltantes
+- Colunas extras no cabeçalho da tabela com o ano em vermelho
+- Células das linhas (MB, ML, ROE) preenchidas com `--%` em vermelho/bold
+- **Somente** a tabela StatusInvest (MB/ML/ROE) recebe as colunas extras — a tabela "CAIXA/DÍVIDA (yfinance)" **não** é afetada (tem dados próprios e atualizados)
+
+**Como resolver:** `python financials_fetcher.py TICKER --force` + `python valuation_calculator.py TICKER`  
+Ou em lote: `python financials_fetcher.py --update` + `python valuation_calculator.py`
+
+**Implementação:** `_buildRowMissing()` — variante de `_buildRow()` que appenda células `--% ` vermelhas para os `anosFaltantes`. As linhas da tabela principal usam `_buildRowMissing()`; as da tabela de caixa usam `_buildRow()` normal.
+
+---
+
+#### Badge de Resultado Não Recorrente (⚠ amarelo)
+
+Aparece quando `buffett_moat.trends_values.resultado_nao_recorrente === true`.
+
+```javascript
+const naoRecorrente = tv.resultado_nao_recorrente === true;
+```
+
+**Visual:** Badge amarelo com texto explicativo abaixo do título da seção, antes da tabela. Alerta que a margem líquida do último ano é ≥ 1,8× a média dos 4 anos anteriores com receita estagnada, e orienta a verificar eventos tributários/extraordinários.
+
+**Fórmula de detecção:** ver `brain_calculations.md` seção 7.11.
+
+**O que significa na prática:** scores como Piotroski 8/9 e Buffett Moat FORTE podem estar inflados por um único evento irrepetível. O alerta não altera os scores — é informacional para que o usuário investigue antes de tomar decisão.
+
+---
+
 ### 12.1 CapEx Total vs. Manutenção
 
 A aplicação usa o **CapEx total** para calcular FCF e Owner Earnings. Para empresas em forte fase de crescimento (ex: WEGE3), o CapEx de expansão é alto — isso **sub-estima** o Owner Earnings e pode gerar score de qualidade injustamente baixo.

@@ -12,6 +12,8 @@ Uso:
     python financials_fetcher.py BBAS3 PETR4      # tickers específicos
     python financials_fetcher.py --force          # força reprocessamento de todos os válidos
     python financials_fetcher.py BBAS3 --force    # força ticker específico
+    python financials_fetcher.py --update         # atualiza apenas tickers defasados (>= 2 anos), respeitando intervalo de 30 dias
+    python financials_fetcher.py --update --force # força reprocessamento de todos os defasados, ignorando intervalo
 """
 
 import math
@@ -404,6 +406,47 @@ def _needs_update(ticker: str) -> bool:
     return datetime.now() - last_updated > timedelta(days=FINANCIALS_UPDATE_INTERVAL_DAYS)
 
 
+def _latest_dre_year(entry: dict) -> Optional[int]:
+    """Retorna o ano mais recente disponível na DRE do ticker (excluindo TTM)."""
+    dre = entry.get("dre", {})
+    dre_key = next((k for k in dre if not k.startswith("_")), None)
+    if not dre_key:
+        return None
+    anos = []
+    for k in dre.get(dre_key, {}):
+        try:
+            anos.append(int(k))
+        except (ValueError, TypeError):
+            pass
+    return max(anos) if anos else None
+
+
+def get_stale_tickers(min_gap: int = 2) -> List[tuple]:
+    """
+    Detecta tickers com dados defasados no financials_history.json.
+
+    Um ticker é considerado defasado quando:
+        ano_atual - ultimo_ano_dre >= min_gap
+
+    Exemplo em 2026: dados até 2024 → gap=2 → defasado.
+                     dados até 2025 → gap=1 → OK.
+
+    Retorna lista de (ticker, ultimo_ano) ordenada por gap descendente.
+    """
+    current_year = datetime.now().year
+    all_financials = repo.get_all_financials()
+    stale = []
+    for ticker, entry in all_financials.items():
+        latest = _latest_dre_year(entry)
+        if latest is None:
+            continue
+        gap = current_year - latest
+        if gap >= min_gap:
+            stale.append((ticker, latest))
+    stale.sort(key=lambda x: x[1])  # mais antigo primeiro
+    return stale
+
+
 def fetch_financials(ticker: str) -> Optional[dict]:
     """
     Orquestra os três fetches para um ticker com rate limiting entre chamadas SI.
@@ -498,7 +541,25 @@ def update_all(tickers: Optional[List[str]] = None, force: bool = False) -> dict
 
 
 if __name__ == "__main__":
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    force = "--force" in sys.argv
-    tickers_arg = [t.upper() for t in args] if args else None
-    update_all(tickers=tickers_arg, force=force)
+    flags   = [a for a in sys.argv[1:] if a.startswith("--")]
+    args    = [a for a in sys.argv[1:] if not a.startswith("--")]
+    force   = "--force" in flags
+    do_update = "--update" in flags
+
+    if do_update:
+        current_year = datetime.now().year
+        stale = get_stale_tickers(min_gap=2)
+        if not stale:
+            print("Nenhum ticker defasado encontrado (todos com dados ate %d ou mais recente)." % (current_year - 1))
+        else:
+            skip_note = "" if force else "  (use --force para reprocessar os buscados recentemente)"
+            print("Tickers defasados detectados (%d):%s" % (len(stale), skip_note))
+            for ticker, ultimo_ano in stale:
+                faltam = list(range(ultimo_ano + 1, current_year))
+                print("  %-12s ultimo=%d  faltam=%s" % (ticker, ultimo_ano, faltam))
+            print("")
+            tickers_stale = [t for t, _ in stale]
+            update_all(tickers=tickers_stale, force=force)
+    else:
+        tickers_arg = [t.upper() for t in args] if args else None
+        update_all(tickers=tickers_arg, force=force)
