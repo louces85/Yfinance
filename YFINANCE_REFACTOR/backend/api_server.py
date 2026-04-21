@@ -98,6 +98,18 @@ def valuation(ticker):
     ind = repo.get_indicators_by_ticker(t) or {}
     entry = dict(entry)
     entry["companyname"] = ind.get("companyname", "")
+    # Computa DCF on-the-fly se ausente no cache (retrocompatibilidade)
+    if entry.get("dcf") is None:
+        _moat  = entry.get("buffett_moat") or {}
+        _cf    = _moat.get("cashflow_values") or {}
+        _inds  = entry.get("indicators") or {}
+        entry["dcf"] = valuation_calculator._calc_dcf(
+            entry.get("price_now"),
+            _inds.get("p_l"),
+            _inds.get("cagr_lucro"),
+            _cf.get("fcf_lucro_ratio"),
+            _moat.get("label"),
+        )
     return jsonify(entry)
 
 

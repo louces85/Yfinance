@@ -1506,29 +1506,32 @@ async function loadDecision() {
 
 // ─── Silent auto-refresh (sem piscar) ────────────────────────────
 async function silentRefresh() {
+  // Screening/Favoritos: só re-renderiza se o backend atualizou os dados
   try {
     const [res] = await Promise.all([fetch('/api/decision'), loadMarket()]);
     const json = await res.json();
-    if (!json.stocks || json.last_updated === lastUpdatedTs) return; // sem mudança
+    if (json.stocks && json.last_updated !== lastUpdatedTs) {
+      _applyDecision(json);
+      renderScreeningSummary();
+      renderTable();
 
-    _applyDecision(json);
-    renderScreeningSummary();
-    renderTable();
+      // Atualiza favoritos silenciosamente (usa allData)
+      if (document.getElementById('favoritosView').style.display !== 'none') {
+        renderFavoritos();
+      }
 
-    // Atualiza favoritos silenciosamente (usa allData)
-    if (document.getElementById('favoritosView').style.display !== 'none') {
-      renderFavoritos();
+      // Badge sutil: aparece e desaparece em 3s
+      const el = document.getElementById('lastUpdated');
+      el.style.transition = 'opacity .3s';
+      el.style.opacity = '0.3';
+      setTimeout(() => { el.style.opacity = '1'; }, 300);
     }
-
-    // Badge sutil: aparece e desaparece em 3s
-    const el = document.getElementById('lastUpdated');
-    el.style.transition = 'opacity .3s';
-    el.style.opacity = '0.3';
-    setTimeout(() => { el.style.opacity = '1'; }, 300);
   } catch (_) { /* falha silenciosa */ }
+
+  // Radar: sempre verifica alertas a cada ciclo
   _pollRadarAlerts();
 
-  // Atualiza carteira silenciosamente (API separada)
+  // Carteira: sempre atualiza (API separada, independente do decision)
   if (_portfolioLoaded) {
     try {
       const pres  = await fetch('/api/portfolio');
@@ -2038,6 +2041,12 @@ function _rptTipOut(btn) {
 }
 
 function renderPriceCards(dec, val) {
+  const dcf  = val.dcf  || null;
+  const iv   = dcf ? dcf.intrinsic_value  : null;
+  const mos  = dcf ? dcf.margin_of_safety : null;
+  const mosDsp = mos != null
+    ? (mos < -200 ? '< −200%' : (mos >= 0 ? '+' : '') + mos.toFixed(1) + '%')
+    : '—';
   const acum30pct = (dec.accumulation_30d_days != null && dec.accumulation_30d_total > 0)
     ? dec.accumulation_30d_days / dec.accumulation_30d_total * 100 : null;
   const cards = [
@@ -2046,6 +2055,16 @@ function renderPriceCards(dec, val) {
       sub: 'última cotação',
       cls: '',
       tip: 'Último preço negociado em bolsa. Atualizado a cada 30 minutos durante o pregão.' },
+    { label: 'Valor Intrínseco',
+      value: iv != null ? 'R$ ' + iv.toFixed(2) : '—',
+      sub: 'VI · DCF · 10% a.a.',
+      cls: (iv != null && dec.price_now) ? (iv > dec.price_now ? 'pc-green' : 'pc-red') : '',
+      tip: 'Valor Intrínseco (VI) pelo método DCF (Discounted Cash Flow) — Buffett.\nBase: LPA = preço ÷ P·L. Qualidade FCF penaliza o crescimento (FCF baixo → crescimento menor, não base menor).\nProjeção 10 anos: crescimento fase 1 limitado pelo MOAT (FORTE=15%, MODERADO=10%, FRACO=5%), fase 2 = fade 50%. Taxa de desconto: 10% (mínimo Buffett, independente da Selic). Terminal: Gordon Growth a 3,5%.\nRetorna — quando P·L é negativo ou indisponível.' },
+    { label: 'Margem de SEG',
+      value: mosDsp,
+      sub: 'desconto ao VI · DCF',
+      cls: mos != null ? (mos >= 20 ? 'pc-green' : mos >= 0 ? 'pc-yellow' : 'pc-red') : '',
+      tip: 'Margem de Segurança em relação ao Valor Intrínseco (VI / DCF).\nFórmula: (VI − Preço) ÷ VI × 100. Escala de 0% a 100% (100% = ação valendo zero).\n≥ 20% → boa margem (verde) | 0–20% → margem estreita (amarelo) | Negativo → acima do VI (vermelho) | < −200% exibido como "< −200%".' },
     { label: 'Target 6%',
       value: fmtR(dec.price_target_6pct),
       sub: 'Bazin · Barsi',
@@ -2056,16 +2075,6 @@ function renderPriceCards(dec, val) {
       sub: 'zona agressiva',
       cls: 'pc-yellow',
       tip: 'Zona agressiva Barsi: dividendo médio 5 anos ÷ 8%.\nAbaixo deste preço o ativo oferece yield real ≥ 8% — indica forte margem de segurança e oportunidade de acumulação.' },
-    { label: 'Mín. 6 meses',
-      value: fmtR(dec.price_min_6m),
-      sub: 'suporte técnico',
-      cls: 'pc-blue',
-      tip: 'Preço mínimo registrado nos últimos 6 meses.\nUtilizado como referência de suporte e para calcular a proximidade com a mínima (indicador p/pMin).' },
-    { label: 'Máx. 6 meses',
-      value: fmtR(dec.price_max_6m),
-      sub: 'resistência técnica',
-      cls: '',
-      tip: 'Preço máximo registrado nos últimos 6 meses.\nReferência de resistência técnica — distância entre o preço atual e a máxima indica espaço de valorização no período.' },
     { label: 'Potencial',
       value: fmtPct(dec.gain_pct),
       sub: 'upside até target 6%',
@@ -2218,6 +2227,17 @@ function renderCharts(chartData, dec, val) {
     borderColor: '#8b949e',
     borderWidth: 1,
     borderDash: [2, 4],
+    pointRadius: 0,
+    fill: false,
+  });
+
+  const vi = val && val.dcf ? val.dcf.intrinsic_value : null;
+  if (vi) priceDatasets.push({
+    label: 'VI (DCF)',
+    data: labels.map(() => vi),
+    borderColor: '#2dd4bf',
+    borderWidth: 1.5,
+    borderDash: [8, 3],
     pointRadius: 0,
     fill: false,
   });
@@ -3733,26 +3753,32 @@ function renderPortfolioSummary(s) {
   const ret    = s.retorno_total || 0;
   const retPct = s.retorno_total_pct || 0;
 
-  // Dividendos estimados próx 12M:
-  //   Ações: qtd × avg_dividends_5y (média ponderada por recência)
-  //   FIIs:  qtd × dividends_sum_12m (soma real dos últimos 12m)
   const _divCalc = (list) => list.reduce((acc, p) => {
     const divAnual = p.avg_dividends_5y ?? p.dividends_sum_12m ?? null;
-    if (p.qtd && divAnual != null) {
-      acc += p.qtd * divAnual;
-    }
+    if (p.qtd && divAnual != null) acc += p.qtd * divAnual;
     return acc;
   }, 0);
-  const divEst12m = _divCalc(portfolioData) + _divCalc(fiiData);
-  const dyAtual    = _portfolioTotal.total_atual     ? (divEst12m / _portfolioTotal.total_atual     * 100) : 0;
+
+  const isAcoes     = s === _acoesSummary;
+  const divList     = isAcoes ? portfolioData : fiiData;
+  const divAnual    = _divCalc(divList);
+  const rendaMensal = divAnual / 12;
+  const dyAa        = s.total_atual ? (divAnual / s.total_atual * 100) : 0;
+  const dyPm        = s.total_investido ? (divAnual / s.total_investido * 100) : 0;
+  const labelAtivos = isAcoes ? 'Ações' : 'FIIs';
+
+  const divEst12m   = _divCalc(portfolioData) + _divCalc(fiiData);
+  const dyAtual     = _portfolioTotal.total_atual     ? (divEst12m / _portfolioTotal.total_atual     * 100) : 0;
   const dyInvestido = _portfolioTotal.total_investido ? (divEst12m / _portfolioTotal.total_investido * 100) : 0;
 
   const cards  = [
-    { label: 'Ativos',          value: s.count || 0,              cls: '' },
+    { label: labelAtivos,       value: s.count || 0,              cls: '' },
     { label: 'Total Investido', value: fmtBRL(s.total_investido), cls: '' },
     { label: 'Valor Atual',     value: fmtBRL(s.total_atual),     cls: 'pc-blue' },
     { label: 'Retorno',         value: fmtBRL(ret),               cls: ret >= 0 ? 'pc-green' : 'pc-red' },
     { label: 'Retorno',         value: (retPct >= 0 ? '+' : '') + retPct.toFixed(2) + '%', cls: retPct >= 0 ? 'pc-green' : 'pc-red' },
+    { label: 'Renda Mensal',    value: fmtBRL(rendaMensal),       cls: 'pc-green',
+      sub: `DY s/atual ${dyAa.toFixed(1)}% a.a. · s/PM ${dyPm.toFixed(1)}% a.a.` },
     { label: 'Dividendos Est. Próx 12M', value: fmtBRL(divEst12m), cls: 'pc-green',
       sub: `DY s/atual ${dyAtual.toFixed(1)}% · s/investido ${dyInvestido.toFixed(1)}%` },
   ];

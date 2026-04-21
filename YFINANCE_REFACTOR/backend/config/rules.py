@@ -106,6 +106,14 @@ PRICE_UPDATE_INTERVAL_HOURS = 0.5
 # Intervalo mínimo entre atualizações de histórico (em dias)
 HISTORY_UPDATE_INTERVAL_DAYS = 7
 
+# --- DCF Buffett ---
+DCF_DISCOUNT_RATE    = 0.10   # taxa mínima Buffett (independe da Selic)
+DCF_TERMINAL_GROWTH  = 0.035  # crescimento perpétuo terminal (inflação + PIB longo prazo)
+DCF_PROJECTION_YEARS = 10     # horizonte de projeção em anos
+DCF_MOAT_CAP_FORTE    = 0.15  # crescimento máx. fase 1 — moat FORTE
+DCF_MOAT_CAP_MODERADO = 0.10  # crescimento máx. fase 1 — moat MODERADO
+DCF_MOAT_CAP_FRACO    = 0.05  # crescimento máx. fase 1 — moat FRACO
+
 # --- Demonstrativos Financeiros Históricos ---
 # Intervalo mínimo entre atualizações (demonstrativos são anuais — 30 dias é suficiente)
 FINANCIALS_UPDATE_INTERVAL_DAYS = 30

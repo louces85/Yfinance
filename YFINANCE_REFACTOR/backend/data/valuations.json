@@ -6,20 +6,20 @@
   },
   "stocks": {
     "ABCB4": {
-      "price_now": 27.05,
+      "price_now": 26.8,
       "price_min_6m": 20.01,
       "price_max_6m": 28.65,
       "avg_dividends_5y": 1.9605,
       "price_target_6pct": 32.67,
       "price_target_8pct": 24.51,
       "price_target_5pct": 39.21,
-      "dy_real": 9.62,
+      "dy_real": 9.71,
       "payout": 63.92,
       "payout_fcf": 179.8,
       "payout_divergencia": 115.9,
       "accumulation_score": 38.2,
-      "p_now_p_min": 1.3518,
-      "gain_pct_to_target": 20.78,
+      "p_now_p_min": 1.3393,
+      "gain_pct_to_target": 21.9,
       "rank": 16,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -203,6 +203,14 @@
           "cagr_receita": 28.96
         }
       },
+      "dcf": {
+        "intrinsic_value": 64.0,
+        "margin_of_safety": 58.1,
+        "lpa": 4.2199,
+        "g1_pct": 3.61,
+        "g2_pct": 1.81,
+        "fcf_penalty": 0.72
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -249,23 +257,23 @@
         "segment": "Bancos"
       },
       "ticker": "ABCB4",
-      "last_updated": "2026-04-10T21:15:43.555125"
+      "last_updated": "2026-04-17T15:09:34.855606"
     },
     "ABEV3": {
-      "price_now": 16.12,
+      "price_now": 15.4,
       "price_min_6m": 10.52,
       "price_max_6m": 16.77,
       "avg_dividends_5y": 1.0397,
       "price_target_6pct": 17.33,
       "price_target_8pct": 13.0,
       "price_target_5pct": 20.79,
-      "dy_real": 9.79,
+      "dy_real": 10.25,
       "payout": 113.28,
       "payout_fcf": 88.4,
       "payout_divergencia": 24.9,
       "accumulation_score": 26.8,
-      "p_now_p_min": 1.5323,
-      "gain_pct_to_target": 7.51,
+      "p_now_p_min": 1.4639,
+      "gain_pct_to_target": 12.53,
       "rank": 13,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -449,6 +457,14 @@
           "cagr_receita": 8.61
         }
       },
+      "dcf": {
+        "intrinsic_value": 17.97,
+        "margin_of_safety": 14.3,
+        "lpa": 1.0085,
+        "g1_pct": 6.38,
+        "g2_pct": 3.19,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -495,23 +511,23 @@
         "segment": "Cervejas e Refrigerantes"
       },
       "ticker": "ABEV3",
-      "last_updated": "2026-04-10T21:15:43.755531"
+      "last_updated": "2026-04-17T15:09:35.002457"
     },
     "ALLD3": {
-      "price_now": 6.79,
+      "price_now": 6.78,
       "price_min_6m": 6.39,
       "price_max_6m": 8.23,
       "avg_dividends_5y": 1.8769,
       "price_target_6pct": 31.28,
       "price_target_8pct": 23.46,
       "price_target_5pct": 37.54,
-      "dy_real": 45.02,
+      "dy_real": 45.08,
       "payout": 66.8,
       "payout_fcf": 10.2,
       "payout_divergencia": 56.6,
       "accumulation_score": 23.6,
-      "p_now_p_min": 1.0626,
-      "gain_pct_to_target": 360.68,
+      "p_now_p_min": 1.061,
+      "gain_pct_to_target": 361.36,
       "rank": 17,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -687,6 +703,14 @@
           "cagr_receita": 8.27
         }
       },
+      "dcf": {
+        "intrinsic_value": 98.61,
+        "margin_of_safety": 93.1,
+        "lpa": 3.3674,
+        "g1_pct": 15.0,
+        "g2_pct": 7.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -733,30 +757,30 @@
         "segment": "Telecomunicações"
       },
       "ticker": "ALLD3",
-      "last_updated": "2026-04-10T21:15:45.210464"
+      "last_updated": "2026-04-17T15:09:35.839654"
     },
     "ALOS3": {
-      "price_now": 32.91,
+      "price_now": 33.72,
       "price_min_6m": 22.19,
       "price_max_6m": 33.48,
       "avg_dividends_5y": 1.0375,
       "price_target_6pct": 17.29,
       "price_target_8pct": 12.97,
       "price_target_5pct": 20.75,
-      "dy_real": 6.0,
+      "dy_real": 5.85,
       "payout": null,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 36.6,
-      "p_now_p_min": 1.4831,
-      "gain_pct_to_target": -47.46,
-      "rank": 14,
+      "p_now_p_min": 1.5196,
+      "gain_pct_to_target": -48.72,
+      "rank": 13,
       "rank_max": 21,
       "zone": "CARO",
       "weighted_score": {
-        "score": 71.2,
+        "score": 67.5,
         "score_max": 100,
-        "earned_points": 28.5,
+        "earned_points": 27.0,
         "max_points": 40.0
       },
       "piotroski": {
@@ -933,6 +957,14 @@
           "cagr_receita": 29.09
         }
       },
+      "dcf": {
+        "intrinsic_value": 55.28,
+        "margin_of_safety": 39.0,
+        "lpa": 1.8879,
+        "g1_pct": 15.0,
+        "g2_pct": 7.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -950,7 +982,7 @@
         "p_l_ok": false,
         "p_vp_ok": true,
         "graham_combo_ok": true,
-        "dy_ok": true,
+        "dy_ok": false,
         "abaixo_vpa": false,
         "abaixo_target_6pct": false,
         "abaixo_target_8pct": false,
@@ -979,23 +1011,23 @@
         "segment": "Exploração de Imóveis"
       },
       "ticker": "ALOS3",
-      "last_updated": "2026-04-10T21:15:45.465802"
+      "last_updated": "2026-04-17T15:09:35.984846"
     },
     "ALUP11": {
-      "price_now": 36.7,
+      "price_now": 36.54,
       "price_min_6m": 29.94,
       "price_max_6m": 37.14,
       "avg_dividends_5y": 1.32,
       "price_target_6pct": 22.0,
       "price_target_8pct": 16.5,
       "price_target_5pct": 26.4,
-      "dy_real": 3.51,
+      "dy_real": 3.53,
       "payout": 119.59,
       "payout_fcf": 72.4,
       "payout_divergencia": 47.2,
       "accumulation_score": 38.2,
-      "p_now_p_min": 1.2258,
-      "gain_pct_to_target": -40.05,
+      "p_now_p_min": 1.2204,
+      "gain_pct_to_target": -39.79,
       "rank": 12,
       "rank_max": 21,
       "zone": "CARO",
@@ -1179,6 +1211,14 @@
           "cagr_receita": -6.46
         }
       },
+      "dcf": {
+        "intrinsic_value": 64.66,
+        "margin_of_safety": 43.5,
+        "lpa": 3.9319,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -1225,23 +1265,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "ALUP11",
-      "last_updated": "2026-04-10T21:15:46.410315"
+      "last_updated": "2026-04-17T15:09:36.464705"
     },
     "ARML3": {
-      "price_now": 5.5,
+      "price_now": 5.38,
       "price_min_6m": 2.63,
       "price_max_6m": 6.3,
       "avg_dividends_5y": 0.2487,
       "price_target_6pct": 4.15,
       "price_target_8pct": 3.11,
       "price_target_5pct": 4.97,
-      "dy_real": 11.23,
+      "dy_real": 11.48,
       "payout": 266.92,
       "payout_fcf": 39.7,
       "payout_divergencia": 227.2,
       "accumulation_score": 33.3,
-      "p_now_p_min": 2.0913,
-      "gain_pct_to_target": -24.55,
+      "p_now_p_min": 2.0456,
+      "gain_pct_to_target": -22.86,
       "rank": 8,
       "rank_max": 21,
       "zone": "CARO",
@@ -1409,6 +1449,14 @@
           "cagr_receita": 95.79
         }
       },
+      "dcf": {
+        "intrinsic_value": 2.85,
+        "margin_of_safety": -89.0,
+        "lpa": 0.1731,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -1455,23 +1503,23 @@
         "segment": "Construção Pesada"
       },
       "ticker": "ARML3",
-      "last_updated": "2026-04-10T21:15:48.376059"
+      "last_updated": "2026-04-17T15:09:37.411031"
     },
     "AXIA3": {
-      "price_now": 65.33,
+      "price_now": 63.12,
       "price_min_6m": 47.43,
       "price_max_6m": 67.84,
       "avg_dividends_5y": 2.1591,
       "price_target_6pct": 35.98,
       "price_target_8pct": 26.99,
       "price_target_5pct": 43.18,
-      "dy_real": 6.95,
+      "dy_real": 7.2,
       "payout": 191.8,
       "payout_fcf": 104.8,
       "payout_divergencia": 87.0,
       "accumulation_score": 21.1,
-      "p_now_p_min": 1.3774,
-      "gain_pct_to_target": -44.93,
+      "p_now_p_min": 1.3308,
+      "gain_pct_to_target": -43.0,
       "rank": 8,
       "rank_max": 21,
       "zone": "CARO",
@@ -1655,6 +1703,14 @@
           "cagr_receita": 7.26
         }
       },
+      "dcf": {
+        "intrinsic_value": 31.42,
+        "margin_of_safety": -100.9,
+        "lpa": 2.4583,
+        "g1_pct": 0.68,
+        "g2_pct": 0.34,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -1701,23 +1757,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "AXIA3",
-      "last_updated": "2026-04-10T21:15:49.645685"
+      "last_updated": "2026-04-17T15:09:38.153921"
     },
     "AXIA6": {
-      "price_now": 71.84,
+      "price_now": 69.24,
       "price_min_6m": 41.52,
       "price_max_6m": 71.85,
       "avg_dividends_5y": 2.4044,
       "price_target_6pct": 40.07,
       "price_target_8pct": 30.05,
       "price_target_5pct": 48.09,
-      "dy_real": 4.54,
+      "dy_real": 4.72,
       "payout": 191.8,
       "payout_fcf": 104.8,
       "payout_divergencia": 87.0,
       "accumulation_score": 30.1,
-      "p_now_p_min": 1.7303,
-      "gain_pct_to_target": -44.22,
+      "p_now_p_min": 1.6676,
+      "gain_pct_to_target": -42.13,
       "rank": 6,
       "rank_max": 21,
       "zone": "CARO",
@@ -1901,6 +1957,14 @@
           "cagr_receita": 7.26
         }
       },
+      "dcf": {
+        "intrinsic_value": 31.6,
+        "margin_of_safety": -119.1,
+        "lpa": 2.4724,
+        "g1_pct": 0.68,
+        "g2_pct": 0.34,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -1947,23 +2011,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "AXIA6",
-      "last_updated": "2026-04-10T21:15:49.924030"
+      "last_updated": "2026-04-17T15:09:38.409276"
     },
     "AZZA3": {
-      "price_now": 20.8,
+      "price_now": 22.33,
       "price_min_6m": 20.8,
       "price_max_6m": 28.86,
       "avg_dividends_5y": 1.816,
       "price_target_6pct": 30.27,
       "price_target_8pct": 22.7,
       "price_target_5pct": 36.32,
-      "dy_real": 11.9,
+      "dy_real": 11.09,
       "payout": 56.11,
       "payout_fcf": 74.0,
       "payout_divergencia": 17.9,
       "accumulation_score": 23.6,
-      "p_now_p_min": 1.0,
-      "gain_pct_to_target": 45.53,
+      "p_now_p_min": 1.0736,
+      "gain_pct_to_target": 35.56,
       "rank": 16,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -2147,6 +2211,14 @@
           "cagr_receita": 49.34
         }
       },
+      "dcf": {
+        "intrinsic_value": 76.2,
+        "margin_of_safety": 70.7,
+        "lpa": 3.5194,
+        "g1_pct": 9.74,
+        "g2_pct": 4.87,
+        "fcf_penalty": 0.97
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -2193,23 +2265,23 @@
         "segment": "Tecidos, Vestuário e Calçados"
       },
       "ticker": "AZZA3",
-      "last_updated": "2026-04-10T21:15:50.873049"
+      "last_updated": "2026-04-17T15:09:39.137115"
     },
     "B3SA3": {
-      "price_now": 19.51,
+      "price_now": 19.6,
       "price_min_6m": 11.91,
       "price_max_6m": 19.74,
       "avg_dividends_5y": 0.3997,
       "price_target_6pct": 6.66,
       "price_target_8pct": 5.0,
       "price_target_5pct": 7.99,
-      "dy_real": 3.11,
+      "dy_real": 3.09,
       "payout": 33.92,
       "payout_fcf": 38.2,
       "payout_divergencia": 4.3,
       "accumulation_score": 40.7,
-      "p_now_p_min": 1.6381,
-      "gain_pct_to_target": -65.86,
+      "p_now_p_min": 1.6457,
+      "gain_pct_to_target": -66.02,
       "rank": 7,
       "rank_max": 21,
       "zone": "CARO",
@@ -2393,6 +2465,14 @@
           "cagr_receita": 3.58
         }
       },
+      "dcf": {
+        "intrinsic_value": 13.98,
+        "margin_of_safety": -40.2,
+        "lpa": 1.0119,
+        "g1_pct": 2.01,
+        "g2_pct": 1.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -2439,30 +2519,30 @@
         "segment": "Serviços Financeiros Diversos"
       },
       "ticker": "B3SA3",
-      "last_updated": "2026-04-10T21:15:51.084236"
+      "last_updated": "2026-04-17T15:09:39.283559"
     },
     "BAZA3": {
-      "price_now": 82.64,
+      "price_now": 85.56,
       "price_min_6m": 73.0,
       "price_max_6m": 89.5,
       "avg_dividends_5y": 6.629,
       "price_target_6pct": 110.48,
       "price_target_8pct": 82.86,
       "price_target_5pct": 132.58,
-      "dy_real": 9.7,
+      "dy_real": 9.36,
       "payout": null,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 38.2,
-      "p_now_p_min": 1.1321,
-      "gain_pct_to_target": 33.69,
-      "rank": 16,
+      "p_now_p_min": 1.1721,
+      "gain_pct_to_target": 29.13,
+      "rank": 15,
       "rank_max": 21,
-      "zone": "COMPRA_FORTE",
+      "zone": "COMPRA",
       "weighted_score": {
-        "score": 76.2,
+        "score": 72.5,
         "score_max": 100,
-        "earned_points": 30.5,
+        "earned_points": 29.0,
         "max_points": 40.0
       },
       "piotroski": {
@@ -2635,6 +2715,14 @@
           "cagr_receita": 26.63
         }
       },
+      "dcf": {
+        "intrinsic_value": 319.79,
+        "margin_of_safety": 73.2,
+        "lpa": 19.4463,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -2655,7 +2743,7 @@
         "dy_ok": true,
         "abaixo_vpa": true,
         "abaixo_target_6pct": true,
-        "abaixo_target_8pct": true,
+        "abaixo_target_8pct": false,
         "accumulation_ok": false
       },
       "indicators": {
@@ -2681,23 +2769,23 @@
         "segment": "Bancos"
       },
       "ticker": "BAZA3",
-      "last_updated": "2026-04-10T21:15:51.711408"
+      "last_updated": "2026-04-17T15:09:39.862968"
     },
     "BBAS3": {
-      "price_now": 24.73,
+      "price_now": 24.41,
       "price_min_6m": 19.7,
       "price_max_6m": 27.74,
       "avg_dividends_5y": 1.7101,
       "price_target_6pct": 28.5,
       "price_target_8pct": 21.38,
       "price_target_5pct": 34.2,
-      "dy_real": 3.37,
+      "dy_real": 3.41,
       "payout": 31.01,
       "payout_fcf": 2.8,
       "payout_divergencia": 28.2,
       "accumulation_score": 45.5,
-      "p_now_p_min": 1.2553,
-      "gain_pct_to_target": 15.24,
+      "p_now_p_min": 1.2391,
+      "gain_pct_to_target": 16.76,
       "rank": 9,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -2881,6 +2969,14 @@
           "cagr_receita": 26.49
         }
       },
+      "dcf": {
+        "intrinsic_value": 49.0,
+        "margin_of_safety": 50.2,
+        "lpa": 3.0199,
+        "g1_pct": 4.77,
+        "g2_pct": 2.38,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -2927,23 +3023,23 @@
         "segment": "Bancos"
       },
       "ticker": "BBAS3",
-      "last_updated": "2026-04-10T21:15:51.874216"
+      "last_updated": "2026-04-17T15:09:40.020655"
     },
     "BBDC3": {
-      "price_now": 17.67,
+      "price_now": 18.4,
       "price_min_6m": 13.66,
       "price_max_6m": 18.64,
       "avg_dividends_5y": 1.1383,
       "price_target_6pct": 18.97,
       "price_target_8pct": 14.23,
       "price_target_5pct": 22.77,
-      "dy_real": 9.02,
+      "dy_real": 8.66,
       "payout": 99.8,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 45.5,
-      "p_now_p_min": 1.2936,
-      "gain_pct_to_target": 7.36,
+      "p_now_p_min": 1.347,
+      "gain_pct_to_target": 3.1,
       "rank": 12,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -3126,6 +3222,14 @@
           "cagr_lucro": 8.33,
           "cagr_receita": 22.38
         }
+      },
+      "dcf": {
+        "intrinsic_value": 36.2,
+        "margin_of_safety": 49.2,
+        "lpa": 2.5466,
+        "g1_pct": 2.5,
+        "g2_pct": 1.25,
+        "fcf_penalty": 0.5
       },
       "flags": {
         "dl_pl_ok": false,
@@ -3173,30 +3277,30 @@
         "segment": "Bancos"
       },
       "ticker": "BBDC3",
-      "last_updated": "2026-04-10T21:15:52.041423"
+      "last_updated": "2026-04-17T15:09:40.167625"
     },
     "BBDC4": {
-      "price_now": 20.44,
+      "price_now": 21.38,
       "price_min_6m": 16.09,
       "price_max_6m": 21.74,
       "avg_dividends_5y": 1.2521,
       "price_target_6pct": 20.87,
       "price_target_8pct": 15.65,
       "price_target_5pct": 25.04,
-      "dy_real": 8.57,
+      "dy_real": 8.2,
       "payout": 99.8,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 47.2,
-      "p_now_p_min": 1.2704,
-      "gain_pct_to_target": 2.1,
-      "rank": 12,
+      "p_now_p_min": 1.3288,
+      "gain_pct_to_target": -2.39,
+      "rank": 11,
       "rank_max": 21,
-      "zone": "COMPRA",
+      "zone": "MONITORAR",
       "weighted_score": {
-        "score": 53.8,
+        "score": 50.0,
         "score_max": 100,
-        "earned_points": 21.5,
+        "earned_points": 20.0,
         "max_points": 40.0
       },
       "piotroski": {
@@ -3373,6 +3477,14 @@
           "cagr_receita": 22.38
         }
       },
+      "dcf": {
+        "intrinsic_value": 36.42,
+        "margin_of_safety": 41.3,
+        "lpa": 2.5619,
+        "g1_pct": 2.5,
+        "g2_pct": 1.25,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -3392,7 +3504,7 @@
         "graham_combo_ok": true,
         "dy_ok": true,
         "abaixo_vpa": false,
-        "abaixo_target_6pct": true,
+        "abaixo_target_6pct": false,
         "abaixo_target_8pct": false,
         "accumulation_ok": false
       },
@@ -3419,23 +3531,23 @@
         "segment": "Bancos"
       },
       "ticker": "BBDC4",
-      "last_updated": "2026-04-10T21:15:52.213800"
+      "last_updated": "2026-04-17T15:09:40.320203"
     },
     "BBSE3": {
-      "price_now": 36.41,
+      "price_now": 35.14,
       "price_min_6m": 29.49,
       "price_max_6m": 36.59,
       "avg_dividends_5y": 3.1539,
       "price_target_6pct": 52.57,
       "price_target_8pct": 39.42,
       "price_target_5pct": 63.08,
-      "dy_real": 12.49,
+      "dy_real": 12.95,
       "payout": 96.71,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 33.3,
-      "p_now_p_min": 1.2347,
-      "gain_pct_to_target": 44.38,
+      "p_now_p_min": 1.1916,
+      "gain_pct_to_target": 49.6,
       "rank": 9,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -3619,6 +3731,14 @@
           "cagr_receita": null
         }
       },
+      "dcf": {
+        "intrinsic_value": 86.28,
+        "margin_of_safety": 59.3,
+        "lpa": 4.5371,
+        "g1_pct": 7.5,
+        "g2_pct": 3.75,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -3665,23 +3785,23 @@
         "segment": "Seguradoras"
       },
       "ticker": "BBSE3",
-      "last_updated": "2026-04-10T21:15:52.382328"
+      "last_updated": "2026-04-17T15:09:40.475009"
     },
     "BLAU3": {
-      "price_now": 11.34,
+      "price_now": 11.48,
       "price_min_6m": 8.65,
       "price_max_6m": 14.39,
       "avg_dividends_5y": 0.5022,
       "price_target_6pct": 8.37,
       "price_target_8pct": 6.28,
       "price_target_5pct": 10.04,
-      "dy_real": 5.9,
+      "dy_real": 5.83,
       "payout": 80.99,
       "payout_fcf": 178.1,
       "payout_divergencia": 97.1,
       "accumulation_score": 35.0,
-      "p_now_p_min": 1.311,
-      "gain_pct_to_target": -26.19,
+      "p_now_p_min": 1.3272,
+      "gain_pct_to_target": -27.09,
       "rank": 14,
       "rank_max": 21,
       "zone": "CARO",
@@ -3857,6 +3977,14 @@
           "cagr_receita": 12.41
         }
       },
+      "dcf": {
+        "intrinsic_value": 29.64,
+        "margin_of_safety": 61.3,
+        "lpa": 1.5566,
+        "g1_pct": 7.52,
+        "g2_pct": 3.76,
+        "fcf_penalty": 0.78
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -3903,23 +4031,23 @@
         "segment": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
       },
       "ticker": "BLAU3",
-      "last_updated": "2026-04-10T21:15:53.516966"
+      "last_updated": "2026-04-17T15:09:41.523918"
     },
     "BMEB3": {
-      "price_now": 66.0,
+      "price_now": 63.75,
       "price_min_6m": 40.83,
       "price_max_6m": 75.49,
       "avg_dividends_5y": 0.8559,
       "price_target_6pct": 14.27,
       "price_target_8pct": 10.7,
       "price_target_5pct": 17.12,
-      "dy_real": 2.59,
+      "dy_real": 2.68,
       "payout": 68.22,
       "payout_fcf": 53.3,
       "payout_divergencia": 14.9,
       "accumulation_score": 52.8,
-      "p_now_p_min": 1.6165,
-      "gain_pct_to_target": -78.38,
+      "p_now_p_min": 1.5614,
+      "gain_pct_to_target": -77.62,
       "rank": 9,
       "rank_max": 21,
       "zone": "CARO",
@@ -4103,6 +4231,14 @@
           "cagr_receita": 29.99
         }
       },
+      "dcf": {
+        "intrinsic_value": 109.58,
+        "margin_of_safety": 41.8,
+        "lpa": 4.9863,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -4149,23 +4285,23 @@
         "segment": "Bancos"
       },
       "ticker": "BMEB3",
-      "last_updated": "2026-04-10T21:15:53.679291"
+      "last_updated": "2026-04-17T15:09:41.672525"
     },
     "BMEB4": {
-      "price_now": 82.3,
+      "price_now": 79.58,
       "price_min_6m": 47.49,
       "price_max_6m": 88.78,
       "avg_dividends_5y": 1.0406,
       "price_target_6pct": 17.34,
       "price_target_8pct": 13.01,
       "price_target_5pct": 20.81,
-      "dy_real": 2.28,
+      "dy_real": 2.36,
       "payout": 68.22,
       "payout_fcf": 53.3,
       "payout_divergencia": 14.9,
       "accumulation_score": 39.0,
-      "p_now_p_min": 1.733,
-      "gain_pct_to_target": -78.93,
+      "p_now_p_min": 1.6757,
+      "gain_pct_to_target": -78.21,
       "rank": 8,
       "rank_max": 21,
       "zone": "CARO",
@@ -4349,6 +4485,14 @@
           "cagr_receita": 29.99
         }
       },
+      "dcf": {
+        "intrinsic_value": 118.24,
+        "margin_of_safety": 32.7,
+        "lpa": 5.3802,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -4395,23 +4539,23 @@
         "segment": "Bancos"
       },
       "ticker": "BMEB4",
-      "last_updated": "2026-04-10T21:15:53.847279"
+      "last_updated": "2026-04-17T15:09:41.821314"
     },
     "BMGB4": {
-      "price_now": 5.66,
+      "price_now": 5.57,
       "price_min_6m": 3.54,
       "price_max_6m": 5.75,
       "avg_dividends_5y": 0.4202,
       "price_target_6pct": 7.0,
       "price_target_8pct": 5.25,
       "price_target_5pct": 8.4,
-      "dy_real": 9.55,
+      "dy_real": 9.71,
       "payout": 56.55,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 35.0,
-      "p_now_p_min": 1.5989,
-      "gain_pct_to_target": 23.67,
+      "p_now_p_min": 1.5734,
+      "gain_pct_to_target": 25.67,
       "rank": 14,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -4595,6 +4739,14 @@
           "cagr_receita": 16.75
         }
       },
+      "dcf": {
+        "intrinsic_value": 15.08,
+        "margin_of_safety": 63.1,
+        "lpa": 1.0605,
+        "g1_pct": 2.5,
+        "g2_pct": 1.25,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -4641,23 +4793,23 @@
         "segment": "Bancos"
       },
       "ticker": "BMGB4",
-      "last_updated": "2026-04-10T21:15:54.023772"
+      "last_updated": "2026-04-17T15:09:41.974232"
     },
     "BPAC11": {
-      "price_now": 62.78,
+      "price_now": 64.15,
       "price_min_6m": 44.57,
       "price_max_6m": 63.68,
       "avg_dividends_5y": 0.9639,
       "price_target_6pct": 16.07,
       "price_target_8pct": 12.05,
       "price_target_5pct": 19.28,
-      "dy_real": 1.99,
+      "dy_real": 1.94,
       "payout": 135.74,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 32.5,
-      "p_now_p_min": 1.4086,
-      "gain_pct_to_target": -74.4,
+      "p_now_p_min": 1.4393,
+      "gain_pct_to_target": -74.95,
       "rank": 10,
       "rank_max": 21,
       "zone": "CARO",
@@ -4841,6 +4993,14 @@
           "cagr_receita": 36.59
         }
       },
+      "dcf": {
+        "intrinsic_value": 77.09,
+        "margin_of_safety": 16.8,
+        "lpa": 4.6877,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -4887,23 +5047,23 @@
         "segment": "Bancos"
       },
       "ticker": "BPAC11",
-      "last_updated": "2026-04-10T21:15:54.966329"
+      "last_updated": "2026-04-17T15:09:42.814547"
     },
     "BPAC3": {
-      "price_now": 28.57,
+      "price_now": 27.46,
       "price_min_6m": 25.51,
       "price_max_6m": 46.88,
       "avg_dividends_5y": 0.3213,
       "price_target_6pct": 5.35,
       "price_target_8pct": 4.02,
       "price_target_5pct": 6.43,
-      "dy_real": 1.46,
+      "dy_real": 1.51,
       "payout": 135.74,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 39.8,
-      "p_now_p_min": 1.12,
-      "gain_pct_to_target": -81.27,
+      "p_now_p_min": 1.0764,
+      "gain_pct_to_target": -80.52,
       "rank": 9,
       "rank_max": 21,
       "zone": "CARO",
@@ -5087,6 +5247,14 @@
           "cagr_receita": 36.59
         }
       },
+      "dcf": {
+        "intrinsic_value": 15.23,
+        "margin_of_safety": -80.3,
+        "lpa": 0.9261,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -5133,23 +5301,23 @@
         "segment": "Bancos"
       },
       "ticker": "BPAC3",
-      "last_updated": "2026-04-10T21:15:55.137442"
+      "last_updated": "2026-04-17T15:09:42.958043"
     },
     "BRAP3": {
-      "price_now": 20.77,
+      "price_now": 21.3,
       "price_min_6m": 13.78,
       "price_max_6m": 22.11,
       "avg_dividends_5y": 3.141,
       "price_target_6pct": 52.35,
       "price_target_8pct": 39.26,
       "price_target_5pct": 62.82,
-      "dy_real": 14.34,
+      "dy_real": 13.99,
       "payout": 160.29,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 30.9,
-      "p_now_p_min": 1.5073,
-      "gain_pct_to_target": 152.05,
+      "p_now_p_min": 1.5457,
+      "gain_pct_to_target": 145.77,
       "rank": 14,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -5329,6 +5497,14 @@
           "cagr_receita": null
         }
       },
+      "dcf": {
+        "intrinsic_value": 43.99,
+        "margin_of_safety": 51.6,
+        "lpa": 3.1399,
+        "g1_pct": 2.25,
+        "g2_pct": 1.12,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -5375,23 +5551,23 @@
         "segment": "Holdings Diversificadas"
       },
       "ticker": "BRAP3",
-      "last_updated": "2026-04-10T21:15:55.839835"
+      "last_updated": "2026-04-17T15:09:43.410293"
     },
     "BRAP4": {
-      "price_now": 24.58,
+      "price_now": 25.43,
       "price_min_6m": 15.11,
       "price_max_6m": 25.46,
       "avg_dividends_5y": 3.4551,
       "price_target_6pct": 57.59,
       "price_target_8pct": 43.19,
       "price_target_5pct": 69.1,
-      "dy_real": 13.33,
+      "dy_real": 12.89,
       "payout": 160.29,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 26.8,
-      "p_now_p_min": 1.6267,
-      "gain_pct_to_target": 134.3,
+      "p_now_p_min": 1.683,
+      "gain_pct_to_target": 126.46,
       "rank": 13,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -5571,6 +5747,14 @@
           "cagr_receita": null
         }
       },
+      "dcf": {
+        "intrinsic_value": 45.57,
+        "margin_of_safety": 44.2,
+        "lpa": 3.253,
+        "g1_pct": 2.25,
+        "g2_pct": 1.12,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -5617,23 +5801,23 @@
         "segment": "Holdings Diversificadas"
       },
       "ticker": "BRAP4",
-      "last_updated": "2026-04-10T21:15:56.022046"
+      "last_updated": "2026-04-17T15:09:43.585610"
     },
     "BRSR6": {
-      "price_now": 18.7,
+      "price_now": 16.79,
       "price_min_6m": 10.91,
       "price_max_6m": 18.95,
       "avg_dividends_5y": 1.1694,
       "price_target_6pct": 19.49,
       "price_target_8pct": 14.62,
       "price_target_5pct": 23.39,
-      "dy_real": 8.57,
+      "dy_real": 9.55,
       "payout": 47.19,
       "payout_fcf": 5.5,
       "payout_divergencia": 41.7,
       "accumulation_score": 36.6,
-      "p_now_p_min": 1.714,
-      "gain_pct_to_target": 4.22,
+      "p_now_p_min": 1.539,
+      "gain_pct_to_target": 16.08,
       "rank": 14,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -5817,6 +6001,14 @@
           "cagr_receita": 24.08
         }
       },
+      "dcf": {
+        "intrinsic_value": 67.46,
+        "margin_of_safety": 75.1,
+        "lpa": 4.1019,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -5863,23 +6055,23 @@
         "segment": "Bancos"
       },
       "ticker": "BRSR6",
-      "last_updated": "2026-04-10T21:15:57.024828"
+      "last_updated": "2026-04-17T15:09:44.422231"
     },
     "BSLI3": {
-      "price_now": 4.0,
+      "price_now": 3.99,
       "price_min_6m": 3.8,
       "price_max_6m": 9.33,
       "avg_dividends_5y": 0.3515,
       "price_target_6pct": 5.86,
       "price_target_8pct": 4.39,
       "price_target_5pct": 7.03,
-      "dy_real": 10.21,
+      "dy_real": 10.24,
       "payout": 62.96,
       "payout_fcf": 15.3,
       "payout_divergencia": 47.7,
       "accumulation_score": 22.8,
-      "p_now_p_min": 1.0526,
-      "gain_pct_to_target": 46.5,
+      "p_now_p_min": 1.05,
+      "gain_pct_to_target": 46.87,
       "rank": 15,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -6059,6 +6251,14 @@
           "cagr_receita": 23.49
         }
       },
+      "dcf": {
+        "intrinsic_value": 22.96,
+        "margin_of_safety": 82.6,
+        "lpa": 1.396,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -6105,23 +6305,23 @@
         "segment": "Bancos"
       },
       "ticker": "BSLI3",
-      "last_updated": "2026-04-10T21:15:57.319555"
+      "last_updated": "2026-04-17T15:09:44.671048"
     },
     "CAML3": {
-      "price_now": 7.19,
+      "price_now": 6.91,
       "price_min_6m": 4.68,
       "price_max_6m": 7.4,
       "avg_dividends_5y": 0.2988,
       "price_target_6pct": 4.98,
       "price_target_8pct": 3.73,
       "price_target_5pct": 5.98,
-      "dy_real": 4.08,
+      "dy_real": 4.24,
       "payout": 44.08,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 45.5,
-      "p_now_p_min": 1.5363,
-      "gain_pct_to_target": -30.74,
+      "p_now_p_min": 1.4765,
+      "gain_pct_to_target": -27.93,
       "rank": 7,
       "rank_max": 21,
       "zone": "CARO",
@@ -6301,6 +6501,14 @@
           "cagr_receita": 17.84
         }
       },
+      "dcf": {
+        "intrinsic_value": 9.38,
+        "margin_of_safety": 26.3,
+        "lpa": 0.7635,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -6347,23 +6555,23 @@
         "segment": "Alimentos Diversos"
       },
       "ticker": "CAML3",
-      "last_updated": "2026-04-10T21:15:57.900787"
+      "last_updated": "2026-04-17T15:09:45.128494"
     },
     "CEBR6": {
-      "price_now": 32.0,
+      "price_now": 31.17,
       "price_min_6m": 22.32,
       "price_max_6m": 33.97,
       "avg_dividends_5y": 4.5946,
       "price_target_6pct": 76.58,
       "price_target_8pct": 57.43,
       "price_target_5pct": 91.89,
-      "dy_real": 15.4,
+      "dy_real": 15.81,
       "payout": 271.75,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 22.8,
-      "p_now_p_min": 1.4337,
-      "gain_pct_to_target": 139.31,
+      "p_now_p_min": 1.3965,
+      "gain_pct_to_target": 145.68,
       "rank": 14,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -6543,6 +6751,14 @@
           "cagr_receita": -33.77
         }
       },
+      "dcf": {
+        "intrinsic_value": 50.73,
+        "margin_of_safety": 38.6,
+        "lpa": 2.6677,
+        "g1_pct": 7.5,
+        "g2_pct": 3.75,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -6589,23 +6805,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "CEBR6",
-      "last_updated": "2026-04-10T21:15:59.032327"
+      "last_updated": "2026-04-17T15:09:46.061895"
     },
     "CGRA4": {
-      "price_now": 26.5,
+      "price_now": 26.31,
       "price_min_6m": 22.34,
       "price_max_6m": 28.45,
       "avg_dividends_5y": 2.3829,
       "price_target_6pct": 39.71,
       "price_target_8pct": 29.79,
       "price_target_5pct": 47.66,
-      "dy_real": 9.5,
+      "dy_real": 9.57,
       "payout": 127.71,
       "payout_fcf": 69.2,
       "payout_divergencia": 58.5,
       "accumulation_score": 33.3,
-      "p_now_p_min": 1.1862,
-      "gain_pct_to_target": 49.85,
+      "p_now_p_min": 1.1777,
+      "gain_pct_to_target": 50.93,
       "rank": 14,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -6789,6 +7005,14 @@
           "cagr_receita": 10.6
         }
       },
+      "dcf": {
+        "intrinsic_value": 51.71,
+        "margin_of_safety": 49.1,
+        "lpa": 3.4555,
+        "g1_pct": 3.38,
+        "g2_pct": 1.69,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -6835,23 +7059,23 @@
         "segment": "Tecidos, Vestuário e Calçados"
       },
       "ticker": "CGRA4",
-      "last_updated": "2026-04-10T21:16:00.409474"
+      "last_updated": "2026-04-17T15:09:47.190718"
     },
     "CLSC4": {
-      "price_now": 146.79,
+      "price_now": 151.92,
       "price_min_6m": 96.59,
       "price_max_6m": 152.79,
       "avg_dividends_5y": 7.1798,
       "price_target_6pct": 119.66,
       "price_target_8pct": 89.75,
       "price_target_5pct": 143.6,
-      "dy_real": 6.95,
+      "dy_real": 6.71,
       "payout": 16.14,
       "payout_fcf": 79.9,
       "payout_divergencia": 63.8,
       "accumulation_score": 20.3,
-      "p_now_p_min": 1.5197,
-      "gain_pct_to_target": -18.48,
+      "p_now_p_min": 1.5728,
+      "gain_pct_to_target": -21.23,
       "rank": 11,
       "rank_max": 21,
       "zone": "CARO",
@@ -7035,6 +7259,14 @@
           "cagr_receita": 5.86
         }
       },
+      "dcf": {
+        "intrinsic_value": 282.94,
+        "margin_of_safety": 46.3,
+        "lpa": 19.1852,
+        "g1_pct": 3.13,
+        "g2_pct": 1.57,
+        "fcf_penalty": 0.63
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -7081,23 +7313,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "CLSC4",
-      "last_updated": "2026-04-10T21:16:00.754099"
+      "last_updated": "2026-04-17T15:09:47.457647"
     },
     "CMIG3": {
-      "price_now": 19.62,
+      "price_now": 18.41,
       "price_min_6m": 13.0,
       "price_max_6m": 19.82,
       "avg_dividends_5y": 1.4193,
       "price_target_6pct": 23.66,
       "price_target_8pct": 17.74,
       "price_target_5pct": 28.39,
-      "dy_real": 9.21,
+      "dy_real": 9.81,
       "payout": 39.33,
       "payout_fcf": 64.2,
       "payout_divergencia": 24.9,
       "accumulation_score": 39.8,
-      "p_now_p_min": 1.5092,
-      "gain_pct_to_target": 20.59,
+      "p_now_p_min": 1.4162,
+      "gain_pct_to_target": 28.52,
       "rank": 13,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -7281,6 +7513,14 @@
           "cagr_receita": 9.42
         }
       },
+      "dcf": {
+        "intrinsic_value": 26.31,
+        "margin_of_safety": 30.0,
+        "lpa": 1.6553,
+        "g1_pct": 4.41,
+        "g2_pct": 2.21,
+        "fcf_penalty": 0.88
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -7327,23 +7567,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "CMIG3",
-      "last_updated": "2026-04-10T21:16:00.916024"
+      "last_updated": "2026-04-17T15:09:47.613813"
     },
     "CMIG4": {
-      "price_now": 13.81,
+      "price_now": 13.62,
       "price_min_6m": 9.96,
       "price_max_6m": 13.81,
       "avg_dividends_5y": 1.3581,
       "price_target_6pct": 22.64,
       "price_target_8pct": 16.98,
       "price_target_5pct": 27.16,
-      "dy_real": 12.25,
+      "dy_real": 12.42,
       "payout": 39.33,
       "payout_fcf": 64.2,
       "payout_divergencia": 24.9,
       "accumulation_score": 37.4,
-      "p_now_p_min": 1.3865,
-      "gain_pct_to_target": 63.94,
+      "p_now_p_min": 1.3675,
+      "gain_pct_to_target": 66.23,
       "rank": 16,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -7527,6 +7767,14 @@
           "cagr_receita": 9.42
         }
       },
+      "dcf": {
+        "intrinsic_value": 25.5,
+        "margin_of_safety": 46.6,
+        "lpa": 1.6048,
+        "g1_pct": 4.41,
+        "g2_pct": 2.21,
+        "fcf_penalty": 0.88
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -7573,23 +7821,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "CMIG4",
-      "last_updated": "2026-04-10T21:16:01.097970"
+      "last_updated": "2026-04-17T15:09:47.776599"
     },
     "CMIN3": {
-      "price_now": 5.02,
+      "price_now": 5.0,
       "price_min_6m": 4.65,
       "price_max_6m": 6.56,
       "avg_dividends_5y": 0.66,
       "price_target_6pct": 11.0,
       "price_target_8pct": 8.25,
       "price_target_5pct": 13.2,
-      "dy_real": 9.63,
+      "dy_real": 9.67,
       "payout": 149.3,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 22.0,
-      "p_now_p_min": 1.0796,
-      "gain_pct_to_target": 119.12,
+      "p_now_p_min": 1.0753,
+      "gain_pct_to_target": 120.0,
       "rank": 12,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -7769,6 +8017,14 @@
           "cagr_receita": 5.5
         }
       },
+      "dcf": {
+        "intrinsic_value": 3.75,
+        "margin_of_safety": -33.2,
+        "lpa": 0.3056,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -7815,23 +8071,23 @@
         "segment": "Minerais Metálicos"
       },
       "ticker": "CMIN3",
-      "last_updated": "2026-04-10T21:16:01.260968"
+      "last_updated": "2026-04-17T15:09:47.949640"
     },
     "COCE5": {
-      "price_now": 33.65,
+      "price_now": 34.22,
       "price_min_6m": 28.69,
       "price_max_6m": 34.99,
       "avg_dividends_5y": 1.2759,
       "price_target_6pct": 21.27,
       "price_target_8pct": 15.95,
       "price_target_5pct": 25.52,
-      "dy_real": 4.02,
+      "dy_real": 3.95,
       "payout": null,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 44.7,
-      "p_now_p_min": 1.1729,
-      "gain_pct_to_target": -36.79,
+      "p_now_p_min": 1.1928,
+      "gain_pct_to_target": -37.84,
       "rank": 9,
       "rank_max": 21,
       "zone": "CARO",
@@ -8015,6 +8271,14 @@
           "cagr_receita": 9.35
         }
       },
+      "dcf": {
+        "intrinsic_value": 82.47,
+        "margin_of_safety": 58.5,
+        "lpa": 5.0149,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -8061,23 +8325,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "COCE5",
-      "last_updated": "2026-04-10T21:16:01.521715"
+      "last_updated": "2026-04-17T15:09:48.199891"
     },
     "CSED3": {
-      "price_now": 5.99,
+      "price_now": 6.16,
       "price_min_6m": 4.74,
       "price_max_6m": 7.31,
       "avg_dividends_5y": 0.2824,
       "price_target_6pct": 4.71,
       "price_target_8pct": 3.53,
       "price_target_5pct": 5.65,
-      "dy_real": 8.11,
+      "dy_real": 7.88,
       "payout": 33.69,
       "payout_fcf": 13.6,
       "payout_divergencia": 20.1,
       "accumulation_score": 30.9,
-      "p_now_p_min": 1.2637,
-      "gain_pct_to_target": -21.37,
+      "p_now_p_min": 1.2996,
+      "gain_pct_to_target": -23.54,
       "rank": 14,
       "rank_max": 21,
       "zone": "CARO",
@@ -8253,6 +8517,14 @@
           "cagr_receita": 11.74
         }
       },
+      "dcf": {
+        "intrinsic_value": 15.58,
+        "margin_of_safety": 60.5,
+        "lpa": 0.7088,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -8299,23 +8571,23 @@
         "segment": "Serviços Educacionais"
       },
       "ticker": "CSED3",
-      "last_updated": "2026-04-10T21:16:02.649268"
+      "last_updated": "2026-04-17T15:09:49.254116"
     },
     "CSMG3": {
-      "price_now": 58.99,
+      "price_now": 56.58,
       "price_min_6m": 31.78,
       "price_max_6m": 61.0,
       "avg_dividends_5y": 2.1933,
       "price_target_6pct": 36.55,
       "price_target_8pct": 27.42,
       "price_target_5pct": 43.87,
-      "dy_real": 3.8,
+      "dy_real": 3.96,
       "payout": 64.07,
       "payout_fcf": 59.6,
       "payout_divergencia": 4.5,
       "accumulation_score": 43.1,
-      "p_now_p_min": 1.8562,
-      "gain_pct_to_target": -38.04,
+      "p_now_p_min": 1.7804,
+      "gain_pct_to_target": -35.4,
       "rank": 10,
       "rank_max": 21,
       "zone": "CARO",
@@ -8499,6 +8771,14 @@
           "cagr_receita": 9.29
         }
       },
+      "dcf": {
+        "intrinsic_value": 84.84,
+        "margin_of_safety": 33.3,
+        "lpa": 3.8603,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -8545,23 +8825,23 @@
         "segment": "Água e Saneamento"
       },
       "ticker": "CSMG3",
-      "last_updated": "2026-04-10T21:16:02.830238"
+      "last_updated": "2026-04-17T15:09:49.403764"
     },
     "CSUD3": {
-      "price_now": 18.2,
+      "price_now": 18.09,
       "price_min_6m": 15.04,
       "price_max_6m": 19.74,
       "avg_dividends_5y": 1.587,
       "price_target_6pct": 26.45,
       "price_target_8pct": 19.84,
       "price_target_5pct": 31.74,
-      "dy_real": 16.26,
+      "dy_real": 16.35,
       "payout": 92.57,
       "payout_fcf": 192.5,
       "payout_divergencia": 99.9,
       "accumulation_score": 35.0,
-      "p_now_p_min": 1.2101,
-      "gain_pct_to_target": 45.33,
+      "p_now_p_min": 1.2028,
+      "gain_pct_to_target": 46.21,
       "rank": 16,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -8745,6 +9025,14 @@
           "cagr_receita": 6.42
         }
       },
+      "dcf": {
+        "intrinsic_value": 62.35,
+        "margin_of_safety": 71.0,
+        "lpa": 2.5273,
+        "g1_pct": 12.01,
+        "g2_pct": 6.0,
+        "fcf_penalty": 0.8
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -8791,23 +9079,23 @@
         "segment": "Serviços Diversos"
       },
       "ticker": "CSUD3",
-      "last_updated": "2026-04-10T21:16:03.156890"
+      "last_updated": "2026-04-17T15:09:49.685105"
     },
     "CURY3": {
-      "price_now": 35.87,
+      "price_now": 34.97,
       "price_min_6m": 27.41,
       "price_max_6m": 41.76,
       "avg_dividends_5y": 2.2847,
       "price_target_6pct": 38.08,
       "price_target_8pct": 28.56,
       "price_target_5pct": 45.69,
-      "dy_real": 12.22,
+      "dy_real": 12.53,
       "payout": 121.77,
       "payout_fcf": 179.1,
       "payout_divergencia": 57.3,
       "accumulation_score": 35.0,
-      "p_now_p_min": 1.3086,
-      "gain_pct_to_target": 6.16,
+      "p_now_p_min": 1.2758,
+      "gain_pct_to_target": 8.89,
       "rank": 13,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -8987,6 +9275,14 @@
           "cagr_receita": 36.37
         }
       },
+      "dcf": {
+        "intrinsic_value": 83.78,
+        "margin_of_safety": 58.3,
+        "lpa": 3.0508,
+        "g1_pct": 13.88,
+        "g2_pct": 6.94,
+        "fcf_penalty": 0.93
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -9033,23 +9329,23 @@
         "segment": "Incorporações"
       },
       "ticker": "CURY3",
-      "last_updated": "2026-04-10T21:16:04.043479"
+      "last_updated": "2026-04-17T15:09:50.464955"
     },
     "CXSE3": {
-      "price_now": 19.61,
+      "price_now": 18.99,
       "price_min_6m": 13.92,
       "price_max_6m": 19.61,
       "avg_dividends_5y": 1.0136,
       "price_target_6pct": 16.89,
       "price_target_8pct": 12.67,
       "price_target_5pct": 20.27,
-      "dy_real": 6.64,
+      "dy_real": 6.86,
       "payout": 68.51,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 43.1,
-      "p_now_p_min": 1.4088,
-      "gain_pct_to_target": -13.87,
+      "p_now_p_min": 1.3642,
+      "gain_pct_to_target": -11.06,
       "rank": 11,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -9233,6 +9529,14 @@
           "cagr_receita": null
         }
       },
+      "dcf": {
+        "intrinsic_value": 28.17,
+        "margin_of_safety": 32.6,
+        "lpa": 1.4812,
+        "g1_pct": 7.5,
+        "g2_pct": 3.75,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -9279,10 +9583,10 @@
         "segment": "Seguradoras"
       },
       "ticker": "CXSE3",
-      "last_updated": "2026-04-10T21:16:04.314994"
+      "last_updated": "2026-04-17T15:09:50.738500"
     },
     "CYRE3": {
-      "price_now": 27.81,
+      "price_now": 27.82,
       "price_min_6m": 23.79,
       "price_max_6m": 36.02,
       "avg_dividends_5y": 1.7422,
@@ -9294,8 +9598,8 @@
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 27.6,
-      "p_now_p_min": 1.169,
-      "gain_pct_to_target": 4.42,
+      "p_now_p_min": 1.1694,
+      "gain_pct_to_target": 4.39,
       "rank": 18,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -9479,6 +9783,14 @@
           "cagr_receita": 15.17
         }
       },
+      "dcf": {
+        "intrinsic_value": 66.57,
+        "margin_of_safety": 58.2,
+        "lpa": 4.048,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -9525,23 +9837,23 @@
         "segment": "Incorporações"
       },
       "ticker": "CYRE3",
-      "last_updated": "2026-04-10T21:16:04.494188"
+      "last_updated": "2026-04-17T15:09:50.902413"
     },
     "DEXP3": {
-      "price_now": 7.43,
+      "price_now": 7.37,
       "price_min_6m": 6.41,
       "price_max_6m": 8.09,
       "avg_dividends_5y": 0.5367,
       "price_target_6pct": 8.95,
       "price_target_8pct": 6.71,
       "price_target_5pct": 10.73,
-      "dy_real": 11.27,
+      "dy_real": 11.36,
       "payout": 96.86,
       "payout_fcf": 84.1,
       "payout_divergencia": 12.8,
       "accumulation_score": 32.5,
-      "p_now_p_min": 1.1591,
-      "gain_pct_to_target": 20.46,
+      "p_now_p_min": 1.1498,
+      "gain_pct_to_target": 21.44,
       "rank": 17,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -9721,6 +10033,14 @@
           "cagr_receita": 17.81
         }
       },
+      "dcf": {
+        "intrinsic_value": 21.49,
+        "margin_of_safety": 65.7,
+        "lpa": 1.3069,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -9767,30 +10087,30 @@
         "segment": "Petroquímicos"
       },
       "ticker": "DEXP3",
-      "last_updated": "2026-04-10T21:16:05.474584"
+      "last_updated": "2026-04-17T15:09:51.404629"
     },
     "DIRR3": {
-      "price_now": 14.33,
+      "price_now": 14.79,
       "price_min_6m": 12.52,
       "price_max_6m": 17.26,
       "avg_dividends_5y": 1.1615,
       "price_target_6pct": 19.36,
       "price_target_8pct": 14.52,
       "price_target_5pct": 23.23,
-      "dy_real": 15.47,
+      "dy_real": 14.99,
       "payout": 102.21,
       "payout_fcf": 252.9,
       "payout_divergencia": 150.7,
       "accumulation_score": 28.5,
-      "p_now_p_min": 1.1446,
-      "gain_pct_to_target": 35.1,
-      "rank": 16,
+      "p_now_p_min": 1.1813,
+      "gain_pct_to_target": 30.9,
+      "rank": 15,
       "rank_max": 21,
-      "zone": "COMPRA_FORTE",
+      "zone": "COMPRA",
       "weighted_score": {
-        "score": 82.5,
+        "score": 78.8,
         "score_max": 100,
-        "earned_points": 33.0,
+        "earned_points": 31.5,
         "max_points": 40.0
       },
       "piotroski": {
@@ -9967,6 +10287,14 @@
           "cagr_receita": 23.68
         }
       },
+      "dcf": {
+        "intrinsic_value": 38.12,
+        "margin_of_safety": 61.2,
+        "lpa": 1.6101,
+        "g1_pct": 11.29,
+        "g2_pct": 5.64,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -9987,7 +10315,7 @@
         "dy_ok": true,
         "abaixo_vpa": false,
         "abaixo_target_6pct": true,
-        "abaixo_target_8pct": true,
+        "abaixo_target_8pct": false,
         "accumulation_ok": false
       },
       "indicators": {
@@ -10013,23 +10341,23 @@
         "segment": "Incorporações"
       },
       "ticker": "DIRR3",
-      "last_updated": "2026-04-10T21:16:06.112130"
+      "last_updated": "2026-04-17T15:09:51.685717"
     },
     "DXCO3": {
-      "price_now": 5.43,
+      "price_now": 5.87,
       "price_min_6m": 4.43,
       "price_max_6m": 6.22,
       "avg_dividends_5y": 0.196,
       "price_target_6pct": 3.27,
       "price_target_8pct": 2.45,
       "price_target_5pct": 3.92,
-      "dy_real": 3.61,
+      "dy_real": 3.34,
       "payout": null,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 41.5,
-      "p_now_p_min": 1.2257,
-      "gain_pct_to_target": -39.78,
+      "p_now_p_min": 1.3251,
+      "gain_pct_to_target": -44.29,
       "rank": 7,
       "rank_max": 21,
       "zone": "CARO",
@@ -10213,6 +10541,14 @@
           "cagr_receita": 7.01
         }
       },
+      "dcf": {
+        "intrinsic_value": 0.02,
+        "margin_of_safety": -29523.4,
+        "lpa": 0.0016,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -10259,23 +10595,23 @@
         "segment": "Madeira"
       },
       "ticker": "DXCO3",
-      "last_updated": "2026-04-10T21:16:07.323864"
+      "last_updated": "2026-04-17T15:09:52.391073"
     },
     "EGIE3": {
-      "price_now": 36.06,
+      "price_now": 37.97,
       "price_min_6m": 27.72,
       "price_max_6m": 36.66,
       "avg_dividends_5y": 1.7404,
       "price_target_6pct": 29.01,
       "price_target_8pct": 21.75,
       "price_target_5pct": 34.81,
-      "dy_real": 3.72,
+      "dy_real": 3.54,
       "payout": 42.85,
       "payout_fcf": 69.5,
       "payout_divergencia": 26.6,
       "accumulation_score": 28.5,
-      "p_now_p_min": 1.3009,
-      "gain_pct_to_target": -19.55,
+      "p_now_p_min": 1.3698,
+      "gain_pct_to_target": -23.6,
       "rank": 7,
       "rank_max": 21,
       "zone": "CARO",
@@ -10459,6 +10795,14 @@
           "cagr_receita": 0.96
         }
       },
+      "dcf": {
+        "intrinsic_value": 33.08,
+        "margin_of_safety": -14.8,
+        "lpa": 2.693,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 0.89
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -10505,23 +10849,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "EGIE3",
-      "last_updated": "2026-04-10T21:16:08.242068"
+      "last_updated": "2026-04-17T15:09:52.844305"
     },
     "ENGI11": {
-      "price_now": 57.35,
+      "price_now": 57.41,
       "price_min_6m": 42.13,
       "price_max_6m": 57.57,
       "avg_dividends_5y": 2.3622,
       "price_target_6pct": 39.37,
       "price_target_8pct": 29.53,
       "price_target_5pct": 47.24,
-      "dy_real": 2.7,
+      "dy_real": 2.69,
       "payout": 252.83,
       "payout_fcf": 1328.6,
       "payout_divergencia": 1075.8,
       "accumulation_score": 36.6,
-      "p_now_p_min": 1.3613,
-      "gain_pct_to_target": -31.35,
+      "p_now_p_min": 1.3627,
+      "gain_pct_to_target": -31.42,
       "rank": 9,
       "rank_max": 21,
       "zone": "CARO",
@@ -10705,6 +11049,14 @@
           "cagr_receita": 11.76
         }
       },
+      "dcf": {
+        "intrinsic_value": 71.97,
+        "margin_of_safety": 20.2,
+        "lpa": 4.8907,
+        "g1_pct": 3.09,
+        "g2_pct": 1.55,
+        "fcf_penalty": 0.62
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -10751,23 +11103,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "ENGI11",
-      "last_updated": "2026-04-10T21:16:09.457047"
+      "last_updated": "2026-04-17T15:09:53.579945"
     },
     "EQTL3": {
-      "price_now": 44.77,
+      "price_now": 45.4,
       "price_min_6m": 33.33,
       "price_max_6m": 45.0,
       "avg_dividends_5y": 1.1119,
       "price_target_6pct": 18.53,
       "price_target_8pct": 13.9,
       "price_target_5pct": 22.24,
-      "dy_real": 5.1,
+      "dy_real": 5.03,
       "payout": 118.79,
       "payout_fcf": 50.6,
       "payout_divergencia": 68.2,
       "accumulation_score": 31.7,
-      "p_now_p_min": 1.3432,
-      "gain_pct_to_target": -58.61,
+      "p_now_p_min": 1.3621,
+      "gain_pct_to_target": -59.19,
       "rank": 7,
       "rank_max": 21,
       "zone": "CARO",
@@ -10947,6 +11299,14 @@
           "cagr_receita": 19.27
         }
       },
+      "dcf": {
+        "intrinsic_value": 49.15,
+        "margin_of_safety": 7.6,
+        "lpa": 2.9888,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -10993,23 +11353,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "EQTL3",
-      "last_updated": "2026-04-10T21:16:10.842849"
+      "last_updated": "2026-04-17T15:09:54.715794"
     },
     "ETER3": {
-      "price_now": 4.16,
+      "price_now": 4.05,
       "price_min_6m": 3.54,
       "price_max_6m": 4.38,
       "avg_dividends_5y": 0.2965,
       "price_target_6pct": 4.94,
       "price_target_8pct": 3.71,
       "price_target_5pct": 5.93,
-      "dy_real": 4.1,
+      "dy_real": 4.21,
       "payout": 10.77,
       "payout_fcf": 29.8,
       "payout_divergencia": 19.0,
       "accumulation_score": 32.5,
-      "p_now_p_min": 1.1751,
-      "gain_pct_to_target": 18.75,
+      "p_now_p_min": 1.1441,
+      "gain_pct_to_target": 21.98,
       "rank": 9,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -11189,6 +11549,14 @@
           "cagr_receita": 18.91
         }
       },
+      "dcf": {
+        "intrinsic_value": 11.33,
+        "margin_of_safety": 64.2,
+        "lpa": 0.812,
+        "g1_pct": 2.18,
+        "g2_pct": 1.09,
+        "fcf_penalty": 0.73
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -11235,23 +11603,23 @@
         "segment": "-"
       },
       "ticker": "ETER3",
-      "last_updated": "2026-04-10T21:16:11.414239"
+      "last_updated": "2026-04-17T15:09:55.174536"
     },
     "EVEN3": {
-      "price_now": 7.19,
+      "price_now": 6.79,
       "price_min_6m": 6.32,
       "price_max_6m": 8.76,
       "avg_dividends_5y": 0.6719,
       "price_target_6pct": 11.2,
       "price_target_8pct": 8.4,
       "price_target_5pct": 13.44,
-      "dy_real": 10.64,
+      "dy_real": 11.27,
       "payout": null,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 35.8,
-      "p_now_p_min": 1.1377,
-      "gain_pct_to_target": 55.77,
+      "p_now_p_min": 1.0744,
+      "gain_pct_to_target": 64.95,
       "rank": 14,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -11431,6 +11799,14 @@
           "cagr_receita": 2.43
         }
       },
+      "dcf": {
+        "intrinsic_value": 13.19,
+        "margin_of_safety": 48.5,
+        "lpa": 0.8626,
+        "g1_pct": 3.75,
+        "g2_pct": 1.88,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -11477,26 +11853,26 @@
         "segment": "Incorporações"
       },
       "ticker": "EVEN3",
-      "last_updated": "2026-04-10T21:16:11.823886"
+      "last_updated": "2026-04-17T15:09:55.536876"
     },
     "EZTC3": {
-      "price_now": 15.01,
+      "price_now": 15.8,
       "price_min_6m": 11.35,
       "price_max_6m": 16.72,
       "avg_dividends_5y": 0.7699,
       "price_target_6pct": 12.83,
       "price_target_8pct": 9.62,
       "price_target_5pct": 15.4,
-      "dy_real": 7.42,
+      "dy_real": 7.05,
       "payout": 74.36,
       "payout_fcf": 82.5,
       "payout_divergencia": 8.1,
       "accumulation_score": 35.0,
-      "p_now_p_min": 1.3225,
-      "gain_pct_to_target": -14.52,
+      "p_now_p_min": 1.3921,
+      "gain_pct_to_target": -18.8,
       "rank": 17,
       "rank_max": 21,
-      "zone": "MONITORAR",
+      "zone": "CARO",
       "weighted_score": {
         "score": 82.5,
         "score_max": 100,
@@ -11677,6 +12053,14 @@
           "cagr_receita": 9.86
         }
       },
+      "dcf": {
+        "intrinsic_value": 38.11,
+        "margin_of_safety": 58.5,
+        "lpa": 2.2234,
+        "g1_pct": 5.71,
+        "g2_pct": 2.85,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -11723,23 +12107,23 @@
         "segment": "Incorporações"
       },
       "ticker": "EZTC3",
-      "last_updated": "2026-04-10T21:16:11.982583"
+      "last_updated": "2026-04-17T15:09:55.691465"
     },
     "FESA4": {
-      "price_now": 8.4,
+      "price_now": 8.19,
       "price_min_6m": 5.69,
       "price_max_6m": 8.9,
       "avg_dividends_5y": 0.716,
       "price_target_6pct": 11.93,
       "price_target_8pct": 8.95,
       "price_target_5pct": 14.32,
-      "dy_real": 8.69,
+      "dy_real": 8.91,
       "payout": 251.16,
       "payout_fcf": 459.1,
       "payout_divergencia": 207.9,
       "accumulation_score": 40.7,
-      "p_now_p_min": 1.4763,
-      "gain_pct_to_target": 42.02,
+      "p_now_p_min": 1.4394,
+      "gain_pct_to_target": 45.67,
       "rank": 14,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -11923,6 +12307,14 @@
           "cagr_receita": 7.55
         }
       },
+      "dcf": {
+        "intrinsic_value": 9.28,
+        "margin_of_safety": 11.8,
+        "lpa": 0.5911,
+        "g1_pct": 4.21,
+        "g2_pct": 2.1,
+        "fcf_penalty": 0.84
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -11969,23 +12361,23 @@
         "segment": "Siderurgia"
       },
       "ticker": "FESA4",
-      "last_updated": "2026-04-10T21:16:12.418974"
+      "last_updated": "2026-04-17T15:09:55.957555"
     },
     "FIQE3": {
-      "price_now": 7.45,
+      "price_now": 7.08,
       "price_min_6m": 3.39,
       "price_max_6m": 7.76,
       "avg_dividends_5y": 0.3777,
       "price_target_6pct": 6.29,
       "price_target_8pct": 4.72,
       "price_target_5pct": 7.55,
-      "dy_real": 10.19,
+      "dy_real": 10.72,
       "payout": 65.92,
       "payout_fcf": 23.9,
       "payout_divergencia": 42.0,
       "accumulation_score": 43.1,
-      "p_now_p_min": 2.1976,
-      "gain_pct_to_target": -15.57,
+      "p_now_p_min": 2.0885,
+      "gain_pct_to_target": -11.16,
       "rank": 14,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -12157,6 +12549,14 @@
           "cagr_receita": 44.39
         }
       },
+      "dcf": {
+        "intrinsic_value": 14.02,
+        "margin_of_safety": 49.5,
+        "lpa": 0.6381,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -12203,23 +12603,23 @@
         "segment": "Telecomunicações"
       },
       "ticker": "FIQE3",
-      "last_updated": "2026-04-10T21:16:13.097983"
+      "last_updated": "2026-04-17T15:09:56.559205"
     },
     "FLRY3": {
-      "price_now": 16.92,
+      "price_now": 16.76,
       "price_min_6m": 13.19,
       "price_max_6m": 18.1,
       "avg_dividends_5y": 1.0186,
       "price_target_6pct": 16.98,
       "price_target_8pct": 12.73,
       "price_target_5pct": 20.37,
-      "dy_real": 7.15,
+      "dy_real": 7.21,
       "payout": 96.33,
       "payout_fcf": 36.3,
       "payout_divergencia": 60.0,
       "accumulation_score": 35.0,
-      "p_now_p_min": 1.2828,
-      "gain_pct_to_target": 0.35,
+      "p_now_p_min": 1.2707,
+      "gain_pct_to_target": 1.31,
       "rank": 13,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -12403,6 +12803,14 @@
           "cagr_receita": 22.78
         }
       },
+      "dcf": {
+        "intrinsic_value": 19.93,
+        "margin_of_safety": 15.9,
+        "lpa": 1.2118,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -12449,23 +12857,23 @@
         "segment": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
       },
       "ticker": "FLRY3",
-      "last_updated": "2026-04-10T21:16:13.258475"
+      "last_updated": "2026-04-17T15:09:56.702619"
     },
     "FRAS3": {
-      "price_now": 21.86,
+      "price_now": 22.27,
       "price_min_6m": 20.47,
       "price_max_6m": 25.43,
       "avg_dividends_5y": 0.5698,
       "price_target_6pct": 9.5,
       "price_target_8pct": 7.12,
       "price_target_5pct": 11.4,
-      "dy_real": 3.25,
+      "dy_real": 3.19,
       "payout": 71.83,
       "payout_fcf": 14.8,
       "payout_divergencia": 57.0,
       "accumulation_score": 21.1,
-      "p_now_p_min": 1.0679,
-      "gain_pct_to_target": -56.54,
+      "p_now_p_min": 1.0879,
+      "gain_pct_to_target": -57.34,
       "rank": 11,
       "rank_max": 21,
       "zone": "CARO",
@@ -12649,6 +13057,14 @@
           "cagr_receita": 26.87
         }
       },
+      "dcf": {
+        "intrinsic_value": 16.91,
+        "margin_of_safety": -31.7,
+        "lpa": 1.0284,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -12695,23 +13111,23 @@
         "segment": "Material Rodoviário"
       },
       "ticker": "FRAS3",
-      "last_updated": "2026-04-10T21:16:13.416118"
+      "last_updated": "2026-04-17T15:09:56.850135"
     },
     "GGBR3": {
-      "price_now": 18.3,
+      "price_now": 18.78,
       "price_min_6m": 14.73,
       "price_max_6m": 20.47,
       "avg_dividends_5y": 1.2289,
       "price_target_6pct": 20.48,
       "price_target_8pct": 15.36,
       "price_target_5pct": 24.58,
-      "dy_real": 3.39,
+      "dy_real": 3.3,
       "payout": 161.26,
       "payout_fcf": 197.1,
       "payout_divergencia": 35.8,
       "accumulation_score": 36.6,
-      "p_now_p_min": 1.2424,
-      "gain_pct_to_target": 11.91,
+      "p_now_p_min": 1.2749,
+      "gain_pct_to_target": 9.05,
       "rank": 10,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -12895,6 +13311,14 @@
           "cagr_receita": 9.78
         }
       },
+      "dcf": {
+        "intrinsic_value": 10.17,
+        "margin_of_safety": -84.6,
+        "lpa": 0.8283,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -12941,23 +13365,23 @@
         "segment": "Siderurgia"
       },
       "ticker": "GGBR3",
-      "last_updated": "2026-04-10T21:16:14.182174"
+      "last_updated": "2026-04-17T15:09:57.492497"
     },
     "GGBR4": {
-      "price_now": 21.29,
+      "price_now": 21.79,
       "price_min_6m": 16.79,
       "price_max_6m": 23.95,
       "avg_dividends_5y": 1.2289,
       "price_target_6pct": 20.48,
       "price_target_8pct": 15.36,
       "price_target_5pct": 24.58,
-      "dy_real": 2.91,
+      "dy_real": 2.85,
       "payout": 161.26,
       "payout_fcf": 197.1,
       "payout_divergencia": 35.8,
       "accumulation_score": 32.5,
-      "p_now_p_min": 1.268,
-      "gain_pct_to_target": -3.8,
+      "p_now_p_min": 1.2978,
+      "gain_pct_to_target": -6.01,
       "rank": 9,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -13141,6 +13565,14 @@
           "cagr_receita": 9.78
         }
       },
+      "dcf": {
+        "intrinsic_value": 10.55,
+        "margin_of_safety": -106.6,
+        "lpa": 0.8587,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -13187,23 +13619,23 @@
         "segment": "Siderurgia"
       },
       "ticker": "GGBR4",
-      "last_updated": "2026-04-10T21:16:14.339564"
+      "last_updated": "2026-04-17T15:09:57.640763"
     },
     "GOAU3": {
-      "price_now": 9.09,
+      "price_now": 9.14,
       "price_min_6m": 7.28,
       "price_max_6m": 10.43,
       "avg_dividends_5y": 0.6695,
       "price_target_6pct": 11.16,
       "price_target_8pct": 8.37,
       "price_target_5pct": 13.39,
-      "dy_real": 3.44,
+      "dy_real": 3.42,
       "payout": 127.91,
       "payout_fcf": 53.9,
       "payout_divergencia": 74.0,
       "accumulation_score": 38.2,
-      "p_now_p_min": 1.2486,
-      "gain_pct_to_target": 22.77,
+      "p_now_p_min": 1.2555,
+      "gain_pct_to_target": 22.1,
       "rank": 10,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -13386,6 +13818,14 @@
           "cagr_lucro": -11.4,
           "cagr_receita": 9.78
         }
+      },
+      "dcf": {
+        "intrinsic_value": 5.1,
+        "margin_of_safety": -79.3,
+        "lpa": 0.415,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
       },
       "flags": {
         "dl_pl_ok": true,
@@ -13433,23 +13873,23 @@
         "segment": "Siderurgia"
       },
       "ticker": "GOAU3",
-      "last_updated": "2026-04-10T21:16:14.732985"
+      "last_updated": "2026-04-17T15:09:58.002786"
     },
     "GOAU4": {
-      "price_now": 9.51,
+      "price_now": 9.54,
       "price_min_6m": 7.31,
       "price_max_6m": 10.62,
       "avg_dividends_5y": 0.6695,
       "price_target_6pct": 11.16,
       "price_target_8pct": 8.37,
       "price_target_5pct": 13.39,
-      "dy_real": 3.29,
+      "dy_real": 3.28,
       "payout": 127.91,
       "payout_fcf": 53.9,
       "payout_divergencia": 74.0,
       "accumulation_score": 34.1,
-      "p_now_p_min": 1.301,
-      "gain_pct_to_target": 17.35,
+      "p_now_p_min": 1.3051,
+      "gain_pct_to_target": 16.98,
       "rank": 10,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -13633,6 +14073,14 @@
           "cagr_receita": 9.78
         }
       },
+      "dcf": {
+        "intrinsic_value": 5.27,
+        "margin_of_safety": -80.9,
+        "lpa": 0.4294,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -13679,23 +14127,23 @@
         "segment": "Siderurgia"
       },
       "ticker": "GOAU4",
-      "last_updated": "2026-04-10T21:16:14.889852"
+      "last_updated": "2026-04-17T15:09:58.475630"
     },
     "GRND3": {
-      "price_now": 4.82,
+      "price_now": 4.73,
       "price_min_6m": 3.53,
       "price_max_6m": 5.15,
       "avg_dividends_5y": 1.0528,
       "price_target_6pct": 17.55,
       "price_target_8pct": 13.16,
       "price_target_5pct": 21.06,
-      "dy_real": 35.34,
+      "dy_real": 36.01,
       "payout": 171.53,
       "payout_fcf": 262.5,
       "payout_divergencia": 91.0,
       "accumulation_score": 29.3,
-      "p_now_p_min": 1.3654,
-      "gain_pct_to_target": 264.11,
+      "p_now_p_min": 1.3399,
+      "gain_pct_to_target": 271.04,
       "rank": 17,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -13879,6 +14327,14 @@
           "cagr_receita": 6.38
         }
       },
+      "dcf": {
+        "intrinsic_value": 15.21,
+        "margin_of_safety": 68.9,
+        "lpa": 0.7398,
+        "g1_pct": 8.85,
+        "g2_pct": 4.42,
+        "fcf_penalty": 0.91
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -13925,23 +14381,23 @@
         "segment": "Calçados"
       },
       "ticker": "GRND3",
-      "last_updated": "2026-04-10T21:16:15.260386"
+      "last_updated": "2026-04-17T15:09:58.952835"
     },
     "HBOR3": {
-      "price_now": 2.46,
+      "price_now": 2.37,
       "price_min_6m": 2.22,
       "price_max_6m": 4.06,
       "avg_dividends_5y": 0.1035,
       "price_target_6pct": 1.72,
       "price_target_8pct": 1.29,
       "price_target_5pct": 2.07,
-      "dy_real": 9.47,
+      "dy_real": 9.83,
       "payout": null,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 41.5,
-      "p_now_p_min": 1.1081,
-      "gain_pct_to_target": -30.08,
+      "p_now_p_min": 1.0676,
+      "gain_pct_to_target": -27.43,
       "rank": 8,
       "rank_max": 21,
       "zone": "CARO",
@@ -14121,6 +14577,14 @@
           "cagr_receita": -0.32
         }
       },
+      "dcf": {
+        "intrinsic_value": 3.83,
+        "margin_of_safety": 38.1,
+        "lpa": 0.2673,
+        "g1_pct": 2.63,
+        "g2_pct": 1.31,
+        "fcf_penalty": 0.88
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -14167,10 +14631,10 @@
         "segment": "Incorporações"
       },
       "ticker": "HBOR3",
-      "last_updated": "2026-04-10T21:16:16.123363"
+      "last_updated": "2026-04-17T15:09:59.642938"
     },
     "HYPE3": {
-      "price_now": 23.39,
+      "price_now": 23.37,
       "price_min_6m": 20.17,
       "price_max_6m": 27.14,
       "avg_dividends_5y": 1.1821,
@@ -14182,8 +14646,8 @@
       "payout_fcf": 45.2,
       "payout_divergencia": 22.0,
       "accumulation_score": 32.5,
-      "p_now_p_min": 1.1596,
-      "gain_pct_to_target": -15.78,
+      "p_now_p_min": 1.1587,
+      "gain_pct_to_target": -15.7,
       "rank": 11,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -14367,6 +14831,14 @@
           "cagr_receita": 13.49
         }
       },
+      "dcf": {
+        "intrinsic_value": 24.62,
+        "margin_of_safety": 5.1,
+        "lpa": 2.0047,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -14413,23 +14885,23 @@
         "segment": "Medicamentos e Outros Produtos"
       },
       "ticker": "HYPE3",
-      "last_updated": "2026-04-10T21:16:17.094815"
+      "last_updated": "2026-04-17T15:10:00.486811"
     },
     "INTB3": {
-      "price_now": 13.95,
+      "price_now": 14.6,
       "price_min_6m": 10.11,
       "price_max_6m": 15.25,
       "avg_dividends_5y": 0.7905,
       "price_target_6pct": 13.18,
       "price_target_8pct": 9.88,
       "price_target_5pct": 15.81,
-      "dy_real": 8.09,
+      "dy_real": 7.73,
       "payout": 76.56,
       "payout_fcf": 45.1,
       "payout_divergencia": 31.5,
       "accumulation_score": 44.7,
-      "p_now_p_min": 1.3798,
-      "gain_pct_to_target": -5.52,
+      "p_now_p_min": 1.4441,
+      "gain_pct_to_target": -9.73,
       "rank": 15,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -14609,6 +15081,14 @@
           "cagr_receita": 15.88
         }
       },
+      "dcf": {
+        "intrinsic_value": 23.87,
+        "margin_of_safety": 38.8,
+        "lpa": 1.4517,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -14655,23 +15135,23 @@
         "segment": "Telecomunicações"
       },
       "ticker": "INTB3",
-      "last_updated": "2026-04-10T21:16:17.926135"
+      "last_updated": "2026-04-17T15:10:01.218260"
     },
     "ITSA3": {
-      "price_now": 14.68,
+      "price_now": 14.75,
       "price_min_6m": 9.8,
       "price_max_6m": 14.87,
       "avg_dividends_5y": 0.9317,
       "price_target_6pct": 15.53,
       "price_target_8pct": 11.65,
       "price_target_5pct": 18.63,
-      "dy_real": 8.36,
+      "dy_real": 8.32,
       "payout": 93.98,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 39.0,
-      "p_now_p_min": 1.498,
-      "gain_pct_to_target": 5.79,
+      "p_now_p_min": 1.5051,
+      "gain_pct_to_target": 5.29,
       "rank": 16,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -14854,6 +15334,14 @@
           "cagr_lucro": 9.06,
           "cagr_receita": 10.46
         }
+      },
+      "dcf": {
+        "intrinsic_value": 25.06,
+        "margin_of_safety": 41.1,
+        "lpa": 1.5663,
+        "g1_pct": 4.53,
+        "g2_pct": 2.27,
+        "fcf_penalty": 0.5
       },
       "flags": {
         "dl_pl_ok": true,
@@ -14901,23 +15389,23 @@
         "segment": "Holdings Diversificadas"
       },
       "ticker": "ITSA3",
-      "last_updated": "2026-04-10T21:16:18.378791"
+      "last_updated": "2026-04-17T15:10:01.640582"
     },
     "ITSA4": {
-      "price_now": 14.81,
+      "price_now": 14.9,
       "price_min_6m": 9.86,
       "price_max_6m": 14.96,
       "avg_dividends_5y": 0.9329,
       "price_target_6pct": 15.55,
       "price_target_8pct": 11.66,
       "price_target_5pct": 18.66,
-      "dy_real": 8.29,
+      "dy_real": 8.24,
       "payout": 93.98,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 36.6,
-      "p_now_p_min": 1.502,
-      "gain_pct_to_target": 5.0,
+      "p_now_p_min": 1.5112,
+      "gain_pct_to_target": 4.36,
       "rank": 16,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -15101,6 +15589,14 @@
           "cagr_receita": 10.46
         }
       },
+      "dcf": {
+        "intrinsic_value": 25.26,
+        "margin_of_safety": 41.0,
+        "lpa": 1.5787,
+        "g1_pct": 4.53,
+        "g2_pct": 2.27,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -15147,23 +15643,23 @@
         "segment": "Holdings Diversificadas"
       },
       "ticker": "ITSA4",
-      "last_updated": "2026-04-10T21:16:18.561400"
+      "last_updated": "2026-04-17T15:10:01.819122"
     },
     "ITUB3": {
-      "price_now": 45.93,
+      "price_now": 47.33,
       "price_min_6m": 29.36,
       "price_max_6m": 46.27,
       "avg_dividends_5y": 2.4461,
       "price_target_6pct": 40.77,
       "price_target_8pct": 30.58,
       "price_target_5pct": 48.92,
-      "dy_real": 7.46,
+      "dy_real": 7.24,
       "payout": 97.69,
       "payout_fcf": 160.2,
       "payout_divergencia": 62.5,
       "accumulation_score": 41.5,
-      "p_now_p_min": 1.5644,
-      "gain_pct_to_target": -11.23,
+      "p_now_p_min": 1.6121,
+      "gain_pct_to_target": -13.86,
       "rank": 12,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -15347,6 +15843,14 @@
           "cagr_receita": 17.38
         }
       },
+      "dcf": {
+        "intrinsic_value": 94.96,
+        "margin_of_safety": 50.2,
+        "lpa": 4.6283,
+        "g1_pct": 8.81,
+        "g2_pct": 4.41,
+        "fcf_penalty": 0.88
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -15393,23 +15897,23 @@
         "segment": "Bancos"
       },
       "ticker": "ITUB3",
-      "last_updated": "2026-04-10T21:16:18.740464"
+      "last_updated": "2026-04-17T15:10:01.994994"
     },
     "ITUB4": {
-      "price_now": 46.07,
+      "price_now": 47.31,
       "price_min_6m": 33.62,
       "price_max_6m": 49.22,
       "avg_dividends_5y": 2.4461,
       "price_target_6pct": 40.77,
       "price_target_8pct": 30.58,
       "price_target_5pct": 48.92,
-      "dy_real": 7.44,
+      "dy_real": 7.24,
       "payout": 97.69,
       "payout_fcf": 160.2,
       "payout_divergencia": 62.5,
       "accumulation_score": 44.7,
-      "p_now_p_min": 1.3703,
-      "gain_pct_to_target": -11.5,
+      "p_now_p_min": 1.4072,
+      "gain_pct_to_target": -13.82,
       "rank": 11,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -15593,6 +16097,14 @@
           "cagr_receita": 17.38
         }
       },
+      "dcf": {
+        "intrinsic_value": 92.45,
+        "margin_of_safety": 48.8,
+        "lpa": 4.5061,
+        "g1_pct": 8.81,
+        "g2_pct": 4.41,
+        "fcf_penalty": 0.88
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -15639,23 +16151,23 @@
         "segment": "Bancos"
       },
       "ticker": "ITUB4",
-      "last_updated": "2026-04-10T21:16:18.914458"
+      "last_updated": "2026-04-17T15:10:02.154106"
     },
     "JHSF3": {
-      "price_now": 12.54,
+      "price_now": 13.55,
       "price_min_6m": 5.64,
       "price_max_6m": 12.74,
       "avg_dividends_5y": 0.3574,
       "price_target_6pct": 5.96,
       "price_target_8pct": 4.47,
       "price_target_5pct": 7.15,
-      "dy_real": 4.43,
+      "dy_real": 4.1,
       "payout": 9.9,
       "payout_fcf": 6.8,
       "payout_divergencia": 3.1,
       "accumulation_score": 38.2,
-      "p_now_p_min": 2.2234,
-      "gain_pct_to_target": -52.47,
+      "p_now_p_min": 2.4025,
+      "gain_pct_to_target": -56.01,
       "rank": 14,
       "rank_max": 21,
       "zone": "CARO",
@@ -15835,6 +16347,14 @@
           "cagr_receita": 20.35
         }
       },
+      "dcf": {
+        "intrinsic_value": 84.9,
+        "margin_of_safety": 84.0,
+        "lpa": 2.8995,
+        "g1_pct": 15.0,
+        "g2_pct": 7.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -15881,23 +16401,23 @@
         "segment": "Incorporações"
       },
       "ticker": "JHSF3",
-      "last_updated": "2026-04-10T21:16:19.309164"
+      "last_updated": "2026-04-17T15:10:02.483799"
     },
     "JSLG3": {
-      "price_now": 8.51,
+      "price_now": 7.76,
       "price_min_6m": 3.87,
       "price_max_6m": 8.82,
       "avg_dividends_5y": 0.8926,
       "price_target_6pct": 14.88,
       "price_target_8pct": 11.16,
       "price_target_5pct": 17.85,
-      "dy_real": 22.46,
+      "dy_real": 24.63,
       "payout": 667.64,
       "payout_fcf": 51.1,
       "payout_divergencia": 616.5,
       "accumulation_score": 37.4,
-      "p_now_p_min": 2.199,
-      "gain_pct_to_target": 74.85,
+      "p_now_p_min": 2.0052,
+      "gain_pct_to_target": 91.75,
       "rank": 12,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -16077,6 +16597,14 @@
           "cagr_receita": 23.9
         }
       },
+      "dcf": {
+        "intrinsic_value": 5.02,
+        "margin_of_safety": -54.5,
+        "lpa": 0.4088,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -16123,23 +16651,23 @@
         "segment": "Transporte Rodoviário"
       },
       "ticker": "JSLG3",
-      "last_updated": "2026-04-10T21:16:19.711386"
+      "last_updated": "2026-04-17T15:10:02.837279"
     },
     "KEPL3": {
-      "price_now": 8.25,
+      "price_now": 8.13,
       "price_min_6m": 6.8,
       "price_max_6m": 10.5,
       "avg_dividends_5y": 0.9294,
       "price_target_6pct": 15.49,
       "price_target_8pct": 11.62,
       "price_target_5pct": 18.59,
-      "dy_real": 10.14,
+      "dy_real": 10.29,
       "payout": 49.76,
       "payout_fcf": 152.2,
       "payout_divergencia": 102.4,
       "accumulation_score": 26.0,
-      "p_now_p_min": 1.2132,
-      "gain_pct_to_target": 87.76,
+      "p_now_p_min": 1.1956,
+      "gain_pct_to_target": 90.53,
       "rank": 16,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -16323,6 +16851,14 @@
           "cagr_receita": 17.29
         }
       },
+      "dcf": {
+        "intrinsic_value": 16.72,
+        "margin_of_safety": 51.4,
+        "lpa": 0.9028,
+        "g1_pct": 7.04,
+        "g2_pct": 3.52,
+        "fcf_penalty": 0.7
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -16369,23 +16905,23 @@
         "segment": "Máquinas e Equipamentos Industriais"
       },
       "ticker": "KEPL3",
-      "last_updated": "2026-04-10T21:16:19.878167"
+      "last_updated": "2026-04-17T15:10:02.982339"
     },
     "KLBN11": {
-      "price_now": 19.06,
+      "price_now": 18.94,
       "price_min_6m": 16.03,
       "price_max_6m": 21.25,
       "avg_dividends_5y": 1.3576,
       "price_target_6pct": 22.63,
       "price_target_8pct": 16.97,
       "price_target_5pct": 27.15,
-      "dy_real": 8.58,
+      "dy_real": 8.64,
       "payout": 467.58,
       "payout_fcf": 184.1,
       "payout_divergencia": 283.5,
       "accumulation_score": 22.0,
-      "p_now_p_min": 1.189,
-      "gain_pct_to_target": 18.73,
+      "p_now_p_min": 1.1815,
+      "gain_pct_to_target": 19.48,
       "rank": 9,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -16568,6 +17104,14 @@
           "cagr_lucro": null,
           "cagr_receita": 11.61
         }
+      },
+      "dcf": {
+        "intrinsic_value": 19.33,
+        "margin_of_safety": 2.0,
+        "lpa": 1.3207,
+        "g1_pct": 3.0,
+        "g2_pct": 1.5,
+        "fcf_penalty": 1.0
       },
       "flags": {
         "dl_pl_ok": false,
@@ -16615,23 +17159,23 @@
         "segment": "Papel e Celulose"
       },
       "ticker": "KLBN11",
-      "last_updated": "2026-04-10T21:16:20.042793"
+      "last_updated": "2026-04-17T15:10:03.124191"
     },
     "KLBN3": {
-      "price_now": 3.8,
+      "price_now": 3.79,
       "price_min_6m": 3.21,
       "price_max_6m": 4.24,
       "avg_dividends_5y": 0.2715,
       "price_target_6pct": 4.53,
       "price_target_8pct": 3.39,
       "price_target_5pct": 5.43,
-      "dy_real": 8.61,
+      "dy_real": 8.63,
       "payout": 467.58,
       "payout_fcf": 184.1,
       "payout_divergencia": 283.5,
       "accumulation_score": 22.8,
-      "p_now_p_min": 1.1838,
-      "gain_pct_to_target": 19.21,
+      "p_now_p_min": 1.1807,
+      "gain_pct_to_target": 19.53,
       "rank": 9,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -16814,6 +17358,14 @@
           "cagr_lucro": null,
           "cagr_receita": 11.61
         }
+      },
+      "dcf": {
+        "intrinsic_value": 3.85,
+        "margin_of_safety": 1.7,
+        "lpa": 0.2633,
+        "g1_pct": 3.0,
+        "g2_pct": 1.5,
+        "fcf_penalty": 1.0
       },
       "flags": {
         "dl_pl_ok": false,
@@ -16861,23 +17413,23 @@
         "segment": "Papel e Celulose"
       },
       "ticker": "KLBN3",
-      "last_updated": "2026-04-10T21:16:20.212537"
+      "last_updated": "2026-04-17T15:10:03.274110"
     },
     "KLBN4": {
-      "price_now": 3.82,
+      "price_now": 3.79,
       "price_min_6m": 3.21,
       "price_max_6m": 4.21,
       "avg_dividends_5y": 0.2715,
       "price_target_6pct": 4.53,
       "price_target_8pct": 3.39,
       "price_target_5pct": 5.43,
-      "dy_real": 8.57,
+      "dy_real": 8.63,
       "payout": 467.58,
       "payout_fcf": 184.1,
       "payout_divergencia": 283.5,
       "accumulation_score": 15.4,
-      "p_now_p_min": 1.19,
-      "gain_pct_to_target": 18.59,
+      "p_now_p_min": 1.1807,
+      "gain_pct_to_target": 19.53,
       "rank": 9,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -17061,6 +17613,14 @@
           "cagr_receita": 11.61
         }
       },
+      "dcf": {
+        "intrinsic_value": 3.87,
+        "margin_of_safety": 2.2,
+        "lpa": 0.2647,
+        "g1_pct": 3.0,
+        "g2_pct": 1.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -17107,23 +17667,23 @@
         "segment": "Papel e Celulose"
       },
       "ticker": "KLBN4",
-      "last_updated": "2026-04-10T21:16:20.380707"
+      "last_updated": "2026-04-17T15:10:03.428949"
     },
     "LAVV3": {
-      "price_now": 15.13,
+      "price_now": 15.29,
       "price_min_6m": 11.44,
       "price_max_6m": 18.98,
       "avg_dividends_5y": 1.1288,
       "price_target_6pct": 18.81,
       "price_target_8pct": 14.11,
       "price_target_5pct": 22.58,
-      "dy_real": 17.71,
+      "dy_real": 17.52,
       "payout": 78.13,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 39.0,
-      "p_now_p_min": 1.3226,
-      "gain_pct_to_target": 24.32,
+      "p_now_p_min": 1.3365,
+      "gain_pct_to_target": 23.02,
       "rank": 17,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -17303,6 +17863,14 @@
           "cagr_receita": 37.41
         }
       },
+      "dcf": {
+        "intrinsic_value": 41.01,
+        "margin_of_safety": 62.7,
+        "lpa": 2.1568,
+        "g1_pct": 7.5,
+        "g2_pct": 3.75,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -17349,23 +17917,23 @@
         "segment": "Incorporações"
       },
       "ticker": "LAVV3",
-      "last_updated": "2026-04-10T21:16:20.665097"
+      "last_updated": "2026-04-17T15:10:03.690247"
     },
     "LEVE3": {
-      "price_now": 37.03,
+      "price_now": 36.74,
       "price_min_6m": 26.06,
       "price_max_6m": 37.86,
       "avg_dividends_5y": 4.2806,
       "price_target_6pct": 71.34,
       "price_target_8pct": 53.51,
       "price_target_5pct": 85.61,
-      "dy_real": 7.35,
+      "dy_real": 7.41,
       "payout": 18.15,
       "payout_fcf": 18.3,
       "payout_divergencia": 0.2,
       "accumulation_score": 23.6,
-      "p_now_p_min": 1.421,
-      "gain_pct_to_target": 92.65,
+      "p_now_p_min": 1.4098,
+      "gain_pct_to_target": 94.18,
       "rank": 12,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -17549,6 +18117,14 @@
           "cagr_receita": 12.53
         }
       },
+      "dcf": {
+        "intrinsic_value": 100.74,
+        "margin_of_safety": 63.5,
+        "lpa": 4.5841,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": true,
@@ -17595,23 +18171,23 @@
         "segment": "Automóveis e Motocicletas"
       },
       "ticker": "LEVE3",
-      "last_updated": "2026-04-10T21:16:20.839644"
+      "last_updated": "2026-04-17T15:10:03.836401"
     },
     "LOGG3": {
-      "price_now": 28.55,
+      "price_now": 27.93,
       "price_min_6m": 18.31,
       "price_max_6m": 29.22,
       "avg_dividends_5y": 2.2863,
       "price_target_6pct": 38.11,
       "price_target_8pct": 28.58,
       "price_target_5pct": 45.73,
-      "dy_real": 13.89,
+      "dy_real": 14.19,
       "payout": 98.22,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 29.3,
-      "p_now_p_min": 1.5593,
-      "gain_pct_to_target": 33.49,
+      "p_now_p_min": 1.5254,
+      "gain_pct_to_target": 36.45,
       "rank": 15,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -17795,6 +18371,14 @@
           "cagr_receita": 11.94
         }
       },
+      "dcf": {
+        "intrinsic_value": 79.84,
+        "margin_of_safety": 65.0,
+        "lpa": 4.1984,
+        "g1_pct": 7.5,
+        "g2_pct": 3.75,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -17841,23 +18425,23 @@
         "segment": "Exploração de Imóveis"
       },
       "ticker": "LOGG3",
-      "last_updated": "2026-04-10T21:16:21.211108"
+      "last_updated": "2026-04-17T15:10:04.169732"
     },
     "LREN3": {
-      "price_now": 15.72,
+      "price_now": 15.42,
       "price_min_6m": 12.25,
       "price_max_6m": 16.22,
       "avg_dividends_5y": 0.6771,
       "price_target_6pct": 11.29,
       "price_target_8pct": 8.46,
       "price_target_5pct": 13.54,
-      "dy_real": 5.55,
+      "dy_real": 5.66,
       "payout": 57.91,
       "payout_fcf": 42.2,
       "payout_divergencia": 15.7,
       "accumulation_score": 28.5,
-      "p_now_p_min": 1.2833,
-      "gain_pct_to_target": -28.18,
+      "p_now_p_min": 1.2588,
+      "gain_pct_to_target": -26.78,
       "rank": 14,
       "rank_max": 21,
       "zone": "CARO",
@@ -18041,6 +18625,14 @@
           "cagr_receita": 16.0
         }
       },
+      "dcf": {
+        "intrinsic_value": 25.52,
+        "margin_of_safety": 39.6,
+        "lpa": 1.4764,
+        "g1_pct": 5.86,
+        "g2_pct": 2.93,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -18087,23 +18679,23 @@
         "segment": "Tecidos, Vestuário e Calçados"
       },
       "ticker": "LREN3",
-      "last_updated": "2026-04-10T21:16:21.649321"
+      "last_updated": "2026-04-17T15:10:04.525130"
     },
     "MDIA3": {
-      "price_now": 24.0,
+      "price_now": 23.6,
       "price_min_6m": 21.17,
       "price_max_6m": 29.03,
       "avg_dividends_5y": 0.8985,
       "price_target_6pct": 14.97,
       "price_target_8pct": 11.23,
       "price_target_5pct": 17.97,
-      "dy_real": 4.4,
+      "dy_real": 4.48,
       "payout": 52.73,
       "payout_fcf": 30.7,
       "payout_divergencia": 22.0,
       "accumulation_score": 38.2,
-      "p_now_p_min": 1.1337,
-      "gain_pct_to_target": -37.62,
+      "p_now_p_min": 1.1148,
+      "gain_pct_to_target": -36.57,
       "rank": 11,
       "rank_max": 21,
       "zone": "CARO",
@@ -18287,6 +18879,14 @@
           "cagr_receita": 7.55
         }
       },
+      "dcf": {
+        "intrinsic_value": 25.69,
+        "margin_of_safety": 8.1,
+        "lpa": 2.0917,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -18333,23 +18933,23 @@
         "segment": "Alimentos Diversos"
       },
       "ticker": "MDIA3",
-      "last_updated": "2026-04-10T21:16:22.691380"
+      "last_updated": "2026-04-17T15:10:05.426748"
     },
     "MELK3": {
-      "price_now": 3.51,
+      "price_now": 3.61,
       "price_min_6m": 3.32,
       "price_max_6m": 4.13,
       "avg_dividends_5y": 0.7426,
       "price_target_6pct": 12.38,
       "price_target_8pct": 9.28,
       "price_target_5pct": 14.85,
-      "dy_real": 19.84,
+      "dy_real": 19.29,
       "payout": 78.11,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 39.0,
-      "p_now_p_min": 1.0572,
-      "gain_pct_to_target": 252.71,
+      "p_now_p_min": 1.0873,
+      "gain_pct_to_target": 242.94,
       "rank": 17,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -18529,6 +19129,14 @@
           "cagr_receita": 12.82
         }
       },
+      "dcf": {
+        "intrinsic_value": 9.3,
+        "margin_of_safety": 61.2,
+        "lpa": 0.5656,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -18575,23 +19183,23 @@
         "segment": "Incorporações"
       },
       "ticker": "MELK3",
-      "last_updated": "2026-04-10T21:16:23.047368"
+      "last_updated": "2026-04-17T15:10:05.766263"
     },
     "MILS3": {
-      "price_now": 14.36,
+      "price_now": 14.21,
       "price_min_6m": 11.46,
       "price_max_6m": 15.96,
       "avg_dividends_5y": 0.446,
       "price_target_6pct": 7.43,
       "price_target_8pct": 5.58,
       "price_target_5pct": 8.92,
-      "dy_real": 3.23,
+      "dy_real": 3.27,
       "payout": 36.12,
       "payout_fcf": 42.9,
       "payout_divergencia": 6.8,
       "accumulation_score": 29.3,
-      "p_now_p_min": 1.2531,
-      "gain_pct_to_target": -48.26,
+      "p_now_p_min": 1.24,
+      "gain_pct_to_target": -47.71,
       "rank": 13,
       "rank_max": 21,
       "zone": "CARO",
@@ -18775,6 +19383,14 @@
           "cagr_receita": 29.09
         }
       },
+      "dcf": {
+        "intrinsic_value": 18.79,
+        "margin_of_safety": 24.4,
+        "lpa": 1.2841,
+        "g1_pct": 3.0,
+        "g2_pct": 1.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -18821,23 +19437,23 @@
         "segment": "Serviços Diversos"
       },
       "ticker": "MILS3",
-      "last_updated": "2026-04-10T21:16:23.731196"
+      "last_updated": "2026-04-17T15:10:06.858282"
     },
     "MTRE3": {
-      "price_now": 3.96,
+      "price_now": 3.86,
       "price_min_6m": 3.26,
       "price_max_6m": 4.29,
       "avg_dividends_5y": 0.4816,
       "price_target_6pct": 8.03,
       "price_target_8pct": 6.02,
       "price_target_5pct": 9.63,
-      "dy_real": 11.22,
+      "dy_real": 11.51,
       "payout": 72.56,
       "payout_fcf": 344.5,
       "payout_divergencia": 271.9,
       "accumulation_score": 34.1,
-      "p_now_p_min": 1.2147,
-      "gain_pct_to_target": 102.78,
+      "p_now_p_min": 1.184,
+      "gain_pct_to_target": 108.03,
       "rank": 13,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -19021,6 +19637,14 @@
           "cagr_receita": 20.73
         }
       },
+      "dcf": {
+        "intrinsic_value": 6.8,
+        "margin_of_safety": 43.2,
+        "lpa": 0.5108,
+        "g1_pct": 1.36,
+        "g2_pct": 0.68,
+        "fcf_penalty": 0.63
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -19067,23 +19691,23 @@
         "segment": "Incorporações"
       },
       "ticker": "MTRE3",
-      "last_updated": "2026-04-10T21:16:25.301621"
+      "last_updated": "2026-04-17T15:10:08.226959"
     },
     "MULT3": {
-      "price_now": 33.51,
+      "price_now": 34.99,
       "price_min_6m": 25.88,
       "price_max_6m": 35.63,
       "avg_dividends_5y": 0.9719,
       "price_target_6pct": 16.2,
       "price_target_8pct": 12.15,
       "price_target_5pct": 19.44,
-      "dy_real": 3.9,
+      "dy_real": 3.74,
       "payout": 46.0,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 39.0,
-      "p_now_p_min": 1.2948,
-      "gain_pct_to_target": -51.66,
+      "p_now_p_min": 1.352,
+      "gain_pct_to_target": -53.7,
       "rank": 12,
       "rank_max": 21,
       "zone": "CARO",
@@ -19267,6 +19891,14 @@
           "cagr_receita": 20.42
         }
       },
+      "dcf": {
+        "intrinsic_value": 36.0,
+        "margin_of_safety": 2.8,
+        "lpa": 2.5221,
+        "g1_pct": 2.57,
+        "g2_pct": 1.29,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -19313,23 +19945,23 @@
         "segment": "Exploração de Imóveis"
       },
       "ticker": "MULT3",
-      "last_updated": "2026-04-10T21:16:25.740102"
+      "last_updated": "2026-04-17T15:10:08.596290"
     },
     "MYPK3": {
-      "price_now": 10.07,
+      "price_now": 10.2,
       "price_min_6m": 8.83,
       "price_max_6m": 11.3,
       "avg_dividends_5y": 0.5668,
       "price_target_6pct": 9.45,
       "price_target_8pct": 7.08,
       "price_target_5pct": 11.34,
-      "dy_real": 3.05,
+      "dy_real": 3.01,
       "payout": 47.99,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 28.5,
-      "p_now_p_min": 1.1404,
-      "gain_pct_to_target": -6.16,
+      "p_now_p_min": 1.1552,
+      "gain_pct_to_target": -7.35,
       "rank": 8,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -19513,6 +20145,14 @@
           "cagr_receita": 11.89
         }
       },
+      "dcf": {
+        "intrinsic_value": 9.47,
+        "margin_of_safety": -7.7,
+        "lpa": 0.7065,
+        "g1_pct": 1.5,
+        "g2_pct": 0.75,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -19559,23 +20199,23 @@
         "segment": "Automóveis e Motocicletas"
       },
       "ticker": "MYPK3",
-      "last_updated": "2026-04-10T21:16:26.119661"
+      "last_updated": "2026-04-17T15:10:08.931000"
     },
     "NEOE3": {
-      "price_now": 33.52,
+      "price_now": 33.62,
       "price_min_6m": 25.68,
       "price_max_6m": 33.52,
       "avg_dividends_5y": 0.8529,
       "price_target_6pct": 14.21,
       "price_target_8pct": 10.66,
       "price_target_5pct": 17.06,
-      "dy_real": 4.36,
+      "dy_real": 4.34,
       "payout": 24.81,
       "payout_fcf": 78.8,
       "payout_divergencia": 54.0,
       "accumulation_score": 22.8,
-      "p_now_p_min": 1.3053,
-      "gain_pct_to_target": -57.61,
+      "p_now_p_min": 1.3092,
+      "gain_pct_to_target": -57.73,
       "rank": 9,
       "rank_max": 21,
       "zone": "CARO",
@@ -19759,6 +20399,14 @@
           "cagr_receita": 10.47
         }
       },
+      "dcf": {
+        "intrinsic_value": 63.3,
+        "margin_of_safety": 46.9,
+        "lpa": 4.2049,
+        "g1_pct": 3.48,
+        "g2_pct": 1.74,
+        "fcf_penalty": 0.7
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -19805,23 +20453,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "NEOE3",
-      "last_updated": "2026-04-10T21:16:26.498900"
+      "last_updated": "2026-04-17T15:10:09.286294"
     },
     "ODPV3": {
-      "price_now": 15.48,
+      "price_now": 15.89,
       "price_min_6m": 10.39,
       "price_max_6m": 16.57,
       "avg_dividends_5y": 0.7993,
       "price_target_6pct": 13.32,
       "price_target_8pct": 9.99,
       "price_target_5pct": 15.99,
-      "dy_real": 4.96,
+      "dy_real": 4.84,
       "payout": 76.23,
       "payout_fcf": 87.9,
       "payout_divergencia": 11.7,
       "accumulation_score": 48.8,
-      "p_now_p_min": 1.4899,
-      "gain_pct_to_target": -13.95,
+      "p_now_p_min": 1.5294,
+      "gain_pct_to_target": -16.17,
       "rank": 12,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -20005,6 +20653,14 @@
           "cagr_receita": 6.51
         }
       },
+      "dcf": {
+        "intrinsic_value": 28.09,
+        "margin_of_safety": 43.4,
+        "lpa": 1.2781,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -20051,23 +20707,23 @@
         "segment": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
       },
       "ticker": "ODPV3",
-      "last_updated": "2026-04-10T21:16:27.246364"
+      "last_updated": "2026-04-17T15:10:09.987199"
     },
     "PETR3": {
-      "price_now": 54.0,
+      "price_now": 50.9,
       "price_min_6m": 30.06,
       "price_max_6m": 56.14,
       "avg_dividends_5y": 7.29,
       "price_target_6pct": 121.5,
       "price_target_8pct": 91.12,
       "price_target_5pct": 145.8,
-      "dy_real": 6.08,
+      "dy_real": 6.45,
       "payout": 27.87,
       "payout_fcf": 33.5,
       "payout_divergencia": 5.6,
       "accumulation_score": 42.3,
-      "p_now_p_min": 1.7964,
-      "gain_pct_to_target": 125.0,
+      "p_now_p_min": 1.6933,
+      "gain_pct_to_target": 138.7,
       "rank": 13,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -20251,6 +20907,14 @@
           "cagr_receita": 12.83
         }
       },
+      "dcf": {
+        "intrinsic_value": 188.41,
+        "margin_of_safety": 73.0,
+        "lpa": 8.5732,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -20297,23 +20961,23 @@
         "segment": "Exploração, Refino e Distribuição"
       },
       "ticker": "PETR3",
-      "last_updated": "2026-04-10T21:16:28.892919"
+      "last_updated": "2026-04-17T15:10:11.475617"
     },
     "PETR4": {
-      "price_now": 49.03,
+      "price_now": 46.2,
       "price_min_6m": 28.41,
       "price_max_6m": 50.69,
       "avg_dividends_5y": 7.0767,
       "price_target_6pct": 117.95,
       "price_target_8pct": 88.46,
       "price_target_5pct": 141.53,
-      "dy_real": 6.69,
+      "dy_real": 7.1,
       "payout": 27.87,
       "payout_fcf": 33.5,
       "payout_divergencia": 5.6,
       "accumulation_score": 43.1,
-      "p_now_p_min": 1.7258,
-      "gain_pct_to_target": 140.57,
+      "p_now_p_min": 1.6262,
+      "gain_pct_to_target": 155.3,
       "rank": 14,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -20497,6 +21161,14 @@
           "cagr_receita": 12.83
         }
       },
+      "dcf": {
+        "intrinsic_value": 187.05,
+        "margin_of_safety": 75.3,
+        "lpa": 8.5114,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -20543,26 +21215,26 @@
         "segment": "Exploração, Refino e Distribuição"
       },
       "ticker": "PETR4",
-      "last_updated": "2026-04-10T21:16:29.087749"
+      "last_updated": "2026-04-17T15:10:11.651183"
     },
     "PFRM3": {
-      "price_now": 8.39,
+      "price_now": 8.01,
       "price_min_6m": 6.14,
       "price_max_6m": 9.7,
       "avg_dividends_5y": 0.4174,
       "price_target_6pct": 6.96,
       "price_target_8pct": 5.22,
       "price_target_5pct": 8.35,
-      "dy_real": 7.68,
+      "dy_real": 8.04,
       "payout": 33.97,
       "payout_fcf": 9.4,
       "payout_divergencia": 24.6,
       "accumulation_score": 24.4,
-      "p_now_p_min": 1.3664,
-      "gain_pct_to_target": -17.04,
+      "p_now_p_min": 1.3046,
+      "gain_pct_to_target": -13.11,
       "rank": 12,
       "rank_max": 21,
-      "zone": "CARO",
+      "zone": "MONITORAR",
       "weighted_score": {
         "score": 53.8,
         "score_max": 100,
@@ -20743,6 +21415,14 @@
           "cagr_receita": 16.16
         }
       },
+      "dcf": {
+        "intrinsic_value": 19.58,
+        "margin_of_safety": 59.1,
+        "lpa": 0.8909,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -20789,23 +21469,23 @@
         "segment": "Medicamentos e Outros Produtos"
       },
       "ticker": "PFRM3",
-      "last_updated": "2026-04-10T21:16:29.244959"
+      "last_updated": "2026-04-17T15:10:11.807044"
     },
     "PLPL3": {
-      "price_now": 13.91,
+      "price_now": 13.22,
       "price_min_6m": 12.37,
       "price_max_6m": 16.32,
       "avg_dividends_5y": 0.7007,
       "price_target_6pct": 11.68,
       "price_target_8pct": 8.76,
       "price_target_5pct": 14.01,
-      "dy_real": 3.54,
+      "dy_real": 3.73,
       "payout": 11.48,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 26.8,
-      "p_now_p_min": 1.1245,
-      "gain_pct_to_target": -16.03,
+      "p_now_p_min": 1.0687,
+      "gain_pct_to_target": -11.65,
       "rank": 13,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -20977,6 +21657,14 @@
           "cagr_receita": 29.5
         }
       },
+      "dcf": {
+        "intrinsic_value": 26.66,
+        "margin_of_safety": 50.4,
+        "lpa": 1.6209,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -21023,23 +21711,23 @@
         "segment": "Intermediação Imobiliária"
       },
       "ticker": "PLPL3",
-      "last_updated": "2026-04-10T21:16:29.792450"
+      "last_updated": "2026-04-17T15:10:12.385915"
     },
     "PNVL3": {
-      "price_now": 14.92,
+      "price_now": 14.71,
       "price_min_6m": 8.85,
       "price_max_6m": 16.47,
       "avg_dividends_5y": 0.2437,
       "price_target_6pct": 4.06,
       "price_target_8pct": 3.05,
       "price_target_5pct": 4.87,
-      "dy_real": 2.32,
+      "dy_real": 2.35,
       "payout": 23.87,
       "payout_fcf": 9.5,
       "payout_divergencia": 14.4,
       "accumulation_score": 43.9,
-      "p_now_p_min": 1.6859,
-      "gain_pct_to_target": -72.79,
+      "p_now_p_min": 1.6621,
+      "gain_pct_to_target": -72.4,
       "rank": 5,
       "rank_max": 21,
       "zone": "CARO",
@@ -21223,6 +21911,14 @@
           "cagr_receita": 12.65
         }
       },
+      "dcf": {
+        "intrinsic_value": 12.52,
+        "margin_of_safety": -17.5,
+        "lpa": 0.7612,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -21269,23 +21965,23 @@
         "segment": "Medicamentos e Outros Produtos"
       },
       "ticker": "PNVL3",
-      "last_updated": "2026-04-10T21:16:30.106250"
+      "last_updated": "2026-04-17T15:10:12.650877"
     },
     "POMO3": {
-      "price_now": 6.28,
+      "price_now": 6.58,
       "price_min_6m": 5.06,
       "price_max_6m": 6.65,
       "avg_dividends_5y": 0.5856,
       "price_target_6pct": 9.76,
       "price_target_8pct": 7.32,
       "price_target_5pct": 11.71,
-      "dy_real": 14.91,
+      "dy_real": 14.23,
       "payout": 128.46,
       "payout_fcf": 140.6,
       "payout_divergencia": 12.1,
       "accumulation_score": 25.2,
-      "p_now_p_min": 1.2411,
-      "gain_pct_to_target": 55.41,
+      "p_now_p_min": 1.3004,
+      "gain_pct_to_target": 48.33,
       "rank": 16,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -21468,6 +22164,14 @@
           "cagr_lucro": 63.76,
           "cagr_receita": 20.33
         }
+      },
+      "dcf": {
+        "intrinsic_value": 25.14,
+        "margin_of_safety": 73.8,
+        "lpa": 1.1439,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
       },
       "flags": {
         "dl_pl_ok": true,
@@ -21515,23 +22219,23 @@
         "segment": "Material Rodoviário"
       },
       "ticker": "POMO3",
-      "last_updated": "2026-04-10T21:16:30.309355"
+      "last_updated": "2026-04-17T15:10:12.797055"
     },
     "POMO4": {
-      "price_now": 6.76,
+      "price_now": 7.01,
       "price_min_6m": 5.46,
       "price_max_6m": 7.3,
       "avg_dividends_5y": 0.5902,
       "price_target_6pct": 9.84,
       "price_target_8pct": 7.38,
       "price_target_5pct": 11.8,
-      "dy_real": 13.85,
+      "dy_real": 13.36,
       "payout": 128.46,
       "payout_fcf": 140.6,
       "payout_divergencia": 12.1,
       "accumulation_score": 36.6,
-      "p_now_p_min": 1.2381,
-      "gain_pct_to_target": 45.56,
+      "p_now_p_min": 1.2839,
+      "gain_pct_to_target": 40.37,
       "rank": 16,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -21715,6 +22419,14 @@
           "cagr_receita": 20.33
         }
       },
+      "dcf": {
+        "intrinsic_value": 25.3,
+        "margin_of_safety": 72.3,
+        "lpa": 1.1512,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -21761,23 +22473,23 @@
         "segment": "Material Rodoviário"
       },
       "ticker": "POMO4",
-      "last_updated": "2026-04-10T21:16:30.511639"
+      "last_updated": "2026-04-17T15:10:12.940547"
     },
     "PSSA3": {
-      "price_now": 53.23,
+      "price_now": 54.51,
       "price_min_6m": 43.32,
       "price_max_6m": 53.59,
       "avg_dividends_5y": 1.7436,
       "price_target_6pct": 29.06,
       "price_target_8pct": 21.8,
       "price_target_5pct": 34.87,
-      "dy_real": 5.6,
+      "dy_real": 5.47,
       "payout": 38.01,
       "payout_fcf": 133.5,
       "payout_divergencia": 95.5,
       "accumulation_score": 36.6,
-      "p_now_p_min": 1.2288,
-      "gain_pct_to_target": -45.41,
+      "p_now_p_min": 1.2583,
+      "gain_pct_to_target": -46.69,
       "rank": 10,
       "rank_max": 21,
       "zone": "CARO",
@@ -21961,6 +22673,14 @@
           "cagr_receita": 17.03
         }
       },
+      "dcf": {
+        "intrinsic_value": 131.27,
+        "margin_of_safety": 58.5,
+        "lpa": 5.938,
+        "g1_pct": 10.1,
+        "g2_pct": 5.05,
+        "fcf_penalty": 0.68
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -22007,10 +22727,10 @@
         "segment": "Seguradoras"
       },
       "ticker": "PSSA3",
-      "last_updated": "2026-04-10T21:16:31.271537"
+      "last_updated": "2026-04-17T15:10:13.614662"
     },
     "PTNT4": {
-      "price_now": 8.72,
+      "price_now": 8.71,
       "price_min_6m": 4.43,
       "price_max_6m": 8.74,
       "avg_dividends_5y": 0.259,
@@ -22022,8 +22742,8 @@
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 51.2,
-      "p_now_p_min": 1.9684,
-      "gain_pct_to_target": -50.46,
+      "p_now_p_min": 1.9661,
+      "gain_pct_to_target": -50.4,
       "rank": 9,
       "rank_max": 21,
       "zone": "CARO",
@@ -22203,6 +22923,14 @@
           "cagr_receita": 12.5
         }
       },
+      "dcf": {
+        "intrinsic_value": 8.01,
+        "margin_of_safety": -8.8,
+        "lpa": 0.547,
+        "g1_pct": 3.0,
+        "g2_pct": 1.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -22249,10 +22977,10 @@
         "segment": "Fios e Tecidos"
       },
       "ticker": "PTNT4",
-      "last_updated": "2026-04-10T21:16:31.613019"
+      "last_updated": "2026-04-17T15:10:13.989168"
     },
     "RADL3": {
-      "price_now": 23.82,
+      "price_now": 23.87,
       "price_min_6m": 17.8,
       "price_max_6m": 27.31,
       "avg_dividends_5y": 0.341,
@@ -22264,8 +22992,8 @@
       "payout_fcf": 639.8,
       "payout_divergencia": 587.3,
       "accumulation_score": 19.5,
-      "p_now_p_min": 1.3382,
-      "gain_pct_to_target": -76.15,
+      "p_now_p_min": 1.341,
+      "gain_pct_to_target": -76.2,
       "rank": 9,
       "rank_max": 21,
       "zone": "CARO",
@@ -22449,6 +23177,14 @@
           "cagr_receita": 17.14
         }
       },
+      "dcf": {
+        "intrinsic_value": 12.78,
+        "margin_of_safety": -86.8,
+        "lpa": 0.7543,
+        "g1_pct": 5.51,
+        "g2_pct": 2.76,
+        "fcf_penalty": 0.55
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -22495,23 +23231,23 @@
         "segment": "Medicamentos e Outros Produtos"
       },
       "ticker": "RADL3",
-      "last_updated": "2026-04-10T21:16:31.874954"
+      "last_updated": "2026-04-17T15:10:14.229125"
     },
     "RANI3": {
-      "price_now": 9.54,
+      "price_now": 8.96,
       "price_min_6m": 8.17,
       "price_max_6m": 10.08,
       "avg_dividends_5y": 0.6645,
       "price_target_6pct": 11.07,
       "price_target_8pct": 8.31,
       "price_target_5pct": 13.29,
-      "dy_real": 6.1,
+      "dy_real": 6.49,
       "payout": 24.64,
       "payout_fcf": 23.8,
       "payout_divergencia": 0.8,
       "accumulation_score": 43.1,
-      "p_now_p_min": 1.1677,
-      "gain_pct_to_target": 16.04,
+      "p_now_p_min": 1.0967,
+      "gain_pct_to_target": 23.55,
       "rank": 15,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -22695,6 +23431,14 @@
           "cagr_receita": 10.37
         }
       },
+      "dcf": {
+        "intrinsic_value": 22.16,
+        "margin_of_safety": 59.6,
+        "lpa": 1.0085,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -22741,23 +23485,23 @@
         "segment": "Papel e Celulose"
       },
       "ticker": "RANI3",
-      "last_updated": "2026-04-10T21:16:32.229015"
+      "last_updated": "2026-04-17T15:10:14.565066"
     },
     "RDOR3": {
-      "price_now": 41.4,
+      "price_now": 40.09,
       "price_min_6m": 36.01,
       "price_max_6m": 45.19,
       "avg_dividends_5y": 1.842,
       "price_target_6pct": 30.7,
       "price_target_8pct": 23.03,
       "price_target_5pct": 36.84,
-      "dy_real": 10.32,
+      "dy_real": 10.65,
       "payout": 209.61,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 35.0,
-      "p_now_p_min": 1.1497,
-      "gain_pct_to_target": -25.85,
+      "p_now_p_min": 1.1133,
+      "gain_pct_to_target": -23.42,
       "rank": 12,
       "rank_max": 21,
       "zone": "CARO",
@@ -22933,6 +23677,14 @@
           "cagr_receita": 31.77
         }
       },
+      "dcf": {
+        "intrinsic_value": 36.32,
+        "margin_of_safety": -10.4,
+        "lpa": 2.2089,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -22979,23 +23731,23 @@
         "segment": "Serviços Médicos, Hospitalares, Análises e Diagnósticos"
       },
       "ticker": "RDOR3",
-      "last_updated": "2026-04-10T21:16:33.156944"
+      "last_updated": "2026-04-17T15:10:15.102809"
     },
     "RENT3": {
-      "price_now": 49.0,
+      "price_now": 52.11,
       "price_min_6m": 34.53,
       "price_max_6m": 52.39,
       "avg_dividends_5y": 1.5915,
       "price_target_6pct": 26.52,
       "price_target_8pct": 19.89,
       "price_target_5pct": 31.83,
-      "dy_real": 4.2,
+      "dy_real": 3.95,
       "payout": 119.5,
       "payout_fcf": 111.1,
       "payout_divergencia": 8.4,
       "accumulation_score": 34.1,
-      "p_now_p_min": 1.4191,
-      "gain_pct_to_target": -45.88,
+      "p_now_p_min": 1.5091,
+      "gain_pct_to_target": -49.11,
       "rank": 6,
       "rank_max": 21,
       "zone": "CARO",
@@ -23179,6 +23931,14 @@
           "cagr_receita": 32.3
         }
       },
+      "dcf": {
+        "intrinsic_value": 32.04,
+        "margin_of_safety": -62.7,
+        "lpa": 1.9482,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -23225,23 +23985,23 @@
         "segment": "Aluguel de carros"
       },
       "ticker": "RENT3",
-      "last_updated": "2026-04-10T21:16:33.632305"
+      "last_updated": "2026-04-17T15:10:15.438319"
     },
     "ROMI3": {
-      "price_now": 7.54,
+      "price_now": 7.09,
       "price_min_6m": 6.97,
       "price_max_6m": 8.92,
       "avg_dividends_5y": 0.7104,
       "price_target_6pct": 11.84,
       "price_target_8pct": 8.88,
       "price_target_5pct": 14.21,
-      "dy_real": 7.16,
+      "dy_real": 7.62,
       "payout": 78.82,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 26.0,
-      "p_now_p_min": 1.0818,
-      "gain_pct_to_target": 57.03,
+      "p_now_p_min": 1.0172,
+      "gain_pct_to_target": 67.0,
       "rank": 13,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -23425,6 +24185,14 @@
           "cagr_receita": 6.39
         }
       },
+      "dcf": {
+        "intrinsic_value": 10.24,
+        "margin_of_safety": 30.8,
+        "lpa": 0.8336,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -23471,23 +24239,23 @@
         "segment": "Máquinas e Equipamentos Industriais"
       },
       "ticker": "ROMI3",
-      "last_updated": "2026-04-10T21:16:34.571089"
+      "last_updated": "2026-04-17T15:10:15.880693"
     },
     "SANB11": {
-      "price_now": 32.12,
+      "price_now": 31.74,
       "price_min_6m": 25.87,
       "price_max_6m": 37.83,
       "avg_dividends_5y": 1.8763,
       "price_target_6pct": 31.27,
       "price_target_8pct": 23.45,
       "price_target_5pct": 37.53,
-      "dy_real": 6.77,
+      "dy_real": 6.85,
       "payout": 236.24,
       "payout_fcf": 2256.4,
       "payout_divergencia": 2020.2,
       "accumulation_score": 27.6,
-      "p_now_p_min": 1.2416,
-      "gain_pct_to_target": -2.65,
+      "p_now_p_min": 1.2269,
+      "gain_pct_to_target": -1.48,
       "rank": 5,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -23670,6 +24438,14 @@
           "cagr_lucro": -0.73,
           "cagr_receita": 20.95
         }
+      },
+      "dcf": {
+        "intrinsic_value": 44.79,
+        "margin_of_safety": 29.1,
+        "lpa": 3.6465,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 0.57
       },
       "flags": {
         "dl_pl_ok": false,
@@ -23717,23 +24493,23 @@
         "segment": "Bancos"
       },
       "ticker": "SANB11",
-      "last_updated": "2026-04-10T21:16:35.512613"
+      "last_updated": "2026-04-17T15:10:17.091656"
     },
     "SANB3": {
-      "price_now": 15.88,
+      "price_now": 15.71,
       "price_min_6m": 12.22,
       "price_max_6m": 18.68,
       "avg_dividends_5y": 0.8935,
       "price_target_6pct": 14.89,
       "price_target_8pct": 11.17,
       "price_target_5pct": 17.87,
-      "dy_real": 6.52,
+      "dy_real": 6.59,
       "payout": 236.24,
       "payout_fcf": 2256.4,
       "payout_divergencia": 2020.2,
       "accumulation_score": 25.2,
-      "p_now_p_min": 1.2995,
-      "gain_pct_to_target": -6.23,
+      "p_now_p_min": 1.2856,
+      "gain_pct_to_target": -5.22,
       "rank": 5,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -23917,6 +24693,14 @@
           "cagr_receita": 20.95
         }
       },
+      "dcf": {
+        "intrinsic_value": 22.17,
+        "margin_of_safety": 29.1,
+        "lpa": 1.8049,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 0.57
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -23963,23 +24747,23 @@
         "segment": "Bancos"
       },
       "ticker": "SANB3",
-      "last_updated": "2026-04-10T21:16:35.699536"
+      "last_updated": "2026-04-17T15:10:17.247176"
     },
     "SANB4": {
-      "price_now": 16.3,
+      "price_now": 16.06,
       "price_min_6m": 13.53,
       "price_max_6m": 19.2,
       "avg_dividends_5y": 0.9828,
       "price_target_6pct": 16.38,
       "price_target_8pct": 12.29,
       "price_target_5pct": 19.66,
-      "dy_real": 6.99,
+      "dy_real": 7.1,
       "payout": 236.24,
       "payout_fcf": 2256.4,
       "payout_divergencia": 2020.2,
       "accumulation_score": 24.4,
-      "p_now_p_min": 1.2047,
-      "gain_pct_to_target": 0.49,
+      "p_now_p_min": 1.187,
+      "gain_pct_to_target": 1.99,
       "rank": 6,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -24163,6 +24947,14 @@
           "cagr_receita": 20.95
         }
       },
+      "dcf": {
+        "intrinsic_value": 22.28,
+        "margin_of_safety": 27.9,
+        "lpa": 1.8137,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 0.57
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -24209,30 +25001,30 @@
         "segment": "Bancos"
       },
       "ticker": "SANB4",
-      "last_updated": "2026-04-10T21:16:35.869209"
+      "last_updated": "2026-04-17T15:10:17.418431"
     },
     "SAPR11": {
-      "price_now": 45.44,
+      "price_now": 40.74,
       "price_min_6m": 33.02,
       "price_max_6m": 48.72,
       "avg_dividends_5y": 1.688,
       "price_target_6pct": 28.13,
       "price_target_8pct": 21.1,
       "price_target_5pct": 33.76,
-      "dy_real": 4.31,
+      "dy_real": 4.81,
       "payout": 197.89,
       "payout_fcf": 92.6,
       "payout_divergencia": 105.3,
       "accumulation_score": 30.1,
-      "p_now_p_min": 1.3761,
-      "gain_pct_to_target": -38.09,
-      "rank": 14,
+      "p_now_p_min": 1.2338,
+      "gain_pct_to_target": -30.95,
+      "rank": 15,
       "rank_max": 21,
       "zone": "CARO",
       "weighted_score": {
-        "score": 73.8,
+        "score": 77.5,
         "score_max": 100,
-        "earned_points": 29.5,
+        "earned_points": 31.0,
         "max_points": 40.0
       },
       "piotroski": {
@@ -24409,6 +25201,14 @@
           "cagr_receita": 8.47
         }
       },
+      "dcf": {
+        "intrinsic_value": 197.6,
+        "margin_of_safety": 79.4,
+        "lpa": 6.7479,
+        "g1_pct": 15.0,
+        "g2_pct": 7.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -24427,7 +25227,7 @@
         "p_vp_ok": true,
         "graham_combo_ok": true,
         "dy_ok": false,
-        "abaixo_vpa": false,
+        "abaixo_vpa": true,
         "abaixo_target_6pct": false,
         "abaixo_target_8pct": false,
         "accumulation_ok": false
@@ -24455,23 +25255,23 @@
         "segment": "Água e Saneamento"
       },
       "ticker": "SAPR11",
-      "last_updated": "2026-04-10T21:16:36.028903"
+      "last_updated": "2026-04-17T15:10:17.980273"
     },
     "SAPR3": {
-      "price_now": 10.48,
+      "price_now": 9.22,
       "price_min_6m": 6.76,
       "price_max_6m": 11.79,
       "avg_dividends_5y": 0.3126,
       "price_target_6pct": 5.21,
       "price_target_8pct": 3.91,
       "price_target_5pct": 6.25,
-      "dy_real": 3.46,
+      "dy_real": 3.94,
       "payout": 197.89,
       "payout_fcf": 92.6,
       "payout_divergencia": 105.3,
       "accumulation_score": 30.9,
-      "p_now_p_min": 1.5503,
-      "gain_pct_to_target": -50.29,
+      "p_now_p_min": 1.3639,
+      "gain_pct_to_target": -43.49,
       "rank": 14,
       "rank_max": 21,
       "zone": "CARO",
@@ -24654,6 +25454,14 @@
           "cagr_lucro": 15.85,
           "cagr_receita": 8.47
         }
+      },
+      "dcf": {
+        "intrinsic_value": 40.04,
+        "margin_of_safety": 77.0,
+        "lpa": 1.3672,
+        "g1_pct": 15.0,
+        "g2_pct": 7.5,
+        "fcf_penalty": 1.0
       },
       "flags": {
         "dl_pl_ok": true,
@@ -24701,30 +25509,30 @@
         "segment": "Água e Saneamento"
       },
       "ticker": "SAPR3",
-      "last_updated": "2026-04-10T21:16:36.181747"
+      "last_updated": "2026-04-17T15:10:18.161819"
     },
     "SAPR4": {
-      "price_now": 8.74,
+      "price_now": 7.89,
       "price_min_6m": 6.52,
       "price_max_6m": 9.23,
       "avg_dividends_5y": 0.3439,
       "price_target_6pct": 5.73,
       "price_target_8pct": 4.3,
       "price_target_5pct": 6.88,
-      "dy_real": 4.57,
+      "dy_real": 5.06,
       "payout": 197.89,
       "payout_fcf": 92.6,
       "payout_divergencia": 105.3,
       "accumulation_score": 27.6,
-      "p_now_p_min": 1.3405,
-      "gain_pct_to_target": -34.44,
-      "rank": 14,
+      "p_now_p_min": 1.2101,
+      "gain_pct_to_target": -27.38,
+      "rank": 15,
       "rank_max": 21,
       "zone": "CARO",
       "weighted_score": {
-        "score": 73.8,
+        "score": 77.5,
         "score_max": 100,
-        "earned_points": 29.5,
+        "earned_points": 31.0,
         "max_points": 40.0
       },
       "piotroski": {
@@ -24901,6 +25709,14 @@
           "cagr_receita": 8.47
         }
       },
+      "dcf": {
+        "intrinsic_value": 39.74,
+        "margin_of_safety": 80.1,
+        "lpa": 1.3572,
+        "g1_pct": 15.0,
+        "g2_pct": 7.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -24919,7 +25735,7 @@
         "p_vp_ok": true,
         "graham_combo_ok": true,
         "dy_ok": false,
-        "abaixo_vpa": false,
+        "abaixo_vpa": true,
         "abaixo_target_6pct": false,
         "abaixo_target_8pct": false,
         "accumulation_ok": false
@@ -24947,23 +25763,23 @@
         "segment": "Água e Saneamento"
       },
       "ticker": "SAPR4",
-      "last_updated": "2026-04-10T21:16:36.343040"
+      "last_updated": "2026-04-17T15:10:18.316385"
     },
     "SBSP3": {
-      "price_now": 170.5,
+      "price_now": 169.26,
       "price_min_6m": 115.14,
       "price_max_6m": 171.73,
       "avg_dividends_5y": 2.8531,
       "price_target_6pct": 47.55,
       "price_target_8pct": 35.66,
       "price_target_5pct": 57.06,
-      "dy_real": 4.16,
+      "dy_real": 4.19,
       "payout": 28.97,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 35.0,
-      "p_now_p_min": 1.4808,
-      "gain_pct_to_target": -72.11,
+      "p_now_p_min": 1.47,
+      "gain_pct_to_target": -71.91,
       "rank": 11,
       "rank_max": 21,
       "zone": "CARO",
@@ -25147,6 +25963,14 @@
           "cagr_receita": 14.98
         }
       },
+      "dcf": {
+        "intrinsic_value": 220.61,
+        "margin_of_safety": 23.3,
+        "lpa": 11.6013,
+        "g1_pct": 7.5,
+        "g2_pct": 3.75,
+        "fcf_penalty": 0.75
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -25193,23 +26017,23 @@
         "segment": "Água e Saneamento"
       },
       "ticker": "SBSP3",
-      "last_updated": "2026-04-10T21:16:36.640486"
+      "last_updated": "2026-04-17T15:10:18.565491"
     },
     "SHUL4": {
-      "price_now": 5.35,
+      "price_now": 5.37,
       "price_min_6m": 4.03,
       "price_max_6m": 5.66,
       "avg_dividends_5y": 0.4378,
       "price_target_6pct": 7.3,
       "price_target_8pct": 5.47,
       "price_target_5pct": 8.76,
-      "dy_real": 11.9,
+      "dy_real": 11.86,
       "payout": 127.75,
       "payout_fcf": 594.5,
       "payout_divergencia": 466.8,
       "accumulation_score": 24.4,
-      "p_now_p_min": 1.3275,
-      "gain_pct_to_target": 36.45,
+      "p_now_p_min": 1.3325,
+      "gain_pct_to_target": 35.94,
       "rank": 17,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -25393,6 +26217,14 @@
           "cagr_receita": 12.91
         }
       },
+      "dcf": {
+        "intrinsic_value": 13.26,
+        "margin_of_safety": 59.5,
+        "lpa": 0.7456,
+        "g1_pct": 6.34,
+        "g2_pct": 3.17,
+        "fcf_penalty": 0.63
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -25439,23 +26271,23 @@
         "segment": "Motores, Compressores e Outros"
       },
       "ticker": "SHUL4",
-      "last_updated": "2026-04-10T21:16:37.404679"
+      "last_updated": "2026-04-17T15:10:19.185608"
     },
     "SLCE3": {
-      "price_now": 18.81,
+      "price_now": 17.78,
       "price_min_6m": 13.12,
       "price_max_6m": 18.98,
       "avg_dividends_5y": 1.0219,
       "price_target_6pct": 17.03,
       "price_target_8pct": 12.77,
       "price_target_5pct": 20.44,
-      "dy_real": 6.86,
+      "dy_real": 7.26,
       "payout": 81.32,
       "payout_fcf": 158.5,
       "payout_divergencia": 77.2,
       "accumulation_score": 38.2,
-      "p_now_p_min": 1.4337,
-      "gain_pct_to_target": -9.46,
+      "p_now_p_min": 1.3552,
+      "gain_pct_to_target": -4.22,
       "rank": 8,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -25639,6 +26471,14 @@
           "cagr_receita": 20.3
         }
       },
+      "dcf": {
+        "intrinsic_value": 15.04,
+        "margin_of_safety": -18.2,
+        "lpa": 1.0811,
+        "g1_pct": 2.13,
+        "g2_pct": 1.07,
+        "fcf_penalty": 0.82
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -25685,30 +26525,30 @@
         "segment": "Agricultura"
       },
       "ticker": "SLCE3",
-      "last_updated": "2026-04-10T21:16:37.690873"
+      "last_updated": "2026-04-17T15:10:19.423354"
     },
     "SMTO3": {
-      "price_now": 18.44,
+      "price_now": 16.4,
       "price_min_6m": 12.91,
       "price_max_6m": 21.7,
       "avg_dividends_5y": 1.0664,
       "price_target_6pct": 17.77,
       "price_target_8pct": 13.33,
       "price_target_5pct": 21.33,
-      "dy_real": 2.48,
+      "dy_real": 2.78,
       "payout": 19.54,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 40.7,
-      "p_now_p_min": 1.4284,
-      "gain_pct_to_target": -3.63,
-      "rank": 10,
+      "p_now_p_min": 1.2703,
+      "gain_pct_to_target": 8.35,
+      "rank": 11,
       "rank_max": 21,
-      "zone": "MONITORAR",
+      "zone": "COMPRA",
       "weighted_score": {
-        "score": 50.0,
+        "score": 53.8,
         "score_max": 100,
-        "earned_points": 20.0,
+        "earned_points": 21.5,
         "max_points": 40.0
       },
       "piotroski": {
@@ -25881,6 +26721,14 @@
           "cagr_receita": 14.16
         }
       },
+      "dcf": {
+        "intrinsic_value": 28.77,
+        "margin_of_safety": 43.0,
+        "lpa": 2.0989,
+        "g1_pct": 1.88,
+        "g2_pct": 0.94,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -25900,7 +26748,7 @@
         "graham_combo_ok": true,
         "dy_ok": false,
         "abaixo_vpa": true,
-        "abaixo_target_6pct": false,
+        "abaixo_target_6pct": true,
         "abaixo_target_8pct": false,
         "accumulation_ok": false
       },
@@ -25927,23 +26775,23 @@
         "segment": "Açucar e Alcool"
       },
       "ticker": "SMTO3",
-      "last_updated": "2026-04-10T21:16:37.973026"
+      "last_updated": "2026-04-17T15:10:19.693154"
     },
     "TAEE11": {
-      "price_now": 45.22,
+      "price_now": 45.0,
       "price_min_6m": 34.85,
       "price_max_6m": 46.11,
       "avg_dividends_5y": 3.5489,
       "price_target_6pct": 59.15,
       "price_target_8pct": 44.36,
       "price_target_5pct": 70.98,
-      "dy_real": 7.14,
+      "dy_real": 7.18,
       "payout": 205.33,
       "payout_fcf": 218.1,
       "payout_divergencia": 12.8,
       "accumulation_score": 22.8,
-      "p_now_p_min": 1.2976,
-      "gain_pct_to_target": 30.8,
+      "p_now_p_min": 1.2912,
+      "gain_pct_to_target": 31.44,
       "rank": 12,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -26126,6 +26974,14 @@
           "cagr_lucro": 11.46,
           "cagr_receita": 15.68
         }
+      },
+      "dcf": {
+        "intrinsic_value": 127.16,
+        "margin_of_safety": 64.6,
+        "lpa": 5.319,
+        "g1_pct": 11.46,
+        "g2_pct": 5.73,
+        "fcf_penalty": 1.0
       },
       "flags": {
         "dl_pl_ok": false,
@@ -26173,30 +27029,30 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "TAEE11",
-      "last_updated": "2026-04-10T21:16:39.155575"
+      "last_updated": "2026-04-17T15:10:20.687814"
     },
     "TAEE3": {
-      "price_now": 14.9,
+      "price_now": 14.73,
       "price_min_6m": 11.26,
       "price_max_6m": 15.13,
       "avg_dividends_5y": 1.1829,
       "price_target_6pct": 19.72,
       "price_target_8pct": 14.79,
       "price_target_5pct": 23.66,
-      "dy_real": 7.22,
+      "dy_real": 7.31,
       "payout": 205.33,
       "payout_fcf": 218.1,
       "payout_divergencia": 12.8,
       "accumulation_score": 23.6,
-      "p_now_p_min": 1.3233,
-      "gain_pct_to_target": 32.35,
-      "rank": 12,
+      "p_now_p_min": 1.3082,
+      "gain_pct_to_target": 33.88,
+      "rank": 13,
       "rank_max": 21,
-      "zone": "COMPRA",
+      "zone": "COMPRA_FORTE",
       "weighted_score": {
-        "score": 62.5,
+        "score": 66.2,
         "score_max": 100,
-        "earned_points": 25.0,
+        "earned_points": 26.5,
         "max_points": 40.0
       },
       "piotroski": {
@@ -26373,6 +27229,14 @@
           "cagr_receita": 15.68
         }
       },
+      "dcf": {
+        "intrinsic_value": 42.03,
+        "margin_of_safety": 65.0,
+        "lpa": 1.7581,
+        "g1_pct": 11.46,
+        "g2_pct": 5.73,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -26393,7 +27257,7 @@
         "dy_ok": true,
         "abaixo_vpa": false,
         "abaixo_target_6pct": true,
-        "abaixo_target_8pct": false,
+        "abaixo_target_8pct": true,
         "accumulation_ok": false
       },
       "indicators": {
@@ -26419,23 +27283,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "TAEE3",
-      "last_updated": "2026-04-10T21:16:39.361000"
+      "last_updated": "2026-04-17T15:10:20.833420"
     },
     "TAEE4": {
-      "price_now": 15.16,
+      "price_now": 15.11,
       "price_min_6m": 11.66,
       "price_max_6m": 15.44,
       "avg_dividends_5y": 1.1829,
       "price_target_6pct": 19.72,
       "price_target_8pct": 14.79,
       "price_target_5pct": 23.66,
-      "dy_real": 7.1,
+      "dy_real": 7.12,
       "payout": 205.33,
       "payout_fcf": 218.1,
       "payout_divergencia": 12.8,
       "accumulation_score": 22.8,
-      "p_now_p_min": 1.3002,
-      "gain_pct_to_target": 30.08,
+      "p_now_p_min": 1.2959,
+      "gain_pct_to_target": 30.51,
       "rank": 12,
       "rank_max": 21,
       "zone": "COMPRA",
@@ -26618,6 +27482,14 @@
           "cagr_lucro": 11.46,
           "cagr_receita": 15.68
         }
+      },
+      "dcf": {
+        "intrinsic_value": 41.97,
+        "margin_of_safety": 64.0,
+        "lpa": 1.7557,
+        "g1_pct": 11.46,
+        "g2_pct": 5.73,
+        "fcf_penalty": 1.0
       },
       "flags": {
         "dl_pl_ok": false,
@@ -26665,23 +27537,23 @@
         "segment": "Energia Elétrica"
       },
       "ticker": "TAEE4",
-      "last_updated": "2026-04-10T21:16:39.741669"
+      "last_updated": "2026-04-17T15:10:21.003157"
     },
     "TFCO4": {
-      "price_now": 16.08,
+      "price_now": 16.18,
       "price_min_6m": 14.27,
       "price_max_6m": 18.29,
       "avg_dividends_5y": 0.2201,
       "price_target_6pct": 3.67,
       "price_target_8pct": 2.75,
       "price_target_5pct": 4.4,
-      "dy_real": 1.96,
+      "dy_real": 1.95,
       "payout": 126.71,
       "payout_fcf": 327.0,
       "payout_divergencia": 200.3,
       "accumulation_score": 35.8,
-      "p_now_p_min": 1.1268,
-      "gain_pct_to_target": -77.18,
+      "p_now_p_min": 1.1338,
+      "gain_pct_to_target": -77.32,
       "rank": 12,
       "rank_max": 21,
       "zone": "CARO",
@@ -26861,6 +27733,14 @@
           "cagr_receita": 31.38
         }
       },
+      "dcf": {
+        "intrinsic_value": 3.52,
+        "margin_of_safety": -359.0,
+        "lpa": 0.1503,
+        "g1_pct": 11.13,
+        "g2_pct": 5.57,
+        "fcf_penalty": 0.74
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -26907,30 +27787,30 @@
         "segment": "Vestuário"
       },
       "ticker": "TFCO4",
-      "last_updated": "2026-04-10T21:16:41.248145"
+      "last_updated": "2026-04-17T15:10:22.380382"
     },
     "TGMA3": {
-      "price_now": 35.0,
+      "price_now": 34.12,
       "price_min_6m": 26.95,
       "price_max_6m": 40.89,
       "avg_dividends_5y": 2.7433,
       "price_target_6pct": 45.72,
       "price_target_8pct": 34.29,
       "price_target_5pct": 54.87,
-      "dy_real": 12.66,
+      "dy_real": 12.98,
       "payout": 104.32,
       "payout_fcf": 158.9,
       "payout_divergencia": 54.6,
       "accumulation_score": 28.5,
-      "p_now_p_min": 1.2987,
-      "gain_pct_to_target": 30.63,
-      "rank": 16,
+      "p_now_p_min": 1.266,
+      "gain_pct_to_target": 34.0,
+      "rank": 17,
       "rank_max": 21,
-      "zone": "COMPRA",
+      "zone": "COMPRA_FORTE",
       "weighted_score": {
-        "score": 82.5,
+        "score": 86.2,
         "score_max": 100,
-        "earned_points": 33.0,
+        "earned_points": 34.5,
         "max_points": 40.0
       },
       "piotroski": {
@@ -27107,6 +27987,14 @@
           "cagr_receita": 17.07
         }
       },
+      "dcf": {
+        "intrinsic_value": 87.71,
+        "margin_of_safety": 61.1,
+        "lpa": 4.2035,
+        "g1_pct": 9.1,
+        "g2_pct": 4.55,
+        "fcf_penalty": 0.91
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -27127,7 +28015,7 @@
         "dy_ok": true,
         "abaixo_vpa": false,
         "abaixo_target_6pct": true,
-        "abaixo_target_8pct": false,
+        "abaixo_target_8pct": true,
         "accumulation_ok": false
       },
       "indicators": {
@@ -27153,23 +28041,23 @@
         "segment": "Transporte Rodoviário"
       },
       "ticker": "TGMA3",
-      "last_updated": "2026-04-10T21:16:41.476551"
+      "last_updated": "2026-04-17T15:10:22.598611"
     },
     "TIMS3": {
-      "price_now": 27.96,
+      "price_now": 26.71,
       "price_min_6m": 21.13,
       "price_max_6m": 28.57,
       "avg_dividends_5y": 1.5947,
       "price_target_6pct": 26.58,
       "price_target_8pct": 19.93,
       "price_target_5pct": 31.89,
-      "dy_real": 9.28,
+      "dy_real": 9.71,
       "payout": 199.3,
       "payout_fcf": 96.6,
       "payout_divergencia": 102.7,
       "accumulation_score": 28.5,
-      "p_now_p_min": 1.3232,
-      "gain_pct_to_target": -4.94,
+      "p_now_p_min": 1.2641,
+      "gain_pct_to_target": -0.49,
       "rank": 9,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -27353,6 +28241,14 @@
           "cagr_receita": 9.05
         }
       },
+      "dcf": {
+        "intrinsic_value": 11.3,
+        "margin_of_safety": -136.3,
+        "lpa": 0.8367,
+        "g1_pct": 1.63,
+        "g2_pct": 0.81,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -27399,23 +28295,23 @@
         "segment": "Telecomunicações"
       },
       "ticker": "TIMS3",
-      "last_updated": "2026-04-10T21:16:41.644654"
+      "last_updated": "2026-04-17T15:10:22.761286"
     },
     "TKNO4": {
-      "price_now": 212.0,
+      "price_now": 214.2,
       "price_min_6m": 168.01,
       "price_max_6m": 222.22,
       "avg_dividends_5y": 10.826,
       "price_target_6pct": 180.43,
       "price_target_8pct": 135.33,
       "price_target_5pct": 216.52,
-      "dy_real": 8.05,
+      "dy_real": 7.97,
       "payout": 384.96,
       "payout_fcf": 527.9,
       "payout_divergencia": 142.9,
       "accumulation_score": 36.9,
-      "p_now_p_min": 1.2618,
-      "gain_pct_to_target": -14.89,
+      "p_now_p_min": 1.2749,
+      "gain_pct_to_target": -15.77,
       "rank": 12,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -27595,6 +28491,14 @@
           "cagr_receita": 15.06
         }
       },
+      "dcf": {
+        "intrinsic_value": 249.32,
+        "margin_of_safety": 14.1,
+        "lpa": 11.6385,
+        "g1_pct": 9.56,
+        "g2_pct": 4.78,
+        "fcf_penalty": 0.96
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -27641,23 +28545,23 @@
         "segment": "Artefatos de Ferro e Aço"
       },
       "ticker": "TKNO4",
-      "last_updated": "2026-04-10T21:16:41.931659"
+      "last_updated": "2026-04-17T15:10:22.996098"
     },
     "TOTS3": {
-      "price_now": 33.84,
+      "price_now": 35.75,
       "price_min_6m": 32.85,
       "price_max_6m": 47.98,
       "avg_dividends_5y": 0.4873,
       "price_target_6pct": 8.12,
       "price_target_8pct": 6.09,
       "price_target_5pct": 9.75,
-      "dy_real": 1.92,
+      "dy_real": 1.82,
       "payout": 41.0,
       "payout_fcf": 38.7,
       "payout_divergencia": 2.3,
       "accumulation_score": 13.0,
-      "p_now_p_min": 1.0301,
-      "gain_pct_to_target": -76.0,
+      "p_now_p_min": 1.0883,
+      "gain_pct_to_target": -77.29,
       "rank": 12,
       "rank_max": 21,
       "zone": "CARO",
@@ -27841,6 +28745,14 @@
           "cagr_receita": 17.33
         }
       },
+      "dcf": {
+        "intrinsic_value": 33.7,
+        "margin_of_safety": -6.1,
+        "lpa": 1.5336,
+        "g1_pct": 10.0,
+        "g2_pct": 5.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -27887,30 +28799,30 @@
         "segment": "Programas e Serviços"
       },
       "ticker": "TOTS3",
-      "last_updated": "2026-04-10T21:16:42.206935"
+      "last_updated": "2026-04-17T15:10:23.253728"
     },
     "TRIS3": {
-      "price_now": 5.81,
+      "price_now": 5.71,
       "price_min_6m": 4.68,
       "price_max_6m": 7.64,
       "avg_dividends_5y": 0.4591,
       "price_target_6pct": 7.65,
       "price_target_8pct": 5.74,
       "price_target_5pct": 9.18,
-      "dy_real": 18.72,
+      "dy_real": 19.05,
       "payout": 83.28,
       "payout_fcf": 3061.8,
       "payout_divergencia": 2978.5,
       "accumulation_score": 30.1,
-      "p_now_p_min": 1.2415,
-      "gain_pct_to_target": 31.67,
-      "rank": 16,
+      "p_now_p_min": 1.2201,
+      "gain_pct_to_target": 33.98,
+      "rank": 17,
       "rank_max": 21,
-      "zone": "COMPRA",
+      "zone": "COMPRA_FORTE",
       "weighted_score": {
-        "score": 77.5,
+        "score": 81.2,
         "score_max": 100,
-        "earned_points": 31.0,
+        "earned_points": 32.5,
         "max_points": 40.0
       },
       "piotroski": {
@@ -28087,6 +28999,14 @@
           "cagr_receita": 9.42
         }
       },
+      "dcf": {
+        "intrinsic_value": 11.69,
+        "margin_of_safety": 51.2,
+        "lpa": 0.8519,
+        "g1_pct": 1.9,
+        "g2_pct": 0.95,
+        "fcf_penalty": 0.52
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -28107,7 +29027,7 @@
         "dy_ok": true,
         "abaixo_vpa": true,
         "abaixo_target_6pct": true,
-        "abaixo_target_8pct": false,
+        "abaixo_target_8pct": true,
         "accumulation_ok": false
       },
       "indicators": {
@@ -28133,23 +29053,23 @@
         "segment": "Incorporações"
       },
       "ticker": "TRIS3",
-      "last_updated": "2026-04-10T21:16:42.644414"
+      "last_updated": "2026-04-17T15:10:23.621991"
     },
     "UGPA3": {
-      "price_now": 30.43,
+      "price_now": 29.73,
       "price_min_6m": 19.02,
       "price_max_6m": 30.5,
       "avg_dividends_5y": 0.9313,
       "price_target_6pct": 15.52,
       "price_target_8pct": 11.64,
       "price_target_5pct": 18.63,
-      "dy_real": 4.27,
+      "dy_real": 4.37,
       "payout": 59.12,
       "payout_fcf": 42.1,
       "payout_divergencia": 17.0,
       "accumulation_score": 31.7,
-      "p_now_p_min": 1.5999,
-      "gain_pct_to_target": -49.0,
+      "p_now_p_min": 1.5631,
+      "gain_pct_to_target": -47.8,
       "rank": 11,
       "rank_max": 21,
       "zone": "CARO",
@@ -28333,6 +29253,14 @@
           "cagr_receita": 11.87
         }
       },
+      "dcf": {
+        "intrinsic_value": 40.68,
+        "margin_of_safety": 26.9,
+        "lpa": 2.4737,
+        "g1_pct": 5.0,
+        "g2_pct": 2.5,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -28379,23 +29307,23 @@
         "segment": "Exploração, Refino e Distribuição"
       },
       "ticker": "UGPA3",
-      "last_updated": "2026-04-10T21:16:43.606046"
+      "last_updated": "2026-04-17T15:10:24.217699"
     },
     "UNIP3": {
-      "price_now": 62.5,
+      "price_now": 60.89,
       "price_min_6m": 47.1,
       "price_max_6m": 68.5,
       "avg_dividends_5y": 7.6579,
       "price_target_6pct": 127.63,
       "price_target_8pct": 95.72,
       "price_target_5pct": 153.16,
-      "dy_real": 14.8,
+      "dy_real": 15.2,
       "payout": 443.74,
       "payout_fcf": 6535.2,
       "payout_divergencia": 6091.5,
       "accumulation_score": 27.6,
-      "p_now_p_min": 1.327,
-      "gain_pct_to_target": 104.21,
+      "p_now_p_min": 1.2928,
+      "gain_pct_to_target": 109.61,
       "rank": 15,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -28578,6 +29506,14 @@
           "cagr_lucro": 35.28,
           "cagr_receita": 12.24
         }
+      },
+      "dcf": {
+        "intrinsic_value": 113.15,
+        "margin_of_safety": 46.2,
+        "lpa": 6.7126,
+        "g1_pct": 5.42,
+        "g2_pct": 2.71,
+        "fcf_penalty": 0.54
       },
       "flags": {
         "dl_pl_ok": true,
@@ -28625,23 +29561,23 @@
         "segment": "Químicos Diversos"
       },
       "ticker": "UNIP3",
-      "last_updated": "2026-04-10T21:16:44.062308"
+      "last_updated": "2026-04-17T15:10:24.389195"
     },
     "UNIP6": {
-      "price_now": 66.07,
+      "price_now": 61.47,
       "price_min_6m": 52.92,
       "price_max_6m": 72.22,
       "avg_dividends_5y": 8.4237,
       "price_target_6pct": 140.4,
       "price_target_8pct": 105.3,
       "price_target_5pct": 168.47,
-      "dy_real": 15.4,
+      "dy_real": 16.56,
       "payout": 443.74,
       "payout_fcf": 6535.2,
       "payout_divergencia": 6091.5,
       "accumulation_score": 36.6,
-      "p_now_p_min": 1.2485,
-      "gain_pct_to_target": 112.5,
+      "p_now_p_min": 1.1616,
+      "gain_pct_to_target": 128.4,
       "rank": 15,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -28825,6 +29761,14 @@
           "cagr_receita": 12.24
         }
       },
+      "dcf": {
+        "intrinsic_value": 107.68,
+        "margin_of_safety": 42.9,
+        "lpa": 6.3882,
+        "g1_pct": 5.42,
+        "g2_pct": 2.71,
+        "fcf_penalty": 0.54
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -28871,23 +29815,23 @@
         "segment": "Químicos Diversos"
       },
       "ticker": "UNIP6",
-      "last_updated": "2026-04-10T21:16:44.337607"
+      "last_updated": "2026-04-17T15:10:24.636975"
     },
     "VALE3": {
-      "price_now": 85.59,
+      "price_now": 89.07,
       "price_min_6m": 55.94,
       "price_max_6m": 91.62,
       "avg_dividends_5y": 7.1703,
       "price_target_6pct": 119.51,
       "price_target_8pct": 89.63,
       "price_target_5pct": 143.41,
-      "dy_real": 6.4,
+      "dy_real": 6.15,
       "payout": 176.01,
       "payout_fcf": 148.1,
       "payout_divergencia": 27.9,
       "accumulation_score": 35.0,
-      "p_now_p_min": 1.53,
-      "gain_pct_to_target": 39.63,
+      "p_now_p_min": 1.5922,
+      "gain_pct_to_target": 34.18,
       "rank": 8,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -29071,6 +30015,14 @@
           "cagr_receita": 0.72
         }
       },
+      "dcf": {
+        "intrinsic_value": 43.12,
+        "margin_of_safety": -106.6,
+        "lpa": 3.5103,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -29117,23 +30069,23 @@
         "segment": "Minerais Metálicos"
       },
       "ticker": "VALE3",
-      "last_updated": "2026-04-10T21:16:45.231369"
+      "last_updated": "2026-04-17T15:10:25.104727"
     },
     "VAMO3": {
-      "price_now": 3.97,
+      "price_now": 4.33,
       "price_min_6m": 2.75,
       "price_max_6m": 4.94,
       "avg_dividends_5y": 0.2321,
       "price_target_6pct": 3.87,
       "price_target_8pct": 2.9,
       "price_target_5pct": 4.64,
-      "dy_real": 3.53,
+      "dy_real": 3.24,
       "payout": 45.63,
       "payout_fcf": null,
       "payout_divergencia": null,
       "accumulation_score": 42.3,
-      "p_now_p_min": 1.4436,
-      "gain_pct_to_target": -2.52,
+      "p_now_p_min": 1.5745,
+      "gain_pct_to_target": -10.62,
       "rank": 8,
       "rank_max": 21,
       "zone": "MONITORAR",
@@ -29313,6 +30265,14 @@
           "cagr_receita": 31.14
         }
       },
+      "dcf": {
+        "intrinsic_value": 1.88,
+        "margin_of_safety": -130.8,
+        "lpa": 0.1527,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 0.5
+      },
       "flags": {
         "dl_pl_ok": false,
         "dl_ebitda_ok": false,
@@ -29359,23 +30319,23 @@
         "segment": "Material de Transporte"
       },
       "ticker": "VAMO3",
-      "last_updated": "2026-04-10T21:16:45.817550"
+      "last_updated": "2026-04-17T15:10:25.597756"
     },
     "VBBR3": {
-      "price_now": 33.77,
+      "price_now": 33.08,
       "price_min_6m": 20.58,
       "price_max_6m": 33.86,
       "avg_dividends_5y": 1.2888,
       "price_target_6pct": 21.48,
       "price_target_8pct": 16.11,
       "price_target_5pct": 25.78,
-      "dy_real": 4.63,
+      "dy_real": 4.73,
       "payout": 64.44,
       "payout_fcf": 24.5,
       "payout_divergencia": 39.9,
       "accumulation_score": 35.8,
-      "p_now_p_min": 1.6409,
-      "gain_pct_to_target": -36.39,
+      "p_now_p_min": 1.6074,
+      "gain_pct_to_target": -35.07,
       "rank": 4,
       "rank_max": 21,
       "zone": "CARO",
@@ -29559,6 +30519,14 @@
           "cagr_receita": 18.33
         }
       },
+      "dcf": {
+        "intrinsic_value": 22.24,
+        "margin_of_safety": -48.7,
+        "lpa": 1.8105,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": false,
@@ -29605,30 +30573,30 @@
         "segment": "Exploração, Refino e Distribuição"
       },
       "ticker": "VBBR3",
-      "last_updated": "2026-04-10T21:16:45.992217"
+      "last_updated": "2026-04-17T15:10:25.808755"
     },
     "VITT3": {
-      "price_now": 3.82,
+      "price_now": 3.76,
       "price_min_6m": 3.55,
       "price_max_6m": 4.44,
       "avg_dividends_5y": 0.2274,
       "price_target_6pct": 3.79,
       "price_target_8pct": 2.84,
       "price_target_5pct": 4.55,
-      "dy_real": 6.73,
+      "dy_real": 6.83,
       "payout": 60.97,
       "payout_fcf": 52.5,
       "payout_divergencia": 8.5,
       "accumulation_score": 23.6,
-      "p_now_p_min": 1.0761,
-      "gain_pct_to_target": -0.79,
-      "rank": 13,
+      "p_now_p_min": 1.0592,
+      "gain_pct_to_target": 0.8,
+      "rank": 14,
       "rank_max": 21,
-      "zone": "MONITORAR",
+      "zone": "COMPRA",
       "weighted_score": {
-        "score": 57.5,
+        "score": 61.3,
         "score_max": 100,
-        "earned_points": 23.0,
+        "earned_points": 24.5,
         "max_points": 40.0
       },
       "piotroski": {
@@ -29793,6 +30761,14 @@
           "cagr_receita": 9.09
         }
       },
+      "dcf": {
+        "intrinsic_value": 5.04,
+        "margin_of_safety": 25.4,
+        "lpa": 0.4102,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -29812,7 +30788,7 @@
         "graham_combo_ok": true,
         "dy_ok": true,
         "abaixo_vpa": true,
-        "abaixo_target_6pct": false,
+        "abaixo_target_6pct": true,
         "abaixo_target_8pct": false,
         "accumulation_ok": false
       },
@@ -29839,23 +30815,23 @@
         "segment": "Agricultura"
       },
       "ticker": "VITT3",
-      "last_updated": "2026-04-10T21:16:46.192345"
+      "last_updated": "2026-04-17T15:10:26.004200"
     },
     "VIVA3": {
-      "price_now": 27.26,
+      "price_now": 28.06,
       "price_min_6m": 23.02,
       "price_max_6m": 35.89,
       "avg_dividends_5y": 0.6539,
       "price_target_6pct": 10.9,
       "price_target_8pct": 8.17,
       "price_target_5pct": 13.08,
-      "dy_real": 4.98,
+      "dy_real": 4.84,
       "payout": 26.6,
       "payout_fcf": 36.0,
       "payout_divergencia": 9.4,
       "accumulation_score": 22.8,
-      "p_now_p_min": 1.1842,
-      "gain_pct_to_target": -60.01,
+      "p_now_p_min": 1.2189,
+      "gain_pct_to_target": -61.15,
       "rank": 14,
       "rank_max": 21,
       "zone": "CARO",
@@ -30027,6 +31003,14 @@
           "cagr_receita": 28.01
         }
       },
+      "dcf": {
+        "intrinsic_value": 99.58,
+        "margin_of_safety": 71.8,
+        "lpa": 3.512,
+        "g1_pct": 14.44,
+        "g2_pct": 7.22,
+        "fcf_penalty": 0.96
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -30073,23 +31057,23 @@
         "segment": "Acessórios"
       },
       "ticker": "VIVA3",
-      "last_updated": "2026-04-10T21:16:46.773607"
+      "last_updated": "2026-04-17T15:10:26.177546"
     },
     "VIVT3": {
-      "price_now": 42.94,
+      "price_now": 40.91,
       "price_min_6m": 31.43,
       "price_max_6m": 43.4,
       "avg_dividends_5y": 1.4754,
       "price_target_6pct": 24.59,
       "price_target_8pct": 18.44,
       "price_target_5pct": 29.51,
-      "dy_real": 2.46,
+      "dy_real": 2.58,
       "payout": 51.23,
       "payout_fcf": 28.1,
       "payout_divergencia": 23.1,
       "accumulation_score": 41.5,
-      "p_now_p_min": 1.3662,
-      "gain_pct_to_target": -42.73,
+      "p_now_p_min": 1.3016,
+      "gain_pct_to_target": -39.89,
       "rank": 10,
       "rank_max": 21,
       "zone": "CARO",
@@ -30273,6 +31257,14 @@
           "cagr_receita": 6.68
         }
       },
+      "dcf": {
+        "intrinsic_value": 31.87,
+        "margin_of_safety": -28.4,
+        "lpa": 1.9079,
+        "g1_pct": 5.27,
+        "g2_pct": 2.63,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -30319,23 +31311,23 @@
         "segment": "Telecomunicações"
       },
       "ticker": "VIVT3",
-      "last_updated": "2026-04-10T21:16:47.051542"
+      "last_updated": "2026-04-17T15:10:26.471337"
     },
     "VULC3": {
-      "price_now": 17.4,
+      "price_now": 17.22,
       "price_min_6m": 15.93,
       "price_max_6m": 20.23,
       "avg_dividends_5y": 2.8096,
       "price_target_6pct": 46.83,
       "price_target_8pct": 35.12,
       "price_target_5pct": 56.19,
-      "dy_real": 28.56,
+      "dy_real": 28.86,
       "payout": 107.96,
       "payout_fcf": 419.1,
       "payout_divergencia": 311.1,
       "accumulation_score": 28.5,
-      "p_now_p_min": 1.0923,
-      "gain_pct_to_target": 169.14,
+      "p_now_p_min": 1.081,
+      "gain_pct_to_target": 171.95,
       "rank": 17,
       "rank_max": 21,
       "zone": "COMPRA_FORTE",
@@ -30519,6 +31511,14 @@
           "cagr_receita": 24.73
         }
       },
+      "dcf": {
+        "intrinsic_value": 84.03,
+        "margin_of_safety": 79.5,
+        "lpa": 3.8425,
+        "g1_pct": 9.92,
+        "g2_pct": 4.96,
+        "fcf_penalty": 0.66
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -30565,23 +31565,23 @@
         "segment": "Calçados"
       },
       "ticker": "VULC3",
-      "last_updated": "2026-04-10T21:16:48.097112"
+      "last_updated": "2026-04-17T15:10:27.027261"
     },
     "WEGE3": {
-      "price_now": 52.88,
+      "price_now": 49.04,
       "price_min_6m": 35.34,
       "price_max_6m": 54.41,
       "avg_dividends_5y": 1.2383,
       "price_target_6pct": 20.64,
       "price_target_8pct": 15.48,
       "price_target_5pct": 24.77,
-      "dy_real": 4.1,
+      "dy_real": 4.42,
       "payout": 87.04,
       "payout_fcf": 147.6,
       "payout_divergencia": 60.6,
       "accumulation_score": 17.9,
-      "p_now_p_min": 1.4963,
-      "gain_pct_to_target": -60.97,
+      "p_now_p_min": 1.3877,
+      "gain_pct_to_target": -57.91,
       "rank": 11,
       "rank_max": 21,
       "zone": "CARO",
@@ -30765,6 +31765,14 @@
           "cagr_receita": 18.49
         }
       },
+      "dcf": {
+        "intrinsic_value": 42.18,
+        "margin_of_safety": -16.3,
+        "lpa": 1.6125,
+        "g1_pct": 13.03,
+        "g2_pct": 6.51,
+        "fcf_penalty": 0.87
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -30811,23 +31819,23 @@
         "segment": "Motores, Compressores e Outros"
       },
       "ticker": "WEGE3",
-      "last_updated": "2026-04-10T21:16:48.928759"
+      "last_updated": "2026-04-17T15:10:27.358936"
     },
     "WIZC3": {
-      "price_now": 9.69,
+      "price_now": 9.63,
       "price_min_6m": 7.75,
       "price_max_6m": 10.37,
       "avg_dividends_5y": 0.4625,
       "price_target_6pct": 7.71,
       "price_target_8pct": 5.78,
       "price_target_5pct": 9.25,
-      "dy_real": 5.85,
+      "dy_real": 5.88,
       "payout": 25.14,
       "payout_fcf": 10.1,
       "payout_divergencia": 15.0,
       "accumulation_score": 39.8,
-      "p_now_p_min": 1.2503,
-      "gain_pct_to_target": -20.43,
+      "p_now_p_min": 1.2426,
+      "gain_pct_to_target": -19.94,
       "rank": 12,
       "rank_max": 21,
       "zone": "CARO",
@@ -31011,6 +32019,14 @@
           "cagr_receita": 13.02
         }
       },
+      "dcf": {
+        "intrinsic_value": 15.62,
+        "margin_of_safety": 38.4,
+        "lpa": 1.2718,
+        "g1_pct": 0.0,
+        "g2_pct": 0.0,
+        "fcf_penalty": 1.0
+      },
       "flags": {
         "dl_pl_ok": true,
         "dl_ebitda_ok": true,
@@ -31057,8 +32073,8 @@
         "segment": "Corretoras de Seguros"
       },
       "ticker": "WIZC3",
-      "last_updated": "2026-04-10T21:16:49.840372"
+      "last_updated": "2026-04-17T15:10:27.786256"
     }
   },
-  "last_updated": "2026-04-10T21:16:49.840392"
+  "last_updated": "2026-04-17T15:10:27.786275"
 }

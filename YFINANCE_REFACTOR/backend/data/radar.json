@@ -103,12 +103,6 @@
       "ticker": "TASA4"
     },
     {
-      "added_at": "2026-04-06T19:26:46.558Z",
-      "price_buy": null,
-      "price_sell": 4.76,
-      "ticker": "POSI3"
-    },
-    {
       "added_at": "2026-04-06T20:41:52.246Z",
       "price_buy": 29.85,
       "price_sell": null,
@@ -122,5 +116,5 @@
     }
   ],
   "dismissed": [],
-  "last_updated": "2026-04-15T19:42:26.349930"
+  "last_updated": "2026-04-20T17:19:03.854618"
 }

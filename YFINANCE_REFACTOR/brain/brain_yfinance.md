@@ -1,24 +1,16 @@
-# Brain YFinance — Documentação Completa da Aplicação
+# Brain YFinance — Índice
 
-> **Última atualização:** Abril de 2026  
-> Este documento é o "cérebro" da aplicação YFINANCE_REFACTOR. Cobre filosofia, arquitetura, pipeline, classes, APIs externas, cálculos, páginas e todos os indicadores.
+> **Última atualização:** Abril de 2026
+> Este arquivo é apenas o índice. O conteúdo foi dividido em 4 arquivos temáticos para reduzir consumo de tokens.
 
----
+## Arquivos do Brain
 
-## Índice
-
-1. [Visão Geral](#1-visão-geral)
-2. [Filosofias de Investimento Implementadas](#2-filosofias-de-investimento-implementadas)
-3. [Arquitetura Geral e Fluxo de Dados](#3-arquitetura-geral-e-fluxo-de-dados)
-4. [Árvore de Arquivos do Backend](#4-árvore-de-arquivos-do-backend)
-5. [Descrição das Classes e Arquivos Principais](#5-descrição-das-classes-e-arquivos-principais)
-6. [Diagramas de Sequência](#6-diagramas-de-sequência)
-7. [Cálculos e Métricas Detalhadas](#7-cálculos-e-métricas-detalhadas)
-8. [Sistema de Medalhas e Selos](#8-sistema-de-medalhas-e-selos)
-9. [Páginas da Aplicação](#9-páginas-da-aplicação)
-10. [Tabela de Referência — Todos os Limiares](#10-tabela-de-referência--todos-os-limiares)
-11. [Fontes de Dados Externas](#11-fontes-de-dados-externas)
-12. [Limitações e Considerações Conhecidas](#12-limitações-e-considerações-conhecidas)
+| Arquivo | Conteúdo | Quando usar |
+|---------|---------|------------|
+| [brain_overview.md](brain_overview.md) | Visão geral, stack, filosofias Barsi/Bazin/Graham/Buffett | Entender o propósito e regras de investimento |
+| [brain_architecture.md](brain_architecture.md) | Pipeline, árvore de arquivos, classes/serviços, diagramas de sequência | Encontrar onde está o código, como os dados fluem |
+| [brain_calculations.md](brain_calculations.md) | Todos os cálculos: Score, BRank, Piotroski, Moat, Zonas, Medalhas, Limiares | Entender ou modificar fórmulas e thresholds |
+| [brain_frontend.md](brain_frontend.md) | Páginas (Screening, Carteira, Favoritos, Radar), fontes de dados, limitações conhecidas | Trabalhar no frontend ou entender as APIs externas |
 
 ---
 
@@ -596,8 +588,13 @@ Gera a visão final de entrada com **preço em tempo real**. Roda automaticament
 7. Avalia medalhas: `is_gold`, `is_bronze`, `is_below_vpa_target`
 8. Avalia Selo Buffett: `is_buffett_seal`
 9. Busca setor e classifica `is_best`
+10. **Calcula `unified_rank` via `_calc_unified_rank(entry)`** — veja seção 7.9
 
 **Ordenação:** por `p_now_p_min` ASC → ações mais próximas do suporte aparecem primeiro.
+
+**Campos adicionais expostos em `decision_stocks.json`:**
+- `owner_earnings_positivo` (bool) — usado como gate no BRank
+- `unified_rank` (float 0-100) — Ranking Unificado Buffett × Barsi × Bazin
 
 ---
 
@@ -1137,6 +1134,158 @@ accumulation_30d_total = len(df)
 
 ---
 
+### 7.9 BRank — Ranking Unificado Buffett × Barsi × Bazin
+
+**Coluna:** `BRank` (Screening, Favoritos)  
+**Campo JSON:** `unified_rank` (float 0–100)  
+**Implementação:** `decision_service.py` → função `_calc_unified_rank(entry)`
+
+---
+
+#### O problema que o BRank resolve
+
+Os três scores existentes (Score, MOAT, Piotroski) medem dimensões **independentes** do mesmo ativo:
+- **Score (0-100)** — amplitude: 21 critérios binários, amplo mas sem profundidade
+- **MOAT (0-10)** — qualidade: vantagem competitiva Buffett, profundo mas estreito
+- **Piotroski (0-9)** — saúde: solidez financeira, independente dos outros dois
+
+Mais métricas soltas (DY, Payout, FCF/L, Owner Earnings) não têm pesos relativos definidos entre si. O BRank **consolida tudo em uma única escala comparável**, ponderando cada dimensão pela sua importância filosófica, sem distorcer por escala ou tamanho de empresa.
+
+---
+
+#### Passo 1 — Normalização para [0, 1]
+
+Cada métrica tem uma escala diferente. A normalização transforma tudo para [0, 1] antes de combinar:
+
+| Métrica | Escala original | Normalização | Cap / Observação |
+|---------|----------------|-------------|-----------------|
+| `weighted_score` | 0–100 | `score / 100` | — |
+| `buffett_moat_score` | 0–10 | `moat / 10` | — |
+| `piotroski_score` | 0–9 | `pio / 9` | — |
+| `fcf_lucro_ratio` | ratio (ex: 1.23) | `clamp(fcf, 0, 1.5) / 1.5` | Cap em 1.5 (150%): acima disso é atípico/suspeito. Se `null` → 0.3 (penalidade leve por dado ausente) |
+| `dy_real` | % (ex: 7.5) | `min(dy / 12.0, 1.0)` | Cap em 12%: yield muito acima disso frequentemente indica queda de preço, não saúde real |
+| `payout` | % (ex: 55) | triângulo com pico em 60% | Zona ideal Bazin: 40–80%. Payout 0% e >100% valem 0. Ver função tent abaixo. |
+
+**Tent function do Payout (zona ideal 40–80%, pico em 60%):**
+
+```
+Payout   0%  →  0.00
+Payout  30%  →  0.50
+Payout  60%  →  1.00  ← pico (centro da faixa Bazin)
+Payout  80%  →  0.50
+Payout 100%  →  0.00
+Payout >100% →  0.00  (insustentável)
+```
+
+```python
+if payout is None or payout < 0:
+    payout_n = 0.0
+elif payout <= 60:
+    payout_n = payout / 60.0          # sobe linearmente até 60%
+elif payout <= 100:
+    payout_n = (100 - payout) / 40.0  # cai linearmente de 60% a 100%
+else:
+    payout_n = 0.0
+```
+
+**Por que triângulo e não binário?** O critério `payout_ok` já pune faixas fora de 40–80% no Score (binário). O BRank usa contínuo para **premiar a faixa exata ótima** (60%) e criar gradiente suave — empresas com payout 55% e 78% não são iguais.
+
+---
+
+#### Passo 2 — Soma Ponderada (pesos filosóficos)
+
+```
+BRank_base = 0.30 × score_n
+           + 0.20 × moat_n
+           + 0.20 × piotroski_n
+           + 0.15 × dy_n
+           + 0.10 × fcf_n
+           + 0.05 × payout_n
+```
+
+| Métrica | Peso | Filosofia | Justificativa |
+|---------|------|-----------|--------------|
+| `weighted_score` | **30%** | Graham/Barsi/Bazin | Cobre amplitude (21 critérios). É a "checklist completa" — garante que nenhuma dimensão básica seja ignorada |
+| `buffett_moat_score` | **20%** | Buffett | Qualidade estrutural do negócio — o fator mais ligado à performance de longo prazo segundo Buffett |
+| `piotroski_score` | **20%** | Graham/Piotroski | Saúde financeira completamente **independente** dos outros dois scores — impede que empresa fragilizada compense com DY alto |
+| `dy_real` | **15%** | Barsi/Bazin | O Score já penaliza DY < 6% (binário). O BRank usa a versão **contínua**: DY de 9% é muito melhor que 6%, o binário não captura isso |
+| `fcf_lucro_ratio` | **10%** | Buffett | Qualidade do lucro — distingue lucro contábil de caixa real. Buffett: "o lucro que não vira caixa não existe" |
+| `payout` | **5%** | Bazin | Sustentabilidade do dividendo. Peso menor porque o Score já cobre a faixa 40–80% de forma binária |
+
+**Por que Score tem apenas 30% e não mais?**  
+O Score cobre amplitude (21 critérios) mas todos são **binários** (passa/falha). Uma empresa com ROE de 11% recebe o mesmo ponto que outra com ROE de 45%. O BRank complementa com profundidade contínua (MOAT, Piotroski, DY, FCF/L).
+
+**Por que MOAT e Piotroski têm pesos iguais (20% cada)?**  
+São as duas análises mais **profundas e independentes** do sistema. MOAT olha para qualidade futura (vantagem competitiva); Piotroski olha para solidez presente (balanço). Ambos devem ter voz igual.
+
+---
+
+#### Passo 3 — Gates Binários (penalidades multiplicativas)
+
+Previnem que um score alto em outras dimensões **compense** um problema estrutural grave:
+
+| Condição | Penalidade | Por que multiplicativo e não subtrativo |
+|---------|-----------|----------------------------------------|
+| `owner_earnings_positivo = False` (OE ≤ 0) | × 0.85 (−15%) | Empresa consome mais caixa do que gera ao manter capacidade produtiva — sinal grave para Buffett |
+| `fcf_lucro_ratio < 0` (FCF negativo) | × 0.85 (−15%) | Fluxo de caixa livre negativo: empresa não gera caixa operacional suficiente para cobrir investimentos |
+
+**Multiplicativo vs. subtrativo:** subtrair um valor fixo seria arbitrário e poderia levar o score a negativo. Multiplicar por 0.85 aplica uma penalidade **proporcional** — uma empresa com BRank 80 que tenha OE negativo cai para 68; uma com BRank 40 cai para 34. A penalidade é sempre justa em relação ao score base.
+
+**Por que OE é gate e não métrica contínua?**  
+Owner Earnings em R$ é absoluto — empresas grandes sempre teriam OE maior (distorção por tamanho). Normalizar por market cap exigiria número de ações, não sempre disponível. Como gate binário (> 0 ou ≤ 0), o OE cumpre seu papel filosófico sem distorcer por escala.
+
+---
+
+#### Fórmula Completa
+
+```python
+# decision_service.py → _calc_unified_rank(entry)
+
+penalty = 1.0
+if not entry.get("owner_earnings_positivo", True):
+    penalty *= 0.85   # OE negativo: −15%
+if fcf_r is not None and fcf_r < 0:
+    penalty *= 0.85   # FCF negativo: −15%
+
+unified_rank = round(BRank_base * penalty * 100, 1)  # resultado 0-100
+```
+
+Se ambos os gates disparam: `penalty = 0.85 × 0.85 = 0.7225` → penalidade total de ~28%.
+
+---
+
+#### Interpretação e Cores
+
+| Faixa BRank | Cor | Interpretação |
+|------------|-----|--------------|
+| ≥ 70 | 🟢 Verde | Excelente — empresa forte em todas as dimensões Buffett/Barsi/Bazin |
+| 45–69 | 🟡 Amarelo | Moderado — boa em algumas dimensões, gaps em outras |
+| < 45 | 🔴 Vermelho | Baixo — lacunas significativas; analisar individualmente |
+
+---
+
+#### Onde aparece
+
+| Local | Como aparece |
+|-------|-------------|
+| **Tabela Screening** | Coluna `BRank` (ordenável), pill colorida verde/amarelo/vermelho |
+| **Modal de detalhe — Radar** | 7º eixo do gráfico heptagonal. Eixo com referência `100`. Ponto colorido pelos mesmos thresholds |
+| **Cards Favoritos** | Linha de métricas: `Score XX% · BRank YY · DY Z%` |
+| **Tabela Favoritos** | Coluna `BRank` entre Score e DY, valor colorido |
+
+---
+
+#### Sanity Check — Exemplos Esperados
+
+| Perfil da empresa | BRank esperado |
+|------------------|---------------|
+| MOAT 9, Piotroski 8, DY 8%, Score 75, FCF/L 110%, Payout 60% | ~88–92 |
+| MOAT 5, Piotroski 6, DY 6%, Score 55, FCF/L 80%, Payout 50% | ~60–65 |
+| MOAT 2, Piotroski 3, DY 9%, Score 40, FCF/L negativo | ~28–35 (gates disparam) |
+| MOAT 7, Piotroski 7, DY 3%, Score 60, OE negativo | ~47–52 (gate OE) |
+
+---
+
 ## 8. Sistema de Medalhas e Selos
 
 ### 8.1 Medalha de Ouro 🥇 — Ouro Barsi
@@ -1263,7 +1412,8 @@ def _is_best(sector_info):
 | `Mín. 6m (R$)` | `price_min_6m` | Mínimo de preço dos últimos 6 meses |
 | `Máx. 6m (R$)` | `price_max_6m` | Máximo de preço dos últimos 6 meses |
 | `Dist. Mín.` | `p_now_p_min` | Razão preço atual / mínimo 6m (barra colorida) |
-| `Score` | `weighted_score` | Score ponderado 0-100 |
+| `Score` | `weighted_score` | Score ponderado 0-100 (21 critérios binários) |
+| `BRank` | `unified_rank` | **Ranking Unificado Buffett×Barsi×Bazin 0-100** — ver seção 7.9 |
 | `MOAT` | `buffett_moat_score` | Score Buffett Moat 0-10 |
 | `Saúde` | `piotroski_score` | Piotroski F-Score 0-9 |
 | `FCF/L` | `fcf_lucro_ratio` | FCF / Lucro Líquido (qualidade) |
@@ -1333,11 +1483,11 @@ Mesmas colunas posicionais, acrescentando:
 **Modo Card:** cada ativo exibe:
 - Ticker + badges (zona, selos)
 - Preço atual + Potencial
-- Score + DY
+- Score + **BRank** + DY
 - Piotroski + MOAT
 - Setor/Segmento
 
-**Modo Tabela:** versão compacta com as mesmas informações em linha.
+**Modo Tabela:** versão compacta com as mesmas informações em linha, incluindo coluna `BRank`.
 
 ---
 
@@ -1421,6 +1571,25 @@ GET /api/radar/alerts
 | Liquidez Corrente (P5) | ≥ 1.5 | vs. 2.0 (Graham) |
 | Passivo/Ativo (P6) | ≤ 40% | vs. 65% |
 | ROE forte (P9) | ≥ 15% | vs. 10% |
+
+### BRank — Ranking Unificado (seção 7.9)
+
+| Parâmetro | Valor | Observação |
+|-----------|-------|-----------|
+| Peso `weighted_score` | 30% | Amplitude (21 critérios) |
+| Peso `buffett_moat_score` | 20% | Qualidade Buffett |
+| Peso `piotroski_score` | 20% | Saúde Graham |
+| Peso `dy_real` | 15% | Renda Barsi/Bazin |
+| Peso `fcf_lucro_ratio` | 10% | Qualidade lucro Buffett |
+| Peso `payout` | 5% | Sustentabilidade Bazin |
+| Cap DY (normalização) | 12% | DY acima de 12% = capped em 1.0 |
+| Cap FCF/L (normalização) | 150% | FCF/L acima de 1.5 = capped |
+| Payout ótimo (tent peak) | 60% | Centro da faixa Bazin 40–80% |
+| Gate OE negativo | × 0.85 | Owner Earnings ≤ 0 → penalidade −15% |
+| Gate FCF negativo | × 0.85 | FCF < 0 → penalidade −15% |
+| Threshold verde | ≥ 70 | Excelente |
+| Threshold amarelo | 45–69 | Moderado |
+| Threshold vermelho | < 45 | Baixo |
 
 ### Técnico/Liquidez
 
