@@ -115,6 +115,35 @@ A linha **VI (DCF)** só é exibida quando o backend retorna o campo `dcf` com `
 
 **Fundo verde nos candles** (`bgAccumul` plugin): pregões onde preço E volume ficam abaixo de suas médias — sinal de acumulação silenciosa Barsi.
 
+#### Modal de Detalhe — Ranking no Setor (`#sectorRankBox`)
+
+Card compacto no rodapé do `#mElemCard` (abaixo do radar), listando os pares do mesmo setor/segmento ordenados por **BRank (`unified_rank`)** desc. Permite comparar o ticker atual com concorrentes diretos.
+
+Renderizado por `_renderSectorRanking(dec)` e `_sectorRankBodyHTML()` em `index.html`. Estado global `_sectorRankState = { peers, currentTicker, page }`.
+
+**Agrupamento (`sectorKey`):** prefere `dec.segmento` (mais específico); fallback para `dec.sector`. Valor `'-'` é tratado como ausente. Só renderiza se houver ≥2 peers no mesmo setor.
+
+**Fonte de dados:** filtra `allData` (carregado de `/api/decision`) pelo mesmo `sectorKey`. Se o ticker atual não estiver em `allData` (caso **FORA_CRITERIOS** — ex.: RECV3, ISAE4), é injetada uma entrada sintética a partir do `dec` com `unified_rank: null`, preservando `zone`.
+
+**Ordenação:** `unified_rank` desc. Tickers com `unified_rank == null` vão para o final.
+
+**Paginação:** páginas de 5 tickers (`_SECTOR_RANK_PAGE_SIZE`). Ao abrir o modal, a página inicial é a que contém o ticker atual (`Math.floor(idx / PAGE_SIZE)`). Navegação via botões `←` / `→` em `_sectorRankNav(delta)`, que atualiza apenas `#sectorRankBox.innerHTML` via `_sectorRankBodyHTML()`.
+
+**Exibição por linha:**
+
+| Elemento | Fonte | Cor |
+|----------|-------|-----|
+| `#N - TICKER` | índice no array ordenado + 1 | cor do rank (`--green-s` ≥70, `--yellow` ≥45, `--red` <45) |
+| `(sinal)` | `zoneShort[p.zone]` — `forte`/`compra`/`aguardar`/`acima`/`s/preço` | cor da zona (`zoneColors`) |
+| BRank | `p.unified_rank.toFixed(0)` ou `—` | cor do rank |
+| Label `fora` (itálico cinza) | quando `unified_rank == null` | `--muted` |
+
+**Ticker atual (destaque):** fundo laranja `rgba(245,158,24,.28)` + borda `rgba(245,158,24,.7)` + `font-weight:700`. As cores do texto (rank, BRank, sinal) **permanecem as naturais** — o destaque é apenas estrutural, não sobrescreve semântica (ex.: um ROMI3 com BRank 35 continua vermelho mesmo sendo o corrente).
+
+**Clique em peer:** chama `openDetail(ticker)` — reabre o modal para o ticker clicado, substituindo todo o conteúdo.
+
+**Header do card:** `Ranking no setor · <pos>/<total> por BRank`. Quando `pos` é `null` (ticker sem `unified_rank`), mostra `—/<total>`.
+
 ---
 
 ### 9.2 Carteira — Gestão de Posições

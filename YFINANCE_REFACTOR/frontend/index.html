@@ -109,6 +109,10 @@ a:hover { text-decoration: underline; }
   max-height: calc(100vh - var(--table-top, 134px));
   padding: 0 12px 40px;
 }
+#acoesTableWrap, #fiiTableWrap {
+  overflow: visible;
+  max-height: none;
+}
 
 /* ─── Table ────────────────────────────────────────────────────── */
 table {
@@ -910,7 +914,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   </div>
 
   <div id="acoesSection">
-    <div class="table-wrap" id="acoesTableWrap" style="max-height:calc(100vh - var(--pt-header-top, 260px));overflow:auto">
+    <div class="table-wrap" id="acoesTableWrap">
       <table id="portfolioTable">
         <thead>
           <tr>
@@ -939,7 +943,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   </div>
 
   <div id="fiiSection" style="display:none">
-    <div class="table-wrap" id="fiiTableWrap" style="max-height:calc(100vh - var(--pt-header-top, 260px));overflow:auto">
+    <div class="table-wrap" id="fiiTableWrap">
       <table id="fiiTable">
         <thead>
           <tr>
@@ -1782,8 +1786,119 @@ function renderElementCard(ticker, dec, val) {
     <hr class="elem-divider">
     ${foraWarning}
     <div class="radar-wrap"><canvas id="radarChart"></canvas></div>
+    ${_renderSectorRanking(dec)}
   `;
   renderRadarChart(dec, null);
+}
+
+// ─── Ranking do ticker no setor por BRank ─────────────────────────
+let _sectorRankState = { peers: [], currentTicker: null, page: 0 };
+const _SECTOR_RANK_PAGE_SIZE = 5;
+
+function _renderSectorRanking(dec) {
+  if (!dec || !dec.ticker) return '';
+  const sectorKey = dec.segmento && dec.segmento !== '-'
+    ? dec.segmento
+    : (dec.sector && dec.sector !== '-' ? dec.sector : null);
+  if (!sectorKey) return '';
+
+  let peers = (allData || []).filter(s => {
+    const k = (s.segmento && s.segmento !== '-')
+      ? s.segmento
+      : ((s.sector && s.sector !== '-') ? s.sector : null);
+    return k === sectorKey;
+  });
+
+  // Garante que o ticker atual apareça mesmo sem unified_rank (FORA_CRITERIOS)
+  if (!peers.find(p => p.ticker === dec.ticker)) {
+    peers = peers.concat([{
+      ticker: dec.ticker,
+      unified_rank: dec.unified_rank != null ? dec.unified_rank : null,
+      zone: dec.zone,
+      segmento: dec.segmento,
+      sector: dec.sector,
+    }]);
+  }
+  if (peers.length < 2) return '';
+
+  // Ordena: com BRank primeiro (desc), null por último
+  peers.sort((a, b) => {
+    const ra = a.unified_rank, rb = b.unified_rank;
+    if (ra == null && rb == null) return 0;
+    if (ra == null) return 1;
+    if (rb == null) return -1;
+    return rb - ra;
+  });
+
+  const idx = peers.findIndex(p => p.ticker === dec.ticker);
+  const pageOfCurrent = idx >= 0 ? Math.floor(idx / _SECTOR_RANK_PAGE_SIZE) : 0;
+
+  _sectorRankState = { peers, currentTicker: dec.ticker, page: pageOfCurrent };
+
+  return `<div id="sectorRankBox" style="margin-top:8px;border:1px solid var(--border);border-radius:4px;padding:6px 2px">
+    ${_sectorRankBodyHTML()}
+  </div>`;
+}
+
+function _sectorRankBodyHTML() {
+  const { peers, currentTicker, page } = _sectorRankState;
+  const total = peers.length;
+  const totalPages = Math.max(1, Math.ceil(total / _SECTOR_RANK_PAGE_SIZE));
+  const start = page * _SECTOR_RANK_PAGE_SIZE;
+  const end = Math.min(total, start + _SECTOR_RANK_PAGE_SIZE);
+  const idxCurrent = peers.findIndex(p => p.ticker === currentTicker);
+  const pos = idxCurrent >= 0 && peers[idxCurrent].unified_rank != null ? (idxCurrent + 1) : null;
+
+  const rankColor = br => br == null ? 'var(--muted)' : (br >= 70 ? 'var(--green-s)' : br >= 45 ? 'var(--yellow)' : 'var(--red)');
+  const zoneColors = {
+    COMPRA_FORTE: 'var(--green-s)', COMPRA: 'var(--green)',
+    MONITORAR: 'var(--yellow)', CARO: 'var(--red)', SEM_PRECO: 'var(--muted)',
+  };
+  const zoneShort = { COMPRA_FORTE:'forte', COMPRA:'compra', MONITORAR:'aguardar', CARO:'acima', SEM_PRECO:'s/preço' };
+
+  const rows = peers.slice(start, end).map((p, i) => {
+    const rank = start + i + 1;
+    const isCurrent = p.ticker === currentTicker;
+    const br = p.unified_rank;
+    const isForaC = br == null;
+    const c = rankColor(br);
+    const bg = isCurrent ? 'rgba(245,158,24,.28)' : 'transparent';
+    const border = isCurrent ? '1px solid rgba(245,158,24,.7)' : '1px solid transparent';
+    const zLbl = zoneShort[p.zone] || '';
+    const zCol = zoneColors[p.zone] || 'var(--muted)';
+    const zHtml = isForaC
+      ? `<span style="font-size:9px;color:var(--muted);font-style:italic">fora</span>`
+      : (zLbl ? `<span style="font-size:9px;color:${zCol}">(${zLbl})</span>` : '');
+    const brTxt = br != null ? br.toFixed(0) : '—';
+    return `<div onclick="openDetail('${p.ticker}')" style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:3px 8px;font-size:10px;color:${c};font-weight:${isCurrent ? 700 : 500};cursor:pointer;background:${bg};border:${border};border-radius:3px">
+      <span style="display:flex;align-items:center;gap:5px;min-width:0">
+        <span>${rank} - ${p.ticker}</span>
+        ${zHtml}
+      </span>
+      <span style="font-family:monospace">${brTxt}</span>
+    </div>`;
+  }).join('');
+
+  const nav = totalPages > 1 ? `
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:4px 8px 0;font-size:9px;color:var(--muted)">
+      <button onclick="_sectorRankNav(-1);event.stopPropagation()" ${page === 0 ? 'disabled' : ''} style="background:none;border:none;color:${page === 0 ? 'var(--border)' : 'var(--text)'};cursor:${page === 0 ? 'default' : 'pointer'};font-size:11px;padding:0 4px">←</button>
+      <span>${page + 1}/${totalPages}</span>
+      <button onclick="_sectorRankNav(1);event.stopPropagation()" ${page === totalPages - 1 ? 'disabled' : ''} style="background:none;border:none;color:${page === totalPages - 1 ? 'var(--border)' : 'var(--text)'};cursor:${page === totalPages - 1 ? 'default' : 'pointer'};font-size:11px;padding:0 4px">→</button>
+    </div>` : '';
+
+  return `
+    <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;text-align:center;margin-bottom:4px">Ranking no setor · ${pos || '—'}/${total} por BRank</div>
+    ${rows}
+    ${nav}
+  `;
+}
+
+function _sectorRankNav(delta) {
+  const total = _sectorRankState.peers.length;
+  const totalPages = Math.max(1, Math.ceil(total / _SECTOR_RANK_PAGE_SIZE));
+  _sectorRankState.page = Math.max(0, Math.min(totalPages - 1, _sectorRankState.page + delta));
+  const box = document.getElementById('sectorRankBox');
+  if (box) box.innerHTML = _sectorRankBodyHTML();
 }
 
 // ─── Relatório ────────────────────────────────────────────────────
