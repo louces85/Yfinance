@@ -5,6 +5,7 @@ files/all_indicators.json
 /index.html
 YFINANCE_REFACTOR/doc_initial/
 *.txt
+*.pdf
 #IDE Files
 __pycache__
 .vscode/
