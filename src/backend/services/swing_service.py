@@ -112,6 +112,107 @@ def calc_ma_cross(closes, fast=20, slow=50):
 
 
 # ---------------------------------------------------------------------------
+# Funções de série (retornam array completo — um valor por fechamento)
+# ---------------------------------------------------------------------------
+
+def calc_rsi_series(closes, period=14):
+    """RSI para cada fechamento. None para os primeiros 'period' elementos."""
+    n = len(closes)
+    if n <= period:
+        return [None] * n
+
+    deltas = [closes[i] - closes[i - 1] for i in range(1, n)]
+    gains  = [max(d, 0.0) for d in deltas]
+    losses = [max(-d, 0.0) for d in deltas]
+
+    avg_gain = sum(gains[:period]) / period
+    avg_loss = sum(losses[:period]) / period
+
+    def _rsi(g, l):
+        if l == 0.0:
+            return 100.0
+        return round(100.0 - 100.0 / (1.0 + g / l), 2)
+
+    result = [None] * period + [_rsi(avg_gain, avg_loss)]
+    for i in range(period, len(gains)):
+        avg_gain = (avg_gain * (period - 1) + gains[i]) / period
+        avg_loss = (avg_loss * (period - 1) + losses[i]) / period
+        result.append(_rsi(avg_gain, avg_loss))
+
+    return result  # len == n
+
+
+def calc_bb_series(closes, period=20, num_std=2):
+    """Bollinger Bands para cada fechamento. None enquanto janela incompleta."""
+    n = len(closes)
+    upper  = [None] * n
+    middle = [None] * n
+    lower  = [None] * n
+
+    for i in range(period - 1, n):
+        window   = closes[i - period + 1: i + 1]
+        mean     = sum(window) / period
+        variance = sum((x - mean) ** 2 for x in window) / period
+        std      = math.sqrt(variance)
+        upper[i]  = round(mean + num_std * std, 2)
+        middle[i] = round(mean, 2)
+        lower[i]  = round(mean - num_std * std, 2)
+
+    return {"upper": upper, "middle": middle, "lower": lower}
+
+
+def calc_ma_series(closes, fast=20, slow=50):
+    """SMA rápida e lenta para cada fechamento. None enquanto janela incompleta."""
+    n       = len(closes)
+    ma_fast = [None] * n
+    ma_slow = [None] * n
+
+    for i in range(fast - 1, n):
+        ma_fast[i] = round(sum(closes[i - fast + 1: i + 1]) / fast, 2)
+
+    for i in range(slow - 1, n):
+        ma_slow[i] = round(sum(closes[i - slow + 1: i + 1]) / slow, 2)
+
+    return {"ma20": ma_fast, "ma50": ma_slow}
+
+
+def calc_macd_series(closes, fast=12, slow=26, signal_period=9):
+    """MACD line, signal line e histograma para cada fechamento. None onde insuficiente."""
+    n     = len(closes)
+    empty = {"macd_line": [None] * n, "signal_line": [None] * n, "histogram": [None] * n}
+
+    ema_fast = _ema_series(closes, fast)
+    ema_slow = _ema_series(closes, slow)
+
+    if not ema_fast or not ema_slow:
+        return empty
+
+    n_slow           = len(ema_slow)
+    ema_fast_aligned = ema_fast[-n_slow:]
+    macd_vals        = [ema_fast_aligned[i] - ema_slow[i] for i in range(n_slow)]
+
+    # macd_line começa em closes[slow-1]
+    macd_line = [None] * (slow - 1) + [round(v, 4) for v in macd_vals]
+
+    sig_series = _ema_series(macd_vals, signal_period)
+    if not sig_series:
+        return {"macd_line": macd_line, "signal_line": [None] * n, "histogram": [None] * n}
+
+    # signal_line começa em closes[slow-1 + signal_period-1]
+    offset      = slow - 1 + signal_period - 1
+    signal_line = [None] * offset + [round(v, 4) for v in sig_series]
+
+    histogram = [None] * n
+    for i in range(offset, n):
+        m = macd_line[i]
+        s = signal_line[i]
+        if m is not None and s is not None:
+            histogram[i] = round(m - s, 4)
+
+    return {"macd_line": macd_line, "signal_line": signal_line, "histogram": histogram}
+
+
+# ---------------------------------------------------------------------------
 # Execução principal
 # ---------------------------------------------------------------------------
 

@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'backend
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'backend', 'services'))
 
 from swing_service import calc_rsi, calc_macd, calc_bb, calc_ma_cross
+from swing_service import calc_rsi_series, calc_bb_series, calc_ma_series, calc_macd_series
 
 
 def test_rsi_all_gains_returns_100():
@@ -93,3 +94,93 @@ def test_macd_bearish_after_drop():
     closes = [50.0] * 40 + [50.0 - float(i) * 2 for i in range(1, 21)]
     _, _, bullish = calc_macd(closes)
     assert bullish is False
+
+
+# ─── RSI série ────────────────────────────────────────────────────
+
+def test_rsi_series_length_matches_closes():
+    closes = [float(i) for i in range(1, 21)]  # 20 preços
+    assert len(calc_rsi_series(closes, period=14)) == 20
+
+
+def test_rsi_series_first_period_are_none():
+    closes = [float(i) for i in range(1, 21)]
+    series = calc_rsi_series(closes, period=14)
+    assert all(v is None for v in series[:14])
+    assert series[14] is not None
+
+
+def test_rsi_series_last_matches_scalar():
+    closes = [float(i) for i in range(1, 30)]
+    assert calc_rsi_series(closes, period=14)[-1] == calc_rsi(closes, period=14)
+
+
+# ─── Bollinger série ───────────────────────────────────────────────
+
+def test_bb_series_length_matches_closes():
+    closes = [10.0] * 30
+    r = calc_bb_series(closes, period=20)
+    assert len(r["upper"]) == len(r["middle"]) == len(r["lower"]) == 30
+
+
+def test_bb_series_first_period_minus1_are_none():
+    closes = [10.0] * 30
+    r = calc_bb_series(closes, period=20)
+    assert all(v is None for v in r["upper"][:19])
+    assert r["upper"][19] is not None
+
+
+def test_bb_series_last_matches_scalar():
+    closes = [10.0 + float(i) * 0.1 for i in range(30)]
+    series = calc_bb_series(closes, period=20)
+    _, _, lower_scalar, _ = calc_bb(closes, period=20)
+    assert series["lower"][-1] == lower_scalar
+
+
+# ─── MA série ──────────────────────────────────────────────────────
+
+def test_ma_series_length_matches_closes():
+    closes = [float(i) for i in range(1, 60)]
+    r = calc_ma_series(closes, fast=20, slow=50)
+    assert len(r["ma20"]) == len(r["ma50"]) == 59
+
+
+def test_ma_series_none_for_insufficient_slow():
+    closes = [float(i) for i in range(1, 60)]
+    r = calc_ma_series(closes, fast=20, slow=50)
+    assert all(v is None for v in r["ma50"][:49])
+    assert r["ma50"][49] is not None
+
+
+def test_ma_series_last_matches_scalar():
+    closes = [float(i) for i in range(1, 60)]
+    r = calc_ma_series(closes, fast=20, slow=50)
+    ma20_scalar, ma50_scalar, _ = calc_ma_cross(closes, fast=20, slow=50)
+    assert r["ma20"][-1] == ma20_scalar
+    assert r["ma50"][-1] == ma50_scalar
+
+
+# ─── MACD série ────────────────────────────────────────────────────
+
+def test_macd_series_length_matches_closes():
+    closes = [float(i) for i in range(1, 80)]
+    r = calc_macd_series(closes)
+    assert len(r["macd_line"]) == len(r["signal_line"]) == len(r["histogram"]) == 79
+
+
+def test_macd_series_last_macd_matches_scalar():
+    closes = [float(i) for i in range(1, 80)]
+    series = calc_macd_series(closes)
+    scalar_macd, scalar_sig, _ = calc_macd(closes)
+    last_macd = next(v for v in reversed(series["macd_line"]) if v is not None)
+    last_sig  = next(v for v in reversed(series["signal_line"]) if v is not None)
+    assert last_macd == scalar_macd
+    assert last_sig  == scalar_sig
+
+
+def test_macd_series_histogram_is_macd_minus_signal():
+    closes = [float(i) for i in range(1, 80)]
+    r = calc_macd_series(closes)
+    for i, h in enumerate(r["histogram"]):
+        if h is not None:
+            assert abs(h - (r["macd_line"][i] - r["signal_line"][i])) < 1e-6
