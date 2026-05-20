@@ -32,6 +32,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from repositories import stock_repository as repo
 from services import decision_service
 from services import market_service
+from services import swing_service
 from services import portfolio_service
 from services import valuation_calculator
 from services.price_service import PriceService as _PriceService
@@ -376,6 +377,12 @@ def chart(ticker):
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/swing")
+def get_swing():
+    data = repo.load_swing_data()
+    return jsonify(data)
+
+
 # ---------------------------------------------------------------------------
 # Scheduler — roda decision_service a cada 1 hora em background
 # ---------------------------------------------------------------------------
@@ -406,6 +413,33 @@ def _scheduler_loop():
         _run_decision()
 
 
+def _swing_update_loop():
+    """Verifica a cada hora se swing_data.json tem mais de 23h.
+    Se sim, roda swing_service.run(). Garante dados frescos diariamente
+    sem sobrecarregar o yfinance (127 tickers a cada 30 min seria excessivo)."""
+    while True:
+        needs_update = True
+        data = repo.load_swing_data()
+        if data:
+            try:
+                last = datetime.strptime(data[0]["updated_at"], "%Y-%m-%dT%H:%M:%S")
+                age_hours = (datetime.now() - last).total_seconds() / 3600.0
+                needs_update = age_hours >= 23.0
+            except Exception:
+                needs_update = True
+
+        if needs_update:
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print("[swing-scheduler] {} — iniciando swing_service...".format(now))
+            try:
+                swing_service.run()
+                print("[swing-scheduler] {} — concluído.".format(now))
+            except Exception as e:
+                print("[swing-scheduler] ERRO: {}".format(e))
+
+        time.sleep(3600)
+
+
 # ---------------------------------------------------------------------------
 # Run
 # ---------------------------------------------------------------------------
@@ -415,6 +449,10 @@ if __name__ == "__main__":
 
     t = threading.Thread(target=_scheduler_loop, daemon=True, name="decision-scheduler")
     t.start()
+
+    t2 = threading.Thread(target=_swing_update_loop, daemon=True, name="swing-scheduler")
+    t2.start()
+
     print(f"\n  YFINANCE API  →  http://localhost:{port}")
     print(f"  Frontend      →  {FRONTEND_DIR}")
     print(f"  Scheduler     →  decision_service a cada {REFRESH_INTERVAL_HOURS}h\n")
