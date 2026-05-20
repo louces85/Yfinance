@@ -99,6 +99,8 @@
               │  GET /api/chart/<ticker>    │
               │  GET /api/favoritos         │
               │  GET /api/radar             │
+              │  GET /api/swing             │  ← swing_data.json (cache diário)
+              │  GET /api/swing/chart/<t>   │  ← on-demand: yfinance + séries
               │  ...                        │
               └─────────────┬───────────────┘
                             │
@@ -108,7 +110,7 @@
               │     JS Vanilla              │
               │                             │
               │  Screening / Carteira /     │
-              │  Favoritos / Radar          │
+              │  Favoritos / Radar / Swing  │
               └─────────────────────────────┘
 ```
 
@@ -136,6 +138,8 @@ os.replace(tmp_path, final_path)  # Operação atômica no Linux
 | financials_history | 30 dias | DRE e Balanço mudam trimestralmente |
 | decision_stocks | 30 min | Scheduler automático |
 | market_data | 30 min | Scheduler automático (junto com decision_stocks) |
+| swing_data | 1× por dia | `_swing_update_loop` verifica a cada 1h se dados > 23h — evita 127 calls yfinance a cada 30 min |
+| swing/chart on-demand | por clique | `GET /api/swing/chart/<ticker>` busca yfinance na hora (~1–2s) |
 
 ---
 

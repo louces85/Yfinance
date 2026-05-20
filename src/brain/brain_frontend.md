@@ -11,7 +11,7 @@
 Sempre visível no topo. Da esquerda para a direita:
 
 ```
-[ ⬡ YFINANCE ]  [ Screening | Carteira | Favoritos | Radar ]  [ Market Bar ]  [ Atualizado: HH:MM ]  [ 🔔 ]
+[ ⬡ YFINANCE ]  [ Screening | Carteira | Favoritos | Radar | Swing ]  [ Market Bar ]  [ Atualizado: HH:MM ]  [ 🔔 ]
 ```
 
 **Market Bar (`#mktBar`)** — exibe 4 índices de mercado atualizados a cada 30 min:
@@ -244,7 +244,7 @@ Renderizado por `renderPortfolioSummary(s)` em `index.html`. Exibido acima da ta
 | `Bollinger` | `bb_signal` | Badge `≤ Inf` (verde) ou `Normal` (cinza) |
 | `MA Cross` | `ma_signal` | Badge `Golden` (verde) ou `Death` (cinza) |
 | `Sinais` | `signals_count` | Barra de 4 dots + contador `X/4` |
-| `Status` | `is_setup` | Badge `SETUP` (verde) quando `signals_count ≥ 2` |
+| `Status` | `is_setup` + botão 📈 | Badge `SETUP` (verde) quando `signals_count ≥ 2` + ícone de gráfico |
 
 **Cores dos sinais:**
 
@@ -268,26 +268,75 @@ Renderizado por `renderPortfolioSummary(s)` em `index.html`. Exibido acima da ta
 
 **Clique na linha:** chama `openDetail(ticker)` — abre o modal completo existente (gráfico, VI, ranking no setor, Buffett Moat). Zero código novo no modal.
 
-**Funções JS principais:**
+**Clique no ícone 📈 (coluna Status):** `event.stopPropagation()` + `openSwingChart(ticker)` — abre o modal de gráfico de indicadores (não conflita com o clique na linha).
+
+---
+
+#### Modal de Gráfico Swing (`#swingChartModal`)
+
+Abre ao clicar no ícone 📈 de qualquer linha da tabela. Busca dados on-demand via `GET /api/swing/chart/<ticker>` (yfinance direto, ~1–2s de latência).
+
+**3 painéis Chart.js sobrepostos:**
+
+| Painel | Canvas | Conteúdo | Altura |
+|--------|--------|---------|--------|
+| 1 — Preço | `#swingPriceCanvas` | Linha de preço (azul) + BB Sup/Mid/Inf (cinza pontilhado) + MA20 (amarelo) + MA50 (roxo) | 140px |
+| 2 — RSI | `#swingRsiCanvas` | RSI(14) (verde) + linha horizontal em 30 (vermelho pontilhado) + linha em 70 (amarelo pontilhado) | 80px |
+| 3 — MACD | `#swingMacdCanvas` | Histograma (barras verde/vermelho) + MACD line (azul) + Signal line (vermelho pontilhado) | 80px |
+
+**Cores dos painéis:**
+
+| Série | Cor |
+|-------|-----|
+| Preço | `#58a6ff` azul |
+| BB bandas | `rgba(139,148,158,.4)` cinza pontilhado |
+| MA20 | `#d29922` amarelo |
+| MA50 | `#a371f7` roxo |
+| RSI(14) | `#3fb950` verde |
+| Linha 30 (sobrevenda) | `rgba(248,81,73,.5)` vermelho pontilhado |
+| Linha 70 (sobrecompra) | `rgba(210,153,34,.4)` amarelo pontilhado |
+| Histograma positivo | `rgba(63,185,80,.45)` verde translúcido |
+| Histograma negativo | `rgba(248,81,73,.45)` vermelho translúcido |
+| MACD line | `#58a6ff` azul |
+| Signal line | `#f85149` vermelho pontilhado |
+
+**Responsividade:** modal tem `max-height: calc(100vh - 32px)` + `overflow-y: auto` — funciona até ~150% de zoom no navegador. Header (ticker + botão fechar) é `position: sticky`.
+
+**Endpoint de dados:**
+
+```
+GET /api/swing/chart/<ticker>
+```
+
+Retorno: `{ ticker, dates[], closes[], bb_upper[], bb_middle[], bb_lower[], ma20[], ma50[], rsi[], macd_line[], macd_signal[], macd_hist[] }`
+
+Todos os arrays têm o mesmo comprimento (um elemento por fechamento diário). Os primeiros N elementos são `null` onde há dados insuficientes para calcular o indicador (ex: `rsi[0..13] = null`).
+
+**Funções JS:**
 
 | Função | Responsabilidade |
 |--------|-----------------|
-| `loadSwing()` | `GET /api/swing` → `_swingData` → `renderSwingTable()` |
-| `renderSwingTable()` | Filtra, ordena, atualiza cards e renderiza tbody |
-| `_swingToggleFilter()` | Alterna `_swingOnlySetup` e re-renderiza |
-| `_swingSort(col)` | Atualiza `_swingSortCol` / `_swingSortAsc` e re-renderiza |
+| `openSwingChart(ticker)` | Fetch → destrói charts anteriores → cria 3 novos Chart.js |
+| `closeSwingChart()` | Destrói as 3 instâncias (`_swingChartPrice/Rsi/Macd`) + esconde modal |
 
 **Estado JS:**
 
 ```javascript
+// Tabela
 let _swingData      = [];       // array retornado por /api/swing
 let _swingSortCol   = 'signals_count';
-let _swingSortAsc   = false;    // signals_count: desc por padrão
-let _swingOnlySetup = true;     // toggle padrão ligado
-let _swingLoaded    = false;    // evita re-fetch na troca de aba
+let _swingSortAsc   = false;
+let _swingOnlySetup = true;
+let _swingLoaded    = false;
+
+// Modal de gráfico
+let _swingChartPrice = null;    // instância Chart.js — destruída ao fechar
+let _swingChartRsi   = null;
+let _swingChartMacd  = null;
 ```
 
 > Para fórmulas e limiares dos indicadores técnicos → `brain_calculations.md` seção 7.12.
+> Para as funções de série backend (`calc_rsi_series`, `calc_bb_series`, `calc_ma_series`, `calc_macd_series`) → `swing_service.py`.
 
 ---
 
