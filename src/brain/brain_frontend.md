@@ -72,6 +72,8 @@ Cada item mostra: label / valor / variação % do dia (verde se positiva, vermel
 
 **Sort:** clique nos headers (`data-col` attribute) → toggle asc/desc. Default: `p_now_p_min ASC`.
 
+**Badge Sinal clicável:** clicar no badge COMPRA / FORTE / MONITORAR / CARO chama `openSwingChart(ticker)` com `event.stopPropagation()` — abre o modal de gráfico de indicadores técnicos sem abrir o modal de detalhe da ação. Clicar no restante da linha continua abrindo o modal de detalhe normalmente.
+
 ---
 
 #### Modal de Detalhe — Cards de Preço (`#priceCards`)
@@ -184,6 +186,8 @@ Renderizado por `_renderSectorRanking(dec)` e `_sectorRankBodyHTML()` em `index.
 
 **Sort:** clique nos headers (`data-ptcol` attribute). Default: `retorno_pct ASC`.
 
+**Badge Sinal clicável:** clicar no badge COMPRA / FORTE / MONITORAR / CARO na coluna Sinal chama `openSwingChart(ticker)` — abre o modal de gráfico de indicadores técnicos. O badge "Fora critérios" não é clicável. Clicar no restante da linha abre o modal de detalhe normalmente.
+
 #### Cards de Resumo da Carteira (`#portfolioSummary`)
 
 Renderizado por `renderPortfolioSummary(s)` em `index.html`. Exibido acima da tabela, atualizado ao trocar de aba (Ações / FIIs).
@@ -268,13 +272,21 @@ Renderizado por `renderPortfolioSummary(s)` em `index.html`. Exibido acima da ta
 
 **Clique na linha:** chama `openDetail(ticker)` — abre o modal completo existente (gráfico, VI, ranking no setor, Buffett Moat). Zero código novo no modal.
 
-**Clique no ícone 📈 (coluna Status):** `event.stopPropagation()` + `openSwingChart(ticker)` — abre o modal de gráfico de indicadores (não conflita com o clique na linha).
+**Badge SETUP clicável:** clicar no badge verde `SETUP` (coluna Status) chama `openSwingChart(ticker)` com `event.stopPropagation()` — abre o modal de gráfico de indicadores sem conflitar com o clique na linha. O badge `–` (sem setup) não é clicável.
 
 ---
 
 #### Modal de Gráfico Swing (`#swingChartModal`)
 
-Abre ao clicar no ícone 📈 de qualquer linha da tabela. Busca dados on-demand via `GET /api/swing/chart/<ticker>` (yfinance direto, ~1–2s de latência).
+Abre ao clicar no **badge de sinal** em qualquer uma das 3 abas:
+
+| Aba | Elemento clicável |
+|-----|------------------|
+| Screening | Badge COMPRA / FORTE / MONITORAR / CARO na coluna Sinal |
+| Carteira | Badge COMPRA / FORTE / MONITORAR / CARO na coluna Sinal |
+| Swing | Badge SETUP na coluna Status |
+
+Todos usam `event.stopPropagation()` para não disparar o clique na linha (que abre o modal de detalhe). Busca dados on-demand via `GET /api/swing/chart/<ticker>` (yfinance direto, ~1–2s de latência).
 
 **3 painéis Chart.js sobrepostos:**
 
