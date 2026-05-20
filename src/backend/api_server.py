@@ -383,6 +383,53 @@ def get_swing():
     return jsonify(data)
 
 
+@app.route("/api/swing/chart/<ticker>")
+def get_swing_chart(ticker):
+    t = ticker.upper()
+    try:
+        yf_obj = yfinance.Ticker(t + ".SA")
+        hist   = yf_obj.history(period="6mo")
+        if hist.empty:
+            return jsonify({"error": "no data"}), 404
+
+        closes = []
+        dates  = []
+        for idx, row in hist.iterrows():
+            try:
+                v = float(row["Close"])
+                if not math.isnan(v):
+                    closes.append(round(v, 2))
+                    dates.append(idx.strftime("%Y-%m-%d"))
+            except (TypeError, ValueError):
+                pass
+
+        if not closes:
+            return jsonify({"error": "no valid closes"}), 404
+
+        bb   = swing_service.calc_bb_series(closes)
+        ma   = swing_service.calc_ma_series(closes)
+        rsi  = swing_service.calc_rsi_series(closes)
+        macd = swing_service.calc_macd_series(closes)
+
+        return jsonify({
+            "ticker":      t,
+            "dates":       dates,
+            "closes":      closes,
+            "bb_upper":    bb["upper"],
+            "bb_middle":   bb["middle"],
+            "bb_lower":    bb["lower"],
+            "ma20":        ma["ma20"],
+            "ma50":        ma["ma50"],
+            "rsi":         rsi,
+            "macd_line":   macd["macd_line"],
+            "macd_signal": macd["signal_line"],
+            "macd_hist":   macd["histogram"],
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 # ---------------------------------------------------------------------------
 # Scheduler — roda decision_service a cada 1 hora em background
 # ---------------------------------------------------------------------------
