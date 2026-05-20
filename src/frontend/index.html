@@ -1388,7 +1388,7 @@ function renderTable() {
       </td>
       <td style="color:${accColor(s.accumulation_score)};font-weight:600">${s.accumulation_score != null ? s.accumulation_score.toFixed(1) : nd()}</td>
       <td style="color:${accRecentColor(s.accumulation_30d_days, s.accumulation_30d_total)};font-weight:600">${s.accumulation_30d_days != null && s.accumulation_30d_total > 0 ? (s.accumulation_30d_days / s.accumulation_30d_total * 100).toFixed(1) : nd()}</td>
-      <td class="col-zone"><span class="badge badge-${s.zone}">${zoneLbl(s.zone)}</span></td>
+      <td class="col-zone"><span class="badge badge-${s.zone}">${zoneLbl(s.zone)}</span> <button class="swing-chart-btn" onclick="event.stopPropagation();openSwingChart('${s.ticker}')" title="Ver indicadores técnicos">📈</button></td>
     </tr>`;
   }).join('');
 }
