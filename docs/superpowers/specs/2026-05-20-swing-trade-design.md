@@ -29,7 +29,7 @@ Sem rastreamento de trades. Sem watchlist separada. Só identificação de setup
 | # | Indicador | Parâmetros | Sinal = `True` quando |
 |---|-----------|-----------|----------------------|
 | 1 | RSI | Período 14, sobre fechamentos | RSI < 30 |
-| 2 | MACD | EMA 12/26, sinal 9 | Linha MACD cruzou linha de sinal para cima nos últimos 3 dias |
+| 2 | MACD | EMA 12/26, sinal 9 | `macd_line > signal_line` no fechamento mais recente (cruzamento positivo ativo) |
 | 3 | Bollinger Bands | Período 20, 2σ | Preço ≤ banda inferior |
 | 4 | MA Cross | SMA20 vs SMA50 | SMA20 > SMA50 (Golden Cross ativo) |
 
@@ -40,16 +40,21 @@ Sem rastreamento de trades. Sem watchlist separada. Só identificação de setup
 ### swing_service.py (novo)
 
 Responsabilidades:
-- Lê `stock_history.json` via `stock_repository`
-- Para cada ticker, calcula RSI, MACD, BB e MA Cross sobre os fechamentos
+- Busca `yfinance.Ticker(ticker + ".SA").history(period="6mo")` diretamente para cada ticker (igual ao `/api/chart/<ticker>` já faz)
+- **Não usa `stock_history.json`** — esse arquivo guarda fundamentos anuais (dividendos, FCF, lucro), não OHLCV diário
+- Para cada ticker, calcula RSI, MACD, BB e MA Cross sobre os fechamentos diários
 - Marca `signals_count` (0–4) e `is_setup = signals_count >= 2`
 - Salva resultado em `swing_data.json` via atomic write (`stock_repository`)
 
-Sem dependência de `all_indicators.json` nem `valuation_calculator`. Apenas math sobre séries de preço.
+Sem dependência de `all_indicators.json`, `stock_history.json` nem `valuation_calculator`. Apenas math sobre OHLCV fresco.
 
-### Integração no scheduler
+### Scheduler diário (separado do ciclo de 30 min)
 
-Em `api_server.py`, o ciclo de 30 min que já chama `decision_service.run()` passa a chamar também `swing_service.run()` na mesma thread.
+Em `api_server.py`, um segundo daemon thread roda `swing_service.run()` **uma vez por dia, às 18h** (após fechamento da B3 às 17h). Não usa o ciclo de 30 min — isso evitaria 127 chamadas yfinance a cada meia hora.
+
+Para swing trade, dados diários são o padrão: RSI(14) calculado sobre fechamentos diários é o que qualquer plataforma usa. **O usuário não precisa rodar nada manualmente.**
+
+Na inicialização do servidor, o swing_service verifica se `swing_data.json` existe e tem menos de 24h — se não, roda imediatamente para garantir dados disponíveis desde o primeiro acesso.
 
 ### Endpoint
 
