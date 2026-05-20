@@ -225,6 +225,72 @@ Renderizado por `renderPortfolioSummary(s)` em `index.html`. Exibido acima da ta
 
 ---
 
+### 9.5 Swing Trade — Oportunidades Técnicas
+
+**Propósito:** Identificar setups de swing trade aplicando 4 indicadores técnicos sobre o histórico OHLCV de todos os ~127 tickers do Screening. Exibe somente ativos onde ≥ 2 indicadores disparam simultaneamente.
+
+**Fonte de dados:** `swing_data.json` gerado por `swing_service.py`. Atualizado automaticamente uma vez por dia (scheduler verifica a cada 1h se os dados têm > 23h).
+
+**Endpoint:** `GET /api/swing` → lista completa com todos os indicadores calculados.
+
+**Colunas da tabela:**
+
+| Coluna | Campo JSON | Descrição |
+|--------|-----------|-----------|
+| `Ativo` | `ticker` | Clicável — abre o mesmo modal de Screening/Carteira |
+| `Preço (R$)` | `price` | Último fechamento usado no cálculo |
+| `RSI (14)` | `rsi` | Índice de Força Relativa — verde/bold se < 30 |
+| `MACD` | `macd_bullish` | Badge `↑ Bull` (verde) ou `↓ Bear` (cinza) |
+| `Bollinger` | `bb_signal` | Badge `≤ Inf` (verde) ou `Normal` (cinza) |
+| `MA Cross` | `ma_signal` | Badge `Golden` (verde) ou `Death` (cinza) |
+| `Sinais` | `signals_count` | Barra de 4 dots + contador `X/4` |
+| `Status` | `is_setup` | Badge `SETUP` (verde) quando `signals_count ≥ 2` |
+
+**Cores dos sinais:**
+
+| `signals_count` | Cor do contador |
+|----------------|----------------|
+| 3 ou 4 | Verde (`--green`) |
+| 2 | Amarelo (`--yellow`) |
+| 0 ou 1 | Cinza (`--muted`) |
+
+**Toolbar:**
+
+| Elemento | Comportamento |
+|---------|--------------|
+| Card `SETUPs` | Total com `is_setup = true` |
+| Card `Monitorar` | Total com `signals_count === 1` |
+| Card `Analisados` | Total de tickers no JSON |
+| Toggle `Só SETUPs` | Padrão **ligado** — esconde tickers com `signals_count < 2` |
+| Timestamp | `updated_at` do primeiro item do JSON |
+
+**Ordenação padrão:** `signals_count` DESC. Colunas ordenáveis: `ticker`, `price`, `rsi`, `signals_count`.
+
+**Clique na linha:** chama `openDetail(ticker)` — abre o modal completo existente (gráfico, VI, ranking no setor, Buffett Moat). Zero código novo no modal.
+
+**Funções JS principais:**
+
+| Função | Responsabilidade |
+|--------|-----------------|
+| `loadSwing()` | `GET /api/swing` → `_swingData` → `renderSwingTable()` |
+| `renderSwingTable()` | Filtra, ordena, atualiza cards e renderiza tbody |
+| `_swingToggleFilter()` | Alterna `_swingOnlySetup` e re-renderiza |
+| `_swingSort(col)` | Atualiza `_swingSortCol` / `_swingSortAsc` e re-renderiza |
+
+**Estado JS:**
+
+```javascript
+let _swingData      = [];       // array retornado por /api/swing
+let _swingSortCol   = 'signals_count';
+let _swingSortAsc   = false;    // signals_count: desc por padrão
+let _swingOnlySetup = true;     // toggle padrão ligado
+let _swingLoaded    = false;    // evita re-fetch na troca de aba
+```
+
+> Para fórmulas e limiares dos indicadores técnicos → `brain_calculations.md` seção 7.12.
+
+---
+
 ### 9.4 Radar — Alertas de Preço
 
 **Configuração por ativo:**

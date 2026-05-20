@@ -411,6 +411,212 @@ Motivo: VULC3 2025 tinha ML 32,7% vs média anterior de 17,9% (ratio 1,83×), ma
 
 ---
 
+### 7.12 Indicadores Técnicos de Swing Trade
+
+**Implementação:** `swing_service.py`
+**Dados:** `yfinance.Ticker(ticker + ".SA").history(period="6mo")` — fechamentos diários, buscados diretamente (não usa `stock_history.json` que contém fundamentos anuais).
+**Atualização:** uma vez por dia via `_swing_update_loop` em `api_server.py`.
+**Saída:** `swing_data.json` (lista ordenada por `signals_count` DESC).
+
+#### SETUP — Definição
+
+Um ativo é marcado como **SETUP** quando `signals_count ≥ 2`, ou seja, pelo menos 2 dos 4 indicadores disparam simultaneamente. A lógica é: nenhum indicador isolado é suficientemente confiável para swing trade — a confluência de sinais reduz falsos positivos.
+
+```python
+signals_count = rsi_signal + macd_bullish + bb_signal + ma_signal  # 0–4
+is_setup = signals_count >= 2
+```
+
+---
+
+#### 7.12.1 RSI — Índice de Força Relativa
+
+**Parâmetros:** período 14, sobre fechamentos diários.
+
+**Fórmula (Wilder's Smoothed Moving Average):**
+```python
+deltas = [closes[i] - closes[i-1] for i in range(1, len(closes))]
+gains  = [max(d, 0) for d in deltas]
+losses = [max(-d, 0) for d in deltas]
+
+# Médias iniciais (SMA dos primeiros 14 períodos)
+avg_gain = sum(gains[:14]) / 14
+avg_loss = sum(losses[:14]) / 14
+
+# Smoothing de Wilder para os períodos seguintes
+for i in range(14, len(gains)):
+    avg_gain = (avg_gain * 13 + gains[i]) / 14
+    avg_loss = (avg_loss * 13 + losses[i]) / 14
+
+rsi = 100 - (100 / (1 + avg_gain / avg_loss))
+```
+
+**Sinal (`rsi_signal`):**
+```python
+rsi_signal = rsi < 30.0   # zona de sobrevenda
+```
+
+**Campos no JSON:**
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `rsi` | float | Valor atual (0–100) ou `null` se dados insuficientes |
+| `rsi_signal` | bool | `True` quando RSI < 30 |
+
+**Limiares e interpretação:**
+
+| RSI | Zona | Significado |
+|-----|------|-------------|
+| < 30 | Sobrevenda (sinal ativo) | Pressão vendedora excessiva — candidato a reversão |
+| 30–70 | Neutro | Sem sinal |
+| > 70 | Sobrecompra | Fora do escopo do swing (não gera sinal) |
+
+**Mínimo de dados:** `period + 1 = 15` fechamentos. Retorna `None` se insuficiente.
+
+---
+
+#### 7.12.2 MACD — Moving Average Convergence Divergence
+
+**Parâmetros:** EMA rápida 12, EMA lenta 26, linha de sinal (EMA do MACD) 9.
+
+**Fórmula:**
+```python
+# EMA de período k sobre uma série de valores
+k = 2.0 / (period + 1)
+ema[0] = SMA(values[:period])
+ema[i] = values[i] * k + ema[i-1] * (1 - k)
+
+# MACD line = EMA12 - EMA26 (alinhadas no mesmo ponto temporal)
+macd_line[i] = ema12[i] - ema26[i]
+
+# Signal line = EMA9 da MACD line
+signal_line = EMA(macd_line, period=9)
+```
+
+**Sinal (`macd_bullish`):**
+```python
+macd_bullish = macd_line[-1] > signal_line[-1]
+# True: MACD acima da linha de sinal → momento de alta ativo
+# False: MACD abaixo → momento de baixa
+```
+
+**Campos no JSON:**
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `macd_value` | float | Valor da MACD line no último fechamento |
+| `macd_signal_line` | float | Valor da signal line no último fechamento |
+| `macd_bullish` | bool | `True` quando `macd_value > macd_signal_line` |
+
+**Interpretação:**
+- **Bullish (True):** EMA12 subiu acima da EMA26, e o sinal confirma — momento de alta.
+- **Bearish (False):** EMA12 caiu abaixo da EMA26 — momento de baixa ou neutro.
+
+**Mínimo de dados:** `slow + signal_period = 26 + 9 = 35` fechamentos.
+
+---
+
+#### 7.12.3 Bollinger Bands
+
+**Parâmetros:** período 20, 2 desvios padrão (2σ).
+
+**Fórmula:**
+```python
+window  = closes[-20:]
+mean    = sum(window) / 20
+std     = sqrt(sum((x - mean)**2 for x in window) / 20)  # desvio padrão populacional
+
+bb_upper  = mean + 2 * std
+bb_middle = mean            # "média móvel simples"
+bb_lower  = mean - 2 * std
+```
+
+**Sinal (`bb_signal`):**
+```python
+bb_signal = closes[-1] <= bb_lower
+# True: preço atual toca ou rompe a banda inferior → sobrevenda estatística
+```
+
+**Campos no JSON:**
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `bb_upper` | float | Banda superior |
+| `bb_middle` | float | Média (banda do meio) |
+| `bb_lower` | float | Banda inferior |
+| `bb_signal` | bool | `True` quando `price ≤ bb_lower` |
+
+**Interpretação:**
+Preço na banda inferior indica que está a 2σ abaixo da média dos últimos 20 pregões — evento estatisticamente raro (< 5% do tempo em distribuição normal). Candidato a reversão para a média (`bb_middle`).
+
+**Mínimo de dados:** 20 fechamentos.
+
+---
+
+#### 7.12.4 MA Cross — Cruzamento de Médias
+
+**Parâmetros:** SMA20 (rápida) vs SMA50 (lenta). Média Móvel Simples sobre os últimos N fechamentos.
+
+**Fórmula:**
+```python
+ma20 = sum(closes[-20:]) / 20
+ma50 = sum(closes[-50:]) / 50
+```
+
+**Sinal (`ma_signal`):**
+```python
+ma_signal = ma20 > ma50   # Golden Cross ativo
+```
+
+**Campos no JSON:**
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `ma20` | float | SMA dos últimos 20 fechamentos |
+| `ma50` | float | SMA dos últimos 50 fechamentos |
+| `ma_signal` | bool | `True` quando `ma20 > ma50` (Golden Cross) |
+
+**Interpretação:**
+
+| Estado | Condição | Significado |
+|--------|---------|-------------|
+| Golden Cross | MA20 > MA50 | Tendência de curto prazo acima da de médio — viés de alta |
+| Death Cross | MA20 < MA50 | Tendência de curto prazo abaixo — viés de baixa |
+
+**Nota:** Este indicador mede o estado atual do cruzamento, não quando ele ocorreu. Uma ação pode ter feito o Golden Cross há semanas e `ma_signal` ainda será `True` enquanto MA20 > MA50.
+
+**Mínimo de dados:** 50 fechamentos (≈ 2,5 meses de pregões).
+
+---
+
+#### 7.12.5 Estrutura completa de swing_data.json
+
+```json
+{
+  "ticker":           "BBAS3",
+  "price":            24.50,
+  "rsi":              27.4,
+  "rsi_signal":       true,
+  "macd_value":      -0.1234,
+  "macd_signal_line": -0.0987,
+  "macd_bullish":     false,
+  "bb_upper":         27.50,
+  "bb_middle":        25.00,
+  "bb_lower":         22.50,
+  "bb_signal":        false,
+  "ma20":             24.20,
+  "ma50":             25.80,
+  "ma_signal":        false,
+  "signals_count":    1,
+  "is_setup":         false,
+  "updated_at":       "2026-05-20T18:00:00"
+}
+```
+
+**Universo:** mesmos ~127 tickers de `monitoring_stocks.json` (os que passaram nos filtros mínimos do Screening). Tickers com < 60 fechamentos disponíveis são ignorados (histórico insuficiente para calcular MA50 + MACD confiáveis).
+
+---
+
 ### 7.10 DCF — Valor Intrínseco (VI)
 
 **Implementação:** `valuation_calculator.py` → `_calc_dcf(price_now, p_l, cagr_lucro, fcf_lucro_ratio, moat_label)`
@@ -683,3 +889,33 @@ def _is_best(sector_info):
 | Atualização de preço | 30 min | `PRICE_UPDATE_INTERVAL_HOURS = 0.5` |
 | Atualização histórico | 7 dias | `HISTORY_UPDATE_INTERVAL_DAYS = 7` |
 | Atualização financials | 30 dias | `FINANCIALS_UPDATE_INTERVAL_DAYS = 30` |
+
+### Swing Trade — Indicadores Técnicos
+
+| Parâmetro | Valor | Justificativa |
+|-----------|-------|--------------|
+| **RSI** | | |
+| Período RSI | 14 dias | Padrão Wilder — equilibra sensibilidade e estabilidade |
+| Limiar de sobrevenda (sinal) | RSI < 30 | Abaixo de 30: pressão vendedora excessiva; candidato a reversão |
+| Smoothing | Wilder (EMA modificada) | `avg = (avg * 13 + novo) / 14` — não SMA simples |
+| **MACD** | | |
+| EMA rápida | 12 dias | |
+| EMA lenta | 26 dias | |
+| Linha de sinal | EMA 9 do MACD | |
+| Condição bullish | `macd_line > signal_line` | Cruzamento positivo ativo no fechamento mais recente |
+| Mínimo de dados | 35 fechamentos | `slow(26) + signal(9)` |
+| **Bollinger Bands** | | |
+| Período | 20 dias | |
+| Desvio padrão | 2σ (populacional) | |
+| Condição de sinal | `price ≤ bb_lower` | Toca ou rompe a banda inferior |
+| **MA Cross** | | |
+| SMA rápida | 20 dias | |
+| SMA lenta | 50 dias | |
+| Golden Cross (sinal) | `MA20 > MA50` | Tendência curto prazo acima do médio prazo |
+| Death Cross | `MA20 < MA50` | Sem sinal (bearish) |
+| Mínimo de dados | 50 fechamentos | ≈ 2,5 meses de pregões |
+| **SETUP** | | |
+| Threshold de confluência | ≥ 2 de 4 indicadores | Reduz falsos positivos vs. qualquer indicador isolado |
+| Mínimo de fechamentos | 60 | Para garantir todos os 4 indicadores calculáveis |
+| Fonte OHLCV | yfinance `history(period="6mo")` | Não usa `stock_history.json` (fundamentos anuais) |
+| Frequência de atualização | 1× por dia | Scheduler verifica a cada 1h, roda quando dados > 23h |
