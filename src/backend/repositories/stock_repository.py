@@ -21,6 +21,7 @@ PATHS = {
     "validity":           os.path.join(DATA_DIR, "stock_validity.json"),
     "monitoring_stocks":  os.path.join(DATA_DIR, "monitoring_stocks.json"),
     "financials_history": os.path.join(DATA_DIR, "financials_history.json"),
+    "swing":              os.path.join(DATA_DIR, "swing_data.json"),
 }
 
 
@@ -318,3 +319,20 @@ def get_all_financials() -> dict:
         return _load(PATHS["financials_history"]).get("stocks", {})
     except FileNotFoundError:
         return {}
+
+
+# ---------------------------------------------------------------------------
+# Swing data
+# ---------------------------------------------------------------------------
+
+def save_swing_data(entries):
+    """Salva lista de dicts com indicadores técnicos de swing trade."""
+    _save(PATHS["swing"], entries)
+
+
+def load_swing_data():
+    """Retorna lista de swing_data ou [] se o arquivo não existir."""
+    path = PATHS["swing"]
+    if not os.path.exists(path):
+        return []
+    return _load(path)
