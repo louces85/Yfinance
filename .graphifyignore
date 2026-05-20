@@ -1,0 +1,6 @@
+*.pdf
+graphify-out/
+node_modules/
+.git/
+src/doc_initial
+src/knowledge_base/transcricoes

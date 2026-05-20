@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; }
+
+  /* NAV */
+  .nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 0 16px; display: flex; align-items: center; gap: 24px; height: 44px; }
+  .nav-brand { color: #58a6ff; font-weight: 700; font-size: 14px; }
+  .tabs { display: flex; gap: 6px; }
+  .tab { padding: 6px 12px; border-radius: 6px; border: 1px solid transparent; font-size: 12px; cursor: pointer; color: #8b949e; background: none; }
+  .tab.active { color: #58a6ff; border-color: #58a6ff; background: rgba(88,166,255,.12); }
+  .tab:hover:not(.active) { color: #c9d1d9; }
+  .tab.new { color: #3fb950; border-color: #3fb950; background: rgba(63,185,80,.10); }
+  .mkt { margin-left: auto; display: flex; gap: 16px; font-size: 11px; color: #8b949e; }
+
+  /* TOOLBAR */
+  .toolbar { background: #161b22; border-bottom: 1px solid #30363d; padding: 8px 16px; display: flex; align-items: center; gap: 12px; }
+  .summary-cards { display: flex; gap: 8px; }
+  .scard { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 6px 12px; font-size: 11px; text-align: center; min-width: 70px; }
+  .scard .val { font-size: 16px; font-weight: 700; }
+  .scard .lbl { color: #8b949e; margin-top: 2px; }
+  .val.green { color: #3fb950; }
+  .val.yellow { color: #d29922; }
+  .val.blue { color: #58a6ff; }
+  .sep { width: 1px; height: 28px; background: #30363d; }
+  .toggle-btn { padding: 5px 12px; border-radius: 6px; border: 1px solid #30363d; background: rgba(63,185,80,.15); color: #3fb950; font-size: 11px; cursor: pointer; }
+  .filter-label { font-size: 11px; color: #8b949e; }
+
+  /* TABLE */
+  .table-wrap { overflow: auto; max-height: calc(100vh - 130px); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { font-size: 10px; color: #8b949e; font-weight: 400; padding: 6px 10px; text-align: center; border-bottom: 1px solid #30363d; white-space: nowrap; cursor: pointer; position: sticky; top: 0; background: #0d1117; }
+  th:first-child { text-align: left; }
+  th:hover { color: #c9d1d9; }
+  td { padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,.04); white-space: nowrap; text-align: center; }
+  td:first-child { text-align: left; }
+  tr:hover td { background: rgba(255,255,255,.03); }
+
+  .ticker { font-weight: 600; color: #c9d1d9; letter-spacing: .3px; }
+
+  /* BADGES */
+  .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+  .badge-setup { background: rgba(63,185,80,.2); color: #3fb950; border: 1px solid rgba(63,185,80,.4); }
+  .badge-watch { background: rgba(210,153,34,.15); color: #d29922; border: 1px solid rgba(210,153,34,.3); }
+
+  /* INDICATOR PILLS */
+  .ind { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; margin: 1px; }
+  .ind-on  { background: rgba(63,185,80,.2);  color: #3fb950; }
+  .ind-off { background: rgba(139,148,158,.1); color: #8b949e; }
+
+  /* SIGNALS BAR */
+  .sig-bar { display: flex; gap: 3px; justify-content: center; align-items: center; }
+  .sig-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .sig-dot.on  { background: #3fb950; }
+  .sig-dot.off { background: #30363d; }
+  .sig-count { font-size: 11px; font-weight: 700; margin-left: 4px; }
+  .sig-count.c4 { color: #3fb950; }
+  .sig-count.c3 { color: #3fb950; }
+  .sig-count.c2 { color: #d29922; }
+
+  .price { color: #c9d1d9; font-weight: 500; }
+  .rsi-low  { color: #3fb950; font-weight: 700; }
+  .rsi-high { color: #8b949e; }
+  .macd-bull { color: #3fb950; }
+  .macd-bear { color: #8b949e; }
+  .section-label { font-size: 10px; color: #8b949e; padding: 10px 10px 4px; border-bottom: 1px solid #30363d; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-brand">⬡ YFINANCE</div>
+  <div class="tabs">
+    <div class="tab">Screening</div>
+    <div class="tab">Carteira</div>
+    <div class="tab">Favoritos</div>
+    <div class="tab">Radar</div>
+    <div class="tab active new">Swing ✦</div>
+  </div>
+  <div class="mkt">
+    <span>IBOV <b style="color:#3fb950">138.420</b> +0.8%</span>
+    <span>USD <b>R$5,14</b></span>
+    <span>S&P <b>5.248</b></span>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="summary-cards">
+    <div class="scard"><div class="val green">8</div><div class="lbl">SETUPs</div></div>
+    <div class="scard"><div class="val yellow">14</div><div class="lbl">Monitorar</div></div>
+    <div class="scard"><div class="val blue">127</div><div class="lbl">Analisados</div></div>
+  </div>
+  <div class="sep"></div>
+  <div class="toggle-btn">● Só SETUPs</div>
+  <div class="filter-label">Atualizado: 10:30 · próximo em 30 min</div>
+</div>
+
+<!-- TABLE -->
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Ativo</th>
+      <th>Preço (R$)</th>
+      <th>RSI (14) ↕</th>
+      <th>MACD</th>
+      <th>Bollinger</th>
+      <th>MA Cross</th>
+      <th>Sinais ↕</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:rgba(63,185,80,.04)">
+      <td class="ticker">BBAS3</td>
+      <td class="price">24,50</td>
+      <td><span class="rsi-low">27,4</span></td>
+      <td><span class="ind ind-on">↑ Bull</span></td>
+      <td><span class="ind ind-on">≤ Inf</span></td>
+      <td><span class="ind ind-off">Death</span></td>
+      <td><div class="sig-bar"><div class="sig-dot on"></div><div class="sig-dot on"></div><div class="sig-dot on"></div><div class="sig-dot off"></div><span class="sig-count c3">3/4</span></div></td>
+      <td><span class="badge badge-setup">SETUP</span></td>
+    </tr>
+    <tr style="background:rgba(63,185,80,.04)">
+      <td class="ticker">TAEE11</td>
+      <td class="price">34,80</td>
+      <td><span class="rsi-low">29,1</span></td>
+      <td><span class="ind ind-on">↑ Bull</span></td>
+      <td><span class="ind ind-off">Normal</span></td>
+      <td><span class="ind ind-on">Golden</span></td>
+      <td><div class="sig-bar"><div class="sig-dot on"></div><div class="sig-dot on"></div><div class="sig-dot off"></div><div class="sig-dot on"></div><span class="sig-count c3">3/4</span></div></td>
+      <td><span class="badge badge-setup">SETUP</span></td>
+    </tr>
+    <tr style="background:rgba(63,185,80,.04)">
+      <td class="ticker">EGIE3</td>
+      <td class="price">41,20</td>
+      <td><span class="rsi-low">31,5</span></td>
+      <td><span class="ind ind-off">↓ Bear</span></td>
+      <td><span class="ind ind-on">≤ Inf</span></td>
+      <td><span class="ind ind-on">Golden</span></td>
+      <td><div class="sig-bar"><div class="sig-dot off"></div><div class="sig-dot off"></div><div class="sig-dot on"></div><div class="sig-dot on"></div><span class="sig-count c2">2/4</span></div></td>
+      <td><span class="badge badge-setup">SETUP</span></td>
+    </tr>
+    <tr>
+      <td class="ticker">WEGE3</td>
+      <td class="price">52,10</td>
+      <td><span class="rsi-high">44,2</span></td>
+      <td><span class="ind ind-on">↑ Bull</span></td>
+      <td><span class="ind ind-off">Normal</span></td>
+      <td><span class="ind ind-off">Death</span></td>
+      <td><div class="sig-bar"><div class="sig-dot off"></div><div class="sig-dot on"></div><div class="sig-dot off"></div><div class="sig-dot off"></div><span class="sig-count c2" style="color:#8b949e">1/4</span></div></td>
+      <td><span class="badge" style="background:rgba(139,148,158,.1);color:#8b949e;border:1px solid #30363d">–</span></td>
+    </tr>
+    <tr>
+      <td class="ticker">ITUB4</td>
+      <td class="price">31,75</td>
+      <td><span class="rsi-high">52,8</span></td>
+      <td><span class="ind ind-off">↓ Bear</span></td>
+      <td><span class="ind ind-off">Normal</span></td>
+      <td><span class="ind ind-off">Death</span></td>
+      <td><div class="sig-bar"><div class="sig-dot off"></div><div class="sig-dot off"></div><div class="sig-dot off"></div><div class="sig-dot off"></div><span class="sig-count" style="color:#8b949e">0/4</span></div></td>
+      <td><span class="badge" style="background:rgba(139,148,158,.1);color:#8b949e;border:1px solid #30363d">–</span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</body>
+</html>

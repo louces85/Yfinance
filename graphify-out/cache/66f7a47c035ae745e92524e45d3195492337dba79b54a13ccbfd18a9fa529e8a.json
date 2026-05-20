@@ -1,0 +1,1 @@
+{"__graphifyTsExtractorVersion":61,"nodes":[{"id":"readme","label":"README.md","file_type":"document","source_file":"/home/fabiano/Documents/Yfinance/README.md","source_location":"L1","layer":"base","provenance":[{"capability_id":"builtin:extract:markdown","stage":"extract","source_file":"/home/fabiano/Documents/Yfinance/README.md","source_location":"L1"}]}],"edges":[]}

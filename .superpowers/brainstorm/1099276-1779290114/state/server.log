@@ -1,0 +1,10 @@
+{"type":"server-started","port":59137,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:59137","screen_dir":"/home/fabiano/Documents/Yfinance/.superpowers/brainstorm/1099276-1779290114/content","state_dir":"/home/fabiano/Documents/Yfinance/.superpowers/brainstorm/1099276-1779290114/state"}
+{"type":"screen-added","file":"/home/fabiano/Documents/Yfinance/.superpowers/brainstorm/1099276-1779290114/content/indicadores.html"}
+{"source":"user-event","type":"click","text":"1\n    \n      RSI (14)\n      Índice de Força Relativa. SETUP quando RSI < 30 (sobrevenda) e começa a subir. Saída quando RSI > 65.\n      Período: 14 dias · Cálculo sobre fechamento · yfinance history 6m","choice":"rsi","id":null,"timestamp":1779290164996}
+{"source":"user-event","type":"click","text":"2\n    \n      MACD (12/26/9)\n      Cruzamento da linha MACD acima da linha de sinal = entrada. Cruzamento abaixo = saída.\n      EMAs 12 e 26 + sinal 9 · clássico para tendência de curto prazo","choice":"macd","id":null,"timestamp":1779290167389}
+{"source":"user-event","type":"click","text":"3\n    \n      Bollinger Bands (20, 2σ)\n      SETUP quando preço toca ou cruza a banda inferior. Saída quando volta à média (banda do meio).\n      Período 20 · desvio padrão 2 · bom para reversão à média","choice":"bb","id":null,"timestamp":1779290173943}
+{"source":"user-event","type":"click","text":"4\n    \n      Cruzamento de Médias (MA20 × MA50)\n      Golden Cross (MA20 > MA50) = sinal de alta. Death Cross = sinal de baixa.\n      Menos reativo, mais confiável em tendências definidas","choice":"ma","id":null,"timestamp":1779290176561}
+{"type":"screen-added","file":"/home/fabiano/Documents/Yfinance/.superpowers/brainstorm/1099276-1779290114/content/swing-tab-layout.html"}
+{"type":"screen-added","file":"/home/fabiano/Documents/Yfinance/.superpowers/brainstorm/1099276-1779290114/content/swing-tab-v2.html"}
+{"type":"screen-added","file":"/home/fabiano/Documents/Yfinance/.superpowers/brainstorm/1099276-1779290114/content/waiting.html"}
+{"type":"server-stopped","reason":"idle timeout"}

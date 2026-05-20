@@ -6,17 +6,17 @@ Leia **apenas o arquivo do brain relevante** para a tarefa. Não leia todos:
 
 | Se a tarefa envolve... | Leia |
 |------------------------|------|
-| Arquitetura, fluxo de dados, classes, serviços, onde está o código | `YFINANCE_REFACTOR/brain/brain_architecture.md` |
-| Fórmulas, cálculos, Score, BRank, Piotroski, Moat, zonas, limiares | `YFINANCE_REFACTOR/brain/brain_calculations.md` |
-| Frontend, UI, colunas das tabelas, páginas, APIs externas | `YFINANCE_REFACTOR/brain/brain_frontend.md` |
-| Filosofias de investimento (Barsi, Bazin, Graham, Buffett) | `YFINANCE_REFACTOR/brain/brain_overview.md` |
+| Arquitetura, fluxo de dados, classes, serviços, onde está o código | `src/brain/brain_architecture.md` |
+| Fórmulas, cálculos, Score, BRank, Piotroski, Moat, zonas, limiares | `src/brain/brain_calculations.md` |
+| Frontend, UI, colunas das tabelas, páginas, APIs externas | `src/brain/brain_frontend.md` |
+| Filosofias de investimento (Barsi, Bazin, Graham, Buffett) | `src/brain/brain_overview.md` |
 
 Se a tarefa abrange múltiplas áreas, leia os arquivos relevantes. Evite ler todos de uma vez.
 
 ## Estrutura do projeto
 
 ```
-YFINANCE_REFACTOR/
+src/
 ├── frontend/index.html          ← SPA completo (~3800 linhas, JS vanilla)
 ├── backend/
 │   ├── api_server.py            ← Flask REST + scheduler 30min
@@ -31,6 +31,10 @@ YFINANCE_REFACTOR/
 │       ├── valuations.json          ← valuation completo por ticker
 │       └── B3/Custodia*.xls         ← custódia exportada da B3
 └── brain/                       ← documentação técnica (leia antes de explorar)
+    ├── brain_architecture.md    ← arquitetura, fluxo, classes, serviços
+    ├── brain_calculations.md    ← fórmulas, Score, BRank, Piotroski, Moat
+    ├── brain_frontend.md        ← UI, colunas, páginas, APIs externas
+    └── brain_overview.md        ← filosofias: Barsi, Bazin, Graham, Buffett
 ```
 
 ## Padrões do projeto
@@ -41,3 +45,25 @@ YFINANCE_REFACTOR/
 - **Carteira:** ações qualificadas usam `unified_rank` do `decision_stocks.json`. Ações FORA_CRITERIOS calculam via `_calc_unified_rank()` com dados do `forced_val`.
 - **Python 3.8** — sem f-strings com expressões complexas, sem walrus operator (`:=`).
 - **Frontend:** JS vanilla, sem framework. Funções de renderização: `renderPortfolioTable()`, `renderScreening()`. Sort via `data-col` (screening) e `data-ptcol` (carteira).
+
+## Graphify MCP (knowledge graph do código)
+
+O grafo está em `./graphify-out/graph.json` e é servido via MCP `graphify-ts`.
+
+**Quando usar em vez de ler arquivos:**
+
+| Situação | Ferramenta |
+|----------|-----------|
+| Entender estrutura geral do código | `community_overview` → `graph_stats` |
+| Responder perguntas sobre o código | `retrieve` (linguagem natural) |
+| Antes de alterar um arquivo/função | `impact` (blast radius) |
+| Antes de abrir PR | `pr_impact` |
+| Rastrear fluxo entre dois pontos | `call_chain` |
+
+**Regra:** use `retrieve` antes de abrir arquivos para exploração.
+Abra arquivos apenas para leitura detalhada ou edição.
+
+**Grafo + Brain files são complementares:**
+- Grafo (`graphify`) → onde está o código, quem chama quem, dependências estruturais
+- Brain files (`src/brain/`) → lógica de negócio, fórmulas de investimento, filosofia
+- Para qualquer tarefa: consulte o brain file relevante **e** use `retrieve`/`impact` antes de editar

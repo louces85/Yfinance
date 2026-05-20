@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "graphify-ts": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mohammednagy/graphify-ts",
+        "serve",
+        "--stdio",
+        "./graphify-out/graph.json"
+      ]
+    }
+  }
+}

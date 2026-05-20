@@ -1,8 +1,18 @@
 {
   "permissions": {
-   "allow": [
+    "allow": [
       "WebFetch",
-      "WebSearch"
+      "WebSearch",
+      "Bash(cat /home/fabiano/.mcp.json 2>/dev/null || cat /home/fabiano/Documents/Yfinance/.mcp.json 2>/dev/null)",
+      "Read(//home/fabiano/**)",
+      "Bash(/home/fabiano/.claude/plugins/cache/superpowers-dev/superpowers/5.1.0/skills/brainstorming/scripts/start-server.sh --project-dir /home/fabiano/Documents/Yfinance)",
+      "Bash(python -m pytest tests/test_swing_service.py -v)",
+      "Bash(awk -F: '$1 > 1025 && $1 < 1150')",
+      "Bash(curl -s \"http://localhost:5000/api/swing/chart/BBAS3\")",
+      "Bash(kill %1)",
+      "Bash(wait %1)",
+      "Bash(curl -sv \"http://localhost:5000/api/swing/chart/BBAS3\")",
+      "Bash(pkill -f \"api_server\")"
     ]
   }
 }
