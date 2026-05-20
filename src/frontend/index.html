@@ -739,6 +739,39 @@ td:first-child  { color: var(--muted); font-size: 12px; }
   .rpt-ci-ok  { color: #1a6b2a; opacity: 1; }
   .rpt-ci-fail { color: #a11; opacity: 1; }
 }
+/* ─── Swing Trade ───────────────────────────────────────────────── */
+.swing-toolbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 16px; display: flex; align-items: center; gap: 12px; }
+.swing-cards { display: flex; gap: 8px; }
+.swing-scard { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; font-size: 11px; text-align: center; min-width: 70px; }
+.swing-val { font-size: 16px; font-weight: 700; }
+.swing-lbl { color: var(--muted); margin-top: 2px; }
+.swing-green  { color: var(--green); }
+.swing-yellow { color: var(--yellow); }
+.swing-blue   { color: var(--blue); }
+.swing-sep { width: 1px; height: 28px; background: var(--border); }
+.swing-toggle { padding: 5px 12px; border-radius: 6px; border: 1px solid var(--border); background: rgba(63,185,80,.15); color: var(--green); font-size: 11px; cursor: pointer; }
+.swing-toggle.off { background: rgba(139,148,158,.1); color: var(--muted); }
+.swing-updated { font-size: 11px; color: var(--muted); }
+.swing-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.swing-table th { font-size: 10px; color: var(--muted); font-weight: 400; padding: 6px 10px; text-align: center; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; position: sticky; top: 0; background: var(--bg); z-index: 1; }
+.swing-table th:first-child { text-align: left; }
+.swing-table th:hover { color: var(--text); }
+.swing-table td { padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,.04); white-space: nowrap; text-align: center; }
+.swing-table td:first-child { text-align: left; }
+.swing-table tbody tr { cursor: pointer; }
+.swing-table tbody tr:hover td { background: rgba(88,166,255,.08); }
+.swing-row-setup { background: rgba(63,185,80,.04); }
+.swing-ind-on  { display:inline-block; padding:2px 6px; border-radius:3px; font-size:10px; font-weight:600; background:rgba(63,185,80,.2); color:var(--green); }
+.swing-ind-off { display:inline-block; padding:2px 6px; border-radius:3px; font-size:10px; font-weight:600; background:rgba(139,148,158,.1); color:var(--muted); }
+.swing-badge-setup { display:inline-block; padding:2px 7px; border-radius:4px; font-size:10px; font-weight:600; background:rgba(63,185,80,.2); color:var(--green); border:1px solid rgba(63,185,80,.4); }
+.swing-badge-none  { display:inline-block; padding:2px 7px; border-radius:4px; font-size:10px; background:rgba(139,148,158,.1); color:var(--muted); border:1px solid var(--border); }
+.swing-rsi-low  { color: var(--green); font-weight: 700; }
+.swing-rsi-norm { color: var(--muted); }
+.swing-sig-bar  { display:flex; gap:3px; justify-content:center; align-items:center; }
+.swing-dot      { width:8px; height:8px; border-radius:50%; }
+.swing-dot-on   { background: var(--green); }
+.swing-dot-off  { background: var(--border); }
+.swing-sig-n    { font-size:11px; font-weight:700; margin-left:4px; }
 /* ─── Radar ──────────────────────────────────────────────────────── */
 #radarView { padding: 0 12px 40px; }
 .radar-add-row { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
@@ -832,6 +865,13 @@ td:first-child  { color: var(--muted); font-size: 12px; }
         <circle cx="8" cy="8" r="1" fill="currentColor" stroke="none"/>
       </svg>
       Radar
+    </button>
+    <button class="tab-btn" data-tab="swing">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="vertical-align:-2px;margin-right:4px">
+        <path d="M2 12 L6 7 L9 10 L13 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="13" cy="4" r="1.5" fill="currentColor"/>
+      </svg>
+      Swing
     </button>
   </div>
 
@@ -1113,6 +1153,51 @@ td:first-child  { color: var(--muted); font-size: 12px; }
     </div>
 
   </div>
+</div>
+
+<!-- ─── Swing Trade ──────────────────────────────────────────────── -->
+<div id="swingView" style="display:none">
+
+  <!-- Toolbar -->
+  <div class="swing-toolbar">
+    <div class="swing-cards">
+      <div class="swing-scard">
+        <div class="swing-val swing-green" id="swingCountSetup">—</div>
+        <div class="swing-lbl">SETUPs</div>
+      </div>
+      <div class="swing-scard">
+        <div class="swing-val swing-yellow" id="swingCountWatch">—</div>
+        <div class="swing-lbl">Monitorar</div>
+      </div>
+      <div class="swing-scard">
+        <div class="swing-val swing-blue" id="swingCountTotal">—</div>
+        <div class="swing-lbl">Analisados</div>
+      </div>
+    </div>
+    <div class="swing-sep"></div>
+    <button class="swing-toggle" id="swingToggle" onclick="_swingToggleFilter()">● Só SETUPs</button>
+    <span class="swing-updated" id="swingUpdated"></span>
+  </div>
+
+  <!-- Tabela -->
+  <div class="table-wrap">
+    <table class="swing-table" id="swingTable">
+      <thead>
+        <tr>
+          <th style="text-align:left" onclick="_swingSort('ticker')">Ativo <span id="swingArrow_ticker" class="sort-arrow">↕</span></th>
+          <th onclick="_swingSort('price')">Preço (R$) <span id="swingArrow_price" class="sort-arrow">↕</span></th>
+          <th onclick="_swingSort('rsi')">RSI (14) <span id="swingArrow_rsi" class="sort-arrow">↕</span></th>
+          <th>MACD</th>
+          <th>Bollinger</th>
+          <th>MA Cross</th>
+          <th onclick="_swingSort('signals_count')">Sinais <span id="swingArrow_signals_count" class="sort-arrow">↓</span></th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="swingTbody"></tbody>
+    </table>
+  </div>
+
 </div>
 
 <!-- ═══════════════════════ SCRIPT ═══════════════════════════════ -->
@@ -3165,9 +3250,11 @@ document.querySelectorAll('.tab-btn:not([data-sub])').forEach(btn => {
     document.getElementById('portfolioView').style.display  = tab === 'carteira'  ? '' : 'none';
     document.getElementById('favoritosView').style.display  = tab === 'favoritos' ? '' : 'none';
     document.getElementById('radarView').style.display      = tab === 'radar'     ? '' : 'none';
+    document.getElementById('swingView').style.display      = tab === 'swing'     ? '' : 'none';
     if (tab === 'carteira')  { if (!_portfolioLoaded) loadPortfolio(); }
     if (tab === 'favoritos') renderFavoritos();
     if (tab === 'radar')     renderRadarView();
+    if (tab === 'swing')     { if (!_swingLoaded) loadSwing(); else renderSwingTable(); }
     else requestAnimationFrame(syncStickyOffsets);
   });
 });
@@ -3540,6 +3627,130 @@ let _radarPricesCache = {};
 let _radarFilter      = 'todos';
 let _radarSort        = { col: 'buy_pct', dir: 'asc' };
 let _bellOpen         = false;
+
+// ─── Swing Trade ──────────────────────────────────────────────────
+let _swingData      = [];
+let _swingSortCol   = 'signals_count';
+let _swingSortAsc   = false;
+let _swingOnlySetup = true;
+let _swingLoaded    = false;
+
+async function loadSwing() {
+  try {
+    const res  = await fetch('/api/swing');
+    _swingData = await res.json();
+    _swingLoaded = true;
+    renderSwingTable();
+  } catch (e) {
+    console.error('loadSwing error', e);
+  }
+}
+
+function _swingToggleFilter() {
+  _swingOnlySetup = !_swingOnlySetup;
+  const btn = document.getElementById('swingToggle');
+  if (_swingOnlySetup) {
+    btn.classList.remove('off');
+    btn.textContent = '● Só SETUPs';
+  } else {
+    btn.classList.add('off');
+    btn.textContent = '○ Todos';
+  }
+  renderSwingTable();
+}
+
+function _swingSort(col) {
+  if (_swingSortCol === col) {
+    _swingSortAsc = !_swingSortAsc;
+  } else {
+    _swingSortCol = col;
+    _swingSortAsc = col !== 'signals_count';
+  }
+  renderSwingTable();
+}
+
+function renderSwingTable() {
+  const data = _swingOnlySetup
+    ? _swingData.filter(function(d) { return d.is_setup; })
+    : _swingData.slice();
+
+  const col = _swingSortCol;
+  const asc = _swingSortAsc;
+  data.sort(function(a, b) {
+    const va = a[col] != null ? a[col] : (asc ? Infinity : -Infinity);
+    const vb = b[col] != null ? b[col] : (asc ? Infinity : -Infinity);
+    if (va < vb) return asc ? -1 : 1;
+    if (va > vb) return asc ? 1 : -1;
+    return 0;
+  });
+
+  ['ticker','price','rsi','signals_count'].forEach(function(c) {
+    const el = document.getElementById('swingArrow_' + c);
+    if (!el) return;
+    if (c === col) {
+      el.textContent = asc ? '↑' : '↓';
+      el.style.opacity = '1';
+      el.style.color = 'var(--blue)';
+    } else {
+      el.textContent = '↕';
+      el.style.opacity = '0.4';
+      el.style.color = '';
+    }
+  });
+
+  const total  = _swingData.length;
+  const setups = _swingData.filter(function(d) { return d.is_setup; }).length;
+  const watch  = _swingData.filter(function(d) { return d.signals_count === 1; }).length;
+  document.getElementById('swingCountSetup').textContent = setups;
+  document.getElementById('swingCountWatch').textContent = watch;
+  document.getElementById('swingCountTotal').textContent = total;
+
+  const updEl = document.getElementById('swingUpdated');
+  if (_swingData.length && _swingData[0].updated_at) {
+    const d = new Date(_swingData[0].updated_at.replace('T', ' '));
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    updEl.textContent = 'Atualizado: ' + hh + ':' + mm;
+  }
+
+  const tbody = document.getElementById('swingTbody');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:32px">Nenhum setup encontrado</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = data.map(function(d) {
+    var rsiClass = (d.rsi != null && d.rsi < 30) ? 'swing-rsi-low' : 'swing-rsi-norm';
+    var rsiText  = d.rsi != null ? d.rsi.toFixed(1) : '—';
+    var macdHtml = d.macd_bullish
+      ? '<span class="swing-ind-on">↑ Bull</span>'
+      : '<span class="swing-ind-off">↓ Bear</span>';
+    var bbHtml   = d.bb_signal
+      ? '<span class="swing-ind-on">≤ Inf</span>'
+      : '<span class="swing-ind-off">Normal</span>';
+    var maHtml   = d.ma_signal
+      ? '<span class="swing-ind-on">Golden</span>'
+      : '<span class="swing-ind-off">Death</span>';
+    var dots = [d.rsi_signal, d.macd_bullish, d.bb_signal, d.ma_signal].map(function(s) {
+      return '<div class="swing-dot ' + (s ? 'swing-dot-on' : 'swing-dot-off') + '"></div>';
+    }).join('');
+    var countColor = d.signals_count >= 3 ? 'var(--green)' : (d.signals_count === 2 ? 'var(--yellow)' : 'var(--muted)');
+    var badge = d.is_setup
+      ? '<span class="swing-badge-setup">SETUP</span>'
+      : '<span class="swing-badge-none">–</span>';
+    var rowClass = d.is_setup ? 'swing-row-setup' : '';
+    return '<tr class="' + rowClass + '" onclick="openDetail(\'' + d.ticker + '\')">' +
+      '<td><span style="font-weight:600;color:var(--blue)">' + d.ticker + '</span></td>' +
+      '<td>' + (d.price != null ? d.price.toFixed(2) : '—') + '</td>' +
+      '<td><span class="' + rsiClass + '">' + rsiText + '</span></td>' +
+      '<td>' + macdHtml + '</td>' +
+      '<td>' + bbHtml + '</td>' +
+      '<td>' + maHtml + '</td>' +
+      '<td><div class="swing-sig-bar">' + dots + '<span class="swing-sig-n" style="color:' + countColor + '">' + d.signals_count + '/4</span></div></td>' +
+      '<td>' + badge + '</td>' +
+    '</tr>';
+  }).join('');
+}
 
 async function loadRadarFromServer() {
   try {
