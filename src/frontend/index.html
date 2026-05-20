@@ -4331,7 +4331,7 @@ function renderPortfolioTable() {
     const zoneTd  = p.recommendation === 'FORA_CRITERIOS'
       ? `<span class="rec-FORA_CRITERIOS" style="padding:2px 7px;border-radius:4px;font-size:11px" title="Zona real: ${zoneLbl(p.zone || '')} — não passou nos filtros obrigatórios">Fora critérios</span>`
       : p.zone
-        ? `<span class="badge badge-${p.zone}">${zoneLbl(p.zone)}</span>`
+        ? `<span class="badge badge-${p.zone}" style="cursor:pointer" onclick="event.stopPropagation();openSwingChart('${p.ticker}')" title="Ver indicadores técnicos">${zoneLbl(p.zone)}</span>`
         : nd();
     const scoreTd = p.weighted_score != null
       ? `<span class="wscore-pill wscore-${wscoreClass(p.weighted_score)}">${p.weighted_score.toFixed(1)}</span>`
