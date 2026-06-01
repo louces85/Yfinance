@@ -231,62 +231,85 @@ Renderizado por `renderPortfolioSummary(s)` em `index.html`. Exibido acima da ta
 
 ### 9.5 Swing Trade — Oportunidades Técnicas
 
-**Propósito:** Identificar setups de swing trade aplicando 4 indicadores técnicos sobre o histórico OHLCV de todos os ~127 tickers do Screening. Exibe somente ativos onde ≥ 2 indicadores disparam simultaneamente.
+**Propósito:** Identificar setups de swing trade (pullback, reversão, rompimento) sobre o histórico OHLCV de todos os ~127 tickers do Screening, com filtro de tendência, níveis de risco (entrada/stop/alvo/R:R) e nota de qualidade A/B/C.
 
-**Fonte de dados:** `swing_data.json` gerado por `swing_service.py`. Atualizado automaticamente uma vez por dia (scheduler verifica a cada 1h se os dados têm > 23h).
+**Fonte de dados:** `swing_data.json` gerado por `swing_service.py`. Atualizado automaticamente uma vez por dia (scheduler verifica a cada 1h se os dados têm > 23h) **ou sob demanda** pelo botão `⟳ Atualizar` do toolbar.
 
-**Endpoint:** `GET /api/swing` → lista completa com todos os indicadores calculados.
+**Endpoints:**
+
+| Endpoint | Uso |
+|----------|-----|
+| `GET /api/swing` | Lista completa (`swing_data.json`) |
+| `POST /api/swing/refresh` | Força re-coleta + recálculo agora. Roda `swing_service.run()` em background (1-3 min p/ ~127 tickers) e retorna `{"status": "started"}` (ou `"running"` se já em andamento). Não altera o scheduler de 23h |
+| `GET /api/swing/refresh/status` | `{"running": bool, "updated_at": str}` — usado pelo frontend para acompanhar o progresso |
+
+**Concorrência:** scheduler automático e refresh manual compartilham o guard `_do_swing_run()` em `api_server.py` (lock + flag `_swing_running`), garantindo que apenas uma execução de `swing_service.run()` ocorra por vez.
 
 **Colunas da tabela:**
 
 | Coluna | Campo JSON | Descrição |
 |--------|-----------|-----------|
-| `Ativo` | `ticker` | Clicável — abre o mesmo modal de Screening/Carteira |
-| `Preço (R$)` | `price` | Último fechamento usado no cálculo |
-| `RSI (14)` | `rsi` | Índice de Força Relativa — verde/bold se < 30 |
-| `MACD` | `macd_bullish` | Badge `↑ Bull` (verde) ou `↓ Bear` (cinza) |
-| `Bollinger` | `bb_signal` | Badge `≤ Inf` (verde) ou `Normal` (cinza) |
-| `MA Cross` | `ma_signal` | Badge `Golden` (verde) ou `Death` (cinza) |
-| `Sinais` | `signals_count` | Barra de 4 dots + contador `X/4` |
-| `Status` | `is_setup` + botão 📈 | Badge `SETUP` (verde) quando `signals_count ≥ 2` + ícone de gráfico |
+| `Ativo` | `ticker` | Clicável — abre modal de detalhe (Screening/Carteira) |
+| `Preço (R$)` | `price` | Último fechamento |
+| `Setup` | `setup_type` | Badge colorido por tipo, clicável → `openSwingChart()` |
+| `Nota` | `grade` | A (verde) / B (amarelo) / C (cinza) — `null` → "–" |
+| `Gatilho` | `trigger` | Motivos da virada, ex.: "RSI virando + repique" |
+| `Entrada` | `entry` | Preço de entrada = fechamento atual |
+| `Stop` | `stop` | Stop estrutural com clamp ATR (vermelho) |
+| `Alvo` | `target` | Alvo por tipo de setup, capado por ATR (verde) |
+| `R:R` | `rr` | Risco:Retorno — verde ≥ 2.0, amarelo ≥ 1.5, cinza < 1.5 |
 
-**Cores dos sinais:**
+**Badges de setup (coluna Setup):**
 
-| `signals_count` | Cor do contador |
-|----------------|----------------|
-| 3 ou 4 | Verde (`--green`) |
-| 2 | Amarelo (`--yellow`) |
-| 0 ou 1 | Cinza (`--muted`) |
+| Tipo | Label | Cor |
+|------|-------|-----|
+| `PULLBACK` | `Pullback ↑` | Verde |
+| `REVERSAL` | `Reversão` | Azul |
+| `BREAKOUT` | `Rompimento` | Amarelo |
+| `null` | `–` | cinza (não clicável) |
+
+Cada badge de setup é clicável: `event.stopPropagation()` + `openSwingChart(ticker)` — abre o modal de gráfico sem disparar o clique na linha.
 
 **Toolbar:**
 
 | Elemento | Comportamento |
 |---------|--------------|
-| Card `SETUPs` | Total com `is_setup = true` |
-| Card `Monitorar` | Total com `signals_count === 1` |
+| Card `SETUPs` | Total com `is_setup == true` |
+| Card `Monitorar` | Total com `setup_type != null` e `is_setup == false` (casou forma do setup, mas `rr < RR_MIN`) |
 | Card `Analisados` | Total de tickers no JSON |
-| Toggle `Só SETUPs` | Padrão **ligado** — esconde tickers com `signals_count < 2` |
+| Botão `⟳ Atualizar` | `refreshSwing()` — POST `/api/swing/refresh`, polling de status a cada 4s (spinner, label "Atualizando…") e recarrega ao concluir |
+| Toggle `Só SETUPs` | Padrão **ligado** — esconde tickers com `is_setup == false` |
 | Timestamp | `updated_at` do primeiro item do JSON |
 
-**Ordenação padrão:** `signals_count` DESC. Colunas ordenáveis: `ticker`, `price`, `rsi`, `signals_count`.
+**Ordenação padrão:** `score` DESC. Colunas ordenáveis: `ticker`, `price`, `score`, `rr`.
 
-**Clique na linha:** chama `openDetail(ticker)` — abre o modal completo existente (gráfico, VI, ranking no setor, Buffett Moat). Zero código novo no modal.
+**Estado JS:**
+```javascript
+let _swingData      = [];
+let _swingSortCol   = 'score';
+let _swingSortAsc   = false;
+let _swingOnlySetup = true;
+```
 
-**Badge SETUP clicável:** clicar no badge verde `SETUP` (coluna Status) chama `openSwingChart(ticker)` com `event.stopPropagation()` — abre o modal de gráfico de indicadores sem conflitar com o clique na linha. O badge `–` (sem setup) não é clicável.
+**Clique na linha:** `openDetail(ticker)` — abre o modal de detalhe completo.
+
+**Função de renderização:** `renderSwingTable()` + helper `_swingSetupBadge(d)`.
 
 ---
 
 #### Modal de Gráfico Swing (`#swingChartModal`)
 
-Abre ao clicar no **badge de sinal** em qualquer uma das 3 abas:
+Abre ao clicar no **badge de sinal/setup** em qualquer uma das 3 abas:
 
 | Aba | Elemento clicável |
 |-----|------------------|
 | Screening | Badge COMPRA / FORTE / MONITORAR / CARO na coluna Sinal |
 | Carteira | Badge COMPRA / FORTE / MONITORAR / CARO na coluna Sinal |
-| Swing | Badge SETUP na coluna Status |
+| Swing | Badge `Pullback ↑` / `Reversão` / `Rompimento` na coluna Setup |
 
 Todos usam `event.stopPropagation()` para não disparar o clique na linha (que abre o modal de detalhe). Busca dados on-demand via `GET /api/swing/chart/<ticker>` (yfinance direto, ~1–2s de latência).
+
+**Faixa de informação de setup (`#swingChartBand`):** exibida no topo do modal, acima dos 3 gráficos, quando o ticker tem `setup_type` preenchido em `_swingData`. Conteúdo: `tipo · Nota X · Entrada Y · Stop Z · Alvo W · R:R N.N` seguido de nova linha com o texto do gatilho. Fica oculta (`display:none`) quando aberta pela aba Screening/Carteira (onde `_swingData` pode estar vazio ou sem dados desse ticker).
 
 **3 painéis Chart.js sobrepostos:**
 
@@ -328,20 +351,12 @@ Todos os arrays têm o mesmo comprimento (um elemento por fechamento diário). O
 
 | Função | Responsabilidade |
 |--------|-----------------|
-| `openSwingChart(ticker)` | Fetch → destrói charts anteriores → cria 3 novos Chart.js |
+| `openSwingChart(ticker)` | Fetch → destrói charts anteriores → popula `#swingChartBand` → cria 3 novos Chart.js |
 | `closeSwingChart()` | Destrói as 3 instâncias (`_swingChartPrice/Rsi/Macd`) + esconde modal |
 
-**Estado JS:**
+**Estado JS (modal de gráfico):**
 
 ```javascript
-// Tabela
-let _swingData      = [];       // array retornado por /api/swing
-let _swingSortCol   = 'signals_count';
-let _swingSortAsc   = false;
-let _swingOnlySetup = true;
-let _swingLoaded    = false;
-
-// Modal de gráfico
 let _swingChartPrice = null;    // instância Chart.js — destruída ao fechar
 let _swingChartRsi   = null;
 let _swingChartMacd  = null;

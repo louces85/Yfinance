@@ -414,206 +414,197 @@ Motivo: VULC3 2025 tinha ML 32,7% vs média anterior de 17,9% (ratio 1,83×), ma
 ### 7.12 Indicadores Técnicos de Swing Trade
 
 **Implementação:** `swing_service.py`
-**Dados:** `yfinance.Ticker(ticker + ".SA").history(period="6mo")` — fechamentos diários, buscados diretamente (não usa `stock_history.json` que contém fundamentos anuais).
+**Dados:** `yfinance.Ticker(ticker + ".SA").history(period="1y")` — OHLCV diário (High/Low/Close/Volume). Não usa `stock_history.json` (fundamentos anuais).
 **Atualização:** uma vez por dia via `_swing_update_loop` em `api_server.py`.
-**Saída:** `swing_data.json` (lista ordenada por `signals_count` DESC).
-
-#### SETUP — Definição
-
-Um ativo é marcado como **SETUP** quando `signals_count ≥ 2`, ou seja, pelo menos 2 dos 4 indicadores disparam simultaneamente. A lógica é: nenhum indicador isolado é suficientemente confiável para swing trade — a confluência de sinais reduz falsos positivos.
-
-```python
-signals_count = rsi_signal + macd_bullish + bb_signal + ma_signal  # 0–4
-is_setup = signals_count >= 2
-```
+**Saída:** `swing_data.json` — lista ordenada por `is_setup` DESC, `score` DESC, `rr` DESC.
+**Universo:** mesmos ~127 tickers de `monitoring_stocks.json`. Tickers com < 60 fechamentos OHLCV são ignorados.
+**Escopo:** long-only (coerente com perfil Barsi/Bazin/Graham).
 
 ---
 
-#### 7.12.1 RSI — Índice de Força Relativa
+#### 7.12.1 Indicadores Base Calculados
 
-**Parâmetros:** período 14, sobre fechamentos diários.
+Por pregão, `build_context()` calcula:
 
-**Fórmula (Wilder's Smoothed Moving Average):**
-```python
-deltas = [closes[i] - closes[i-1] for i in range(1, len(closes))]
-gains  = [max(d, 0) for d in deltas]
-losses = [max(-d, 0) for d in deltas]
+| Indicador | Função | Parâmetros |
+|-----------|--------|-----------|
+| RSI | `calc_rsi_series` (Wilder) | período 14 |
+| MACD histograma | `calc_macd_series` | EMA 12/26/9 |
+| Bollinger Bands (séries) | `calc_bb_series` | período 20, 2σ |
+| MA20, MA50 (séries) | `calc_ma_series` | SMA 20 e 50 |
+| MA200 (escalar) | `calc_sma` | período 200 |
+| ATR | `calc_atr` (Wilder) | período 14 |
+| Média de volume (escalar) | `calc_avg_volume` | período 20 |
+| `vol_confirm` (bool) | `vol_confirm` | `VOL_SURGE_MULT = 1.5` |
 
-# Médias iniciais (SMA dos primeiros 14 períodos)
-avg_gain = sum(gains[:14]) / 14
-avg_loss = sum(losses[:14]) / 14
-
-# Smoothing de Wilder para os períodos seguintes
-for i in range(14, len(gains)):
-    avg_gain = (avg_gain * 13 + gains[i]) / 14
-    avg_loss = (avg_loss * 13 + losses[i]) / 14
-
-rsi = 100 - (100 / (1 + avg_gain / avg_loss))
-```
-
-**Sinal (`rsi_signal`):**
-```python
-rsi_signal = rsi < 30.0   # zona de sobrevenda
-```
-
-**Campos no JSON:**
-
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| `rsi` | float | Valor atual (0–100) ou `null` se dados insuficientes |
-| `rsi_signal` | bool | `True` quando RSI < 30 |
-
-**Limiares e interpretação:**
-
-| RSI | Zona | Significado |
-|-----|------|-------------|
-| < 30 | Sobrevenda (sinal ativo) | Pressão vendedora excessiva — candidato a reversão |
-| 30–70 | Neutro | Sem sinal |
-| > 70 | Sobrecompra | Fora do escopo do swing (não gera sinal) |
-
-**Mínimo de dados:** `period + 1 = 15` fechamentos. Retorna `None` se insuficiente.
+`vol_confirm = True` quando `volume_hoje > 1.5 × média_vol(20)`.
 
 ---
 
-#### 7.12.2 MACD — Moving Average Convergence Divergence
+#### 7.12.2 Contexto de Tendência (`classify_trend`)
 
-**Parâmetros:** EMA rápida 12, EMA lenta 26, linha de sinal (EMA do MACD) 9.
-
-**Fórmula:**
 ```python
-# EMA de período k sobre uma série de valores
-k = 2.0 / (period + 1)
-ema[0] = SMA(values[:period])
-ema[i] = values[i] * k + ema[i-1] * (1 - k)
+# rules.MA50_SLOPE_LOOKBACK = 10
+ma50        = SMA(closes, 50)
+ma200       = SMA(closes, 200)
+ma50_prev   = SMA dos últimos 50 closes terminando 10 pregões antes do fim
+ma50_rising  = ma50 > ma50_prev
+ma50_falling = ma50 < ma50_prev
 
-# MACD line = EMA12 - EMA26 (alinhadas no mesmo ponto temporal)
-macd_line[i] = ema12[i] - ema26[i]
-
-# Signal line = EMA9 da MACD line
-signal_line = EMA(macd_line, period=9)
+if price > ma50 > ma200 and ma50_rising:  → "ALTA"
+if price < ma200 and ma50_falling:        → "BAIXA"
+else:                                     → "LATERAL"
 ```
 
-**Sinal (`macd_bullish`):**
-```python
-macd_bullish = macd_line[-1] > signal_line[-1]
-# True: MACD acima da linha de sinal → momento de alta ativo
-# False: MACD abaixo → momento de baixa
-```
-
-**Campos no JSON:**
-
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| `macd_value` | float | Valor da MACD line no último fechamento |
-| `macd_signal_line` | float | Valor da signal line no último fechamento |
-| `macd_bullish` | bool | `True` quando `macd_value > macd_signal_line` |
-
-**Interpretação:**
-- **Bullish (True):** EMA12 subiu acima da EMA26, e o sinal confirma — momento de alta.
-- **Bearish (False):** EMA12 caiu abaixo da EMA26 — momento de baixa ou neutro.
-
-**Mínimo de dados:** `slow + signal_period = 26 + 9 = 35` fechamentos.
+Sem MA200 disponível (< 200 pregões): retorna `"LATERAL"`.
 
 ---
 
-#### 7.12.3 Bollinger Bands
+#### 7.12.3 Os 3 Setups (long-only)
 
-**Parâmetros:** período 20, 2 desvios padrão (2σ).
+##### Setup 1 — Pullback em tendência de alta
 
-**Fórmula:**
-```python
-window  = closes[-20:]
-mean    = sum(window) / 20
-std     = sqrt(sum((x - mean)**2 for x in window) / 20)  # desvio padrão populacional
+- **Gate:** `trend == "ALTA"` (obrigatório)
+- **Recuo:** ao menos uma das condições nos últimos `PULLBACK_RECENT_LOOKBACK = 5` pregões:
+  - RSI esteve na faixa `[PULLBACK_RSI_LO, PULLBACK_RSI_HI]` = `[35, 50]`
+  - OU mínima tocou a MA20 ou a banda-média (BB middle)
+- **Gatilho de virada** (obrigatório — sem virada não dispara):
+  - `rsi[-1] > rsi[-2]` → "RSI virando"
+  - `macd_hist[-1] > macd_hist[-2]` → "MACD subindo"
+  - `closes[-1] > closes[-2]` → "repique"
+  - Trigger text = motivos unidos por " + "; `strength` = quantidade de motivos (cap 3)
 
-bb_upper  = mean + 2 * std
-bb_middle = mean            # "média móvel simples"
-bb_lower  = mean - 2 * std
-```
+##### Setup 2 — Reversão de sobrevenda
 
-**Sinal (`bb_signal`):**
-```python
-bb_signal = closes[-1] <= bb_lower
-# True: preço atual toca ou rompe a banda inferior → sobrevenda estatística
-```
+- **Gate:** `trend != "BAIXA"` (evita downtrend estrutural)
+- **Condição:** nos últimos `REVERSAL_RECENT_LOOKBACK = 3` pregões:
+  - RSI esteve `< RSI_OVERSOLD (30)` **e** RSI virando pra cima (`rsi[-1] > rsi[-2]`)
+- **Confirmação BB:** `closes[-1] > bb_lower[-1]` (reconquistou a banda inferior) **e** em algum dos 3 pregões anteriores o preço tocou/rompeu a banda inferior
+- `strength = 2` (fixo); trigger text = "RSI saindo de sobrevenda + reconquista banda inf"
 
-**Campos no JSON:**
+##### Setup 3 — Rompimento / continuação
 
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| `bb_upper` | float | Banda superior |
-| `bb_middle` | float | Média (banda do meio) |
-| `bb_lower` | float | Banda inferior |
-| `bb_signal` | bool | `True` quando `price ≤ bb_lower` |
-
-**Interpretação:**
-Preço na banda inferior indica que está a 2σ abaixo da média dos últimos 20 pregões — evento estatisticamente raro (< 5% do tempo em distribuição normal). Candidato a reversão para a média (`bb_middle`).
-
-**Mínimo de dados:** 20 fechamentos.
+- **Gate:** `closes[-1] > ma50` (não bearish)
+- **Condição:** `closes[-1]` supera a máxima dos `BREAKOUT_LOOKBACK = 20` pregões anteriores (excluindo o candle atual)
+- **Confirmação de volume obrigatória:** `vol_confirm == True` — sem volume, não dispara
+- `strength = 2` (fixo); trigger text = "Rompeu máxima 20p + volume"
 
 ---
 
-#### 7.12.4 MA Cross — Cruzamento de Médias
+#### 7.12.4 Modelo de Risco (`calc_levels`)
 
-**Parâmetros:** SMA20 (rápida) vs SMA50 (lenta). Média Móvel Simples sobre os últimos N fechamentos.
+Entrada = `closes[-1]`.
 
-**Fórmula:**
+**Stop (estrutura + clamp ATR):**
 ```python
-ma20 = sum(closes[-20:]) / 20
-ma50 = sum(closes[-50:]) / 50
+# Fundo estrutural
+swing_low = min(lows[-SWING_LOW_LOOKBACK:])   # SWING_LOW_LOOKBACK = 10
+dist = entry - swing_low
+
+# Clamp: ATR_STOP_MIN=1.0 ≤ dist/ATR ≤ ATR_STOP_MAX=3.0
+dist = max(ATR_STOP_MIN * atr, min(dist, ATR_STOP_MAX * atr))
+stop = entry - dist
 ```
 
-**Sinal (`ma_signal`):**
+**Alvo (por tipo de setup, teto = `ATR_TARGET_MAX = 3.0` × ATR):**
+
+| Setup | Alvo bruto |
+|-------|-----------|
+| PULLBACK | `max(highs[-PULLBACK_TARGET_LOOKBACK:])` — máxima dos últimos 30 pregões |
+| REVERSAL | `min(bb_middle[-1], ma50)` — primeiro nível acima da entrada |
+| BREAKOUT | `entry + (prior_high − cons_low)` — measured move (altura da consolidação) |
+
+Se o alvo bruto supera `entry + ATR_TARGET_MAX × ATR`, é truncado. Se não há alvo válido acima da entrada, o teto ATR é usado.
+
+**R:R:**
 ```python
-ma_signal = ma20 > ma50   # Golden Cross ativo
+rr = (target - entry) / (entry - stop)
 ```
 
-**Campos no JSON:**
-
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| `ma20` | float | SMA dos últimos 20 fechamentos |
-| `ma50` | float | SMA dos últimos 50 fechamentos |
-| `ma_signal` | bool | `True` quando `ma20 > ma50` (Golden Cross) |
-
-**Interpretação:**
-
-| Estado | Condição | Significado |
-|--------|---------|-------------|
-| Golden Cross | MA20 > MA50 | Tendência de curto prazo acima da de médio — viés de alta |
-| Death Cross | MA20 < MA50 | Tendência de curto prazo abaixo — viés de baixa |
-
-**Nota:** Este indicador mede o estado atual do cruzamento, não quando ele ocorreu. Uma ação pode ter feito o Golden Cross há semanas e `ma_signal` ainda será `True` enquanto MA20 > MA50.
-
-**Mínimo de dados:** 50 fechamentos (≈ 2,5 meses de pregões).
+**Gate de qualificação:** setup casado mas `rr < RR_MIN (1.5)` → `is_setup = False`, `grade = None`. Entra como "Monitorar".
 
 ---
 
-#### 7.12.5 Estrutura completa de swing_data.json
+#### 7.12.5 Nota A/B/C (`grade_setup`)
+
+Score composto (0–100) que pondera fatores de qualidade do setup:
+
+| Fator | Constante | Valor |
+|-------|-----------|-------|
+| Tendência ALTA | `W_TREND_ALTA` | 30 |
+| Tendência LATERAL | `W_TREND_LATERAL` | 12 |
+| Por motivo de gatilho (cap 3 motivos) | `W_TRIGGER_PER` | 8 cada |
+| Confirmação por volume | `W_VOLUME` | 15 |
+| R:R ≥ `RR_STRONG (2.0)` | `W_RR_HIGH` | 20 |
+| `RR_MIN (1.5)` ≤ R:R < `RR_STRONG` | `W_RR_OK` | 10 |
+
+```python
+score = (trend_points) + (min(strength, 3) × W_TRIGGER_PER)
+      + (W_VOLUME se vol_confirm) + (W_RR_HIGH ou W_RR_OK)
+score = clamp(score, 0, 100)
+```
+
+Mapeamento: `score ≥ GRADE_A (70)` → **A** | `score ≥ GRADE_B (50)` → **B** | senão → **C**.
+
+Profundidade/qualidade do sinal (ex.: quão fundo o RSI foi) não é um peso explícito — atua como desempate via R:R na ordenação da tabela.
+
+---
+
+#### 7.12.6 Precedência e Seleção (`_pick_best_setup`)
+
+Ordem de execução dos detectores: `detect_pullback → detect_reversal → detect_breakout`.
+
+Quando mais de um detector casa, a seleção usa esta chave de ordenação (maior primeiro):
+1. `is_setup` (setup qualificado > monitorar)
+2. `score` (se ambos qualificados)
+3. Precedência de tipo: Pullback (3) > Rompimento (2) > Reversão (1)
+
+Resultado: **um único setup por ticker**.
+
+---
+
+#### 7.12.7 Schema do `swing_data.json` (novo)
 
 ```json
 {
-  "ticker":           "BBAS3",
-  "price":            24.50,
-  "rsi":              27.4,
-  "rsi_signal":       true,
-  "macd_value":      -0.1234,
-  "macd_signal_line": -0.0987,
-  "macd_bullish":     false,
-  "bb_upper":         27.50,
-  "bb_middle":        25.00,
-  "bb_lower":         22.50,
-  "bb_signal":        false,
-  "ma20":             24.20,
-  "ma50":             25.80,
-  "ma_signal":        false,
-  "signals_count":    1,
-  "is_setup":         false,
-  "updated_at":       "2026-05-20T18:00:00"
+  "ticker":      "PRIO3",
+  "price":       38.20,
+  "setup_type":  "PULLBACK",
+  "grade":       "A",
+  "score":       82,
+  "trend":       "ALTA",
+  "trigger":     "RSI virando + repique",
+  "entry":       38.20,
+  "stop":        35.90,
+  "target":      43.00,
+  "rr":          2.1,
+  "vol_confirm": true,
+  "is_setup":    true,
+  "rsi":         41.3,
+  "updated_at":  "2026-06-01T18:00:00"
 }
 ```
 
-**Universo:** mesmos ~127 tickers de `monitoring_stocks.json` (os que passaram nos filtros mínimos do Screening). Tickers com < 60 fechamentos disponíveis são ignorados (histórico insuficiente para calcular MA50 + MACD confiáveis).
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `setup_type` | string\|null | `"PULLBACK"` / `"REVERSAL"` / `"BREAKOUT"` / `null` (não casou nenhum setup) |
+| `grade` | string\|null | `"A"` / `"B"` / `"C"` quando `is_setup`; `null` quando Monitorar |
+| `score` | int\|null | Score 0–100; `null` quando não qualificado (grade null) |
+| `trend` | string | `"ALTA"` / `"LATERAL"` / `"BAIXA"` |
+| `trigger` | string\|null | Texto dos motivos de gatilho |
+| `entry` | float\|null | Preço de entrada = último fechamento |
+| `stop` | float\|null | Stop estrutural com clamp ATR |
+| `target` | float\|null | Alvo por tipo de setup, capado por ATR |
+| `rr` | float\|null | Risco:Retorno `(target − entry) / (entry − stop)` |
+| `vol_confirm` | bool | Volume acima de `1.5 × média(20)` |
+| `is_setup` | bool | `True` se casou um setup **e** `rr ≥ RR_MIN (1.5)` |
+| `rsi` | float\|null | RSI escalar no último fechamento |
+
+**"Monitorar"** = `setup_type != null` **e** `is_setup == false` — o ticker casou a forma do setup mas o R:R ficou abaixo de `RR_MIN`. Tickers que não casam nenhum setup ficam com `setup_type = null` e não entram no "Monitorar".
+
+Indicadores crus de série (MACD/BB/MAs completos) **não estão neste JSON**; ficam disponíveis ao vivo via `GET /api/swing/chart/<ticker>` (modal de gráfico).
+
+**Todos os limiares numéricos estão em `config/rules.py`.** Nunca hardcode em `swing_service.py`.
 
 ---
 
@@ -890,32 +881,40 @@ def _is_best(sector_info):
 | Atualização histórico | 7 dias | `HISTORY_UPDATE_INTERVAL_DAYS = 7` |
 | Atualização financials | 30 dias | `FINANCIALS_UPDATE_INTERVAL_DAYS = 30` |
 
-### Swing Trade — Indicadores Técnicos
+### Swing Trade — Setups, Risco e Nota
 
-| Parâmetro | Valor | Justificativa |
-|-----------|-------|--------------|
-| **RSI** | | |
-| Período RSI | 14 dias | Padrão Wilder — equilibra sensibilidade e estabilidade |
-| Limiar de sobrevenda (sinal) | RSI < 30 | Abaixo de 30: pressão vendedora excessiva; candidato a reversão |
-| Smoothing | Wilder (EMA modificada) | `avg = (avg * 13 + novo) / 14` — não SMA simples |
-| **MACD** | | |
-| EMA rápida | 12 dias | |
-| EMA lenta | 26 dias | |
-| Linha de sinal | EMA 9 do MACD | |
-| Condição bullish | `macd_line > signal_line` | Cruzamento positivo ativo no fechamento mais recente |
-| Mínimo de dados | 35 fechamentos | `slow(26) + signal(9)` |
-| **Bollinger Bands** | | |
-| Período | 20 dias | |
-| Desvio padrão | 2σ (populacional) | |
-| Condição de sinal | `price ≤ bb_lower` | Toca ou rompe a banda inferior |
-| **MA Cross** | | |
-| SMA rápida | 20 dias | |
-| SMA lenta | 50 dias | |
-| Golden Cross (sinal) | `MA20 > MA50` | Tendência curto prazo acima do médio prazo |
-| Death Cross | `MA20 < MA50` | Sem sinal (bearish) |
-| Mínimo de dados | 50 fechamentos | ≈ 2,5 meses de pregões |
-| **SETUP** | | |
-| Threshold de confluência | ≥ 2 de 4 indicadores | Reduz falsos positivos vs. qualquer indicador isolado |
-| Mínimo de fechamentos | 60 | Para garantir todos os 4 indicadores calculáveis |
-| Fonte OHLCV | yfinance `history(period="6mo")` | Não usa `stock_history.json` (fundamentos anuais) |
-| Frequência de atualização | 1× por dia | Scheduler verifica a cada 1h, roda quando dados > 23h |
+| Parâmetro | Valor | Constante |
+|-----------|-------|-----------|
+| **Dados** | | |
+| Período OHLCV | 1 ano | `history(period="1y")` |
+| Mínimo de fechamentos | 60 | Descartado se `len(closes) < 60` |
+| **Tendência** | | |
+| Inclinação da MA50 | últimos 10 pregões | `MA50_SLOPE_LOOKBACK = 10` |
+| **Pullback** | | |
+| RSI faixa de recuo (mín) | 35 | `PULLBACK_RSI_LO = 35` |
+| RSI faixa de recuo (máx) | 50 | `PULLBACK_RSI_HI = 50` |
+| Janela de detecção | 5 pregões | `PULLBACK_RECENT_LOOKBACK = 5` |
+| Lookback do alvo | 30 pregões | `PULLBACK_TARGET_LOOKBACK = 30` |
+| **Reversão** | | |
+| RSI sobrevenda | < 30 | `RSI_OVERSOLD = 30` |
+| Janela de detecção | 3 pregões | `REVERSAL_RECENT_LOOKBACK = 3` |
+| **Rompimento** | | |
+| Resistência (lookback) | 20 pregões | `BREAKOUT_LOOKBACK = 20` |
+| **Risco** | | |
+| Fundo estrutural (stop) | últimos 10 pregões | `SWING_LOW_LOOKBACK = 10` |
+| Stop mínimo | 1.0 × ATR | `ATR_STOP_MIN = 1.0` |
+| Stop máximo | 3.0 × ATR | `ATR_STOP_MAX = 3.0` |
+| Alvo máximo | 3.0 × ATR | `ATR_TARGET_MAX = 3.0` |
+| R:R mínimo para qualificar | 1.5 | `RR_MIN = 1.5` |
+| **Volume** | | |
+| Multiplicador de surge | 1.5 × média(20) | `VOL_SURGE_MULT = 1.5` |
+| **Nota A/B/C** | | |
+| Peso tendência ALTA | 30 | `W_TREND_ALTA = 30` |
+| Peso tendência LATERAL | 12 | `W_TREND_LATERAL = 12` |
+| Peso por motivo de gatilho | 8 (cap 3) | `W_TRIGGER_PER = 8` |
+| Peso volume confirmado | 15 | `W_VOLUME = 15` |
+| Peso R:R forte (≥ 2.0) | 20 | `W_RR_HIGH = 20` |
+| Peso R:R ok (≥ 1.5 < 2.0) | 10 | `W_RR_OK = 10` |
+| R:R forte threshold | 2.0 | `RR_STRONG = 2.0` |
+| Corte nota A | score ≥ 70 | `GRADE_A = 70` |
+| Corte nota B | score ≥ 50 | `GRADE_B = 50` |
