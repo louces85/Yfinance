@@ -7,6 +7,7 @@ from swing_service import calc_rsi, calc_macd, calc_bb, calc_ma_cross, calc_atr
 from swing_service import calc_rsi_series, calc_bb_series, calc_ma_series, calc_macd_series
 from swing_service import calc_sma, classify_trend
 from swing_service import calc_avg_volume, vol_confirm, _recent_low, _recent_high
+from swing_service import build_context
 
 
 def test_rsi_all_gains_returns_100():
@@ -257,3 +258,20 @@ def test_vol_confirm_false_when_normal():
 def test_recent_low_and_high():
     assert _recent_low([5.0, 3.0, 4.0, 9.0], 3) == 3.0
     assert _recent_high([5.0, 3.0, 4.0, 9.0], 3) == 9.0
+
+
+# ─── Contexto ──────────────────────────────────────────────────────
+
+def test_build_context_keys_and_trend():
+    closes = [float(i) for i in range(1, 261)]
+    highs  = [c + 0.5 for c in closes]
+    lows   = [c - 0.5 for c in closes]
+    vols   = [100.0] * 260
+    ctx = build_context(closes, highs, lows, vols)
+    for key in ("closes", "highs", "lows", "volumes", "rsi", "macd_hist",
+                "bb_lower", "bb_middle", "ma20", "ma50", "ma200",
+                "trend", "atr", "vol_confirm"):
+        assert key in ctx
+    assert ctx["trend"] == "ALTA"
+    assert ctx["atr"] is not None
+    assert len(ctx["rsi"]) == len(closes)

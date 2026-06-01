@@ -174,6 +174,27 @@ def _recent_high(highs, lookback):
     return max(window) if window else None
 
 
+def build_context(closes, highs, lows, volumes):
+    """Pré-calcula todos os indicadores num dict, para os detectores consumirem."""
+    bb = calc_bb_series(closes)
+    return {
+        "closes":      closes,
+        "highs":       highs,
+        "lows":        lows,
+        "volumes":     volumes,
+        "rsi":         calc_rsi_series(closes),
+        "macd_hist":   calc_macd_series(closes)["histogram"],
+        "bb_lower":    bb["lower"],
+        "bb_middle":   bb["middle"],
+        "ma20":        calc_ma_series(closes)["ma20"],
+        "ma50":        calc_sma(closes, 50),
+        "ma200":       calc_sma(closes, 200),
+        "trend":       classify_trend(closes),
+        "atr":         calc_atr(highs, lows, closes),
+        "vol_confirm": vol_confirm(volumes, rules.VOL_SURGE_MULT),
+    }
+
+
 def calc_atr(highs, lows, closes, period=14):
     """ATR (Average True Range) de Wilder. Retorna escalar ou None se insuficiente."""
     n = len(closes)
