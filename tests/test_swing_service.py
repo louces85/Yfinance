@@ -3,7 +3,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'backend'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'backend', 'services'))
 
-from swing_service import calc_rsi, calc_macd, calc_bb, calc_ma_cross
+from swing_service import calc_rsi, calc_macd, calc_bb, calc_ma_cross, calc_atr
 from swing_service import calc_rsi_series, calc_bb_series, calc_ma_series, calc_macd_series
 
 
@@ -184,3 +184,20 @@ def test_macd_series_histogram_is_macd_minus_signal():
     for i, h in enumerate(r["histogram"]):
         if h is not None:
             assert abs(h - (r["macd_line"][i] - r["signal_line"][i])) < 1e-6
+
+
+# ─── ATR ───────────────────────────────────────────────────────────
+
+def test_atr_constant_true_range():
+    # high-low = 2 em todo pregão, sem gaps → TR=2 → ATR=2
+    closes = [10.0] * 20
+    highs  = [11.0] * 20
+    lows   = [9.0]  * 20
+    assert calc_atr(highs, lows, closes, period=14) == 2.0
+
+
+def test_atr_none_when_insufficient():
+    closes = [10.0] * 5
+    highs  = [11.0] * 5
+    lows   = [9.0]  * 5
+    assert calc_atr(highs, lows, closes, period=14) is None

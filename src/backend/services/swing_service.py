@@ -111,6 +111,25 @@ def calc_ma_cross(closes, fast=20, slow=50):
     return ma_fast, ma_slow, ma_fast > ma_slow
 
 
+def calc_atr(highs, lows, closes, period=14):
+    """ATR (Average True Range) de Wilder. Retorna escalar ou None se insuficiente."""
+    n = len(closes)
+    if n < period + 1 or len(highs) != n or len(lows) != n:
+        return None
+
+    trs = []
+    for i in range(1, n):
+        tr = max(highs[i] - lows[i],
+                 abs(highs[i] - closes[i - 1]),
+                 abs(lows[i] - closes[i - 1]))
+        trs.append(tr)
+
+    atr = sum(trs[:period]) / period
+    for i in range(period, len(trs)):
+        atr = (atr * (period - 1) + trs[i]) / period
+    return round(atr, 4)
+
+
 # ---------------------------------------------------------------------------
 # Funções de série (retornam array completo — um valor por fechamento)
 # ---------------------------------------------------------------------------
