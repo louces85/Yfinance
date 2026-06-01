@@ -352,6 +352,99 @@ def calc_levels(setup_type, ctx):
     return {"entry": round(entry, 2), "stop": stop, "target": target, "rr": rr}
 
 
+def grade_setup(setup, levels, trend):
+    """Score composto 0–100 e nota A/B/C."""
+    score = 0
+    if trend == "ALTA":
+        score += rules.W_TREND_ALTA
+    elif trend == "LATERAL":
+        score += rules.W_TREND_LATERAL
+
+    score += min(setup["strength"], 3) * rules.W_TRIGGER_PER
+
+    if setup["vol_confirm"]:
+        score += rules.W_VOLUME
+
+    rr = levels["rr"] or 0
+    if rr >= rules.RR_STRONG:
+        score += rules.W_RR_HIGH
+    elif rr >= rules.RR_MIN:
+        score += rules.W_RR_OK
+
+    score = min(int(round(score)), 100)
+    if score >= rules.GRADE_A:
+        grade = "A"
+    elif score >= rules.GRADE_B:
+        grade = "B"
+    else:
+        grade = "C"
+    return score, grade
+
+
+def _pick_best_setup(ctx):
+    """Roda os 3 detectores, calcula níveis/nota e escolhe o melhor (1 por ticker)."""
+    precedence = {"PULLBACK": 3, "BREAKOUT": 2, "REVERSAL": 1}
+    candidates = []
+    for det in (detect_pullback, detect_reversal, detect_breakout):
+        m = det(ctx)
+        if not m:
+            continue
+        levels = calc_levels(m["setup_type"], ctx)
+        if levels is None or levels["rr"] is None:
+            continue
+        is_setup = levels["rr"] >= rules.RR_MIN
+        if is_setup:
+            score, grade = grade_setup(m, levels, ctx["trend"])
+        else:
+            score, grade = None, None
+        cand = {
+            "setup_type": m["setup_type"],
+            "trigger": m["trigger"],
+            "vol_confirm": m["vol_confirm"],
+            "is_setup": is_setup,
+            "score": score,
+            "grade": grade,
+        }
+        cand.update(levels)
+        candidates.append(cand)
+
+    if not candidates:
+        return None
+
+    candidates.sort(key=lambda c: (
+        1 if c["is_setup"] else 0,
+        c["score"] if c["score"] is not None else -1,
+        precedence[c["setup_type"]],
+    ), reverse=True)
+    return candidates[0]
+
+
+def analyze_ticker(ticker, closes, highs, lows, volumes):
+    """Entrada completa do swing_data.json para um ticker (com ou sem setup)."""
+    ctx = build_context(closes, highs, lows, volumes)
+    entry = {
+        "ticker":      ticker,
+        "price":       round(closes[-1], 2),
+        "trend":       ctx["trend"],
+        "rsi":         calc_rsi(closes),
+        "setup_type":  None,
+        "grade":       None,
+        "score":       None,
+        "trigger":     None,
+        "entry":       None,
+        "stop":        None,
+        "target":      None,
+        "rr":          None,
+        "vol_confirm": False,
+        "is_setup":    False,
+        "updated_at":  datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+    }
+    best = _pick_best_setup(ctx)
+    if best is not None:
+        entry.update(best)
+    return entry
+
+
 def calc_atr(highs, lows, closes, period=14):
     """ATR (Average True Range) de Wilder. Retorna escalar ou None se insuficiente."""
     n = len(closes)

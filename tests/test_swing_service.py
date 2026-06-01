@@ -12,6 +12,7 @@ from swing_service import detect_pullback
 from swing_service import detect_reversal
 from swing_service import detect_breakout
 from swing_service import calc_levels
+from swing_service import grade_setup, analyze_ticker
 
 
 def test_rsi_all_gains_returns_100():
@@ -408,3 +409,51 @@ def test_levels_none_without_atr():
     ctx = _ctx(closes=[100.0])
     ctx["atr"] = None
     assert calc_levels("PULLBACK", ctx) is None
+
+
+# ─── Nota e orquestração ───────────────────────────────────────────
+
+def test_grade_a_for_strong_pullback():
+    setup = {"strength": 3, "vol_confirm": True}
+    levels = {"rr": 2.5}
+    score, grade = grade_setup(setup, levels, "ALTA")
+    # 30 (ALTA) + 24 (3 gatilhos) + 15 (vol) + 20 (rr forte) = 89
+    assert score == 89
+    assert grade == "A"
+
+
+def test_grade_c_for_weak_setup():
+    setup = {"strength": 1, "vol_confirm": False}
+    levels = {"rr": 1.5}
+    score, grade = grade_setup(setup, levels, "LATERAL")
+    # 12 + 8 + 0 + 10 = 30
+    assert score == 30
+    assert grade == "C"
+
+
+def test_analyze_ticker_no_setup_returns_base():
+    closes = [10.0] * 260            # flat → nenhum setup
+    highs  = [10.5] * 260
+    lows   = [9.5] * 260
+    vols   = [100.0] * 260
+    out = analyze_ticker("FLAT3", closes, highs, lows, vols)
+    assert out["ticker"] == "FLAT3"
+    assert out["setup_type"] is None
+    assert out["is_setup"] is False
+    assert out["trend"] == "LATERAL"
+    assert "updated_at" in out
+
+
+def test_analyze_ticker_detects_setup_with_levels():
+    # uptrend longo + rompimento com volume → algum setup qualifica
+    base   = [100.0] * 220
+    closes = base + [112.0]
+    highs  = [110.0] * 220 + [112.0]
+    lows   = [98.0] * 221
+    vols   = [100.0] * 220 + [400.0]   # surto de volume
+    out = analyze_ticker("BRK3", closes, highs, lows, vols)
+    assert out["setup_type"] in ("PULLBACK", "BREAKOUT", "REVERSAL")
+    assert out["is_setup"] is True
+    assert out["entry"] == 112.0
+    assert out["rr"] is not None and out["rr"] >= 1.5
+    assert out["grade"] in ("A", "B", "C")
