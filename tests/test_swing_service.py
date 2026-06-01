@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'backend
 
 from swing_service import calc_rsi, calc_macd, calc_bb, calc_ma_cross, calc_atr
 from swing_service import calc_rsi_series, calc_bb_series, calc_ma_series, calc_macd_series
+from swing_service import calc_sma, classify_trend
 
 
 def test_rsi_all_gains_returns_100():
@@ -201,3 +202,31 @@ def test_atr_none_when_insufficient():
     highs  = [11.0] * 5
     lows   = [9.0]  * 5
     assert calc_atr(highs, lows, closes, period=14) is None
+
+
+# ─── SMA / tendência ───────────────────────────────────────────────
+
+def test_sma_last_window():
+    assert calc_sma([float(i) for i in range(1, 11)], 5) == 8.0  # média de 6..10
+
+
+def test_sma_none_when_insufficient():
+    assert calc_sma([1.0, 2.0], 5) is None
+
+
+def test_trend_alta_when_rising_above_mas():
+    closes = [float(i) for i in range(1, 261)]  # uptrend forte
+    assert classify_trend(closes) == "ALTA"
+
+
+def test_trend_baixa_when_falling_below_mas():
+    closes = [float(260 - i) for i in range(260)]  # downtrend forte
+    assert classify_trend(closes) == "BAIXA"
+
+
+def test_trend_lateral_when_flat():
+    assert classify_trend([10.0] * 260) == "LATERAL"
+
+
+def test_trend_lateral_when_no_ma200():
+    assert classify_trend([float(i) for i in range(1, 100)]) == "LATERAL"

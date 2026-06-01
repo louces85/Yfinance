@@ -11,6 +11,7 @@ import yfinance
 from datetime import datetime
 
 import repositories.stock_repository as repo
+from config import rules
 
 
 # ---------------------------------------------------------------------------
@@ -109,6 +110,41 @@ def calc_ma_cross(closes, fast=20, slow=50):
     ma_fast = round(sum(closes[-fast:]) / fast, 2)
     ma_slow = round(sum(closes[-slow:]) / slow, 2)
     return ma_fast, ma_slow, ma_fast > ma_slow
+
+
+def calc_sma(values, period):
+    """SMA escalar dos últimos 'period' valores. None se insuficiente."""
+    if len(values) < period:
+        return None
+    return round(sum(values[-period:]) / period, 4)
+
+
+def _sma_at(values, period, offset=0):
+    """SMA de 'period' valores terminando 'offset' posições antes do fim."""
+    end = len(values) - offset
+    start = end - period
+    if start < 0:
+        return None
+    return sum(values[start:end]) / period
+
+
+def classify_trend(closes):
+    """Retorna 'ALTA' | 'BAIXA' | 'LATERAL' com base em MA50, MA200 e inclinação da MA50."""
+    ma50 = calc_sma(closes, 50)
+    ma200 = calc_sma(closes, 200)
+    if ma50 is None or ma200 is None:
+        return "LATERAL"
+
+    price = closes[-1]
+    ma50_prev = _sma_at(closes, 50, rules.MA50_SLOPE_LOOKBACK)
+    ma50_rising = ma50_prev is not None and ma50 > ma50_prev
+    ma50_falling = ma50_prev is not None and ma50 < ma50_prev
+
+    if price > ma50 > ma200 and ma50_rising:
+        return "ALTA"
+    if price < ma200 and ma50_falling:
+        return "BAIXA"
+    return "LATERAL"
 
 
 def calc_atr(highs, lows, closes, period=14):
