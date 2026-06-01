@@ -9,6 +9,7 @@ from swing_service import calc_sma, classify_trend
 from swing_service import calc_avg_volume, vol_confirm, _recent_low, _recent_high
 from swing_service import build_context
 from swing_service import detect_pullback
+from swing_service import detect_reversal
 
 
 def test_rsi_all_gains_returns_100():
@@ -326,3 +327,26 @@ def test_pullback_none_without_turning_trigger():
                macd_hist=[-0.5, -1.0],
                closes=[100.0, 99.0, 97.0])
     assert detect_pullback(ctx) is None
+
+
+def test_reversal_fires_on_oversold_turn_and_reclaim():
+    ctx = _ctx(trend="LATERAL",
+               rsi=[25.0, 28.0],                    # sobrevenda + virando pra cima
+               closes=[88.0, 95.0],                 # reconquistou a banda inferior
+               bb_lower=[90.0, 90.0])               # tocou(<=90) ontem, hoje 95>90
+    out = detect_reversal(ctx)
+    assert out is not None
+    assert out["setup_type"] == "REVERSAL"
+
+
+def test_reversal_none_in_downtrend():
+    ctx = _ctx(trend="BAIXA", rsi=[25.0, 28.0], closes=[88.0, 95.0],
+               bb_lower=[90.0, 90.0])
+    assert detect_reversal(ctx) is None
+
+
+def test_reversal_none_when_not_reclaimed():
+    # ainda abaixo da banda inferior hoje
+    ctx = _ctx(trend="LATERAL", rsi=[25.0, 28.0], closes=[88.0, 89.0],
+               bb_lower=[90.0, 90.0])
+    assert detect_reversal(ctx) is None

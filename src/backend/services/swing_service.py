@@ -247,6 +247,37 @@ def detect_pullback(ctx):
     }
 
 
+def detect_reversal(ctx):
+    """Setup reversão: sobrevenda virando + reconquista da banda inferior. Fora de downtrend."""
+    if ctx["trend"] == "BAIXA":
+        return None
+
+    rsi = ctx["rsi"]
+    look = rules.REVERSAL_RECENT_LOOKBACK
+    recent = [r for r in rsi[-look:] if r is not None]
+    was_oversold = any(r < rules.RSI_OVERSOLD for r in recent)
+    turning = (len(rsi) >= 2 and rsi[-1] is not None
+               and rsi[-2] is not None and rsi[-1] > rsi[-2])
+    if not (was_oversold and turning):
+        return None
+
+    lower = ctx["bb_lower"]
+    closes = ctx["closes"]
+    n = len(closes)
+    reclaimed = lower[-1] is not None and closes[-1] > lower[-1]
+    touched = any(lower[i] is not None and closes[i] <= lower[i]
+                  for i in range(max(0, n - look - 1), n - 1))
+    if not (reclaimed and touched):
+        return None
+
+    return {
+        "setup_type": "REVERSAL",
+        "trigger": "RSI saindo de sobrevenda + reconquista banda inf",
+        "strength": 2,
+        "vol_confirm": ctx["vol_confirm"],
+    }
+
+
 def calc_atr(highs, lows, closes, period=14):
     """ATR (Average True Range) de Wilder. Retorna escalar ou None se insuficiente."""
     n = len(closes)
