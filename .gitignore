@@ -9,3 +9,6 @@ YFINANCE_REFACTOR/doc_initial/
 #IDE Files
 __pycache__
 .vscode/
+
+# Saída gerada pelo Graphify (grafo do código) — não versionar
+graphify-out/
