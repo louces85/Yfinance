@@ -300,7 +300,7 @@ def detect_breakout(ctx):
         "setup_type": "BREAKOUT",
         "trigger": "Rompeu máxima " + str(look) + "p + volume",
         "strength": 2,
-        "vol_confirm": True,
+        "vol_confirm": ctx["vol_confirm"],
     }
 
 
@@ -312,9 +312,12 @@ def _target_for(setup_type, ctx, entry):
         bbm = ctx["bb_middle"][-1] if ctx["bb_middle"] else None
         cands = [c for c in (bbm, ctx["ma50"]) if c is not None and c > entry]
         return min(cands) if cands else None
-    # BREAKOUT — measured move
-    prior_high = _recent_high(ctx["highs"], rules.BREAKOUT_LOOKBACK + 1)
-    cons_low = _recent_low(ctx["lows"], rules.BREAKOUT_LOOKBACK)
+    # BREAKOUT — measured move (resistência exclui o candle de rompimento de hoje,
+    # consistente com detect_breakout)
+    look = rules.BREAKOUT_LOOKBACK
+    prior_window = ctx["highs"][-(look + 1):-1]
+    prior_high = max(prior_window) if prior_window else None
+    cons_low = _recent_low(ctx["lows"], look)
     if prior_high is not None and cons_low is not None:
         return entry + (prior_high - cons_low)
     return None

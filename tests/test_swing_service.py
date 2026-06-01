@@ -411,6 +411,20 @@ def test_levels_none_without_atr():
     assert calc_levels("PULLBACK", ctx) is None
 
 
+def test_levels_breakout_target_excludes_breakout_candle():
+    # Resistência 105 nos 20 pregões anteriores; o candle de hoje crava 120 (gap).
+    # A altura do measured move deve usar a resistência (105), não a máxima de hoje (120).
+    closes = [100.0] * 21 + [120.0]
+    highs  = [105.0] * 21 + [120.0]
+    lows   = [98.0] * 22
+    ctx = _ctx(trend="LATERAL", closes=closes, highs=highs, lows=lows,
+               ma50=100.0, vol_confirm=True)
+    ctx["atr"] = 50.0   # ATR alto p/ o teto não capar o alvo e expor a altura
+    lv = calc_levels("BREAKOUT", ctx)
+    # altura = 105 - 98 = 7 → alvo = 120 + 7 = 127 (não 120 + (120-98)=142)
+    assert lv["target"] == 127.0
+
+
 # ─── Nota e orquestração ───────────────────────────────────────────
 
 def test_grade_a_for_strong_pullback():
