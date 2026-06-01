@@ -278,6 +278,32 @@ def detect_reversal(ctx):
     }
 
 
+def detect_breakout(ctx):
+    """Setup rompimento: fecha acima da máxima de N pregões, acima da MA50, com volume."""
+    closes = ctx["closes"]
+    highs = ctx["highs"]
+    ma50 = ctx["ma50"]
+    if ma50 is None or closes[-1] <= ma50:
+        return None
+
+    look = rules.BREAKOUT_LOOKBACK
+    if len(highs) < look + 1:
+        return None
+
+    prior_high = max(highs[-(look + 1):-1])  # resistência, excluindo o pregão atual
+    if closes[-1] <= prior_high:
+        return None
+    if not ctx["vol_confirm"]:
+        return None
+
+    return {
+        "setup_type": "BREAKOUT",
+        "trigger": "Rompeu máxima " + str(look) + "p + volume",
+        "strength": 2,
+        "vol_confirm": True,
+    }
+
+
 def calc_atr(highs, lows, closes, period=14):
     """ATR (Average True Range) de Wilder. Retorna escalar ou None se insuficiente."""
     n = len(closes)

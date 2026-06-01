@@ -10,6 +10,7 @@ from swing_service import calc_avg_volume, vol_confirm, _recent_low, _recent_hig
 from swing_service import build_context
 from swing_service import detect_pullback
 from swing_service import detect_reversal
+from swing_service import detect_breakout
 
 
 def test_rsi_all_gains_returns_100():
@@ -350,3 +351,29 @@ def test_reversal_none_when_not_reclaimed():
     ctx = _ctx(trend="LATERAL", rsi=[25.0, 28.0], closes=[88.0, 89.0],
                bb_lower=[90.0, 90.0])
     assert detect_reversal(ctx) is None
+
+
+def test_breakout_fires_on_new_high_with_volume():
+    closes = [100.0] * 21 + [112.0]          # rompe a máxima dos 20 anteriores
+    highs  = [110.0] * 21 + [112.0]          # resistência ~110
+    ctx = _ctx(trend="LATERAL", closes=closes, highs=highs, ma50=100.0,
+               vol_confirm=True)
+    out = detect_breakout(ctx)
+    assert out is not None
+    assert out["setup_type"] == "BREAKOUT"
+
+
+def test_breakout_none_without_volume():
+    closes = [100.0] * 21 + [112.0]
+    highs  = [110.0] * 21 + [112.0]
+    ctx = _ctx(trend="LATERAL", closes=closes, highs=highs, ma50=100.0,
+               vol_confirm=False)
+    assert detect_breakout(ctx) is None
+
+
+def test_breakout_none_below_ma50():
+    closes = [100.0] * 21 + [112.0]
+    highs  = [110.0] * 21 + [112.0]
+    ctx = _ctx(trend="LATERAL", closes=closes, highs=highs, ma50=120.0,
+               vol_confirm=True)
+    assert detect_breakout(ctx) is None
