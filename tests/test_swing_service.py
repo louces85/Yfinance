@@ -8,6 +8,7 @@ from swing_service import calc_rsi_series, calc_bb_series, calc_ma_series, calc_
 from swing_service import calc_sma, classify_trend
 from swing_service import calc_avg_volume, vol_confirm, _recent_low, _recent_high
 from swing_service import build_context
+from swing_service import detect_pullback
 
 
 def test_rsi_all_gains_returns_100():
@@ -275,3 +276,53 @@ def test_build_context_keys_and_trend():
     assert ctx["trend"] == "ALTA"
     assert ctx["atr"] is not None
     assert len(ctx["rsi"]) == len(closes)
+
+
+# ─── Detectores ────────────────────────────────────────────────────
+
+def _ctx(trend="ALTA", rsi=None, macd_hist=None, closes=None, lows=None,
+         highs=None, bb_lower=None, bb_middle=None, ma20=None, ma50=100.0,
+         vol_confirm=False):
+    """Monta um contexto mínimo para testar detectores de forma determinística."""
+    closes = closes if closes is not None else [100.0, 101.0]
+    return {
+        "closes": closes,
+        "highs": highs if highs is not None else list(closes),
+        "lows": lows if lows is not None else list(closes),
+        "volumes": [100.0] * len(closes),
+        "rsi": rsi if rsi is not None else [40.0, 42.0],
+        "macd_hist": macd_hist if macd_hist is not None else [-1.0, -0.5],
+        "bb_lower": bb_lower if bb_lower is not None else [90.0] * len(closes),
+        "bb_middle": bb_middle if bb_middle is not None else [100.0] * len(closes),
+        "ma20": ma20 if ma20 is not None else [99.0] * len(closes),
+        "ma50": ma50,
+        "ma200": 80.0,
+        "trend": trend,
+        "atr": 2.0,
+        "vol_confirm": vol_confirm,
+    }
+
+
+def test_pullback_fires_in_uptrend_with_rsi_dip_and_turn():
+    ctx = _ctx(trend="ALTA",
+               rsi=[60.0, 45.0, 47.0],     # recuo p/ faixa 35-50 + virando pra cima
+               closes=[100.0, 98.0, 99.0]) # repique
+    out = detect_pullback(ctx)
+    assert out is not None
+    assert out["setup_type"] == "PULLBACK"
+    assert out["trigger"]
+    assert out["strength"] >= 1
+
+
+def test_pullback_none_when_not_uptrend():
+    ctx = _ctx(trend="LATERAL", rsi=[60.0, 45.0, 47.0], closes=[100.0, 98.0, 99.0])
+    assert detect_pullback(ctx) is None
+
+
+def test_pullback_none_without_turning_trigger():
+    # recuo presente mas tudo caindo: RSI caindo, macd caindo, preço caindo
+    ctx = _ctx(trend="ALTA",
+               rsi=[60.0, 47.0, 45.0],
+               macd_hist=[-0.5, -1.0],
+               closes=[100.0, 99.0, 97.0])
+    assert detect_pullback(ctx) is None

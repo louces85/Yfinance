@@ -195,6 +195,58 @@ def build_context(closes, highs, lows, volumes):
     }
 
 
+def _turning_reasons(ctx):
+    """Lista de motivos de virada para cima (RSI, MACD, repique de preço)."""
+    rsi = ctx["rsi"]
+    hist = ctx["macd_hist"]
+    closes = ctx["closes"]
+    reasons = []
+    if len(rsi) >= 2 and rsi[-1] is not None and rsi[-2] is not None and rsi[-1] > rsi[-2]:
+        reasons.append("RSI virando")
+    if len(hist) >= 2 and hist[-1] is not None and hist[-2] is not None and hist[-1] > hist[-2]:
+        reasons.append("MACD subindo")
+    if len(closes) >= 2 and closes[-1] > closes[-2]:
+        reasons.append("repique")
+    return reasons
+
+
+def _touched_support(ctx, look):
+    """True se alguma mínima recente tocou a MA20 ou a banda-média."""
+    lows = ctx["lows"]
+    n = len(lows)
+    ma20 = ctx["ma20"][-1] if ctx["ma20"] else None
+    bbm = ctx["bb_middle"][-1] if ctx["bb_middle"] else None
+    for i in range(max(0, n - look), n):
+        if ma20 is not None and lows[i] <= ma20:
+            return True
+        if bbm is not None and lows[i] <= bbm:
+            return True
+    return False
+
+
+def detect_pullback(ctx):
+    """Setup pullback: recuo numa tendência de alta + gatilho de virada."""
+    if ctx["trend"] != "ALTA":
+        return None
+
+    look = rules.PULLBACK_RECENT_LOOKBACK
+    recent = [r for r in ctx["rsi"][-look:] if r is not None]
+    rsi_pull = any(rules.PULLBACK_RSI_LO <= r <= rules.PULLBACK_RSI_HI for r in recent)
+    if not (rsi_pull or _touched_support(ctx, look)):
+        return None
+
+    reasons = _turning_reasons(ctx)
+    if not reasons:
+        return None
+
+    return {
+        "setup_type": "PULLBACK",
+        "trigger": " + ".join(reasons),
+        "strength": len(reasons),
+        "vol_confirm": ctx["vol_confirm"],
+    }
+
+
 def calc_atr(highs, lows, closes, period=14):
     """ATR (Average True Range) de Wilder. Retorna escalar ou None se insuficiente."""
     n = len(closes)
