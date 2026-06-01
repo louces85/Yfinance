@@ -11,6 +11,7 @@ from swing_service import build_context
 from swing_service import detect_pullback
 from swing_service import detect_reversal
 from swing_service import detect_breakout
+from swing_service import calc_levels
 
 
 def test_rsi_all_gains_returns_100():
@@ -377,3 +378,33 @@ def test_breakout_none_below_ma50():
     ctx = _ctx(trend="LATERAL", closes=closes, highs=highs, ma50=120.0,
                vol_confirm=True)
     assert detect_breakout(ctx) is None
+
+
+# ─── Níveis de risco ───────────────────────────────────────────────
+
+def test_levels_stop_clamped_by_atr_floor():
+    # fundo recente muito perto (99.5) → stop deve respeitar piso 1×ATR (=2) → 98.0
+    ctx = _ctx(closes=[100.0], highs=[100.0], lows=[99.5])
+    ctx["lows"] = [99.5] * 10
+    ctx["atr"] = 2.0
+    lv = calc_levels("REVERSAL", ctx)
+    assert lv["entry"] == 100.0
+    assert lv["stop"] == 98.0           # 100 - max(0.5, 1*2)
+
+
+def test_levels_rr_computed():
+    ctx = _ctx(closes=[100.0], highs=[100.0], lows=[100.0])
+    ctx["lows"] = [95.0] * 10           # stop estrutural 95 (dentro do clamp 2..6)
+    ctx["atr"] = 2.0
+    ctx["bb_middle"] = [110.0]
+    ctx["ma50"] = 110.0
+    lv = calc_levels("REVERSAL", ctx)   # alvo = min(110,110)=110, capado por 100+3*2=106
+    assert lv["stop"] == 95.0
+    assert lv["target"] == 106.0
+    assert lv["rr"] == round((106.0 - 100.0) / (100.0 - 95.0), 2)  # 1.2
+
+
+def test_levels_none_without_atr():
+    ctx = _ctx(closes=[100.0])
+    ctx["atr"] = None
+    assert calc_levels("PULLBACK", ctx) is None

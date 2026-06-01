@@ -304,6 +304,54 @@ def detect_breakout(ctx):
     }
 
 
+def _target_for(setup_type, ctx, entry):
+    """Alvo bruto por tipo de setup (antes do teto de ATR)."""
+    if setup_type == "PULLBACK":
+        return _recent_high(ctx["highs"], rules.PULLBACK_TARGET_LOOKBACK)
+    if setup_type == "REVERSAL":
+        bbm = ctx["bb_middle"][-1] if ctx["bb_middle"] else None
+        cands = [c for c in (bbm, ctx["ma50"]) if c is not None and c > entry]
+        return min(cands) if cands else None
+    # BREAKOUT — measured move
+    prior_high = _recent_high(ctx["highs"], rules.BREAKOUT_LOOKBACK + 1)
+    cons_low = _recent_low(ctx["lows"], rules.BREAKOUT_LOOKBACK)
+    if prior_high is not None and cons_low is not None:
+        return entry + (prior_high - cons_low)
+    return None
+
+
+def calc_levels(setup_type, ctx):
+    """Entrada/stop/alvo/R:R. Stop estrutural com clamp de ATR; alvo capado por ATR."""
+    closes = ctx["closes"]
+    atr = ctx["atr"]
+    entry = closes[-1]
+    if atr is None or atr <= 0:
+        return None
+
+    swing_low = _recent_low(ctx["lows"], rules.SWING_LOW_LOOKBACK)
+    raw_stop = swing_low if swing_low is not None else entry - rules.ATR_STOP_MIN * atr
+    dist = entry - raw_stop
+    min_d = rules.ATR_STOP_MIN * atr
+    max_d = rules.ATR_STOP_MAX * atr
+    if dist < min_d:
+        dist = min_d
+    elif dist > max_d:
+        dist = max_d
+    stop = round(entry - dist, 2)
+
+    target = _target_for(setup_type, ctx, entry)
+    max_target = entry + rules.ATR_TARGET_MAX * atr
+    if target is None or target <= entry:
+        target = max_target
+    if target > max_target:
+        target = max_target
+    target = round(target, 2)
+
+    risk = entry - stop
+    rr = round((target - entry) / risk, 2) if risk > 0 else None
+    return {"entry": round(entry, 2), "stop": stop, "target": target, "rr": rr}
+
+
 def calc_atr(highs, lows, closes, period=14):
     """ATR (Average True Range) de Wilder. Retorna escalar ou None se insuficiente."""
     n = len(closes)
