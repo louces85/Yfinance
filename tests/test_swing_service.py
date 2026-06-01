@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'backend
 from swing_service import calc_rsi, calc_macd, calc_bb, calc_ma_cross, calc_atr
 from swing_service import calc_rsi_series, calc_bb_series, calc_ma_series, calc_macd_series
 from swing_service import calc_sma, classify_trend
+from swing_service import calc_avg_volume, vol_confirm, _recent_low, _recent_high
 
 
 def test_rsi_all_gains_returns_100():
@@ -230,3 +231,29 @@ def test_trend_lateral_when_flat():
 
 def test_trend_lateral_when_no_ma200():
     assert classify_trend([float(i) for i in range(1, 100)]) == "LATERAL"
+
+
+# ─── Volume / estrutura ────────────────────────────────────────────
+
+def test_avg_volume_last_20():
+    vols = [100.0] * 19 + [200.0]
+    assert calc_avg_volume(vols, period=20) == 105.0
+
+
+def test_avg_volume_none_when_insufficient():
+    assert calc_avg_volume([100.0] * 5, period=20) is None
+
+
+def test_vol_confirm_true_on_surge():
+    vols = [100.0] * 19 + [200.0]  # média 105, último 200 > 1.5*105=157.5
+    assert vol_confirm(vols, 1.5) is True
+
+
+def test_vol_confirm_false_when_normal():
+    vols = [100.0] * 20
+    assert vol_confirm(vols, 1.5) is False
+
+
+def test_recent_low_and_high():
+    assert _recent_low([5.0, 3.0, 4.0, 9.0], 3) == 3.0
+    assert _recent_high([5.0, 3.0, 4.0, 9.0], 3) == 9.0

@@ -147,6 +147,33 @@ def classify_trend(closes):
     return "LATERAL"
 
 
+def calc_avg_volume(volumes, period=20):
+    """Média de volume dos últimos 'period' pregões. None se insuficiente."""
+    if len(volumes) < period:
+        return None
+    return round(sum(volumes[-period:]) / period, 2)
+
+
+def vol_confirm(volumes, mult):
+    """True quando o volume de hoje supera mult × média(20)."""
+    avg = calc_avg_volume(volumes)
+    if avg is None or avg == 0:
+        return False
+    return volumes[-1] > mult * avg
+
+
+def _recent_low(lows, lookback):
+    """Menor mínima dos últimos 'lookback' pregões."""
+    window = lows[-lookback:]
+    return min(window) if window else None
+
+
+def _recent_high(highs, lookback):
+    """Maior máxima dos últimos 'lookback' pregões."""
+    window = highs[-lookback:]
+    return max(window) if window else None
+
+
 def calc_atr(highs, lows, closes, period=14):
     """ATR (Average True Range) de Wilder. Retorna escalar ou None se insuficiente."""
     n = len(closes)
