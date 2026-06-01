@@ -3862,7 +3862,7 @@ function _swingSort(col) {
     _swingSortAsc = !_swingSortAsc;
   } else {
     _swingSortCol = col;
-    _swingSortAsc = col !== 'signals_count';
+    _swingSortAsc = col === 'ticker' || col === 'price';
   }
   renderSwingTable();
 }
