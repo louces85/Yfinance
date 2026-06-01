@@ -136,6 +136,8 @@ RR_STRONG                = 2.0    # R:R a partir do qual a nota ganha bônus che
 ATR_STOP_MIN             = 1.0    # distância mínima do stop em múltiplos de ATR
 ATR_STOP_MAX             = 3.0    # distância máxima do stop em múltiplos de ATR
 ATR_TARGET_MAX           = 3.0    # teto do alvo em múltiplos de ATR
+ATR_PCT_MIN              = 0.005  # piso de volatilidade: ATR/preço mínimo (0,5%) p/ o
+                                  # setup ser tradável — descarta papéis quase-planos/ilíquidos
 # Pesos do score de qualidade (0–100) e cortes de nota
 W_TREND_ALTA             = 30
 W_TREND_LATERAL          = 12

@@ -384,6 +384,13 @@ def grade_setup(setup, levels, trend):
     return score, grade
 
 
+def _vol_sufficient(atr, entry):
+    """True se a volatilidade (ATR/preço) atinge o piso mínimo p/ o setup ser tradável."""
+    if atr is None or entry is None or entry <= 0:
+        return False
+    return (atr / entry) >= rules.ATR_PCT_MIN
+
+
 def _pick_best_setup(ctx):
     """Roda os 3 detectores, calcula níveis/nota e escolhe o melhor (1 por ticker)."""
     precedence = {"PULLBACK": 3, "BREAKOUT": 2, "REVERSAL": 1}
@@ -394,6 +401,9 @@ def _pick_best_setup(ctx):
             continue
         levels = calc_levels(m["setup_type"], ctx)
         if levels is None or levels["rr"] is None:
+            continue
+        # Piso de volatilidade: descarta setups intradáveis (papel quase-plano/ilíquido)
+        if not _vol_sufficient(ctx["atr"], levels["entry"]):
             continue
         is_setup = levels["rr"] >= rules.RR_MIN
         if is_setup:

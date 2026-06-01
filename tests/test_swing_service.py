@@ -13,6 +13,7 @@ from swing_service import detect_reversal
 from swing_service import detect_breakout
 from swing_service import calc_levels
 from swing_service import grade_setup, analyze_ticker
+from swing_service import _vol_sufficient, _pick_best_setup
 
 
 def test_rsi_all_gains_returns_100():
@@ -471,3 +472,23 @@ def test_analyze_ticker_detects_setup_with_levels():
     assert out["entry"] == 112.0
     assert out["rr"] is not None and out["rr"] >= 1.5
     assert out["grade"] in ("A", "B", "C")
+
+
+# ─── Piso de volatilidade ──────────────────────────────────────────
+
+def test_vol_sufficient_floor():
+    # ATR/preço abaixo do piso (0,5%) → insuficiente; acima → ok
+    assert _vol_sufficient(0.02, 33.8) is False    # ~0.06%
+    assert _vol_sufficient(0.5, 33.8) is True       # ~1.48%
+    assert _vol_sufficient(None, 33.8) is False
+    assert _vol_sufficient(1.0, 0.0) is False
+
+
+def test_pick_best_setup_drops_low_volatility_setup():
+    # Rompimento válido em forma, mas ATR ínfimo → setup intradável, descartado por completo
+    closes = [100.0] * 21 + [112.0]
+    highs  = [110.0] * 21 + [112.0]
+    ctx = _ctx(trend="LATERAL", closes=closes, highs=highs, ma50=100.0, vol_confirm=True)
+    ctx["lows"] = [98.0] * 22
+    ctx["atr"] = 0.01                                # 0.01/112 ≈ 0.009% << 0.5%
+    assert _pick_best_setup(ctx) is None
