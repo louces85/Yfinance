@@ -3679,6 +3679,23 @@ async function openSwingChart(ticker) {
   document.getElementById('swingChartTitle').textContent = ticker + ' · carregando…';
   document.getElementById('swingChartModal').classList.remove('hidden');
 
+  var _info = (_swingData || []).filter(function(s) { return s.ticker === ticker; })[0];
+  var _band = document.getElementById('swingChartBand');
+  if (_info && _info.setup_type) {
+    var _lbl = { PULLBACK: 'Pullback ↑', REVERSAL: 'Reversão', BREAKOUT: 'Rompimento' }[_info.setup_type] || _info.setup_type;
+    var _f = function(v) { return v != null ? v.toFixed(2) : '—'; };
+    _band.innerHTML = '<b style="color:var(--text)">' + _lbl + '</b>' +
+      (_info.grade ? ' · Nota ' + _info.grade : '') +
+      ' · Entrada ' + _f(_info.entry) +
+      ' · Stop ' + _f(_info.stop) +
+      ' · Alvo ' + _f(_info.target) +
+      (_info.rr != null ? ' · R:R ' + _info.rr.toFixed(1) : '') +
+      (_info.trigger ? '<br>' + _info.trigger : '');
+    _band.style.display = 'block';
+  } else {
+    _band.style.display = 'none';
+  }
+
   var data;
   try {
     var res = await fetch('/api/swing/chart/' + ticker);
@@ -4596,6 +4613,7 @@ loadDecision();
       <span class="swing-chart-title" id="swingChartTitle">—</span>
       <button class="swing-chart-close" onclick="closeSwingChart()">✕</button>
     </div>
+    <div id="swingChartBand" style="display:none;font-size:11px;color:var(--muted);margin-bottom:8px;padding:6px 8px;background:var(--bg);border:1px solid var(--border);border-radius:6px"></div>
     <div class="swing-chart-label">Preço · Bollinger Bands · MA20 / MA50</div>
     <canvas id="swingPriceCanvas" height="140"></canvas>
     <div class="swing-chart-label">RSI (14) — linha em 30</div>
