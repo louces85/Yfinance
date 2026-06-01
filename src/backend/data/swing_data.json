@@ -1,54 +1,37 @@
 [
   {
     "ticker": "GOAU4",
-    "price": 9.95,
+    "price": 9.94,
     "trend": "ALTA",
-    "rsi": 49.36,
+    "rsi": 49.12,
     "setup_type": "PULLBACK",
     "grade": "B",
     "score": 66,
     "trigger": "RSI virando + repique",
-    "entry": 9.95,
-    "stop": 9.67,
+    "entry": 9.94,
+    "stop": 9.66,
     "target": 10.55,
-    "rr": 2.14,
+    "rr": 2.18,
     "vol_confirm": false,
     "is_setup": true,
-    "updated_at": "2026-06-01T15:12:31"
+    "updated_at": "2026-06-01T15:17:41"
   },
   {
     "ticker": "GGBR4",
-    "price": 23.06,
+    "price": 23.04,
     "trend": "ALTA",
-    "rsi": 51.94,
+    "rsi": 51.72,
     "setup_type": "PULLBACK",
     "grade": "B",
     "score": 66,
     "trigger": "RSI virando + repique",
-    "entry": 23.06,
-    "stop": 22.42,
+    "entry": 23.04,
+    "stop": 22.4,
     "target": 24.42,
-    "rr": 2.13,
+    "rr": 2.16,
     "vol_confirm": false,
     "is_setup": true,
-    "updated_at": "2026-06-01T15:12:35"
-  },
-  {
-    "ticker": "NEOE3",
-    "price": 33.8,
-    "trend": "ALTA",
-    "rsi": 84.67,
-    "setup_type": "PULLBACK",
-    "grade": "B",
-    "score": 58,
-    "trigger": "MACD subindo",
-    "entry": 33.8,
-    "stop": 33.78,
-    "target": 33.86,
-    "rr": 3.0,
-    "vol_confirm": false,
-    "is_setup": true,
-    "updated_at": "2026-06-01T15:12:25"
+    "updated_at": "2026-06-01T15:17:45"
   },
   {
     "ticker": "GGBR3",
@@ -65,24 +48,24 @@
     "rr": 1.84,
     "vol_confirm": false,
     "is_setup": true,
-    "updated_at": "2026-06-01T15:12:29"
+    "updated_at": "2026-06-01T15:17:40"
   },
   {
     "ticker": "JHSF3",
-    "price": 11.42,
+    "price": 11.38,
     "trend": "ALTA",
-    "rsi": 54.43,
+    "rsi": 53.88,
     "setup_type": "PULLBACK",
     "grade": null,
     "score": null,
     "trigger": "RSI virando + MACD subindo + repique",
-    "entry": 11.42,
+    "entry": 11.38,
     "stop": 10.11,
-    "target": 12.9,
-    "rr": 1.13,
+    "target": 12.86,
+    "rr": 1.17,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:46"
+    "updated_at": "2026-06-01T15:16:58"
   },
   {
     "ticker": "ABEV3",
@@ -99,30 +82,13 @@
     "rr": 0.74,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:52"
-  },
-  {
-    "ticker": "COCE5",
-    "price": 33.76,
-    "trend": "ALTA",
-    "rsi": 58.12,
-    "setup_type": "PULLBACK",
-    "grade": null,
-    "score": null,
-    "trigger": "RSI virando + MACD subindo + repique",
-    "entry": 33.76,
-    "stop": 31.9,
-    "target": 34.59,
-    "rr": 0.45,
-    "vol_confirm": false,
-    "is_setup": false,
-    "updated_at": "2026-06-01T15:12:26"
+    "updated_at": "2026-06-01T15:17:03"
   },
   {
     "ticker": "CYRE3",
-    "price": 22.3,
+    "price": 22.25,
     "trend": "BAIXA",
-    "rsi": 42.77,
+    "rsi": 42.42,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -133,13 +99,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:30"
+    "updated_at": "2026-06-01T15:16:42"
   },
   {
     "ticker": "LAVV3",
-    "price": 11.49,
+    "price": 11.46,
     "trend": "BAIXA",
-    "rsi": 35.37,
+    "rsi": 35.03,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -150,13 +116,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:30"
+    "updated_at": "2026-06-01T15:16:42"
   },
   {
     "ticker": "TGMA3",
-    "price": 30.11,
+    "price": 30.09,
     "trend": "BAIXA",
-    "rsi": 38.96,
+    "rsi": 38.84,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -167,13 +133,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:31"
+    "updated_at": "2026-06-01T15:16:43"
   },
   {
     "ticker": "VULC3",
-    "price": 15.07,
+    "price": 15.04,
     "trend": "BAIXA",
-    "rsi": 42.31,
+    "rsi": 41.78,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -184,13 +150,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:32"
+    "updated_at": "2026-06-01T15:16:43"
   },
   {
     "ticker": "DEXP3",
-    "price": 7.09,
+    "price": 7.07,
     "trend": "BAIXA",
-    "rsi": 40.76,
+    "rsi": 39.78,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -201,13 +167,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:32"
+    "updated_at": "2026-06-01T15:16:44"
   },
   {
     "ticker": "DIRR3",
-    "price": 13.37,
+    "price": 13.35,
     "trend": "BAIXA",
-    "rsi": 50.52,
+    "rsi": 50.26,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -218,13 +184,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:33"
+    "updated_at": "2026-06-01T15:16:44"
   },
   {
     "ticker": "EZTC3",
-    "price": 13.06,
+    "price": 13.04,
     "trend": "BAIXA",
-    "rsi": 44.27,
+    "rsi": 44.04,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -235,7 +201,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:33"
+    "updated_at": "2026-06-01T15:16:45"
   },
   {
     "ticker": "GRND3",
@@ -252,13 +218,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:34"
+    "updated_at": "2026-06-01T15:16:46"
   },
   {
     "ticker": "ITSA3",
-    "price": 12.97,
+    "price": 12.95,
     "trend": "LATERAL",
-    "rsi": 40.61,
+    "rsi": 40.17,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -269,13 +235,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:35"
+    "updated_at": "2026-06-01T15:16:46"
   },
   {
     "ticker": "ITSA4",
-    "price": 12.84,
+    "price": 12.81,
     "trend": "LATERAL",
-    "rsi": 40.21,
+    "rsi": 39.66,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -286,7 +252,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:35"
+    "updated_at": "2026-06-01T15:16:47"
   },
   {
     "ticker": "SHUL4",
@@ -303,13 +269,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:36"
+    "updated_at": "2026-06-01T15:16:47"
   },
   {
     "ticker": "CSUD3",
-    "price": 17.33,
+    "price": 17.29,
     "trend": "LATERAL",
-    "rsi": 47.06,
+    "rsi": 46.43,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -320,7 +286,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:36"
+    "updated_at": "2026-06-01T15:16:48"
   },
   {
     "ticker": "POMO3",
@@ -337,13 +303,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:37"
+    "updated_at": "2026-06-01T15:16:49"
   },
   {
     "ticker": "POMO4",
-    "price": 6.11,
+    "price": 6.1,
     "trend": "BAIXA",
-    "rsi": 47.04,
+    "rsi": 46.66,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -354,13 +320,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:38"
+    "updated_at": "2026-06-01T15:16:49"
   },
   {
     "ticker": "TRIS3",
-    "price": 4.35,
+    "price": 4.34,
     "trend": "BAIXA",
-    "rsi": 38.35,
+    "rsi": 38.09,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -371,7 +337,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:38"
+    "updated_at": "2026-06-01T15:16:50"
   },
   {
     "ticker": "BLAU3",
@@ -388,13 +354,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:39"
+    "updated_at": "2026-06-01T15:16:51"
   },
   {
     "ticker": "ALLD3",
-    "price": 5.71,
+    "price": 5.7,
     "trend": "BAIXA",
-    "rsi": 29.36,
+    "rsi": 29.07,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -405,13 +371,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:39"
+    "updated_at": "2026-06-01T15:16:51"
   },
   {
     "ticker": "CMIG4",
-    "price": 10.74,
+    "price": 10.71,
     "trend": "BAIXA",
-    "rsi": 27.13,
+    "rsi": 26.71,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -422,7 +388,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:40"
+    "updated_at": "2026-06-01T15:16:52"
   },
   {
     "ticker": "RANI3",
@@ -439,13 +405,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:40"
+    "updated_at": "2026-06-01T15:16:52"
   },
   {
     "ticker": "SAPR11",
-    "price": 37.05,
+    "price": 37.0,
     "trend": "BAIXA",
-    "rsi": 34.63,
+    "rsi": 34.44,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -456,13 +422,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:41"
+    "updated_at": "2026-06-01T15:16:53"
   },
   {
     "ticker": "SAPR4",
-    "price": 7.22,
+    "price": 7.21,
     "trend": "BAIXA",
-    "rsi": 36.12,
+    "rsi": 35.91,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -473,7 +439,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:42"
+    "updated_at": "2026-06-01T15:16:53"
   },
   {
     "ticker": "UNIP3",
@@ -490,13 +456,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:42"
+    "updated_at": "2026-06-01T15:16:54"
   },
   {
     "ticker": "UNIP6",
-    "price": 61.18,
+    "price": 61.12,
     "trend": "BAIXA",
-    "rsi": 48.42,
+    "rsi": 48.15,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -507,13 +473,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:43"
+    "updated_at": "2026-06-01T15:16:54"
   },
   {
     "ticker": "ABCB4",
-    "price": 24.35,
+    "price": 24.31,
     "trend": "LATERAL",
-    "rsi": 45.31,
+    "rsi": 44.81,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -524,13 +490,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:44"
+    "updated_at": "2026-06-01T15:16:55"
   },
   {
     "ticker": "KEPL3",
-    "price": 6.43,
+    "price": 6.42,
     "trend": "BAIXA",
-    "rsi": 22.54,
+    "rsi": 22.41,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -541,13 +507,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:44"
+    "updated_at": "2026-06-01T15:16:55"
   },
   {
     "ticker": "INTB3",
-    "price": 13.81,
+    "price": 13.8,
     "trend": "LATERAL",
-    "rsi": 40.63,
+    "rsi": 40.5,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -558,13 +524,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:45"
+    "updated_at": "2026-06-01T15:16:56"
   },
   {
     "ticker": "MELK3",
-    "price": 3.28,
+    "price": 3.27,
     "trend": "BAIXA",
-    "rsi": 47.56,
+    "rsi": 46.62,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -575,13 +541,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:45"
+    "updated_at": "2026-06-01T15:16:57"
   },
   {
     "ticker": "VIVA3",
-    "price": 21.62,
+    "price": 21.61,
     "trend": "BAIXA",
-    "rsi": 32.23,
+    "rsi": 32.18,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -592,13 +558,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:46"
+    "updated_at": "2026-06-01T15:16:57"
   },
   {
     "ticker": "LREN3",
-    "price": 15.06,
+    "price": 15.04,
     "trend": "ALTA",
-    "rsi": 56.18,
+    "rsi": 55.97,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -609,7 +575,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:47"
+    "updated_at": "2026-06-01T15:16:58"
   },
   {
     "ticker": "MILS3",
@@ -626,13 +592,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:48"
+    "updated_at": "2026-06-01T15:16:59"
   },
   {
     "ticker": "PLPL3",
-    "price": 9.17,
+    "price": 9.11,
     "trend": "BAIXA",
-    "rsi": 33.32,
+    "rsi": 32.27,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -643,7 +609,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:48"
+    "updated_at": "2026-06-01T15:17:00"
   },
   {
     "ticker": "SAPR3",
@@ -660,7 +626,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:49"
+    "updated_at": "2026-06-01T15:17:00"
   },
   {
     "ticker": "BAZA3",
@@ -677,13 +643,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:49"
+    "updated_at": "2026-06-01T15:17:01"
   },
   {
     "ticker": "CEBR6",
-    "price": 29.56,
+    "price": 29.99,
     "trend": "LATERAL",
-    "rsi": 42.11,
+    "rsi": 44.75,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -694,7 +660,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:50"
+    "updated_at": "2026-06-01T15:17:01"
   },
   {
     "ticker": "FIQE3",
@@ -711,13 +677,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:50"
+    "updated_at": "2026-06-01T15:17:02"
   },
   {
     "ticker": "ALOS3",
-    "price": 27.68,
+    "price": 27.67,
     "trend": "LATERAL",
-    "rsi": 36.65,
+    "rsi": 36.59,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -728,13 +694,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:51"
+    "updated_at": "2026-06-01T15:17:02"
   },
   {
     "ticker": "AZZA3",
-    "price": 19.02,
+    "price": 18.97,
     "trend": "BAIXA",
-    "rsi": 37.62,
+    "rsi": 37.35,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -745,13 +711,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:52"
+    "updated_at": "2026-06-01T15:17:03"
   },
   {
     "ticker": "CSED3",
-    "price": 3.97,
+    "price": 3.96,
     "trend": "BAIXA",
-    "rsi": 30.13,
+    "rsi": 29.96,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -762,13 +728,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:53"
+    "updated_at": "2026-06-01T15:17:04"
   },
   {
     "ticker": "CMIG3",
-    "price": 15.47,
+    "price": 15.42,
     "trend": "LATERAL",
-    "rsi": 34.78,
+    "rsi": 34.24,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -779,13 +745,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:54"
+    "updated_at": "2026-06-01T15:17:05"
   },
   {
     "ticker": "CURY3",
-    "price": 31.52,
+    "price": 31.48,
     "trend": "BAIXA",
-    "rsi": 50.71,
+    "rsi": 50.48,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -796,7 +762,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:54"
+    "updated_at": "2026-06-01T15:17:05"
   },
   {
     "ticker": "LOGG3",
@@ -813,13 +779,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:55"
+    "updated_at": "2026-06-01T15:17:06"
   },
   {
     "ticker": "WIZC3",
-    "price": 7.8,
+    "price": 7.78,
     "trend": "BAIXA",
-    "rsi": 33.88,
+    "rsi": 33.39,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -830,7 +796,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:55"
+    "updated_at": "2026-06-01T15:17:06"
   },
   {
     "ticker": "BSLI3",
@@ -847,7 +813,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:56"
+    "updated_at": "2026-06-01T15:17:07"
   },
   {
     "ticker": "ODPV3",
@@ -864,13 +830,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:56"
+    "updated_at": "2026-06-01T15:17:07"
   },
   {
     "ticker": "PETR4",
-    "price": 42.17,
+    "price": 42.2,
     "trend": "LATERAL",
-    "rsi": 34.05,
+    "rsi": 34.26,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -881,13 +847,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:57"
+    "updated_at": "2026-06-01T15:17:08"
   },
   {
     "ticker": "TFCO4",
-    "price": 14.77,
+    "price": 14.9,
     "trend": "BAIXA",
-    "rsi": 45.32,
+    "rsi": 47.07,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -898,13 +864,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:58"
+    "updated_at": "2026-06-01T15:17:08"
   },
   {
     "ticker": "FLRY3",
-    "price": 15.27,
+    "price": 15.25,
     "trend": "BAIXA",
-    "rsi": 38.06,
+    "rsi": 37.8,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -915,13 +881,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:58"
+    "updated_at": "2026-06-01T15:17:09"
   },
   {
     "ticker": "TAEE11",
-    "price": 38.89,
+    "price": 38.84,
     "trend": "LATERAL",
-    "rsi": 41.94,
+    "rsi": 41.61,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -932,13 +898,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:59"
+    "updated_at": "2026-06-01T15:17:10"
   },
   {
     "ticker": "TAEE3",
-    "price": 12.96,
+    "price": 12.95,
     "trend": "LATERAL",
-    "rsi": 42.75,
+    "rsi": 42.49,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -949,7 +915,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:11:59"
+    "updated_at": "2026-06-01T15:17:10"
   },
   {
     "ticker": "TAEE4",
@@ -966,13 +932,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:00"
+    "updated_at": "2026-06-01T15:17:11"
   },
   {
     "ticker": "TOTS3",
-    "price": 34.12,
+    "price": 34.11,
     "trend": "BAIXA",
-    "rsi": 57.44,
+    "rsi": 57.4,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -983,13 +949,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:00"
+    "updated_at": "2026-06-01T15:17:11"
   },
   {
     "ticker": "MULT3",
-    "price": 29.33,
+    "price": 29.34,
     "trend": "BAIXA",
-    "rsi": 39.53,
+    "rsi": 39.6,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1000,7 +966,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:01"
+    "updated_at": "2026-06-01T15:17:12"
   },
   {
     "ticker": "BRAP3",
@@ -1017,13 +983,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:02"
+    "updated_at": "2026-06-01T15:17:12"
   },
   {
     "ticker": "BRAP4",
-    "price": 22.76,
+    "price": 22.75,
     "trend": "LATERAL",
-    "rsi": 43.44,
+    "rsi": 43.32,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1034,13 +1000,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:02"
+    "updated_at": "2026-06-01T15:17:13"
   },
   {
     "ticker": "RDOR3",
-    "price": 33.76,
+    "price": 33.71,
     "trend": "BAIXA",
-    "rsi": 35.71,
+    "rsi": 35.49,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1051,7 +1017,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:03"
+    "updated_at": "2026-06-01T15:17:14"
   },
   {
     "ticker": "TKNO4",
@@ -1068,13 +1034,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:04"
+    "updated_at": "2026-06-01T15:17:14"
   },
   {
     "ticker": "LEVE3",
-    "price": 33.58,
+    "price": 33.55,
     "trend": "LATERAL",
-    "rsi": 51.19,
+    "rsi": 50.95,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1085,13 +1051,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:04"
+    "updated_at": "2026-06-01T15:17:15"
   },
   {
     "ticker": "SBSP3",
-    "price": 27.54,
+    "price": 27.47,
     "trend": "LATERAL",
-    "rsi": 29.88,
+    "rsi": 29.55,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1102,7 +1068,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:05"
+    "updated_at": "2026-06-01T15:17:16"
   },
   {
     "ticker": "WEGE3",
@@ -1119,7 +1085,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:06"
+    "updated_at": "2026-06-01T15:17:16"
   },
   {
     "ticker": "BMGB4",
@@ -1136,13 +1102,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:06"
+    "updated_at": "2026-06-01T15:17:17"
   },
   {
     "ticker": "BRSR6",
-    "price": 14.63,
+    "price": 14.61,
     "trend": "LATERAL",
-    "rsi": 37.76,
+    "rsi": 37.44,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1153,7 +1119,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:07"
+    "updated_at": "2026-06-01T15:17:17"
   },
   {
     "ticker": "CGRA4",
@@ -1170,7 +1136,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:07"
+    "updated_at": "2026-06-01T15:17:18"
   },
   {
     "ticker": "CMIN3",
@@ -1187,13 +1153,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:08"
+    "updated_at": "2026-06-01T15:17:18"
   },
   {
     "ticker": "EVEN3",
-    "price": 5.83,
+    "price": 5.82,
     "trend": "BAIXA",
-    "rsi": 42.03,
+    "rsi": 41.56,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1204,13 +1170,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:08"
+    "updated_at": "2026-06-01T15:17:19"
   },
   {
     "ticker": "ITUB3",
-    "price": 39.85,
+    "price": 39.81,
     "trend": "LATERAL",
-    "rsi": 39.14,
+    "rsi": 38.91,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1221,7 +1187,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:09"
+    "updated_at": "2026-06-01T15:17:20"
   },
   {
     "ticker": "VITT3",
@@ -1238,13 +1204,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:10"
+    "updated_at": "2026-06-01T15:17:20"
   },
   {
     "ticker": "ALUP11",
-    "price": 32.12,
+    "price": 32.07,
     "trend": "BAIXA",
-    "rsi": 37.27,
+    "rsi": 36.91,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1255,13 +1221,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:10"
+    "updated_at": "2026-06-01T15:17:21"
   },
   {
     "ticker": "PETR3",
-    "price": 47.36,
+    "price": 47.4,
     "trend": "LATERAL",
-    "rsi": 38.49,
+    "rsi": 38.7,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1272,13 +1238,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:11"
+    "updated_at": "2026-06-01T15:17:21"
   },
   {
     "ticker": "FESA4",
-    "price": 6.18,
+    "price": 6.17,
     "trend": "BAIXA",
-    "rsi": 31.06,
+    "rsi": 30.86,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1289,13 +1255,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:11"
+    "updated_at": "2026-06-01T15:17:22"
   },
   {
     "ticker": "FRAS3",
-    "price": 21.8,
+    "price": 21.79,
     "trend": "BAIXA",
-    "rsi": 47.95,
+    "rsi": 47.8,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1306,13 +1272,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:12"
+    "updated_at": "2026-06-01T15:17:23"
   },
   {
     "ticker": "BBDC3",
-    "price": 15.34,
+    "price": 15.35,
     "trend": "BAIXA",
-    "rsi": 36.99,
+    "rsi": 37.15,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1323,13 +1289,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:13"
+    "updated_at": "2026-06-01T15:17:23"
   },
   {
     "ticker": "ITUB4",
-    "price": 39.52,
+    "price": 39.49,
     "trend": "LATERAL",
-    "rsi": 39.04,
+    "rsi": 38.87,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1340,13 +1306,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:13"
+    "updated_at": "2026-06-01T15:17:24"
   },
   {
     "ticker": "JSLG3",
-    "price": 6.07,
+    "price": 6.06,
     "trend": "LATERAL",
-    "rsi": 34.61,
+    "rsi": 34.48,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1357,7 +1323,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:14"
+    "updated_at": "2026-06-01T15:17:25"
   },
   {
     "ticker": "CLSC4",
@@ -1374,13 +1340,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:15"
+    "updated_at": "2026-06-01T15:17:25"
   },
   {
     "ticker": "BBDC4",
-    "price": 17.6,
+    "price": 17.58,
     "trend": "BAIXA",
-    "rsi": 38.36,
+    "rsi": 38.13,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1391,13 +1357,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:15"
+    "updated_at": "2026-06-01T15:17:26"
   },
   {
     "ticker": "BPAC11",
-    "price": 52.87,
+    "price": 52.78,
     "trend": "BAIXA",
-    "rsi": 35.78,
+    "rsi": 35.52,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1408,13 +1374,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:16"
+    "updated_at": "2026-06-01T15:17:26"
   },
   {
     "ticker": "CXSE3",
-    "price": 17.47,
+    "price": 17.45,
     "trend": "LATERAL",
-    "rsi": 45.8,
+    "rsi": 45.45,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1425,13 +1391,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:17"
+    "updated_at": "2026-06-01T15:17:27"
   },
   {
     "ticker": "PFRM3",
-    "price": 6.78,
+    "price": 6.79,
     "trend": "BAIXA",
-    "rsi": 44.58,
+    "rsi": 44.75,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1442,13 +1408,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:17"
+    "updated_at": "2026-06-01T15:17:27"
   },
   {
     "ticker": "SMTO3",
-    "price": 17.26,
+    "price": 17.27,
     "trend": "LATERAL",
-    "rsi": 47.53,
+    "rsi": 47.67,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1459,13 +1425,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:18"
+    "updated_at": "2026-06-01T15:17:28"
   },
   {
     "ticker": "CSMG3",
-    "price": 52.17,
+    "price": 52.1,
     "trend": "LATERAL",
-    "rsi": 45.15,
+    "rsi": 44.92,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1476,13 +1442,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:19"
+    "updated_at": "2026-06-01T15:17:29"
   },
   {
     "ticker": "HYPE3",
-    "price": 21.49,
+    "price": 21.47,
     "trend": "LATERAL",
-    "rsi": 37.25,
+    "rsi": 37.1,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1493,13 +1459,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:19"
+    "updated_at": "2026-06-01T15:17:30"
   },
   {
     "ticker": "MTRE3",
-    "price": 3.67,
+    "price": 3.68,
     "trend": "LATERAL",
-    "rsi": 55.58,
+    "rsi": 56.31,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1510,13 +1476,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:20"
+    "updated_at": "2026-06-01T15:17:30"
   },
   {
     "ticker": "TIMS3",
-    "price": 21.88,
+    "price": 21.89,
     "trend": "BAIXA",
-    "rsi": 31.88,
+    "rsi": 31.95,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1527,13 +1493,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:21"
+    "updated_at": "2026-06-01T15:17:31"
   },
   {
     "ticker": "UGPA3",
-    "price": 25.67,
+    "price": 25.63,
     "trend": "LATERAL",
-    "rsi": 27.13,
+    "rsi": 26.96,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1544,13 +1510,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:21"
+    "updated_at": "2026-06-01T15:17:31"
   },
   {
     "ticker": "VIVT3",
-    "price": 33.22,
+    "price": 33.24,
     "trend": "BAIXA",
-    "rsi": 33.48,
+    "rsi": 33.59,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1561,7 +1527,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:22"
+    "updated_at": "2026-06-01T15:17:32"
   },
   {
     "ticker": "BPAC3",
@@ -1578,13 +1544,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:22"
+    "updated_at": "2026-06-01T15:17:32"
   },
   {
     "ticker": "PSSA3",
-    "price": 48.28,
+    "price": 48.24,
     "trend": "LATERAL",
-    "rsi": 42.58,
+    "rsi": 42.37,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1595,13 +1561,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:23"
+    "updated_at": "2026-06-01T15:17:33"
   },
   {
     "ticker": "ROMI3",
-    "price": 6.47,
+    "price": 6.46,
     "trend": "BAIXA",
-    "rsi": 37.13,
+    "rsi": 36.41,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1612,13 +1578,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:24"
+    "updated_at": "2026-06-01T15:17:33"
   },
   {
     "ticker": "MDIA3",
-    "price": 19.07,
+    "price": 19.05,
     "trend": "BAIXA",
-    "rsi": 31.93,
+    "rsi": 31.81,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1629,13 +1595,30 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:24"
+    "updated_at": "2026-06-01T15:17:34"
+  },
+  {
+    "ticker": "NEOE3",
+    "price": 33.8,
+    "trend": "ALTA",
+    "rsi": 84.67,
+    "setup_type": null,
+    "grade": null,
+    "score": null,
+    "trigger": null,
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "rr": null,
+    "vol_confirm": false,
+    "is_setup": false,
+    "updated_at": "2026-06-01T15:17:35"
   },
   {
     "ticker": "RADL3",
-    "price": 17.95,
+    "price": 18.01,
     "trend": "BAIXA",
-    "rsi": 32.85,
+    "rsi": 33.17,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1646,7 +1629,24 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:25"
+    "updated_at": "2026-06-01T15:17:35"
+  },
+  {
+    "ticker": "COCE5",
+    "price": 33.4,
+    "trend": "ALTA",
+    "rsi": 54.34,
+    "setup_type": null,
+    "grade": null,
+    "score": null,
+    "trigger": null,
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "rr": null,
+    "vol_confirm": false,
+    "is_setup": false,
+    "updated_at": "2026-06-01T15:17:36"
   },
   {
     "ticker": "SLCE3",
@@ -1663,13 +1663,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:27"
+    "updated_at": "2026-06-01T15:17:36"
   },
   {
     "ticker": "ENGI11",
-    "price": 47.51,
+    "price": 47.44,
     "trend": "BAIXA",
-    "rsi": 33.91,
+    "rsi": 33.65,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1680,7 +1680,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:27"
+    "updated_at": "2026-06-01T15:17:37"
   },
   {
     "ticker": "KLBN11",
@@ -1697,7 +1697,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:28"
+    "updated_at": "2026-06-01T15:17:38"
   },
   {
     "ticker": "KLBN3",
@@ -1714,7 +1714,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:28"
+    "updated_at": "2026-06-01T15:17:38"
   },
   {
     "ticker": "KLBN4",
@@ -1731,7 +1731,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:29"
+    "updated_at": "2026-06-01T15:17:39"
   },
   {
     "ticker": "GOAU3",
@@ -1748,7 +1748,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:30"
+    "updated_at": "2026-06-01T15:17:40"
   },
   {
     "ticker": "ARML3",
@@ -1765,13 +1765,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:31"
+    "updated_at": "2026-06-01T15:17:42"
   },
   {
     "ticker": "B3SA3",
-    "price": 16.28,
+    "price": 16.26,
     "trend": "LATERAL",
-    "rsi": 39.02,
+    "rsi": 38.84,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1782,13 +1782,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:32"
+    "updated_at": "2026-06-01T15:17:42"
   },
   {
     "ticker": "BBSE3",
-    "price": 35.08,
+    "price": 35.05,
     "trend": "ALTA",
-    "rsi": 55.93,
+    "rsi": 55.53,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1799,13 +1799,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:33"
+    "updated_at": "2026-06-01T15:17:43"
   },
   {
     "ticker": "EGIE3",
-    "price": 32.81,
+    "price": 32.78,
     "trend": "LATERAL",
-    "rsi": 46.48,
+    "rsi": 46.23,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1816,7 +1816,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:33"
+    "updated_at": "2026-06-01T15:17:43"
   },
   {
     "ticker": "EQTL3",
@@ -1833,7 +1833,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:34"
+    "updated_at": "2026-06-01T15:17:44"
   },
   {
     "ticker": "VAMO3",
@@ -1850,7 +1850,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:34"
+    "updated_at": "2026-06-01T15:17:44"
   },
   {
     "ticker": "BMEB3",
@@ -1867,13 +1867,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:36"
+    "updated_at": "2026-06-01T15:17:46"
   },
   {
     "ticker": "BMEB4",
-    "price": 77.01,
+    "price": 76.98,
     "trend": "LATERAL",
-    "rsi": 51.57,
+    "rsi": 51.53,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1884,13 +1884,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:36"
+    "updated_at": "2026-06-01T15:17:46"
   },
   {
     "ticker": "BBAS3",
-    "price": 20.24,
+    "price": 20.19,
     "trend": "BAIXA",
-    "rsi": 34.0,
+    "rsi": 33.59,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1901,7 +1901,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:37"
+    "updated_at": "2026-06-01T15:17:47"
   },
   {
     "ticker": "ETER3",
@@ -1918,13 +1918,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:38"
+    "updated_at": "2026-06-01T15:17:47"
   },
   {
     "ticker": "VALE3",
-    "price": 81.78,
+    "price": 81.8,
     "trend": "LATERAL",
-    "rsi": 45.84,
+    "rsi": 45.91,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1935,13 +1935,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:38"
+    "updated_at": "2026-06-01T15:17:48"
   },
   {
     "ticker": "AXIA3",
-    "price": 51.11,
+    "price": 51.07,
     "trend": "BAIXA",
-    "rsi": 26.51,
+    "rsi": 26.42,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1952,7 +1952,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:39"
+    "updated_at": "2026-06-01T15:17:48"
   },
   {
     "ticker": "PTNT4",
@@ -1969,13 +1969,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:39"
+    "updated_at": "2026-06-01T15:17:49"
   },
   {
     "ticker": "RENT3",
-    "price": 41.53,
+    "price": 41.41,
     "trend": "BAIXA",
-    "rsi": 38.49,
+    "rsi": 38.18,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -1986,13 +1986,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:40"
+    "updated_at": "2026-06-01T15:17:50"
   },
   {
     "ticker": "MYPK3",
-    "price": 8.93,
+    "price": 8.91,
     "trend": "BAIXA",
-    "rsi": 39.14,
+    "rsi": 38.7,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -2003,13 +2003,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:40"
+    "updated_at": "2026-06-01T15:17:50"
   },
   {
     "ticker": "AXIA6",
-    "price": 56.19,
+    "price": 56.14,
     "trend": "LATERAL",
-    "rsi": 27.21,
+    "rsi": 27.11,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -2020,7 +2020,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:41"
+    "updated_at": "2026-06-01T15:17:51"
   },
   {
     "ticker": "DXCO3",
@@ -2037,7 +2037,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:42"
+    "updated_at": "2026-06-01T15:17:52"
   },
   {
     "ticker": "HBOR3",
@@ -2054,13 +2054,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:42"
+    "updated_at": "2026-06-01T15:17:52"
   },
   {
     "ticker": "CAML3",
-    "price": 5.45,
+    "price": 5.43,
     "trend": "BAIXA",
-    "rsi": 36.55,
+    "rsi": 36.13,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -2071,13 +2071,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:43"
+    "updated_at": "2026-06-01T15:17:53"
   },
   {
     "ticker": "SANB11",
-    "price": 27.1,
+    "price": 27.08,
     "trend": "BAIXA",
-    "rsi": 38.28,
+    "rsi": 38.1,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -2088,7 +2088,7 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:43"
+    "updated_at": "2026-06-01T15:17:54"
   },
   {
     "ticker": "SANB3",
@@ -2105,13 +2105,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:44"
+    "updated_at": "2026-06-01T15:17:55"
   },
   {
     "ticker": "SANB4",
-    "price": 14.04,
+    "price": 14.01,
     "trend": "BAIXA",
-    "rsi": 40.78,
+    "rsi": 40.26,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -2122,13 +2122,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:45"
+    "updated_at": "2026-06-01T15:17:55"
   },
   {
     "ticker": "PNVL3",
-    "price": 11.54,
+    "price": 11.55,
     "trend": "BAIXA",
-    "rsi": 34.41,
+    "rsi": 34.5,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -2139,13 +2139,13 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:46"
+    "updated_at": "2026-06-01T15:17:56"
   },
   {
     "ticker": "VBBR3",
-    "price": 29.99,
+    "price": 29.94,
     "trend": "LATERAL",
-    "rsi": 33.26,
+    "rsi": 32.77,
     "setup_type": null,
     "grade": null,
     "score": null,
@@ -2156,6 +2156,6 @@
     "rr": null,
     "vol_confirm": false,
     "is_setup": false,
-    "updated_at": "2026-06-01T15:12:46"
+    "updated_at": "2026-06-01T15:17:56"
   }
 ]
