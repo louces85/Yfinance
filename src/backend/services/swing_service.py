@@ -572,9 +572,25 @@ def calc_macd_series(closes, fast=12, slow=26, signal_period=9):
 # Execução principal
 # ---------------------------------------------------------------------------
 
+def _extract_ohlcv(hist):
+    """Extrai listas alinhadas de close/high/low/volume, descartando linhas inválidas."""
+    closes, highs, lows, volumes = [], [], [], []
+    for c, h, l, v in zip(hist["Close"], hist["High"], hist["Low"], hist["Volume"]):
+        try:
+            cf = float(c); hf = float(h); lf = float(l); vf = float(v)
+        except (TypeError, ValueError):
+            continue
+        if math.isnan(cf) or math.isnan(hf) or math.isnan(lf):
+            continue
+        closes.append(cf)
+        highs.append(hf)
+        lows.append(lf)
+        volumes.append(0.0 if math.isnan(vf) else vf)
+    return closes, highs, lows, volumes
+
+
 def run():
-    """Busca OHLCV do yfinance para todos os tickers do monitoring_stocks.json,
-    calcula os 4 indicadores e salva em swing_data.json."""
+    """Busca OHLCV (1 ano) de cada ticker monitorado, detecta o melhor setup e salva."""
     monitoring = repo.get_monitoring_stocks()
     tickers = [s["ticker"] for s in monitoring]
 
@@ -582,66 +598,29 @@ def run():
     for ticker in tickers:
         try:
             yf_obj = yfinance.Ticker(ticker + ".SA")
-            hist   = yf_obj.history(period="6mo")
+            hist = yf_obj.history(period="1y")
 
             if hist.empty or len(hist) < 60:
                 continue
 
-            closes = []
-            for v in hist["Close"]:
-                try:
-                    f = float(v)
-                    if not math.isnan(f):
-                        closes.append(f)
-                except (TypeError, ValueError):
-                    pass
-
+            closes, highs, lows, volumes = _extract_ohlcv(hist)
             if len(closes) < 60:
                 continue
 
-            rsi_val    = calc_rsi(closes)
-            rsi_signal = rsi_val is not None and rsi_val < 30.0
-
-            macd_val, macd_sig_line, macd_bullish = calc_macd(closes)
-            bb_upper, bb_middle, bb_lower, bb_signal = calc_bb(closes)
-            ma20, ma50, ma_signal = calc_ma_cross(closes)
-
-            signals_count = sum([
-                1 if rsi_signal   else 0,
-                1 if macd_bullish else 0,
-                1 if bb_signal    else 0,
-                1 if ma_signal    else 0,
-            ])
-
-            results.append({
-                "ticker":           ticker,
-                "price":            round(closes[-1], 2),
-                "rsi":              rsi_val,
-                "rsi_signal":       rsi_signal,
-                "macd_value":       macd_val,
-                "macd_signal_line": macd_sig_line,
-                "macd_bullish":     macd_bullish,
-                "bb_upper":         bb_upper,
-                "bb_middle":        bb_middle,
-                "bb_lower":         bb_lower,
-                "bb_signal":        bb_signal,
-                "ma20":             ma20,
-                "ma50":             ma50,
-                "ma_signal":        ma_signal,
-                "signals_count":    signals_count,
-                "is_setup":         signals_count >= 2,
-                "updated_at":       datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
-            })
-
+            results.append(analyze_ticker(ticker, closes, highs, lows, volumes))
             time.sleep(0.3)
 
         except Exception as e:
             print("[swing_service] ERRO em {}: {}".format(ticker, e))
             continue
 
-    results.sort(key=lambda x: x["signals_count"], reverse=True)
+    results.sort(key=lambda x: (
+        1 if x["is_setup"] else 0,
+        x["score"] if x["score"] is not None else -1,
+        x["rr"] or 0,
+    ), reverse=True)
+
     repo.save_swing_data(results)
-    print("[swing_service] {} tickers calculados, {} setups.".format(
-        len(results), sum(1 for r in results if r["is_setup"])
-    ))
+    n_setups = sum(1 for r in results if r["is_setup"])
+    print("[swing_service] {} analisados, {} setups.".format(len(results), n_setups))
     return results
