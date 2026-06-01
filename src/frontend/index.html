@@ -751,6 +751,12 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 .swing-sep { width: 1px; height: 28px; background: var(--border); }
 .swing-toggle { padding: 5px 12px; border-radius: 6px; border: 1px solid var(--border); background: rgba(63,185,80,.15); color: var(--green); font-size: 11px; cursor: pointer; }
 .swing-toggle.off { background: rgba(139,148,158,.1); color: var(--muted); }
+.swing-refresh { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 6px; border: 1px solid var(--border); background: rgba(88,166,255,.12); color: var(--blue); font-size: 11px; cursor: pointer; }
+.swing-refresh:hover { background: rgba(88,166,255,.22); }
+.swing-refresh:disabled { opacity: .6; cursor: default; }
+.swing-refresh .swing-refresh-ico { display: inline-block; font-size: 13px; line-height: 1; }
+.swing-refresh.loading .swing-refresh-ico { animation: swing-spin 1s linear infinite; }
+@keyframes swing-spin { to { transform: rotate(360deg); } }
 .swing-updated { font-size: 11px; color: var(--muted); }
 .swing-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .swing-table th { font-size: 10px; color: var(--muted); font-weight: 400; padding: 6px 10px; text-align: center; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; position: sticky; top: 0; background: var(--bg); z-index: 1; }
@@ -765,6 +771,14 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 .swing-ind-off { display:inline-block; padding:2px 6px; border-radius:3px; font-size:10px; font-weight:600; background:rgba(139,148,158,.1); color:var(--muted); }
 .swing-badge-setup { display:inline-block; padding:2px 7px; border-radius:4px; font-size:10px; font-weight:600; background:rgba(63,185,80,.2); color:var(--green); border:1px solid rgba(63,185,80,.4); }
 .swing-badge-none  { display:inline-block; padding:2px 7px; border-radius:4px; font-size:10px; background:rgba(139,148,158,.1); color:var(--muted); border:1px solid var(--border); }
+.swing-setup-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:600; border:1px solid; }
+.swing-setup-pullback { background:rgba(63,185,80,.15);  color:var(--green);  border-color:rgba(63,185,80,.4); }
+.swing-setup-reversal { background:rgba(88,166,255,.15); color:var(--blue);   border-color:rgba(88,166,255,.4); }
+.swing-setup-breakout { background:rgba(210,153,34,.15); color:var(--yellow); border-color:rgba(210,153,34,.4); }
+.swing-grade { display:inline-block; min-width:18px; padding:2px 6px; border-radius:4px; font-size:11px; font-weight:700; text-align:center; }
+.swing-grade-A { background:rgba(63,185,80,.2);  color:var(--green); }
+.swing-grade-B { background:rgba(210,153,34,.2); color:var(--yellow); }
+.swing-grade-C { background:rgba(139,148,158,.15); color:var(--muted); }
 .swing-rsi-low  { color: var(--green); font-weight: 700; }
 .swing-rsi-norm { color: var(--muted); }
 .swing-sig-bar  { display:flex; gap:3px; justify-content:center; align-items:center; }
@@ -1182,6 +1196,10 @@ td:first-child  { color: var(--muted); font-size: 12px; }
         <div class="swing-lbl">Analisados</div>
       </div>
     </div>
+    <button class="swing-refresh" id="swingRefreshBtn" onclick="refreshSwing()" title="Re-coletar os ativos e recalcular os sinais agora">
+      <span class="swing-refresh-ico">⟳</span>
+      <span class="swing-refresh-lbl">Atualizar</span>
+    </button>
     <div class="swing-sep"></div>
     <button class="swing-toggle" id="swingToggle" onclick="_swingToggleFilter()">● Só SETUPs</button>
     <span class="swing-updated" id="swingUpdated"></span>
@@ -1194,12 +1212,13 @@ td:first-child  { color: var(--muted); font-size: 12px; }
         <tr>
           <th style="text-align:left" onclick="_swingSort('ticker')">Ativo <span id="swingArrow_ticker" class="sort-arrow">↕</span></th>
           <th onclick="_swingSort('price')">Preço (R$) <span id="swingArrow_price" class="sort-arrow">↕</span></th>
-          <th onclick="_swingSort('rsi')">RSI (14) <span id="swingArrow_rsi" class="sort-arrow">↕</span></th>
-          <th>MACD</th>
-          <th>Bollinger</th>
-          <th>MA Cross</th>
-          <th onclick="_swingSort('signals_count')">Sinais <span id="swingArrow_signals_count" class="sort-arrow">↓</span></th>
-          <th>Status</th>
+          <th>Setup</th>
+          <th onclick="_swingSort('score')">Nota <span id="swingArrow_score" class="sort-arrow">↓</span></th>
+          <th style="text-align:left">Gatilho</th>
+          <th>Entrada</th>
+          <th>Stop</th>
+          <th>Alvo</th>
+          <th onclick="_swingSort('rr')">R:R <span id="swingArrow_rr" class="sort-arrow">↕</span></th>
         </tr>
       </thead>
       <tbody id="swingTbody"></tbody>
@@ -3638,7 +3657,7 @@ let _bellOpen         = false;
 
 // ─── Swing Trade ──────────────────────────────────────────────────
 let _swingData      = [];
-let _swingSortCol   = 'signals_count';
+let _swingSortCol   = 'score';
 let _swingSortAsc   = false;
 let _swingOnlySetup = true;
 let _swingLoaded    = false;
@@ -3772,6 +3791,42 @@ async function loadSwing() {
   }
 }
 
+let _swingRefreshing = false;
+
+async function refreshSwing() {
+  if (_swingRefreshing) return;
+  const btn = document.getElementById('swingRefreshBtn');
+  const lbl = btn ? btn.querySelector('.swing-refresh-lbl') : null;
+  _swingRefreshing = true;
+  if (btn) { btn.classList.add('loading'); btn.disabled = true; }
+  if (lbl) lbl.textContent = 'Atualizando…';
+  try {
+    await fetch('/api/swing/refresh', { method: 'POST' });
+    await _swingPollRefresh();
+    await loadSwing();
+  } catch (e) {
+    console.error('refreshSwing error', e);
+  } finally {
+    _swingRefreshing = false;
+    if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
+    if (lbl) lbl.textContent = 'Atualizar';
+  }
+}
+
+// Aguarda o swing_service terminar (coleta de ~127 tickers leva 1-3 min).
+// Faz polling no status a cada 4s, com teto de ~7 min como salvaguarda.
+async function _swingPollRefresh() {
+  const maxTries = 105;
+  for (let i = 0; i < maxTries; i++) {
+    await new Promise(function(r) { setTimeout(r, 4000); });
+    try {
+      const res = await fetch('/api/swing/refresh/status');
+      const st  = await res.json();
+      if (!st.running) return;
+    } catch (e) { /* mantém o polling em caso de falha transitória */ }
+  }
+}
+
 function _swingToggleFilter() {
   _swingOnlySetup = !_swingOnlySetup;
   const btn = document.getElementById('swingToggle');
@@ -3795,6 +3850,15 @@ function _swingSort(col) {
   renderSwingTable();
 }
 
+function _swingSetupBadge(d) {
+  if (!d.setup_type) return '<span class="swing-badge-none">–</span>';
+  var label = { PULLBACK: 'Pullback ↑', REVERSAL: 'Reversão', BREAKOUT: 'Rompimento' }[d.setup_type] || d.setup_type;
+  var cls = 'swing-setup-' + d.setup_type.toLowerCase();
+  return '<span class="swing-setup-badge ' + cls + '" style="cursor:pointer" ' +
+         'onclick="event.stopPropagation();openSwingChart(\'' + d.ticker + '\')" ' +
+         'title="Ver gráfico técnico">' + label + '</span>';
+}
+
 function renderSwingTable() {
   const data = _swingOnlySetup
     ? _swingData.filter(function(d) { return d.is_setup; })
@@ -3810,7 +3874,7 @@ function renderSwingTable() {
     return 0;
   });
 
-  ['ticker','price','rsi','signals_count'].forEach(function(c) {
+  ['ticker', 'price', 'score', 'rr'].forEach(function(c) {
     const el = document.getElementById('swingArrow_' + c);
     if (!el) return;
     if (c === col) {
@@ -3826,7 +3890,7 @@ function renderSwingTable() {
 
   const total  = _swingData.length;
   const setups = _swingData.filter(function(d) { return d.is_setup; }).length;
-  const watch  = _swingData.filter(function(d) { return d.signals_count === 1; }).length;
+  const watch  = _swingData.filter(function(d) { return d.setup_type && !d.is_setup; }).length;
   document.getElementById('swingCountSetup').textContent = setups;
   document.getElementById('swingCountWatch').textContent = watch;
   document.getElementById('swingCountTotal').textContent = total;
@@ -3841,39 +3905,32 @@ function renderSwingTable() {
 
   const tbody = document.getElementById('swingTbody');
   if (!data.length) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:32px">Nenhum setup encontrado</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:32px">Nenhum setup encontrado</td></tr>';
     return;
   }
 
+  const fmt = function(v) { return v != null ? v.toFixed(2) : '—'; };
+
   tbody.innerHTML = data.map(function(d) {
-    var rsiClass = (d.rsi != null && d.rsi < 30) ? 'swing-rsi-low' : 'swing-rsi-norm';
-    var rsiText  = d.rsi != null ? d.rsi.toFixed(1) : '—';
-    var macdHtml = d.macd_bullish
-      ? '<span class="swing-ind-on">↑ Bull</span>'
-      : '<span class="swing-ind-off">↓ Bear</span>';
-    var bbHtml   = d.bb_signal
-      ? '<span class="swing-ind-on">≤ Inf</span>'
-      : '<span class="swing-ind-off">Normal</span>';
-    var maHtml   = d.ma_signal
-      ? '<span class="swing-ind-on">Golden</span>'
-      : '<span class="swing-ind-off">Death</span>';
-    var dots = [d.rsi_signal, d.macd_bullish, d.bb_signal, d.ma_signal].map(function(s) {
-      return '<div class="swing-dot ' + (s ? 'swing-dot-on' : 'swing-dot-off') + '"></div>';
-    }).join('');
-    var countColor = d.signals_count >= 3 ? 'var(--green)' : (d.signals_count === 2 ? 'var(--yellow)' : 'var(--muted)');
-    var badge = d.is_setup
-      ? '<span class="swing-badge-setup" style="cursor:pointer" onclick="event.stopPropagation();openSwingChart(\'' + d.ticker + '\')" title="Ver indicadores técnicos">SETUP</span>'
+    var gradeHtml = d.grade
+      ? '<span class="swing-grade swing-grade-' + d.grade + '">' + d.grade + '</span>'
       : '<span class="swing-badge-none">–</span>';
+    var rrColor = d.rr == null ? 'var(--muted)'
+      : (d.rr >= 2 ? 'var(--green)' : (d.rr >= 1.5 ? 'var(--yellow)' : 'var(--muted)'));
+    var rrHtml = d.rr != null
+      ? '<span style="font-weight:700;color:' + rrColor + '">' + d.rr.toFixed(1) + '</span>'
+      : '—';
     var rowClass = d.is_setup ? 'swing-row-setup' : '';
     return '<tr class="' + rowClass + '" onclick="openDetail(\'' + d.ticker + '\')">' +
       '<td><span style="font-weight:600;color:var(--blue)">' + d.ticker + '</span></td>' +
-      '<td>' + (d.price != null ? d.price.toFixed(2) : '—') + '</td>' +
-      '<td><span class="' + rsiClass + '">' + rsiText + '</span></td>' +
-      '<td>' + macdHtml + '</td>' +
-      '<td>' + bbHtml + '</td>' +
-      '<td>' + maHtml + '</td>' +
-      '<td><div class="swing-sig-bar">' + dots + '<span class="swing-sig-n" style="color:' + countColor + '">' + d.signals_count + '/4</span></div></td>' +
-      '<td>' + badge + '</td>' +
+      '<td>' + fmt(d.price) + '</td>' +
+      '<td>' + _swingSetupBadge(d) + '</td>' +
+      '<td>' + gradeHtml + '</td>' +
+      '<td style="text-align:left;color:var(--muted);font-size:11px">' + (d.trigger || '—') + '</td>' +
+      '<td>' + fmt(d.entry) + '</td>' +
+      '<td style="color:var(--red)">' + fmt(d.stop) + '</td>' +
+      '<td style="color:var(--green)">' + fmt(d.target) + '</td>' +
+      '<td>' + rrHtml + '</td>' +
     '</tr>';
   }).join('');
 }
