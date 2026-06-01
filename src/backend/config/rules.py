@@ -119,3 +119,29 @@ DCF_MOAT_CAP_FRACO    = 0.05  # crescimento máx. fase 1 — moat FRACO
 FINANCIALS_UPDATE_INTERVAL_DAYS = 30
 # Quantidade de anos de histórico a buscar no StatusInvest
 FINANCIALS_YEARS = 10
+
+# --- Swing Trade: indicadores e setups ---
+RSI_OVERSOLD             = 30     # RSI abaixo disso = sobrevenda (reversão)
+PULLBACK_RSI_LO          = 35     # faixa de recuo saudável (pullback) — mínimo
+PULLBACK_RSI_HI          = 50     # faixa de recuo saudável (pullback) — máximo
+PULLBACK_RECENT_LOOKBACK = 5      # janela p/ detectar recuo/gatilho do pullback
+REVERSAL_RECENT_LOOKBACK = 3      # janela p/ sobrevenda + reconquista (reversão)
+BREAKOUT_LOOKBACK        = 20     # nº de pregões da resistência rompida
+SWING_LOW_LOOKBACK       = 10     # fundo recente p/ stop estrutural
+PULLBACK_TARGET_LOOKBACK = 30     # máxima anterior usada como alvo do pullback
+MA50_SLOPE_LOOKBACK      = 10     # pregões p/ medir inclinação da MA50
+VOL_SURGE_MULT           = 1.5    # volume > mult × média(20) = confirmação
+RR_MIN                   = 1.5    # R:R mínimo p/ qualificar como setup
+RR_STRONG                = 2.0    # R:R a partir do qual a nota ganha bônus cheio
+ATR_STOP_MIN             = 1.0    # distância mínima do stop em múltiplos de ATR
+ATR_STOP_MAX             = 3.0    # distância máxima do stop em múltiplos de ATR
+ATR_TARGET_MAX           = 3.0    # teto do alvo em múltiplos de ATR
+# Pesos do score de qualidade (0–100) e cortes de nota
+W_TREND_ALTA             = 30
+W_TREND_LATERAL          = 12
+W_TRIGGER_PER            = 8      # por motivo de gatilho (cap 3)
+W_VOLUME                 = 15
+W_RR_HIGH                = 20     # R:R >= RR_STRONG
+W_RR_OK                  = 10     # RR_MIN <= R:R < RR_STRONG
+GRADE_A                  = 70     # score >= 70 → nota A
+GRADE_B                  = 50     # score >= 50 → nota B (senão C)
