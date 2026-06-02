@@ -1218,6 +1218,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
           <th>Entrada</th>
           <th>Stop</th>
           <th>Alvo</th>
+          <th onclick="_swingSort('gain')">Ganho % <span id="swingArrow_gain" class="sort-arrow">↕</span></th>
           <th onclick="_swingSort('rr')">R:R <span id="swingArrow_rr" class="sort-arrow">↕</span></th>
         </tr>
       </thead>
@@ -3881,6 +3882,11 @@ function renderSwingTable() {
     ? _swingData.filter(function(d) { return d.is_setup; })
     : _swingData.slice();
 
+  // Ganho esperado = % até o alvo (derivado de entrada/alvo, não persistido)
+  data.forEach(function(d) {
+    d.gain = (d.target != null && d.entry) ? (d.target / d.entry - 1) : null;
+  });
+
   const col = _swingSortCol;
   const asc = _swingSortAsc;
   data.sort(function(a, b) {
@@ -3891,7 +3897,7 @@ function renderSwingTable() {
     return 0;
   });
 
-  ['ticker', 'price', 'score', 'rr'].forEach(function(c) {
+  ['ticker', 'price', 'score', 'rr', 'gain'].forEach(function(c) {
     const el = document.getElementById('swingArrow_' + c);
     if (!el) return;
     if (c === col) {
@@ -3922,7 +3928,7 @@ function renderSwingTable() {
 
   const tbody = document.getElementById('swingTbody');
   if (!data.length) {
-    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:32px">Nenhum setup encontrado</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:32px">Nenhum setup encontrado</td></tr>';
     return;
   }
 
@@ -3937,6 +3943,9 @@ function renderSwingTable() {
     var rrHtml = d.rr != null
       ? '<span style="font-weight:700;color:' + rrColor + '">' + d.rr.toFixed(1) + '</span>'
       : '—';
+    var gainHtml = d.gain != null
+      ? '<span style="color:var(--green)">+' + (d.gain * 100).toFixed(1) + '%</span>'
+      : '—';
     var rowClass = d.is_setup ? 'swing-row-setup' : '';
     return '<tr class="' + rowClass + '" onclick="openDetail(\'' + d.ticker + '\')">' +
       '<td><span style="font-weight:600;color:var(--blue)">' + d.ticker + '</span></td>' +
@@ -3947,6 +3956,7 @@ function renderSwingTable() {
       '<td>' + fmt(d.entry) + '</td>' +
       '<td style="color:var(--red)">' + fmt(d.stop) + '</td>' +
       '<td style="color:var(--green)">' + fmt(d.target) + '</td>' +
+      '<td>' + gainHtml + '</td>' +
       '<td>' + rrHtml + '</td>' +
     '</tr>';
   }).join('');
