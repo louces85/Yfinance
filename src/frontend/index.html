@@ -1330,6 +1330,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
             <th>Qtd</th>
             <th>Entrada</th>
             <th>Preço atual</th>
+            <th>Valor atual (R$)</th>
             <th>P&amp;L (R$)</th>
             <th>P&amp;L %</th>
             <th>Stop</th>
@@ -4165,6 +4166,13 @@ function _swSaldoTotal(rows, field) {
   });
   return has ? sum : null;
 }
+function _swValorTotal(rows) {
+  var sum = 0, has = false;
+  rows.forEach(function(p) {
+    if (p.qty != null && p.current_price != null) { sum += p.qty * p.current_price; has = true; }
+  });
+  return has ? sum : null;
+}
 function _swDateBr(s) {
   if (!s) return '—';
   var p = s.split('-');
@@ -4204,6 +4212,8 @@ function renderSwDarf() {
 function renderSwOpen() {
   var rows = _swingPositions.open || [];
   var openLabel = rows.length + ' aberta' + (rows.length === 1 ? '' : 's');
+  var openValor = _swValorTotal(rows);
+  if (rows.length && openValor != null) openLabel += ' · Valor: ' + _swMoney(openValor);
   var openSaldo = _swSaldoTotal(rows, 'unrealized_pl');
   if (rows.length && openSaldo != null) openLabel += ' · Saldo: ' + _swPnlHtml(openSaldo);
   document.getElementById('swOpenCount').innerHTML = openLabel;
@@ -4213,7 +4223,7 @@ function renderSwOpen() {
     if (a.id && (a.type === 'stop' || a.type === 'target')) alertMap[a.id] = a.type;
   });
   if (!rows.length) {
-    tb.innerHTML = '<tr><td colspan="11" class="sw-empty">Nenhuma operação aberta. Clique em “+ Adicionar operação” ou em “Comprei” num sinal.</td></tr>';
+    tb.innerHTML = '<tr><td colspan="12" class="sw-empty">Nenhuma operação aberta. Clique em “+ Adicionar operação” ou em “Comprei” num sinal.</td></tr>';
     return;
   }
   tb.innerHTML = rows.map(function(p) {
@@ -4232,6 +4242,7 @@ function renderSwOpen() {
       '<td>' + (p.qty != null ? p.qty : '—') + '</td>' +
       '<td>' + _swFmt(p.entry_price) + '</td>' +
       '<td>' + _swFmt(p.current_price) + '</td>' +
+      '<td>' + (p.qty != null && p.current_price != null ? _swMoney(p.qty * p.current_price) : '—') + '</td>' +
       '<td>' + _swPnlHtml(p.unrealized_pl) + '</td>' +
       '<td>' + _swPctHtml(p.unrealized_pct) + '</td>' +
       '<td style="color:var(--red)"' + stopTitle + '>' + _swFmt(p.stop) + '</td>' +

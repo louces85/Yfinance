@@ -313,9 +313,9 @@ let _swingOnlySetup = true;
 
 **Card de DARF (`#swDarfCard`):** "Vendido no mês (mês/ano): R$ X de R$ 20.000" + barra de progresso + badge `Isento`/`Perto do limite`/`Atenção: pode haver IR` (status `ok`/`warn`/`over`). Limite e alerta em `rules.SWING_DARF_MONTHLY_LIMIT` / `SWING_DARF_WARN_RATIO`. A soma considera **apenas as vendas deste diário de swing** — o card exibe um aviso de que vendas de ações fora daqui (ex.: carteira de longo prazo) também contam para o limite de R$ 20.000/mês (decisão consciente do usuário: não há fonte confiável de vendas de longo prazo, pois a B3 só fornece a custódia, que é um snapshot de posições, não um extrato de negociação).
 
-**Tabela Minhas Operações (`#swOpenTbody`):** Ativo · Qtd · Entrada · Preço atual · P&L (R$) · P&L % · Stop · Alvo · Compra (data) · Dias · ações (Vender / ✎ Editar / ✕ Excluir). Distância % do stop/alvo nos `title` das células Stop/Alvo. P&L verde/vermelho.
+**Tabela Minhas Operações (`#swOpenTbody`):** Ativo · Qtd · Entrada · Preço atual · Valor atual (R$) (`qty × current_price`, "—" sem preço) · P&L (R$) · P&L % · Stop · Alvo · Compra (data) · Dias · ações (Vender / ✎ Editar / ✕ Excluir). Distância % do stop/alvo nos `title` das células Stop/Alvo. P&L verde/vermelho.
 
-**Saldo total (toolbar):** `#swOpenCount` exibe `"N abertas · Saldo: ±R$ X"` (soma de `unrealized_pl`, ignora posições sem preço atual) e o Histórico tem toolbar própria com `#swHistCount`: `"N vendas · Saldo: ±R$ X"` (soma de `realized_pl`, todo o período). Valor formatado por `_swPnlHtml` (verde/vermelho); helper `_swSaldoTotal(rows, field)` retorna `null` quando nenhuma linha tem o campo (chip omite o saldo).
+**Saldo total (toolbar):** `#swOpenCount` exibe `"N abertas · Valor: R$ V · Saldo: ±R$ X"` (`Valor` = soma de `qty × current_price` via `_swValorTotal`, neutro; saldo = soma de `unrealized_pl`, ignora posições sem preço atual) e o Histórico tem toolbar própria com `#swHistCount`: `"N vendas · Saldo: ±R$ X"` (soma de `realized_pl`, todo o período). Valor formatado por `_swPnlHtml` (verde/vermelho); helper `_swSaldoTotal(rows, field)` retorna `null` quando nenhuma linha tem o campo (chip omite o saldo).
 
 **Tabela Histórico (`#swHistTbody`):** Ativo · Qtd · Entrada · Saída · Resultado (R$) · Resultado % · Valor venda · Compra · Venda · Dias. Ordenada por data de venda DESC.
 
