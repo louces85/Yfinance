@@ -436,6 +436,8 @@ Por pregão, `build_context()` calcula:
 | ATR | `calc_atr` (Wilder) | período 14 |
 | Média de volume (escalar) | `calc_avg_volume` | período 20 |
 | `vol_confirm` (bool) | `vol_confirm` | `VOL_SURGE_MULT = 1.5` |
+| Desconto vs. médias (`below_avgs`) | `_below_avg_count` | preço < SMA de 21/63/126 pregões (conta 0–3; média indisponível não conta) |
+| Volume crescente (`vol_rising`) | `_vol_rising` | média vol(21) > média vol(63) |
 
 `vol_confirm = True` quando `volume_hoje > 1.5 × média_vol(20)`.
 
@@ -537,12 +539,18 @@ Score composto (0–100) que pondera fatores de qualidade do setup:
 | Confirmação por volume | `W_VOLUME` | 15 |
 | R:R ≥ `RR_STRONG (2.0)` | `W_RR_HIGH` | 20 |
 | `RR_MIN (1.5)` ≤ R:R < `RR_STRONG` | `W_RR_OK` | 10 |
+| Desconto: por média (1m/3m/6m) abaixo — só PULLBACK/REVERSAL | `W_BELOW_AVG_PER` | 4 cada (máx. 12) |
+| Volume crescente (méd. 1m > méd. 3m) — todos os setups | `W_VOL_RISING` | 8 |
 
 ```python
 score = (trend_points) + (min(strength, 3) × W_TRIGGER_PER)
       + (W_VOLUME se vol_confirm) + (W_RR_HIGH ou W_RR_OK)
+      + (below_avgs × W_BELOW_AVG_PER se setup != BREAKOUT)
+      + (W_VOL_RISING se vol_rising)
 score = clamp(score, 0, 100)
 ```
+
+Assinatura: `grade_setup(setup, levels, ctx)` — tendência, `below_avgs` e `vol_rising` vêm do contexto.
 
 Mapeamento: `score ≥ GRADE_A (70)` → **A** | `score ≥ GRADE_B (50)` → **B** | senão → **C**.
 
@@ -581,6 +589,8 @@ Resultado: **um único setup por ticker**.
   "vol_confirm": true,
   "is_setup":    true,
   "rsi":         41.3,
+  "below_avgs":  2,
+  "vol_rising":  true,
   "updated_at":  "2026-06-01T18:00:00"
 }
 ```
@@ -599,6 +609,8 @@ Resultado: **um único setup por ticker**.
 | `vol_confirm` | bool | Volume acima de `1.5 × média(20)` |
 | `is_setup` | bool | `True` se casou um setup **e** `rr ≥ RR_MIN (1.5)` |
 | `rsi` | float\|null | RSI escalar no último fechamento |
+| `below_avgs` | int | Quantas médias de preço (21/63/126 pregões) o fechamento está abaixo (0–3) |
+| `vol_rising` | bool | Média de volume 21p > média 63p (acumulação) |
 
 **"Monitorar"** = `setup_type != null` **e** `is_setup == false` — o ticker casou a forma do setup mas o R:R ficou abaixo de `RR_MIN`. Tickers que não casam nenhum setup ficam com `setup_type = null` e não entram no "Monitorar".
 
@@ -908,6 +920,9 @@ def _is_best(sector_info):
 | R:R mínimo para qualificar | 1.5 | `RR_MIN = 1.5` |
 | **Volume** | | |
 | Multiplicador de surge | 1.5 × média(20) | `VOL_SURGE_MULT = 1.5` |
+| Janela curta preço/volume (1m) | 21 pregões | `PRICE_AVG_SHORT_DAYS = 21` |
+| Janela média preço/volume (3m) | 63 pregões | `PRICE_AVG_MID_DAYS = 63` |
+| Janela longa preço (6m) | 126 pregões | `PRICE_AVG_LONG_DAYS = 126` |
 | **Nota A/B/C** | | |
 | Peso tendência ALTA | 30 | `W_TREND_ALTA = 30` |
 | Peso tendência LATERAL | 12 | `W_TREND_LATERAL = 12` |
@@ -915,6 +930,8 @@ def _is_best(sector_info):
 | Peso volume confirmado | 15 | `W_VOLUME = 15` |
 | Peso R:R forte (≥ 2.0) | 20 | `W_RR_HIGH = 20` |
 | Peso R:R ok (≥ 1.5 < 2.0) | 10 | `W_RR_OK = 10` |
+| Peso por média de preço abaixo (não-BREAKOUT) | 4 (máx. 12) | `W_BELOW_AVG_PER = 4` |
+| Peso volume crescente | 8 | `W_VOL_RISING = 8` |
 | R:R forte threshold | 2.0 | `RR_STRONG = 2.0` |
 | Corte nota A | score ≥ 70 | `GRADE_A = 70` |
 | Corte nota B | score ≥ 50 | `GRADE_B = 50` |
