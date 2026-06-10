@@ -379,9 +379,10 @@ def calc_levels(setup_type, ctx):
     return {"entry": round(entry, 2), "stop": stop, "target": target, "rr": rr}
 
 
-def grade_setup(setup, levels, trend):
+def grade_setup(setup, levels, ctx):
     """Score composto 0–100 e nota A/B/C."""
     score = 0
+    trend = ctx["trend"]
     if trend == "ALTA":
         score += rules.W_TREND_ALTA
     elif trend == "LATERAL":
@@ -397,6 +398,13 @@ def grade_setup(setup, levels, trend):
         score += rules.W_RR_HIGH
     elif rr >= rules.RR_MIN:
         score += rules.W_RR_OK
+
+    # Fatores de assertividade: desconto vs. médias 1m/3m/6m (Rompimento fica de
+    # fora — está acima das médias por natureza) e volume crescente (todos)
+    if setup["setup_type"] != "BREAKOUT":
+        score += ctx["below_avgs"] * rules.W_BELOW_AVG_PER
+    if ctx["vol_rising"]:
+        score += rules.W_VOL_RISING
 
     score = min(int(round(score)), 100)
     if score >= rules.GRADE_A:
@@ -431,7 +439,7 @@ def _pick_best_setup(ctx):
             continue
         is_setup = levels["rr"] >= rules.RR_MIN
         if is_setup:
-            score, grade = grade_setup(m, levels, ctx["trend"])
+            score, grade = grade_setup(m, levels, ctx)
         else:
             score, grade = None, None
         cand = {

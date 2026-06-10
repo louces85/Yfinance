@@ -71,3 +71,60 @@ class TestBuildContext:
         assert "vol_rising" in ctx
         assert ctx["below_avgs"] == 0          # série plana: nunca estritamente abaixo
         assert ctx["vol_rising"] is False      # volume constante
+
+
+# ---------------------------------------------------------------
+# grade_setup — pesos de desconto e volume crescente
+# ---------------------------------------------------------------
+
+def _ctx(trend, below_avgs, vol_rising):
+    return {"trend": trend, "below_avgs": below_avgs, "vol_rising": vol_rising}
+
+
+def _setup(setup_type, strength=2, vol_confirm=False):
+    return {"setup_type": setup_type, "strength": strength,
+            "vol_confirm": vol_confirm, "trigger": "t"}
+
+
+class TestGradeSetupNovosFatores:
+    def test_pullback_recebe_desconto_e_volume_crescente(self):
+        # 30 (ALTA) + 16 (2 gatilhos) + 10 (rr ok) + 8 (2 médias) + 8 (vol) = 72 → A
+        score, grade = svc.grade_setup(
+            _setup("PULLBACK"), {"rr": 1.93}, _ctx("ALTA", 2, True))
+        assert score == 72
+        assert grade == "A"
+
+    def test_breakout_nao_recebe_desconto(self):
+        # 30 + 16 + 15 (vol dia) + 20 (rr forte) = 81; below_avgs=3 NÃO soma
+        score, grade = svc.grade_setup(
+            _setup("BREAKOUT", vol_confirm=True), {"rr": 2.0}, _ctx("ALTA", 3, False))
+        assert score == 81
+        assert grade == "A"
+
+    def test_breakout_recebe_volume_crescente(self):
+        # 30 + 16 + 15 + 20 + 8 (vol_rising vale p/ todos) = 89
+        score, grade = svc.grade_setup(
+            _setup("BREAKOUT", vol_confirm=True), {"rr": 2.0}, _ctx("ALTA", 3, True))
+        assert score == 89
+
+    def test_reversao_descontada_sobe_para_b(self):
+        # 12 (LATERAL) + 16 + 20 (rr forte) + 12 (3 médias) = 60 → B
+        score, grade = svc.grade_setup(
+            _setup("REVERSAL"), {"rr": 2.73}, _ctx("LATERAL", 3, False))
+        assert score == 60
+        assert grade == "B"
+
+    def test_score_clampa_em_100(self):
+        # 30 + 24 (3 gatilhos) + 15 + 20 + 12 + 8 = 109 → 100
+        score, grade = svc.grade_setup(
+            _setup("PULLBACK", strength=3, vol_confirm=True),
+            {"rr": 2.5}, _ctx("ALTA", 3, True))
+        assert score == 100
+        assert grade == "A"
+
+    def test_sem_fatores_novos_score_inalterado(self):
+        # caso de hoje: ABEV3-like — 30 + 16 + 10 = 56 → B (igual ao motor atual)
+        score, grade = svc.grade_setup(
+            _setup("PULLBACK"), {"rr": 1.93}, _ctx("ALTA", 0, False))
+        assert score == 56
+        assert grade == "B"
