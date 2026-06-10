@@ -1,0 +1,32 @@
+[
+  {
+    "id": "20260609152423193882-UGPA3",
+    "ticker": "UGPA3",
+    "qty": 4.0,
+    "entry_date": "2026-06-09",
+    "entry_price": 25.21,
+    "stop": 24.12,
+    "target": 27.49,
+    "exit_date": null,
+    "exit_price": null,
+    "status": "open",
+    "source": "signal",
+    "notes": "",
+    "created_at": "2026-06-09T15:24:23"
+  },
+  {
+    "id": "20260609152951972894-JHSF3",
+    "ticker": "JHSF3",
+    "qty": 9.0,
+    "entry_date": "2026-06-09",
+    "entry_price": 11.49,
+    "stop": 10.51,
+    "target": 12.87,
+    "exit_date": null,
+    "exit_price": null,
+    "status": "open",
+    "source": "signal",
+    "notes": "",
+    "created_at": "2026-06-09T15:29:51"
+  }
+]
