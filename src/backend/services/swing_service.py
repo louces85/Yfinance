@@ -162,6 +162,28 @@ def vol_confirm(volumes, mult):
     return volumes[-1] > mult * avg
 
 
+def _below_avg_count(closes):
+    """Quantas médias de preço (1m/3m/6m) disponíveis o último fechamento está abaixo."""
+    price = closes[-1]
+    count = 0
+    periods = (rules.PRICE_AVG_SHORT_DAYS, rules.PRICE_AVG_MID_DAYS,
+               rules.PRICE_AVG_LONG_DAYS)
+    for period in periods:
+        avg = calc_sma(closes, period)
+        if avg is not None and price < avg:
+            count += 1
+    return count
+
+
+def _vol_rising(volumes):
+    """True se a média de volume 1m supera a média 3m (acumulação)."""
+    short = calc_avg_volume(volumes, rules.PRICE_AVG_SHORT_DAYS)
+    mid = calc_avg_volume(volumes, rules.PRICE_AVG_MID_DAYS)
+    if short is None or mid is None:
+        return False
+    return short > mid
+
+
 def _recent_low(lows, lookback):
     """Menor mínima dos últimos 'lookback' pregões."""
     window = lows[-lookback:]
@@ -192,6 +214,8 @@ def build_context(closes, highs, lows, volumes):
         "trend":       classify_trend(closes),
         "atr":         calc_atr(highs, lows, closes),
         "vol_confirm": vol_confirm(volumes, rules.VOL_SURGE_MULT),
+        "below_avgs":  _below_avg_count(closes),
+        "vol_rising":  _vol_rising(volumes),
     }
 
 
