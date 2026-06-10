@@ -128,3 +128,15 @@ class TestGradeSetupNovosFatores:
             _setup("PULLBACK"), {"rr": 1.93}, _ctx("ALTA", 0, False))
         assert score == 56
         assert grade == "B"
+
+
+# ---------------------------------------------------------------
+# analyze_ticker — schema com os campos novos
+# ---------------------------------------------------------------
+
+class TestAnalyzeTickerSchema:
+    def test_entry_contem_below_avgs_e_vol_rising(self):
+        closes, highs, lows, volumes = _ohlcv(130)
+        entry = svc.analyze_ticker("TEST3", closes, highs, lows, volumes)
+        assert entry["below_avgs"] == 0
+        assert entry["vol_rising"] is False

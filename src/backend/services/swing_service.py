@@ -481,6 +481,8 @@ def analyze_ticker(ticker, closes, highs, lows, volumes):
         "target":      None,
         "rr":          None,
         "vol_confirm": False,
+        "below_avgs":  ctx["below_avgs"],
+        "vol_rising":  ctx["vol_rising"],
         "is_setup":    False,
         "updated_at":  datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
     }
