@@ -117,25 +117,75 @@
   ],
   "dismissed": [
     {
-      "ticker": "AZZA3",
+      "ticker": "CMIG4",
       "type": "buy",
-      "until": "2026-04-25T13:08:31"
+      "until": "2026-06-10T16:23:48"
     },
     {
-      "ticker": "ROMI3",
+      "ticker": "KEPL3",
       "type": "buy",
-      "until": "2026-04-25T13:08:32"
+      "until": "2026-06-10T16:23:48"
     },
     {
-      "ticker": "ALLD3",
+      "ticker": "TAEE11",
       "type": "buy",
-      "until": "2026-04-25T13:08:32"
+      "until": "2026-06-10T16:23:48"
+    },
+    {
+      "ticker": "LEVE3",
+      "type": "buy",
+      "until": "2026-06-10T16:23:49"
+    },
+    {
+      "ticker": "GRND3",
+      "type": "buy",
+      "until": "2026-06-10T16:23:49"
     },
     {
       "ticker": "VULC3",
       "type": "buy",
-      "until": "2026-04-25T13:08:32"
+      "until": "2026-06-10T16:23:49"
+    },
+    {
+      "ticker": "CMIN3",
+      "type": "buy",
+      "until": "2026-06-10T16:23:49"
+    },
+    {
+      "ticker": "SHUL4",
+      "type": "buy",
+      "until": "2026-06-10T16:23:49"
+    },
+    {
+      "ticker": "RECV3",
+      "type": "buy",
+      "until": "2026-06-10T16:23:50"
+    },
+    {
+      "ticker": "WIZC3",
+      "type": "buy",
+      "until": "2026-06-10T16:23:50"
+    },
+    {
+      "ticker": "ALLD3",
+      "type": "buy",
+      "until": "2026-06-10T16:23:50"
+    },
+    {
+      "ticker": "ROMI3",
+      "type": "buy",
+      "until": "2026-06-10T16:23:50"
+    },
+    {
+      "ticker": "FLRY3",
+      "type": "buy",
+      "until": "2026-06-10T16:23:51"
+    },
+    {
+      "ticker": "AZZA3",
+      "type": "buy",
+      "until": "2026-06-10T16:23:51"
     }
   ],
-  "last_updated": "2026-04-24T13:08:32.785948"
+  "last_updated": "2026-06-09T16:23:51.666816"
 }
