@@ -12,3 +12,4 @@ __pycache__
 
 # Saída gerada pelo Graphify (grafo do código) — não versionar
 graphify-out/
+*.pyc
