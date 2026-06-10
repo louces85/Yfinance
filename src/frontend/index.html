@@ -794,6 +794,36 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 .swing-chart-close { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; line-height: 1; }
 .swing-chart-close:hover { color: var(--text); }
 .swing-chart-label { font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; margin: 8px 0 3px; }
+/* ─── Swing: sub-abas + diário de operações ──────────────────────── */
+.swing-subtabs { display:flex; align-items:center; gap:6px; padding:10px 16px 0; }
+.sw-darf { margin:12px 16px 0; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.sw-darf-main { display:flex; flex-direction:column; gap:2px; min-width:200px; }
+.sw-darf-lbl { font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+.sw-darf-val { font-size:15px; font-weight:700; }
+.sw-darf-bar { flex:1; min-width:160px; height:8px; background:var(--bg); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+.sw-darf-fill { height:100%; transition:width .3s; }
+.sw-darf-badge { font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; white-space:nowrap; }
+.sw-badge-ok   { background:rgba(63,185,80,.15);  color:var(--green); }
+.sw-badge-warn { background:rgba(210,153,34,.18); color:var(--yellow); }
+.sw-badge-over { background:rgba(248,81,73,.18);  color:var(--red); }
+.sw-actbtn { background:none; border:1px solid var(--border); color:var(--muted); border-radius:5px; padding:3px 8px; font-size:11px; cursor:pointer; font-family:inherit; }
+.sw-actbtn:hover { color:var(--text); border-color:var(--muted); }
+.sw-actbtn.sell:hover { color:var(--green); border-color:var(--green); }
+.sw-actbtn.del:hover  { color:var(--red);   border-color:var(--red); }
+.sw-addbtn { background:rgba(88,166,255,.12); border:1px solid var(--blue); color:var(--blue); border-radius:6px; padding:6px 14px; font-size:12px; cursor:pointer; font-family:inherit; }
+.sw-addbtn:hover { background:rgba(88,166,255,.22); }
+.sw-buybtn { background:rgba(63,185,80,.12); border:1px solid var(--green); color:var(--green); border-radius:5px; padding:2px 9px; font-size:11px; cursor:pointer; font-family:inherit; white-space:nowrap; }
+.sw-buybtn:hover { background:rgba(63,185,80,.22); }
+.sw-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 12px; margin:14px 0; }
+.sw-field { display:flex; flex-direction:column; gap:4px; }
+.sw-field.full { grid-column:1 / -1; }
+.sw-field label { font-size:10px; text-transform:uppercase; letter-spacing:.4px; color:var(--muted); }
+.sw-input { width:100%; padding:7px 9px; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:13px; font-family:inherit; box-sizing:border-box; }
+.sw-input:focus { outline:none; border-color:var(--blue); }
+.sw-input[readonly] { color:var(--muted); }
+.sw-submit { width:100%; background:rgba(88,166,255,.14); border:1px solid var(--blue); color:var(--blue); border-radius:6px; padding:9px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
+.sw-submit:hover { background:rgba(88,166,255,.24); }
+.sw-empty { text-align:center; color:var(--muted); padding:32px; }
 /* ─── Radar ──────────────────────────────────────────────────────── */
 #radarView { padding: 0 12px 40px; }
 .radar-add-row { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
@@ -903,7 +933,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
     <span class="meta-label">Atualizado:</span><span class="meta-val" id="lastUpdatedLine">—</span>
   </div>
   <div class="bell-wrap" id="bellWrap">
-    <button class="bell-btn" id="bellBtn" onclick="_bellToggle()" title="Alertas Radar">
+    <button class="bell-btn" id="bellBtn" onclick="_bellToggle()" title="Alertas (Radar + stop/alvo do swing)">
       🔔<span class="bell-badge" id="bellBadge"></span>
     </button>
     <div class="bell-panel" id="bellPanel">
@@ -952,6 +982,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
       <div style="display:flex;align-items:center;gap:6px">
         <button class="tab-btn ptab-btn active" data-ptab="acoes" data-sub="1">Ações</button>
         <button class="tab-btn ptab-btn" data-ptab="fiis" data-sub="1">FIIs</button>
+        <button class="tab-btn ptab-btn" data-ptab="historico" data-sub="1">Histórico</button>
       </div>
       <span id="portfolioHeaderMeta" style="font-size:11px;color:var(--muted)"></span>
     </div>
@@ -1025,6 +1056,48 @@ td:first-child  { color: var(--muted); font-size: 12px; }
         </thead>
         <tbody id="fiibody"></tbody>
       </table>
+    </div>
+  </div>
+
+  <div id="historicoSection" style="display:none;padding:4px 12px 28px">
+    <div id="histError" style="display:none;color:var(--muted);padding:40px;text-align:center;font-size:13px"></div>
+    <div id="histContent">
+      <div id="histSummary" style="display:flex;gap:10px;padding:12px 0 10px;flex-wrap:wrap"></div>
+
+      <div class="chart-section">
+        <div class="chart-header-row">
+          <div class="chart-title">Proventos Acumulados &amp; Patrimônio</div>
+          <div style="font-size:10px;color:var(--muted)">★ marcos de R$ 10.000 &nbsp;·&nbsp; ☆ previsão do próximo</div>
+        </div>
+        <div class="chart-box" style="height:340px"><canvas id="histAcumChart"></canvas></div>
+      </div>
+
+      <div style="display:flex;gap:14px;flex-wrap:wrap">
+        <div class="chart-section" style="flex:1;min-width:300px">
+          <div class="chart-header-row"><div class="chart-title">Proventos por Ano</div></div>
+          <div class="chart-box" style="height:240px"><canvas id="histYearChart"></canvas></div>
+        </div>
+        <div class="chart-section" style="flex:1;min-width:300px">
+          <div class="chart-header-row"><div class="chart-title">Proventos por Trimestre</div></div>
+          <div class="chart-box" style="height:240px"><canvas id="histQuarterChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <div class="chart-header-row"><div class="chart-title">Múltiplos de R$ 10.000 em Proventos</div></div>
+        <div class="table-wrap">
+          <table id="histMilestonesTable" style="width:100%">
+            <thead><tr>
+              <th style="text-align:left">Múltiplo</th>
+              <th style="text-align:right">Acumulado</th>
+              <th style="text-align:center">Meses</th>
+              <th style="text-align:center">Data alcançada / prevista</th>
+              <th style="text-align:left">Progresso</th>
+            </tr></thead>
+            <tbody id="histMilestonesBody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1180,50 +1253,121 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 <!-- ─── Swing Trade ──────────────────────────────────────────────── -->
 <div id="swingView" style="display:none">
 
-  <!-- Toolbar -->
-  <div class="swing-toolbar">
-    <div class="swing-cards">
-      <div class="swing-scard">
-        <div class="swing-val swing-green" id="swingCountSetup">—</div>
-        <div class="swing-lbl">SETUPs</div>
-      </div>
-      <div class="swing-scard">
-        <div class="swing-val swing-yellow" id="swingCountWatch">—</div>
-        <div class="swing-lbl">Monitorar</div>
-      </div>
-      <div class="swing-scard">
-        <div class="swing-val swing-blue" id="swingCountTotal">—</div>
-        <div class="swing-lbl">Analisados</div>
-      </div>
-    </div>
-    <button class="swing-refresh" id="swingRefreshBtn" onclick="refreshSwing()" title="Re-coletar os ativos e recalcular os sinais agora">
-      <span class="swing-refresh-ico">⟳</span>
-      <span class="swing-refresh-lbl">Atualizar</span>
-    </button>
-    <div class="swing-sep"></div>
-    <button class="swing-toggle" id="swingToggle" onclick="_swingToggleFilter()">● Só SETUPs</button>
-    <span class="swing-updated" id="swingUpdated"></span>
+  <!-- Sub-abas -->
+  <div class="swing-subtabs">
+    <button class="tab-btn swtab-btn active" data-swtab="sinais" data-sub="1">Sinais</button>
+    <button class="tab-btn swtab-btn" data-swtab="operacoes" data-sub="1">Minhas Operações</button>
+    <button class="tab-btn swtab-btn" data-swtab="historico" data-sub="1">Histórico</button>
   </div>
 
-  <!-- Tabela -->
-  <div class="table-wrap">
-    <table class="swing-table" id="swingTable">
-      <thead>
-        <tr>
-          <th style="text-align:left" onclick="_swingSort('ticker')">Ativo <span id="swingArrow_ticker" class="sort-arrow">↕</span></th>
-          <th onclick="_swingSort('price')">Preço (R$) <span id="swingArrow_price" class="sort-arrow">↕</span></th>
-          <th>Setup</th>
-          <th onclick="_swingSort('score')">Nota <span id="swingArrow_score" class="sort-arrow">↓</span></th>
-          <th style="text-align:left">Gatilho</th>
-          <th>Entrada</th>
-          <th>Stop</th>
-          <th>Alvo</th>
-          <th onclick="_swingSort('gain')">Ganho % <span id="swingArrow_gain" class="sort-arrow">↕</span></th>
-          <th onclick="_swingSort('rr')">R:R <span id="swingArrow_rr" class="sort-arrow">↕</span></th>
-        </tr>
-      </thead>
-      <tbody id="swingTbody"></tbody>
-    </table>
+  <!-- Card de DARF (vendas do mês) — visível em Operações/Histórico -->
+  <div id="swDarfCard" class="sw-darf" style="display:none"></div>
+
+  <!-- ─── Sinais (lista automática) ─── -->
+  <div id="swSinaisSection">
+
+    <!-- Toolbar -->
+    <div class="swing-toolbar">
+      <div class="swing-cards">
+        <div class="swing-scard">
+          <div class="swing-val swing-green" id="swingCountSetup">—</div>
+          <div class="swing-lbl">SETUPs</div>
+        </div>
+        <div class="swing-scard">
+          <div class="swing-val swing-yellow" id="swingCountWatch">—</div>
+          <div class="swing-lbl">Monitorar</div>
+        </div>
+        <div class="swing-scard">
+          <div class="swing-val swing-blue" id="swingCountTotal">—</div>
+          <div class="swing-lbl">Analisados</div>
+        </div>
+      </div>
+      <button class="swing-refresh" id="swingRefreshBtn" onclick="refreshSwing()" title="Re-coletar os ativos e recalcular os sinais agora">
+        <span class="swing-refresh-ico">⟳</span>
+        <span class="swing-refresh-lbl">Atualizar</span>
+      </button>
+      <div class="swing-sep"></div>
+      <button class="swing-toggle" id="swingToggle" onclick="_swingToggleFilter()">● Só SETUPs</button>
+      <span class="swing-updated" id="swingUpdated"></span>
+    </div>
+
+    <!-- Tabela -->
+    <div class="table-wrap">
+      <table class="swing-table" id="swingTable">
+        <thead>
+          <tr>
+            <th style="text-align:left" onclick="_swingSort('ticker')">Ativo <span id="swingArrow_ticker" class="sort-arrow">↕</span></th>
+            <th onclick="_swingSort('price')">Preço (R$) <span id="swingArrow_price" class="sort-arrow">↕</span></th>
+            <th>Setup</th>
+            <th onclick="_swingSort('score')">Nota <span id="swingArrow_score" class="sort-arrow">↓</span></th>
+            <th style="text-align:left">Gatilho</th>
+            <th>Entrada</th>
+            <th>Stop</th>
+            <th>Alvo</th>
+            <th onclick="_swingSort('gain')">Ganho % <span id="swingArrow_gain" class="sort-arrow">↕</span></th>
+            <th onclick="_swingSort('rr')">R:R <span id="swingArrow_rr" class="sort-arrow">↕</span></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="swingTbody"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ─── Minhas Operações (abertas) ─── -->
+  <div id="swOperacoesSection" style="display:none">
+    <div class="swing-toolbar">
+      <button class="sw-addbtn" onclick="openSwPosModal('create')">+ Adicionar operação</button>
+      <div class="swing-sep"></div>
+      <span class="swing-updated" id="swOpenCount"></span>
+    </div>
+    <div class="table-wrap">
+      <table class="swing-table" id="swOpenTable">
+        <thead>
+          <tr>
+            <th style="text-align:left">Ativo</th>
+            <th>Qtd</th>
+            <th>Entrada</th>
+            <th>Preço atual</th>
+            <th>P&amp;L (R$)</th>
+            <th>P&amp;L %</th>
+            <th>Stop</th>
+            <th>Alvo</th>
+            <th>Compra</th>
+            <th>Dias</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="swOpenTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── Histórico (vendidas) ─── -->
+  <div id="swHistoricoSection" style="display:none">
+    <div class="swing-toolbar">
+      <span class="swing-updated" id="swHistCount"></span>
+    </div>
+    <div class="table-wrap">
+      <table class="swing-table" id="swHistTable">
+        <thead>
+          <tr>
+            <th style="text-align:left">Ativo</th>
+            <th>Qtd</th>
+            <th>Entrada</th>
+            <th>Saída</th>
+            <th>Resultado (R$)</th>
+            <th>Resultado %</th>
+            <th>Valor venda</th>
+            <th>Compra</th>
+            <th>Venda</th>
+            <th>Dias</th>
+          </tr>
+        </thead>
+        <tbody id="swHistTbody"></tbody>
+      </table>
+    </div>
   </div>
 
 </div>
@@ -1252,6 +1396,9 @@ let priceChartInst  = null;
 let volChartInst    = null;
 let divChartInst    = null;
 let radarChartInst  = null;
+let histAcumChart    = null;
+let histYearChart    = null;
+let histQuarterChart = null;
 const chartCache   = new Map(); // ticker → chartData
 let _fullChartData6m = null;  // dados completos 6m para filtro por período
 let _chartDecRef     = null;
@@ -3255,6 +3402,8 @@ let _acoesSummary   = {};
 let _fiisSummary    = {};
 let _portfolioTotal = {};
 let _portfolioLoaded = false;
+let _historicoLoaded = false;
+let _histData        = null;
 
 // ─── Sticky offsets sync ───────────────────────────────────────────
 function syncStickyOffsets() {
@@ -3928,7 +4077,7 @@ function renderSwingTable() {
 
   const tbody = document.getElementById('swingTbody');
   if (!data.length) {
-    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:32px">Nenhum setup encontrado</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:var(--muted);padding:32px">Nenhum setup encontrado</td></tr>';
     return;
   }
 
@@ -3958,8 +4107,306 @@ function renderSwingTable() {
       '<td style="color:var(--green)">' + fmt(d.target) + '</td>' +
       '<td>' + gainHtml + '</td>' +
       '<td>' + rrHtml + '</td>' +
+      '<td><button class="sw-buybtn" onclick="event.stopPropagation();swBuyFromSignal(\'' + d.ticker + '\')" title="Registrar compra desta operação">Comprei</button></td>' +
     '</tr>';
   }).join('');
+}
+
+// ═══ Swing — diário de operações (Minhas Operações / Histórico) ═══
+let _swingPositions = { open: [], closed: [], darf: null };
+let _swingPositionsLoaded = false;
+
+document.querySelectorAll('.swtab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.swtab-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var tab = btn.dataset.swtab;
+    document.getElementById('swSinaisSection').style.display    = tab === 'sinais'    ? '' : 'none';
+    document.getElementById('swOperacoesSection').style.display = tab === 'operacoes' ? '' : 'none';
+    document.getElementById('swHistoricoSection').style.display = tab === 'historico' ? '' : 'none';
+    document.getElementById('swDarfCard').style.display         = tab === 'sinais'    ? 'none' : '';
+    if (tab !== 'sinais') {
+      if (!_swingPositionsLoaded) loadSwingPositions();
+      else renderSwingPositions();
+    }
+    if (tab === 'operacoes') _pollRadarAlerts();   // destaque de stop/alvo fresco
+  });
+});
+
+async function loadSwingPositions() {
+  try {
+    var res = await fetch('/api/swing/positions');
+    _swingPositions = await res.json();
+    _swingPositionsLoaded = true;
+    renderSwingPositions();
+  } catch (e) { console.error('loadSwingPositions error', e); }
+}
+
+function _swFmt(v) { return v != null ? Number(v).toFixed(2) : '—'; }
+function _swMoney(v) {
+  return v != null ? 'R$ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—';
+}
+function _swPnlHtml(v) {
+  if (v == null) return '—';
+  var c = v > 0 ? 'var(--green)' : (v < 0 ? 'var(--red)' : 'var(--muted)');
+  var s = v > 0 ? '+' : '';
+  return '<span style="color:' + c + ';font-weight:600">' + s + _swMoney(v) + '</span>';
+}
+function _swPctHtml(v) {
+  if (v == null) return '—';
+  var c = v > 0 ? 'var(--green)' : (v < 0 ? 'var(--red)' : 'var(--muted)');
+  var s = v > 0 ? '+' : '';
+  return '<span style="color:' + c + '">' + s + v.toFixed(2) + '%</span>';
+}
+function _swSaldoTotal(rows, field) {
+  var sum = 0, has = false;
+  rows.forEach(function(p) {
+    if (p[field] != null) { sum += p[field]; has = true; }
+  });
+  return has ? sum : null;
+}
+function _swDateBr(s) {
+  if (!s) return '—';
+  var p = s.split('-');
+  return p.length === 3 ? (p[2] + '/' + p[1] + '/' + p[0].slice(2)) : s;
+}
+function _swToday() {
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function renderSwingPositions() {
+  renderSwDarf();
+  renderSwOpen();
+  renderSwHist();
+}
+
+function renderSwDarf() {
+  var d = _swingPositions.darf;
+  var el = document.getElementById('swDarfCard');
+  if (!d) { el.innerHTML = ''; return; }
+  var pct = Math.min(100, d.pct);
+  var fill = d.status === 'over' ? 'var(--red)' : (d.status === 'warn' ? 'var(--yellow)' : 'var(--green)');
+  var badgeTxt = d.status === 'over' ? 'Atenção: pode haver IR' : (d.status === 'warn' ? 'Perto do limite' : 'Isento');
+  el.innerHTML =
+    '<div class="sw-darf-main">' +
+      '<span class="sw-darf-lbl">Vendido no mês (' + _ymLong(d.month) + ')</span>' +
+      '<span class="sw-darf-val">' + _swMoney(d.total_sales) +
+        ' <span style="font-size:11px;color:var(--muted)">de ' + _swMoney(d.limit) + '</span></span>' +
+    '</div>' +
+    '<div class="sw-darf-bar"><div class="sw-darf-fill" style="width:' + pct + '%;background:' + fill + '"></div></div>' +
+    '<span class="sw-darf-badge sw-badge-' + d.status + '">' + badgeTxt + '</span>' +
+    '<div style="flex-basis:100%;font-size:10px;color:var(--muted);margin-top:2px">' +
+      'Conta só as vendas deste diário de swing. Vendas de ações fora daqui (ex.: carteira de longo prazo) também somam ao limite de R$ 20.000/mês.' +
+    '</div>';
+}
+
+function renderSwOpen() {
+  var rows = _swingPositions.open || [];
+  var openLabel = rows.length + ' aberta' + (rows.length === 1 ? '' : 's');
+  var openSaldo = _swSaldoTotal(rows, 'unrealized_pl');
+  if (rows.length && openSaldo != null) openLabel += ' · Saldo: ' + _swPnlHtml(openSaldo);
+  document.getElementById('swOpenCount').innerHTML = openLabel;
+  var tb = document.getElementById('swOpenTbody');
+  var alertMap = {};
+  (_radarAlertsCache || []).forEach(function(a) {
+    if (a.id && (a.type === 'stop' || a.type === 'target')) alertMap[a.id] = a.type;
+  });
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="11" class="sw-empty">Nenhuma operação aberta. Clique em “+ Adicionar operação” ou em “Comprei” num sinal.</td></tr>';
+    return;
+  }
+  tb.innerHTML = rows.map(function(p) {
+    var stopTitle = p.dist_stop_pct != null ? ' title="' + p.dist_stop_pct.toFixed(1) + '% acima do stop"' : '';
+    var tgtTitle  = p.dist_target_pct != null ? ' title="falta ' + p.dist_target_pct.toFixed(1) + '% p/ o alvo"' : '';
+    var trig = alertMap[p.id];
+    var rowStyle = trig === 'stop' ? ' style="background:rgba(248,81,73,.10)"'
+                 : (trig === 'target' ? ' style="background:rgba(63,185,80,.10)"' : '');
+    var alertBadge = trig === 'stop'
+      ? ' <span style="font-size:9px;font-weight:700;color:var(--red);border:1px solid var(--red);border-radius:3px;padding:1px 4px;margin-left:4px">STOP</span>'
+      : (trig === 'target'
+        ? ' <span style="font-size:9px;font-weight:700;color:var(--green);border:1px solid var(--green);border-radius:3px;padding:1px 4px;margin-left:4px">ALVO</span>'
+        : '');
+    return '<tr' + rowStyle + '>' +
+      '<td><span style="font-weight:600;color:var(--blue)">' + p.ticker + '</span>' + alertBadge + '</td>' +
+      '<td>' + (p.qty != null ? p.qty : '—') + '</td>' +
+      '<td>' + _swFmt(p.entry_price) + '</td>' +
+      '<td>' + _swFmt(p.current_price) + '</td>' +
+      '<td>' + _swPnlHtml(p.unrealized_pl) + '</td>' +
+      '<td>' + _swPctHtml(p.unrealized_pct) + '</td>' +
+      '<td style="color:var(--red)"' + stopTitle + '>' + _swFmt(p.stop) + '</td>' +
+      '<td style="color:var(--green)"' + tgtTitle + '>' + _swFmt(p.target) + '</td>' +
+      '<td style="color:var(--muted);font-size:11px">' + _swDateBr(p.entry_date) + '</td>' +
+      '<td>' + (p.days_held != null ? p.days_held : '—') + '</td>' +
+      '<td style="white-space:nowrap">' +
+        '<button class="sw-actbtn sell" onclick="openSwPosModal(\'close\',\'' + p.id + '\')" title="Registrar venda">Vender</button> ' +
+        '<button class="sw-actbtn" onclick="openSwPosModal(\'edit\',\'' + p.id + '\')" title="Editar">✎</button> ' +
+        '<button class="sw-actbtn del" onclick="deleteSwPos(\'' + p.id + '\')" title="Excluir">✕</button>' +
+      '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+function renderSwHist() {
+  var rows = (_swingPositions.closed || []).slice();
+  var histLabel = 'Nenhuma venda';
+  if (rows.length) {
+    histLabel = rows.length + ' venda' + (rows.length === 1 ? '' : 's');
+    var histSaldo = _swSaldoTotal(rows, 'realized_pl');
+    if (histSaldo != null) histLabel += ' · Saldo: ' + _swPnlHtml(histSaldo);
+  }
+  document.getElementById('swHistCount').innerHTML = histLabel;
+  var tb = document.getElementById('swHistTbody');
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="10" class="sw-empty">Nenhuma venda registrada ainda.</td></tr>';
+    return;
+  }
+  rows.sort(function(a, b) { return (b.exit_date || '').localeCompare(a.exit_date || ''); });
+  tb.innerHTML = rows.map(function(p) {
+    return '<tr>' +
+      '<td><span style="font-weight:600;color:var(--blue)">' + p.ticker + '</span></td>' +
+      '<td>' + (p.qty != null ? p.qty : '—') + '</td>' +
+      '<td>' + _swFmt(p.entry_price) + '</td>' +
+      '<td>' + _swFmt(p.exit_price) + '</td>' +
+      '<td>' + _swPnlHtml(p.realized_pl) + '</td>' +
+      '<td>' + _swPctHtml(p.realized_pct) + '</td>' +
+      '<td>' + _swMoney(p.sale_value) + '</td>' +
+      '<td style="color:var(--muted);font-size:11px">' + _swDateBr(p.entry_date) + '</td>' +
+      '<td style="color:var(--muted);font-size:11px">' + _swDateBr(p.exit_date) + '</td>' +
+      '<td>' + (p.days_held != null ? p.days_held : '—') + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+function swBuyFromSignal(ticker) {
+  var sig = _swingData.filter(function(d) { return d.ticker === ticker; })[0] || {};
+  openSwPosModal('signal', { ticker: ticker, entry_price: sig.entry, stop: sig.stop, target: sig.target });
+}
+
+// ─── Modal de operação (criar / editar / vender) ─────────────────
+function _swField(label, id, type, value, opts) {
+  opts = opts || {};
+  var v = (value != null && value !== '') ? value : '';
+  var attrs = 'class="sw-input" id="' + id + '" type="' + type + '"';
+  if (type === 'number') attrs += ' step="0.01"';
+  if (opts.readonly) attrs += ' readonly';
+  if (opts.placeholder) attrs += ' placeholder="' + opts.placeholder + '"';
+  return '<div class="sw-field ' + (opts.full ? 'full' : '') + '">' +
+    '<label>' + label + '</label><input ' + attrs + ' value="' + v + '"></div>';
+}
+
+function openSwPosModal(mode, arg) {
+  var title, bodyHtml, submitLabel, submitFn, pos = null;
+  if (mode === 'edit' || mode === 'close') {
+    pos = (_swingPositions.open || []).filter(function(p) { return p.id === arg; })[0];
+    if (!pos) return;
+  }
+
+  if (mode === 'close') {
+    title = 'Vender ' + pos.ticker;
+    bodyHtml =
+      '<div style="font-size:12px;color:var(--muted);margin-bottom:6px">' +
+        pos.qty + ' × entrada ' + _swFmt(pos.entry_price) +
+        ' · stop ' + _swFmt(pos.stop) + ' · alvo ' + _swFmt(pos.target) + '</div>' +
+      '<div class="sw-form-grid">' +
+        _swField('Preço de venda (R$)', 'swf_exit_price', 'number', '', { placeholder: '0,00' }) +
+        _swField('Data da venda', 'swf_exit_date', 'date', _swToday()) +
+      '</div>';
+    submitLabel = 'Registrar venda';
+    submitFn = function() { submitSwClose(pos.id); };
+  } else {
+    var preset = (mode === 'edit') ? pos : (arg || {});
+    title = mode === 'edit' ? ('Editar ' + preset.ticker)
+          : (mode === 'signal' ? ('Comprar ' + preset.ticker) : 'Nova operação');
+    var tickerRo = (mode === 'edit' || mode === 'signal');
+    bodyHtml =
+      '<div class="sw-form-grid">' +
+        _swField('Ativo', 'swf_ticker', 'text', preset.ticker || '', { readonly: tickerRo, placeholder: 'PETR4' }) +
+        _swField('Quantidade', 'swf_qty', 'number', preset.qty != null ? preset.qty : '', { placeholder: '100' }) +
+        _swField('Preço de entrada (R$)', 'swf_entry_price', 'number', preset.entry_price != null ? preset.entry_price : '', { placeholder: '0,00' }) +
+        _swField('Data da compra', 'swf_entry_date', 'date', preset.entry_date || _swToday()) +
+        _swField('Stop (R$)', 'swf_stop', 'number', preset.stop != null ? preset.stop : '', { placeholder: 'opcional' }) +
+        _swField('Alvo (R$)', 'swf_target', 'number', preset.target != null ? preset.target : '', { placeholder: 'opcional' }) +
+        _swField('Notas', 'swf_notes', 'text', preset.notes || '', { full: true, placeholder: 'opcional' }) +
+      '</div>';
+    submitLabel = mode === 'edit' ? 'Salvar' : 'Adicionar';
+    submitFn = (mode === 'edit')
+      ? function() { submitSwEdit(preset.id); }
+      : function() { submitSwCreate(mode === 'signal' ? 'signal' : 'manual'); };
+  }
+
+  document.getElementById('swPosModalTitle').textContent = title;
+  document.getElementById('swPosModalBody').innerHTML =
+    bodyHtml + '<button class="sw-submit" id="swPosSubmit">' + submitLabel + '</button>';
+  document.getElementById('swPosSubmit').onclick = submitFn;
+  document.getElementById('swPosModal').classList.add('open');
+}
+
+function closeSwPosModal() { document.getElementById('swPosModal').classList.remove('open'); }
+
+function _swVal(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function _swNum(id) { var v = _swVal(id); return v === '' ? null : parseFloat(v.replace(',', '.')); }
+
+async function _swSend(url, method, body) {
+  var res = await fetch(url, {
+    method: method,
+    headers: { 'Content-Type': 'application/json' },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  var data = await res.json().catch(function() { return {}; });
+  if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+  return data;
+}
+
+async function submitSwCreate(source) {
+  var ticker = _swVal('swf_ticker').toUpperCase();
+  var qty = _swNum('swf_qty');
+  var entry = _swNum('swf_entry_price');
+  var date = _swVal('swf_entry_date');
+  if (!ticker || qty == null || entry == null || !date) {
+    alert('Preencha ticker, quantidade, preço de entrada e data da compra.');
+    return;
+  }
+  try {
+    await _swSend('/api/swing/positions', 'POST', {
+      ticker: ticker, qty: qty, entry_price: entry, entry_date: date,
+      stop: _swNum('swf_stop'), target: _swNum('swf_target'),
+      notes: _swVal('swf_notes'), source: source
+    });
+    closeSwPosModal();
+    await loadSwingPositions();
+  } catch (e) { alert('Erro ao salvar: ' + e.message); }
+}
+
+async function submitSwEdit(id) {
+  try {
+    await _swSend('/api/swing/positions/' + id, 'PUT', {
+      qty: _swNum('swf_qty'), entry_price: _swNum('swf_entry_price'),
+      entry_date: _swVal('swf_entry_date'), stop: _swNum('swf_stop'),
+      target: _swNum('swf_target'), notes: _swVal('swf_notes')
+    });
+    closeSwPosModal();
+    await loadSwingPositions();
+  } catch (e) { alert('Erro ao salvar: ' + e.message); }
+}
+
+async function submitSwClose(id) {
+  var exit = _swNum('swf_exit_price');
+  var date = _swVal('swf_exit_date');
+  if (exit == null || !date) { alert('Informe o preço e a data da venda.'); return; }
+  try {
+    await _swSend('/api/swing/positions/' + id + '/close', 'POST', { exit_price: exit, exit_date: date });
+    closeSwPosModal();
+    await loadSwingPositions();
+  } catch (e) { alert('Erro ao registrar venda: ' + e.message); }
+}
+
+async function deleteSwPos(id) {
+  if (!confirm('Excluir esta operação?')) return;
+  try {
+    await _swSend('/api/swing/positions/' + id, 'DELETE');
+    await loadSwingPositions();
+  } catch (e) { alert('Erro ao excluir: ' + e.message); }
 }
 
 async function loadRadarFromServer() {
@@ -4169,7 +4616,16 @@ async function _pollRadarAlerts() {
     _bellUpdateBadge();
     if (_bellOpen) _bellRenderPanel();
     renderRadarView();
+    if (_swingPositionsLoaded) renderSwOpen();   // reaplica destaque de stop/alvo
   } catch { /* silent */ }
+}
+
+// Abre o modal de venda direto a partir de um alerta de swing (stop/alvo)
+async function _swSellFromAlert(id) {
+  if (!_swingPositionsLoaded) await loadSwingPositions();
+  _bellOpen = false;
+  document.getElementById('bellPanel').classList.remove('open');
+  openSwPosModal('close', id);
 }
 
 function _bellUpdateBadge() {
@@ -4190,17 +4646,24 @@ function _bellRenderPanel() {
   const body = document.getElementById('bellPanelBody');
   if (!_radarAlertsCache.length) { body.innerHTML = '<div class="bell-empty">Nenhum alerta ativo.</div>'; return; }
   body.innerHTML = _radarAlertsCache.map(a => {
-    const lbl  = a.type === 'buy' ? 'COMPRA' : 'VENDA';
-    const cls  = a.type === 'buy' ? 'bell-alert-buy' : 'bell-alert-sell';
-    const verb = a.type === 'buy' ? `≤ R$ ${a.threshold.toFixed(2)}` : `≥ R$ ${a.threshold.toFixed(2)}`;
+    const isSwing = a.type === 'stop' || a.type === 'target';
+    let lbl, cls, verb;
+    if (a.type === 'buy')       { lbl = 'COMPRA'; cls = 'bell-alert-buy';  verb = `≤ R$ ${a.threshold.toFixed(2)}`; }
+    else if (a.type === 'sell') { lbl = 'VENDA';  cls = 'bell-alert-sell'; verb = `≥ R$ ${a.threshold.toFixed(2)}`; }
+    else if (a.type === 'stop') { lbl = 'STOP';   cls = 'bell-alert-sell'; verb = `≤ stop R$ ${a.threshold.toFixed(2)}`; }
+    else                        { lbl = 'ALVO';   cls = 'bell-alert-buy';  verb = `≥ alvo R$ ${a.threshold.toFixed(2)}`; }
+    const meta = isSwing ? `Operação aberta · R$ ${a.price.toFixed(2)} ${verb}` : `Preço R$ ${a.price.toFixed(2)} ${verb}`;
+    const action = isSwing
+      ? `<button class="bell-dismiss-btn" onclick="_swSellFromAlert('${a.id}')">Vender</button>`
+      : `<button class="bell-dismiss-btn" onclick="_bellDismiss('${a.ticker}','${a.type}')">Dispensar</button>`;
     return `<div class="bell-alert-row">
       <div>
         <div class="bell-alert-ticker">${a.ticker}
           <span class="${cls}" style="font-size:11px;font-weight:700;margin-left:6px">${lbl}</span>
         </div>
-        <div class="bell-alert-meta">Preço R$ ${a.price.toFixed(2)} ${verb}</div>
+        <div class="bell-alert-meta">${meta}</div>
       </div>
-      <button class="bell-dismiss-btn" onclick="_bellDismiss('${a.ticker}','${a.type}')">Dispensar</button>
+      ${action}
     </div>`;
   }).join('');
 }
@@ -4458,11 +4921,236 @@ document.querySelectorAll('.ptab-btn').forEach(btn => {
     document.querySelectorAll('.ptab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const tab = btn.dataset.ptab;
-    document.getElementById('acoesSection').style.display = tab === 'acoes' ? '' : 'none';
-    document.getElementById('fiiSection').style.display   = tab === 'fiis'  ? '' : 'none';
-    renderPortfolioSummary(tab === 'acoes' ? _acoesSummary : _fiisSummary);
+    const isHist = tab === 'historico';
+    document.getElementById('acoesSection').style.display     = tab === 'acoes' ? '' : 'none';
+    document.getElementById('fiiSection').style.display       = tab === 'fiis'  ? '' : 'none';
+    document.getElementById('historicoSection').style.display = isHist ? '' : 'none';
+    // a aba Histórico tem cards próprios → esconde o resumo padrão da carteira
+    document.getElementById('portfolioSummary').style.display = isHist ? 'none' : '';
+    if (isHist) {
+      if (!_historicoLoaded) loadHistorico();
+      else requestAnimationFrame(syncStickyOffsets);
+    } else {
+      renderPortfolioSummary(tab === 'acoes' ? _acoesSummary : _fiisSummary);
+    }
   });
 });
+
+// ─── Histórico (dashboard de proventos) ──────────────────────────
+const _MES_ABBR = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+// Cor fixa por trimestre (Q1 azul, Q2 verde, Q3 âmbar, Q4 roxo) — qualquer ano
+const _Q_FILL   = { 1: 'rgba(88,166,255,.6)', 2: 'rgba(63,185,80,.6)',  3: 'rgba(210,153,34,.6)',  4: 'rgba(163,113,247,.6)' };
+const _Q_BORDER = { 1: '#58a6ff',             2: '#3fb950',             3: '#d29922',              4: '#a371f7' };
+const _ymShort = ym => { const p = ym.split('-'); return _MES_ABBR[(+p[1]) - 1] + '/' + p[0].slice(2); };
+const _ymLong  = ym => { const p = ym.split('-'); return _MES_ABBR[(+p[1]) - 1] + '/' + p[0]; };
+const _ymAdd   = (ym, n) => { const p = ym.split('-'); const idx = (+p[0]) * 12 + (+p[1] - 1) + n; return Math.floor(idx / 12) + '-' + String(idx % 12 + 1).padStart(2, '0'); };
+const _ymDiff  = (a, b) => { const x = a.split('-'), y = b.split('-'); return ((+y[0]) - (+x[0])) * 12 + ((+y[1]) - (+x[1])); };
+const _etaRange = etas => { const lo = etas.reduce((a, b) => a < b ? a : b), hi = etas.reduce((a, b) => a > b ? a : b); return lo === hi ? _ymLong(lo) : (_ymShort(lo) + ' – ' + _ymShort(hi)); };
+
+async function loadHistorico() {
+  try {
+    const r = await fetch('/api/portfolio/history');
+    _histData = await r.json();
+  } catch (e) {
+    _histData = { error: 'Falha ao carregar histórico: ' + e };
+  }
+  _historicoLoaded = true;
+  renderHistorico();
+  requestAnimationFrame(syncStickyOffsets);
+}
+
+function renderHistorico() {
+  const d = _histData || {};
+  const errEl = document.getElementById('histError');
+  const contentEl = document.getElementById('histContent');
+  if (d.error || !d.summary || !d.series || !(d.series.labels || []).length) {
+    errEl.textContent = d.error || 'Sem dados de histórico disponíveis.';
+    errEl.style.display = '';
+    contentEl.style.display = 'none';
+    return;
+  }
+  errEl.style.display = 'none';
+  contentEl.style.display = '';
+  renderHistSummary(d);
+  renderHistAcumChart(d);
+  renderHistYearChart(d);
+  renderHistQuarterChart(d);
+  renderHistMilestones(d);
+}
+
+function renderHistSummary(d) {
+  const s = d.summary;
+  const nextM = d.milestones.find(m => !m.reached);
+  const fc = nextM && nextM.forecast;
+  const etas = fc ? [fc.optimistic && fc.optimistic.eta, fc.conservative && fc.conservative.eta].filter(Boolean) : [];
+  let prevText = '—', prevSub = '';
+  if (etas.length) {
+    prevText = _etaRange(etas);
+    prevSub = 'ritmo 6m ' + fmtBRL(fc.optimistic.rate) + ' · 12m ' + fmtBRL(fc.conservative.rate);
+  }
+  const g = s.ytd_growth_pct;
+  const gTxt = (g == null) ? '—' : (g >= 0 ? '+' : '') + g.toFixed(1) + '%';
+  const progPct = s.progress_pct || 0;
+
+  const cards = [
+    { label: 'Proventos Acumulados', value: fmtBRL(s.total_proventos), cls: 'pc-green' },
+    { label: 'Patrimônio',           value: fmtBRL(s.patrimony),       cls: 'pc-blue' },
+    { label: 'Próximo Marco',        value: fmtBRL(s.next_milestone),  cls: '',
+      bar: progPct, sub: progPct.toFixed(1) + '% · faltam ' + fmtBRL(s.remaining) },
+    { label: 'Previsão Próx. Marco', value: prevText, cls: 'pc-green', sub: prevSub },
+    { label: 'Proventos ' + (s.ytd_current ? s.ytd_current.year : ''),
+      value: fmtBRL(s.ytd_current ? s.ytd_current.value : 0), cls: g >= 0 ? 'pc-green' : 'pc-red',
+      sub: 'vs ' + (s.ytd_prev ? s.ytd_prev.year : '') + ' (mesmo período): ' + gTxt },
+  ];
+  document.getElementById('histSummary').innerHTML = cards.map(c => `
+    <div class="price-card" style="min-width:150px">
+      <div class="pc-label">${c.label}</div>
+      <div class="pc-value ${c.cls}">${c.value}</div>
+      ${c.bar != null ? `<div style="height:4px;background:var(--border);border-radius:3px;margin-top:6px;overflow:hidden"><div style="height:100%;width:${Math.min(100, c.bar)}%;background:linear-gradient(90deg,var(--green),var(--green-s))"></div></div>` : ''}
+      ${c.sub ? `<div class="pc-sub">${c.sub}</div>` : ''}
+    </div>`).join('');
+}
+
+function renderHistAcumChart(d) {
+  const labels = d.series.labels.slice();
+  const acum   = d.series.acumulado.slice();
+  const patr   = d.series.patrimony.slice();
+  const nHist  = labels.length;
+  const reached = d.milestones.filter(m => m.reached);
+  const nextM   = d.milestones.find(m => !m.reached);
+  const fc = nextM && nextM.forecast;
+  const etas = fc ? [fc.optimistic && fc.optimistic.eta, fc.conservative && fc.conservative.eta].filter(Boolean) : [];
+  const lastYM = labels[nHist - 1];
+  const maxEta = etas.length ? etas.reduce((a, b) => a > b ? a : b) : lastYM;
+  const extra  = Math.max(0, _ymDiff(lastYM, maxEta));
+
+  const labelsExt = labels.slice();
+  for (let i = 1; i <= extra; i++) labelsExt.push(_ymAdd(lastYM, i));
+  const pad = Array(extra).fill(null);
+  const acumExt = acum.concat(pad);
+  const patrExt = patr.concat(pad);
+
+  const marcos = Array(labelsExt.length).fill(null);
+  reached.forEach(m => { const i = labelsExt.indexOf(m.date); if (i >= 0) marcos[i] = m.target; });
+
+  const ghost = Array(labelsExt.length).fill(null);
+  const proj  = Array(labelsExt.length).fill(null);
+  if (nextM && etas.length) {
+    etas.forEach(e => { const i = labelsExt.indexOf(e); if (i >= 0) ghost[i] = nextM.target; });
+    proj[nHist - 1] = acum[nHist - 1];
+    const li = labelsExt.indexOf(maxEta); if (li >= 0) proj[li] = nextM.target;
+  }
+
+  if (histAcumChart) histAcumChart.destroy();
+  histAcumChart = new Chart(document.getElementById('histAcumChart'), {
+    type: 'line',
+    data: { labels: labelsExt, datasets: [
+      { label: 'Proventos Acumulados', data: acumExt, yAxisID: 'y', borderColor: '#39d353', backgroundColor: 'rgba(57,211,83,.10)', fill: true, tension: .25, pointRadius: 0, borderWidth: 2 },
+      { label: 'Patrimônio', data: patrExt, yAxisID: 'y1', borderColor: '#58a6ff', fill: false, tension: .25, pointRadius: 0, borderWidth: 2 },
+      { label: 'Projeção', data: proj, yAxisID: 'y', borderColor: 'rgba(255,215,0,.7)', borderDash: [6, 4], fill: false, pointRadius: 0, borderWidth: 2, spanGaps: true },
+      { label: 'Marcos R$10k', data: marcos, yAxisID: 'y', showLine: false, pointStyle: 'star', pointRadius: 12, pointHoverRadius: 14, borderColor: '#ffd700', backgroundColor: '#ffd700', pointBorderColor: '#ffd700', pointBackgroundColor: '#ffd700', pointBorderWidth: 2 },
+      { label: 'Marco previsto', data: ghost, yAxisID: 'y', showLine: false, pointStyle: 'star', pointRadius: 12, pointHoverRadius: 14, borderColor: '#ffd700', pointBorderColor: '#ffd700', pointBackgroundColor: 'rgba(255,215,0,.15)', pointBorderWidth: 2 },
+    ] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: true, position: 'top', labels: { color: '#8b949e', font: { size: 10 }, boxWidth: 12, padding: 10, usePointStyle: true } },
+        tooltip: { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e',
+          callbacks: { label: ctx => ctx.parsed.y == null ? null : ' ' + ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) } },
+      },
+      scales: {
+        x:  { ticks: { color: '#8b949e', font: { size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 12, callback: function (v) { return _ymShort(this.getLabelForValue(v)); } }, grid: { display: false } },
+        y:  { position: 'left',  ticks: { color: '#8b949e', font: { size: 10 }, callback: v => 'R$ ' + (v / 1000) + 'k' }, grid: { color: 'rgba(48,54,61,.5)' }, title: { display: true, text: 'Proventos acumulados', color: '#8b949e', font: { size: 10 } } },
+        y1: { position: 'right', ticks: { color: '#8b949e', font: { size: 10 }, callback: v => 'R$ ' + (v / 1000).toFixed(0) + 'k' }, grid: { drawOnChartArea: false }, title: { display: true, text: 'Patrimônio', color: '#8b949e', font: { size: 10 } } },
+      },
+    },
+  });
+}
+
+function renderHistYearChart(d) {
+  const lastY = d.by_year.length ? d.by_year[d.by_year.length - 1].year : null;
+  const labels  = d.by_year.map(y => y.year);
+  const data    = d.by_year.map(y => y.total);
+  const bg      = d.by_year.map(y => y.year === lastY ? 'rgba(88,166,255,.6)' : 'rgba(57,211,83,.5)');
+  const border  = d.by_year.map(y => y.year === lastY ? '#58a6ff' : '#39d353');
+  if (histYearChart) histYearChart.destroy();
+  histYearChart = new Chart(document.getElementById('histYearChart'), {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'Proventos', data, backgroundColor: bg, borderColor: border, borderWidth: 1, borderRadius: 4 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e',
+          callbacks: { label: ctx => ' ' + fmtBRL(ctx.parsed.y),
+            afterLabel: ctx => { const y = d.by_year[ctx.dataIndex]; const out = ['média ' + fmtBRL(y.monthly_avg) + '/mês']; if (y.growth_pct != null) out.push((y.growth_pct >= 0 ? '+' : '') + y.growth_pct.toFixed(1) + '% A/A'); return out; } } },
+      },
+      scales: {
+        x: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { display: false } },
+        y: { ticks: { color: '#8b949e', font: { size: 10 }, callback: v => 'R$ ' + (v / 1000) + 'k' }, grid: { color: 'rgba(48,54,61,.5)' } },
+      },
+    },
+  });
+}
+
+function renderHistQuarterChart(d) {
+  const labels = d.by_quarter.map(q => q.label);
+  const data   = d.by_quarter.map(q => q.total);
+  const qnums  = d.by_quarter.map(q => parseInt(q.label.slice(1), 10));  // "Q3 2020" → 3
+  const bg     = qnums.map(n => _Q_FILL[n]);
+  const bd     = qnums.map(n => _Q_BORDER[n]);
+  if (histQuarterChart) histQuarterChart.destroy();
+  histQuarterChart = new Chart(document.getElementById('histQuarterChart'), {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'Proventos', data, backgroundColor: bg, borderColor: bd, borderWidth: 1, borderRadius: 3 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        // legenda como chave de cores: Q1/Q2/Q3/Q4 (clique não filtra)
+        legend: { display: true, position: 'top',
+          labels: { color: '#ffffff', font: { size: 10, weight: '600' }, boxWidth: 12, padding: 12,
+            generateLabels: () => [1, 2, 3, 4].map(n => ({ text: 'Q' + n, fillStyle: _Q_FILL[n], strokeStyle: _Q_BORDER[n], lineWidth: 1, fontColor: '#ffffff', hidden: false })) },
+          onClick: () => {} },
+        tooltip: { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e',
+          callbacks: { label: ctx => ' ' + fmtBRL(ctx.parsed.y) } },
+      },
+      scales: {
+        x: { ticks: { color: '#8b949e', font: { size: 9 }, maxRotation: 90, autoSkip: true, maxTicksLimit: 14 }, grid: { display: false } },
+        y: { type: 'logarithmic', min: 1,
+             ticks: { color: '#8b949e', font: { size: 10 },
+               callback: v => { const l = Math.log10(v); if (Math.abs(l - Math.round(l)) > 1e-9) return ''; return v >= 1000 ? 'R$ ' + (v / 1000) + 'k' : 'R$ ' + v; } },
+             grid: { color: 'rgba(48,54,61,.5)' } },
+      },
+    },
+  });
+}
+
+function renderHistMilestones(d) {
+  const rows = d.milestones.map(m => {
+    if (m.reached) {
+      return `<tr>
+        <td style="text-align:left">#${m.n}</td>
+        <td style="text-align:right">${fmtBRL(m.target)}</td>
+        <td style="text-align:center">${m.months}</td>
+        <td style="text-align:center">${_ymLong(m.date)}</td>
+        <td style="text-align:left"><span style="color:var(--green-s)">★ atingido</span></td>
+      </tr>`;
+    }
+    const fc = m.forecast || {};
+    const o = fc.optimistic || {}, c = fc.conservative || {};
+    const etas = [o.eta, c.eta].filter(Boolean);
+    const prev = etas.length ? _etaRange(etas) : '—';
+    return `<tr>
+      <td style="text-align:left">#${m.n}</td>
+      <td style="text-align:right">${fmtBRL(m.target)}</td>
+      <td style="text-align:center">${o.months != null ? '~' + o.months : '—'}</td>
+      <td style="text-align:center"><span style="color:var(--yellow)">☆ ${prev}</span></td>
+      <td style="text-align:left">${(m.progress_pct || 0).toFixed(1)}% · faltam ${fmtBRL(m.remaining)}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('histMilestonesBody').innerHTML = rows;
+}
 
 // ─── Ações summary ───────────────────────────────────────────────
 function renderAcoesSummary(s) {
@@ -4630,6 +5318,14 @@ loadDecision();
     <canvas id="swingRsiCanvas" height="80"></canvas>
     <div class="swing-chart-label">MACD (12 / 26 / 9)</div>
     <canvas id="swingMacdCanvas" height="80"></canvas>
+  </div>
+</div>
+<!-- ─── Swing — modal de operação (criar / editar / vender) ────── -->
+<div id="swPosModal" class="modal-overlay" onclick="if(event.target===this)closeSwPosModal()">
+  <div class="modal" style="max-width:460px;padding:20px">
+    <button class="modal-close" onclick="closeSwPosModal()">✕</button>
+    <div id="swPosModalTitle" style="font-size:15px;font-weight:700;color:var(--blue);margin-bottom:4px">—</div>
+    <div id="swPosModalBody"></div>
   </div>
 </div>
 </body>

@@ -33,7 +33,9 @@ from repositories import stock_repository as repo
 from services import decision_service
 from services import market_service
 from services import swing_service
+from services import swing_journal_service
 from services import portfolio_service
+from services import history_dashboard_service
 from services import valuation_calculator
 from services.price_service import PriceService as _PriceService
 
@@ -190,6 +192,14 @@ def portfolio():
     return jsonify(portfolio_service.load())
 
 
+@app.route("/api/portfolio/history")
+def portfolio_history():
+    """Dashboard de histórico de proventos (aba Carteira → Histórico):
+    série acumulada + patrimônio, agregação por ano/trimestre, marcos de 10K
+    e previsão do próximo marco. Lê data/History/B3.xlsx."""
+    return jsonify(history_dashboard_service.load())
+
+
 # ---------------------------------------------------------------------------
 # API — favoritos
 # ---------------------------------------------------------------------------
@@ -312,7 +322,31 @@ def get_radar_alerts():
                         continue
                 except ValueError:
                     pass
-            alerts.append({"ticker": ticker, "type": atype, "price": round(price, 2), "threshold": round(threshold, 2)})
+            alerts.append({"ticker": ticker, "type": atype, "price": round(price, 2), "threshold": round(threshold, 2), "source": "radar"})
+
+    # --- alertas de stop/alvo das operações de swing abertas (sempre exibidos
+    #     enquanto a operação seguir aberta — sem "dispensar") ---
+    try:
+        open_pos = [p for p in repo.load_swing_positions() if p.get("status") != "closed"]
+        for p in open_pos:
+            t = p.get("ticker")
+            if t in prices:
+                continue
+            pr = repo.get_price(t)
+            if pr is None:
+                pr = _price_svc.fetch_from_google(t)
+                if pr is None or pr <= 0:
+                    pr = _price_svc.fetch_from_yfinance(t)
+                if pr is not None and pr > 0:
+                    repo.save_price(t, pr)
+            if pr is not None and pr > 0:
+                prices[t] = round(pr, 2)
+        for a in swing_journal_service.position_alerts(open_pos, prices):
+            a["source"] = "swing"
+            alerts.append(a)
+    except Exception:
+        pass
+
     return jsonify({"alerts": alerts, "prices": prices})
 
 
@@ -430,11 +464,88 @@ def get_swing_chart(ticker):
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/swing/refresh", methods=["POST"])
+def refresh_swing():
+    """Força a re-coleta dos ativos e o recálculo dos sinais agora, sem esperar
+    o scheduler de 23h. Roda swing_service em background (a coleta dos ~127
+    tickers leva 1-3 min) e retorna imediatamente. O frontend acompanha o
+    progresso via GET /api/swing/refresh/status."""
+    with _swing_lock:
+        if _swing_running:
+            return jsonify({"status": "running"})
+    threading.Thread(target=_do_swing_run, daemon=True,
+                     name="swing-manual-refresh").start()
+    return jsonify({"status": "started"})
+
+
+@app.route("/api/swing/refresh/status")
+def refresh_swing_status():
+    with _swing_lock:
+        running = _swing_running
+    data = repo.load_swing_data()
+    updated = data[0]["updated_at"] if data else None
+    return jsonify({"running": running, "updated_at": updated})
+
+
+# ---------------------------------------------------------------------------
+# API — diário de operações de swing (compras/vendas + controle de DARF)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/swing/positions")
+def get_swing_positions():
+    return jsonify(swing_journal_service.list_positions())
+
+
+@app.route("/api/swing/positions", methods=["POST"])
+def add_swing_position():
+    body = request.get_json(force=True)
+    try:
+        pos = swing_journal_service.add_position(body)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    return jsonify(pos)
+
+
+@app.route("/api/swing/positions/<pos_id>/close", methods=["POST"])
+def close_swing_position(pos_id):
+    body = request.get_json(force=True)
+    try:
+        pos = swing_journal_service.close_position(
+            pos_id, body.get("exit_price"), body.get("exit_date"))
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    except KeyError:
+        return jsonify({"error": "operacao nao encontrada"}), 404
+    return jsonify(pos)
+
+
+@app.route("/api/swing/positions/<pos_id>", methods=["PUT"])
+def update_swing_position(pos_id):
+    body = request.get_json(force=True)
+    try:
+        pos = swing_journal_service.update_position(pos_id, body)
+    except KeyError:
+        return jsonify({"error": "operacao nao encontrada"}), 404
+    return jsonify(pos)
+
+
+@app.route("/api/swing/positions/<pos_id>", methods=["DELETE"])
+def delete_swing_position(pos_id):
+    ok = swing_journal_service.delete_position(pos_id)
+    if not ok:
+        return jsonify({"error": "operacao nao encontrada"}), 404
+    return jsonify({"ok": True})
+
+
 # ---------------------------------------------------------------------------
 # Scheduler — roda decision_service a cada 1 hora em background
 # ---------------------------------------------------------------------------
 
 REFRESH_INTERVAL_HOURS = 0.5
+
+# Guard de concorrência do swing_service (scheduler + refresh manual)
+_swing_lock = threading.Lock()
+_swing_running = False
 
 def _run_decision():
     """Executa o decision_service e market_service e registra o horário."""
@@ -460,6 +571,28 @@ def _scheduler_loop():
         _run_decision()
 
 
+def _do_swing_run():
+    """Executa swing_service.run() garantindo que apenas uma execução ocorra
+    por vez (scheduler automático + refresh manual compartilham este guard).
+    Retorna True se rodou, False se já havia uma execução em andamento."""
+    global _swing_running
+    with _swing_lock:
+        if _swing_running:
+            return False
+        _swing_running = True
+    try:
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print("[swing] {} — iniciando swing_service...".format(now))
+        swing_service.run()
+        print("[swing] {} — concluído.".format(now))
+    except Exception as e:
+        print("[swing] ERRO: {}".format(e))
+    finally:
+        with _swing_lock:
+            _swing_running = False
+    return True
+
+
 def _swing_update_loop():
     """Verifica a cada hora se swing_data.json tem mais de 23h.
     Se sim, roda swing_service.run(). Garante dados frescos diariamente
@@ -476,13 +609,7 @@ def _swing_update_loop():
                 needs_update = True
 
         if needs_update:
-            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print("[swing-scheduler] {} — iniciando swing_service...".format(now))
-            try:
-                swing_service.run()
-                print("[swing-scheduler] {} — concluído.".format(now))
-            except Exception as e:
-                print("[swing-scheduler] ERRO: {}".format(e))
+            _do_swing_run()
 
         time.sleep(3600)
 

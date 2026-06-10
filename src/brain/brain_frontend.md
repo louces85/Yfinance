@@ -233,6 +233,13 @@ Renderizado por `renderPortfolioSummary(s)` em `index.html`. Exibido acima da ta
 
 **Propósito:** Identificar setups de swing trade (pullback, reversão, rompimento) sobre o histórico OHLCV de todos os ~127 tickers do Screening, com filtro de tendência, níveis de risco (entrada/stop/alvo/R:R) e nota de qualidade A/B/C.
 
+**Sub-abas (`.swtab-btn`, `data-swtab`):** a aba Swing é dividida em três seções internas, no padrão das sub-abas da Carteira:
+- **Sinais** (`#swSinaisSection`) — a lista automática descrita abaixo;
+- **Minhas Operações** (`#swOperacoesSection`) — diário de posições abertas com P&L ao vivo;
+- **Histórico** (`#swHistoricoSection`) — operações já vendidas.
+
+O **card de DARF** (`#swDarfCard`) aparece no topo de Operações/Histórico (oculto em Sinais). Ver §9.5.1.
+
 **Fonte de dados:** `swing_data.json` gerado por `swing_service.py`. Atualizado automaticamente uma vez por dia (scheduler verifica a cada 1h se os dados têm > 23h) **ou sob demanda** pelo botão `⟳ Atualizar` do toolbar.
 
 **Endpoints:**
@@ -258,6 +265,7 @@ Renderizado por `renderPortfolioSummary(s)` em `index.html`. Exibido acima da ta
 | `Stop` | `stop` | Stop estrutural com clamp ATR (vermelho) |
 | `Alvo` | `target` | Alvo por tipo de setup, capado por ATR (verde) |
 | `R:R` | `rr` | Risco:Retorno — verde ≥ 2.0, amarelo ≥ 1.5, cinza < 1.5 |
+| `Comprar` | — | Botão **"Comprei"** → `swBuyFromSignal(ticker)` abre o modal de operação pré-preenchido com entrada/stop/alvo do sinal (`event.stopPropagation()`) |
 
 **Badges de setup (coluna Setup):**
 
@@ -294,6 +302,28 @@ let _swingOnlySetup = true;
 **Clique na linha:** `openDetail(ticker)` — abre o modal de detalhe completo.
 
 **Função de renderização:** `renderSwingTable()` + helper `_swingSetupBadge(d)`.
+
+#### 9.5.1 Diário de Operações (Minhas Operações / Histórico)
+
+**Propósito:** registrar manualmente o que o usuário comprou/vendeu no swing, com P&L, dias na carteira e controle de vendas do mês para fins de DARF.
+
+**Fonte de dados:** `GET /api/swing/positions` → `{ open, closed, darf }` (ver §endpoints no brain_architecture). Persistência em `swing_positions.json` via `swing_journal_service`. Posições abertas são enriquecidas com preço atual (`stock_prices.json`, fallback `swing_data.json`).
+
+**Estado JS:** `_swingPositions = { open, closed, darf }`, `_swingPositionsLoaded`. Carregado *lazy* na 1ª visita às sub-abas Operações/Histórico via `loadSwingPositions()`. Renderização: `renderSwingPositions()` → `renderSwDarf()` + `renderSwOpen()` + `renderSwHist()`.
+
+**Card de DARF (`#swDarfCard`):** "Vendido no mês (mês/ano): R$ X de R$ 20.000" + barra de progresso + badge `Isento`/`Perto do limite`/`Atenção: pode haver IR` (status `ok`/`warn`/`over`). Limite e alerta em `rules.SWING_DARF_MONTHLY_LIMIT` / `SWING_DARF_WARN_RATIO`. A soma considera **apenas as vendas deste diário de swing** — o card exibe um aviso de que vendas de ações fora daqui (ex.: carteira de longo prazo) também contam para o limite de R$ 20.000/mês (decisão consciente do usuário: não há fonte confiável de vendas de longo prazo, pois a B3 só fornece a custódia, que é um snapshot de posições, não um extrato de negociação).
+
+**Tabela Minhas Operações (`#swOpenTbody`):** Ativo · Qtd · Entrada · Preço atual · P&L (R$) · P&L % · Stop · Alvo · Compra (data) · Dias · ações (Vender / ✎ Editar / ✕ Excluir). Distância % do stop/alvo nos `title` das células Stop/Alvo. P&L verde/vermelho.
+
+**Saldo total (toolbar):** `#swOpenCount` exibe `"N abertas · Saldo: ±R$ X"` (soma de `unrealized_pl`, ignora posições sem preço atual) e o Histórico tem toolbar própria com `#swHistCount`: `"N vendas · Saldo: ±R$ X"` (soma de `realized_pl`, todo o período). Valor formatado por `_swPnlHtml` (verde/vermelho); helper `_swSaldoTotal(rows, field)` retorna `null` quando nenhuma linha tem o campo (chip omite o saldo).
+
+**Tabela Histórico (`#swHistTbody`):** Ativo · Qtd · Entrada · Saída · Resultado (R$) · Resultado % · Valor venda · Compra · Venda · Dias. Ordenada por data de venda DESC.
+
+**Modal de operação (`#swPosModal`, classe `.modal-overlay`):** `openSwPosModal(mode, arg)` com `mode` ∈ `create` (manual) | `signal` (via "Comprei") | `edit` | `close` (vender). Submissões: `submitSwCreate` (POST), `submitSwEdit` (PUT), `submitSwClose` (POST `/close`), `deleteSwPos` (DELETE) — todos recarregam via `loadSwingPositions()`.
+
+**Alertas de stop/alvo (operações abertas):** reaproveitam o **sininho 🔔** (mesmo fluxo do Radar). O backend mescla em `GET /api/radar/alerts` os alertas `type` `stop` (preço ≤ stop, 🔴) / `target` (preço ≥ alvo, 🟢), com `source: "swing"` e o `id` da operação. O frontend:
+- **Sininho:** `_bellRenderPanel()` trata os novos tipos (rótulos `STOP`/`ALVO`) e, em vez de "Dispensar", mostra **"Vender"** → `_swSellFromAlert(id)` (carrega posições se preciso e abre o modal de venda). Sem snooze: o alerta **insiste enquanto a operação seguir aberta** (some ao vender).
+- **Tabela Operações:** `renderSwOpen()` destaca a linha (vermelho no stop, verde no alvo) + badge `STOP`/`ALVO`, lendo de `_radarAlertsCache` por `id`. `_pollRadarAlerts()` reaplica o destaque a cada poll (5 min) e é disparado ao abrir a sub-aba Operações.
 
 ---
 

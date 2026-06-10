@@ -106,6 +106,11 @@ PRICE_UPDATE_INTERVAL_HOURS = 0.5
 # Intervalo mínimo entre atualizações de histórico (em dias)
 HISTORY_UPDATE_INTERVAL_DAYS = 7
 
+# --- Histórico de proventos (Carteira → Histórico) ---
+DIVIDEND_MILESTONE_STEP      = 10000.0  # cada marco de proventos acumulados (R$)
+FORECAST_WINDOW_SHORT_MONTHS = 6        # janela "otimista" p/ prever próximo marco
+FORECAST_WINDOW_LONG_MONTHS  = 12       # janela "conservadora"
+
 # --- DCF Buffett ---
 DCF_DISCOUNT_RATE    = 0.10   # taxa mínima Buffett (independe da Selic)
 DCF_TERMINAL_GROWTH  = 0.035  # crescimento perpétuo terminal (inflação + PIB longo prazo)
@@ -153,3 +158,9 @@ W_BELOW_AVG_PER          = 4      # por média (1m/3m/6m) que o preço está aba
 W_VOL_RISING             = 8      # volume médio 1m > volume médio 3m (acumulação) — todos os setups
 GRADE_A                  = 70     # score >= 70 → nota A
 GRADE_B                  = 50     # score >= 50 → nota B (senão C)
+
+# --- Diário de operações de swing: controle de DARF ---
+# Swing trade comum (mercado à vista): vendas de ações até este limite no mês
+# são ISENTAS de IR. Acima disso, o lucro é tributado em 15%.
+SWING_DARF_MONTHLY_LIMIT = 20000.0  # limite de isenção mensal (R$)
+SWING_DARF_WARN_RATIO    = 0.9      # alerta a partir de 90% do limite (R$ 18.000)

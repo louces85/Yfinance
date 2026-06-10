@@ -101,6 +101,8 @@
               │  GET /api/radar             │
               │  GET /api/swing             │  ← swing_data.json (cache diário)
               │  GET /api/swing/chart/<t>   │  ← on-demand: yfinance + séries
+              │  POST /api/swing/refresh    │  ← força run() em background
+              │  GET /api/swing/refresh/... │  ← status (running, updated_at)
               │  ...                        │
               └─────────────┬───────────────┘
                             │
@@ -139,6 +141,7 @@ os.replace(tmp_path, final_path)  # Operação atômica no Linux
 | decision_stocks | 30 min | Scheduler automático |
 | market_data | 30 min | Scheduler automático (junto com decision_stocks) |
 | swing_data | 1× por dia | `_swing_update_loop` verifica a cada 1h se dados > 23h — evita 127 calls yfinance a cada 30 min |
+| swing_data (manual) | sob demanda | `POST /api/swing/refresh` força a coleta agora (botão ⟳ no toolbar Swing), ignorando a regra das 23h. Roda em background (1-3 min) |
 | swing/chart on-demand | por clique | `GET /api/swing/chart/<ticker>` busca yfinance na hora (~1–2s) |
 
 ---
@@ -172,7 +175,8 @@ YFINANCE_REFACTOR/
     │   ├── valuation_calculator.py ← Motor principal: 21 critérios + 3 scores
     │   ├── decision_service.py     ← Gera decision_stocks.json (30 min)
     │   ├── portfolio_service.py    ← Lê B3 XLS e calcula posições
-    │   └── market_service.py       ← Índices de mercado via yfinance (30 min)
+    │   ├── market_service.py       ← Índices de mercado via yfinance (30 min)
+    │   └── swing_journal_service.py ← Diário de operações de swing (compra/venda + P&L + DARF)
     │
     ├── tests/
     │   ├── conftest.py
@@ -193,6 +197,7 @@ YFINANCE_REFACTOR/
     │   ├── market_data.json        ← Índices de mercado (IBOV, USD, S&P, Ouro) — 30 min
     │   ├── favoritos.json          ← Favoritos do usuário
     │   ├── radar.json              ← Alertas de preço
+    │   ├── swing_positions.json    ← Diário de operações de swing (abertas + fechadas) — manual
     │   └── B3/
     │       └── Custodia*.xls       ← Arquivo de custódia exportado da B3
     │
@@ -564,8 +569,18 @@ AVALIAR_VENDA→ rank < 6 ou zone CARO
 | `/api/dividends_ytd/<ticker>` | GET | yfinance (live) | Dividendos acumulados no ano |
 | `/api/favoritos` | GET/POST | favoritos.json | Lista de favoritos |
 | `/api/radar` | GET/POST | radar.json | Alertas de preço |
-| `/api/radar/alerts` | GET | radar + prices | Alertas disparados |
+| `/api/radar/alerts` | GET | radar + prices + swing_positions | Alertas disparados. Mescla os alertas do Radar (`buy`/`sell`) com os de **stop/alvo das operações de swing abertas** (`type` `stop`/`target`, `source: "swing"`, com `id` da operação) via `swing_journal_service.position_alerts()`, usando preço ao vivo |
 | `/api/radar/dismiss` | POST | radar.json | Silencia alerta por 24h |
+| `/api/swing` | GET | swing_data.json | Lista de sinais swing (cache diário) |
+| `/api/swing/chart/<ticker>` | GET | yfinance (live) | Séries de indicadores p/ gráfico |
+| `/api/swing/refresh` | POST | swing_service | Força run() em background (guard `_do_swing_run`) |
+| `/api/swing/refresh/status` | GET | flag + swing_data | `{running, updated_at}` p/ polling do frontend |
+| `/api/swing/positions` | GET | swing_journal_service | `{open, closed, darf}` — P&L ao vivo + vendas do mês |
+| `/api/swing/positions` | POST | swing_positions.json | Cria operação aberta (campos: ticker, qty, entry_price, entry_date, stop, target) |
+| `/api/swing/positions/<id>/close` | POST | swing_positions.json | Registra venda (exit_price, exit_date) → move p/ histórico |
+| `/api/swing/positions/<id>` | PUT/DELETE | swing_positions.json | Edita / exclui operação |
+
+**Diário de swing (DARF):** `swing_journal_service` enriquece operações abertas com preço atual (`get_all_prices()`, fallback p/ `swing_data.json`), calcula P&L flutuante/realizado e soma as **vendas do mês corrente** vs. o limite de isenção do swing comum (`SWING_DARF_MONTHLY_LIMIT` = R$ 20.000; alerta em `SWING_DARF_WARN_RATIO` = 90%). Status `ok`/`warn`/`over`.
 
 **Scheduler:**
 ```python
@@ -579,6 +594,26 @@ def _scheduler_loop():
 def _run_decision():
     decision_service.run()   # atualiza decision_stocks.json
     market_service.fetch()   # atualiza market_data.json
+```
+
+**Scheduler de swing + refresh manual:** thread separada `_swing_update_loop` verifica a cada 1h se `swing_data.json` tem > 23h. Tanto o scheduler quanto o botão `⟳ Atualizar` (POST `/api/swing/refresh`) passam pelo helper `_do_swing_run()`, protegido por `_swing_lock` + flag `_swing_running` — só uma execução de `swing_service.run()` por vez. O refresh manual roda em thread daemon e o frontend acompanha via `GET /api/swing/refresh/status`.
+
+```python
+_swing_lock = threading.Lock()
+_swing_running = False
+
+def _do_swing_run():
+    global _swing_running
+    with _swing_lock:
+        if _swing_running:
+            return False        # já rodando — ignora
+        _swing_running = True
+    try:
+        swing_service.run()
+    finally:
+        with _swing_lock:
+            _swing_running = False
+    return True
 ```
 
 ---

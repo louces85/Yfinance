@@ -22,6 +22,7 @@ PATHS = {
     "monitoring_stocks":  os.path.join(DATA_DIR, "monitoring_stocks.json"),
     "financials_history": os.path.join(DATA_DIR, "financials_history.json"),
     "swing":              os.path.join(DATA_DIR, "swing_data.json"),
+    "swing_positions":    os.path.join(DATA_DIR, "swing_positions.json"),
 }
 
 
@@ -333,6 +334,23 @@ def save_swing_data(entries):
 def load_swing_data():
     """Retorna lista de swing_data ou [] se o arquivo não existir."""
     path = PATHS["swing"]
+    if not os.path.exists(path):
+        return []
+    return _load(path)
+
+
+# ---------------------------------------------------------------------------
+# Swing positions (diário de operações: compras/vendas manuais do usuário)
+# ---------------------------------------------------------------------------
+
+def save_swing_positions(positions):
+    """Salva a lista de operações de swing (abertas e fechadas) — escrita atômica."""
+    _save(PATHS["swing_positions"], positions)
+
+
+def load_swing_positions():
+    """Retorna a lista de operações de swing ou [] se o arquivo não existir."""
+    path = PATHS["swing_positions"]
     if not os.path.exists(path):
         return []
     return _load(path)

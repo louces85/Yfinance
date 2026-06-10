@@ -620,6 +620,52 @@ Indicadores crus de série (MACD/BB/MAs completos) **não estão neste JSON**; f
 
 ---
 
+### 7.13 Diário de Operações de Swing — P&L, Dias, DARF e Alertas
+
+**Implementação:** `swing_journal_service.py` (funções puras, testadas em `tests/test_swing_journal_service.py`). Operações em `data/swing_positions.json`; `status` ∈ `open` | `closed`. Distingue-se do `swing_service.py`, que gera **sinais** automáticos — aqui ficam as operações que o usuário efetivamente comprou/vendeu.
+
+**P&L de posição ABERTA** (`enrich_open`; preço atual de `stock_prices.json`, fallback `swing_data.json`):
+
+```python
+unrealized_pl   = (preco_atual − entrada) × qtd
+unrealized_pct  = (preco_atual / entrada − 1) × 100
+dist_stop_pct   = (preco_atual / stop − 1) × 100     # % acima do stop
+dist_target_pct = (alvo / preco_atual − 1) × 100     # % que falta p/ o alvo
+days_held       = (hoje − data_compra).days
+```
+Sem preço disponível → P&L/distâncias = `null` (dias continua sendo calculado).
+
+**P&L de posição FECHADA** (`enrich_closed`):
+
+```python
+realized_pl  = (saida − entrada) × qtd
+realized_pct = (saida / entrada − 1) × 100
+sale_value   = saida × qtd
+days_held    = (data_venda − data_compra).days
+```
+
+**DARF — vendas do mês** (`darf_summary`): soma `saida × qtd` das posições **fechadas cuja `exit_date` cai no mês corrente** (conta só as ações deste diário — ver caveat no `brain_frontend.md`):
+
+```python
+total_sales = Σ (saida × qtd)   para status == closed e exit_date no mês
+limit  = SWING_DARF_MONTHLY_LIMIT          # 20000.0
+warn   = limit × SWING_DARF_WARN_RATIO     # 0.9 → 18000.0
+status = "over" se total_sales ≥ limit
+         "warn" se total_sales ≥ warn
+         "ok"   caso contrário
+```
+Regra fiscal: o swing comum (mercado à vista) é **isento de IR** enquanto as vendas de **ações** do mês ≤ R$ 20.000; acima disso, o lucro é tributado em 15%. FIIs e day trade têm regime próprio e **não** entram nessa conta.
+
+**Alertas de stop/alvo** (`position_alerts`; só posições ABERTAS, preço ao vivo):
+
+```python
+stop   dispara quando  preco_atual ≤ stop      (cortar a perda)
+target dispara quando  preco_atual ≥ target    (realizar o lucro)
+```
+Mesclados em `GET /api/radar/alerts` (sininho 🔔, `source: "swing"`). Sem snooze — repetem enquanto a operação seguir aberta e somem ao registrar a venda.
+
+---
+
 ### 7.10 DCF — Valor Intrínseco (VI)
 
 **Implementação:** `valuation_calculator.py` → `_calc_dcf(price_now, p_l, cagr_lucro, fcf_lucro_ratio, moat_label)`
@@ -935,3 +981,8 @@ def _is_best(sector_info):
 | R:R forte threshold | 2.0 | `RR_STRONG = 2.0` |
 | Corte nota A | score ≥ 70 | `GRADE_A = 70` |
 | Corte nota B | score ≥ 50 | `GRADE_B = 50` |
+| **Diário / DARF** | | |
+| Limite de isenção mensal | R$ 20.000 | `SWING_DARF_MONTHLY_LIMIT = 20000.0` |
+| Alerta (warn) do DARF | 90% → R$ 18.000 | `SWING_DARF_WARN_RATIO = 0.9` |
+| Alerta de stop | preço ≤ stop | `position_alerts` (op. aberta) |
+| Alerta de alvo | preço ≥ target | `position_alerts` (op. aberta) |
