@@ -130,6 +130,9 @@ BREAKOUT_LOOKBACK        = 20     # nº de pregões da resistência rompida
 SWING_LOW_LOOKBACK       = 10     # fundo recente p/ stop estrutural
 PULLBACK_TARGET_LOOKBACK = 30     # máxima anterior usada como alvo do pullback
 MA50_SLOPE_LOOKBACK      = 10     # pregões p/ medir inclinação da MA50
+PRICE_AVG_SHORT_DAYS     = 21     # média de preço/volume de 1 mês (pregões)
+PRICE_AVG_MID_DAYS       = 63     # média de preço/volume de 3 meses (pregões)
+PRICE_AVG_LONG_DAYS      = 126    # média de preço de 6 meses (pregões)
 VOL_SURGE_MULT           = 1.5    # volume > mult × média(20) = confirmação
 RR_MIN                   = 1.5    # R:R mínimo p/ qualificar como setup
 RR_STRONG                = 2.0    # R:R a partir do qual a nota ganha bônus cheio
@@ -145,5 +148,8 @@ W_TRIGGER_PER            = 8      # por motivo de gatilho (cap 3)
 W_VOLUME                 = 15
 W_RR_HIGH                = 20     # R:R >= RR_STRONG
 W_RR_OK                  = 10     # RR_MIN <= R:R < RR_STRONG
+W_BELOW_AVG_PER          = 4      # por média (1m/3m/6m) que o preço está abaixo — máx. 12;
+                                  # só Pullback/Reversão (Rompimento está acima por natureza)
+W_VOL_RISING             = 8      # volume médio 1m > volume médio 3m (acumulação) — todos os setups
 GRADE_A                  = 70     # score >= 70 → nota A
 GRADE_B                  = 50     # score >= 50 → nota B (senão C)
