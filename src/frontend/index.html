@@ -5022,6 +5022,55 @@ function renderHistSummary(d) {
     </div>`).join('');
 }
 
+// estrela de 5 pontas vetorial (marcos) — o pointStyle 'star' do Chart.js é um asterisco
+function _drawStar(ctx, x, y, s) {
+  ctx.save();
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const rad = (i % 2 === 0) ? s.r : s.r * 0.45;
+    const a = Math.PI / 5 * i - Math.PI / 2;
+    ctx[i === 0 ? 'moveTo' : 'lineTo'](x + Math.cos(a) * rad, y + Math.sin(a) * rad);
+  }
+  ctx.closePath();
+  ctx.shadowColor = 'rgba(255,215,0,.45)';
+  ctx.shadowBlur = s.glow || 0;
+  if (s.fill) { ctx.fillStyle = s.fill; ctx.fill(); }
+  if (s.stroke) { ctx.strokeStyle = s.stroke; ctx.lineWidth = s.lw || 1; ctx.stroke(); }
+  ctx.restore();
+}
+
+// plugin do gráfico de acumulados: sombreia a zona de projeção (após o último
+// mês real) e desenha os marcos como estrelas (datasets com `_star`)
+const _histStarsPlugin = {
+  id: 'histStars',
+  beforeDatasetsDraw(chart, args, opts) {
+    if (!opts || opts.splitIndex == null) return;
+    const area = chart.chartArea;
+    const px = chart.scales.x.getPixelForValue(opts.splitIndex);
+    if (!(px > area.left && px < area.right - 2)) return;
+    const ctx = chart.ctx;
+    ctx.save();
+    ctx.fillStyle = 'rgba(139,148,158,.05)';
+    ctx.fillRect(px, area.top, area.right - px, area.bottom - area.top);
+    ctx.strokeStyle = 'rgba(139,148,158,.3)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(px, area.top); ctx.lineTo(px, area.bottom); ctx.stroke();
+    ctx.restore();
+  },
+  afterDatasetsDraw(chart) {
+    chart.data.datasets.forEach((ds, di) => {
+      if (!ds._star || !chart.isDatasetVisible(di)) return;
+      chart.getDatasetMeta(di).data.forEach((el, i) => {
+        if (ds.data[i] == null) return;
+        _drawStar(chart.ctx, el.x, el.y, ds._star);
+      });
+    });
+  },
+};
+
+const _kBRL = v => v === 0 ? 'R$ 0' : 'R$ ' + String(Math.round(v / 100) / 10).replace('.', ',') + 'k';
+
 function renderHistAcumChart(d) {
   const labels = d.series.labels.slice();
   const acum   = d.series.acumulado.slice();
@@ -5044,36 +5093,50 @@ function renderHistAcumChart(d) {
   const marcos = Array(labelsExt.length).fill(null);
   reached.forEach(m => { const i = labelsExt.indexOf(m.date); if (i >= 0) marcos[i] = m.target; });
 
+  // previsão: uma única estrela, no fim da linha de projeção (ETA mais conservadora)
   const ghost = Array(labelsExt.length).fill(null);
   const proj  = Array(labelsExt.length).fill(null);
   if (nextM && etas.length) {
-    etas.forEach(e => { const i = labelsExt.indexOf(e); if (i >= 0) ghost[i] = nextM.target; });
+    const li = labelsExt.indexOf(maxEta);
+    if (li >= 0) { ghost[li] = nextM.target; proj[li] = nextM.target; }
     proj[nHist - 1] = acum[nHist - 1];
-    const li = labelsExt.indexOf(maxEta); if (li >= 0) proj[li] = nextM.target;
   }
+
+  const grad = c => {
+    const area = c.chart.chartArea;
+    if (!area) return 'rgba(57,211,83,.12)';
+    const g = c.chart.ctx.createLinearGradient(0, area.top, 0, area.bottom);
+    g.addColorStop(0, 'rgba(57,211,83,.28)');
+    g.addColorStop(1, 'rgba(57,211,83,.02)');
+    return g;
+  };
 
   if (histAcumChart) histAcumChart.destroy();
   histAcumChart = new Chart(document.getElementById('histAcumChart'), {
     type: 'line',
+    plugins: [_histStarsPlugin],
     data: { labels: labelsExt, datasets: [
-      { label: 'Proventos Acumulados', data: acumExt, yAxisID: 'y', borderColor: '#39d353', backgroundColor: 'rgba(57,211,83,.10)', fill: true, tension: .25, pointRadius: 0, borderWidth: 2 },
-      { label: 'Patrimônio', data: patrExt, yAxisID: 'y1', borderColor: '#58a6ff', fill: false, tension: .25, pointRadius: 0, borderWidth: 2 },
-      { label: 'Projeção', data: proj, yAxisID: 'y', borderColor: 'rgba(255,215,0,.7)', borderDash: [6, 4], fill: false, pointRadius: 0, borderWidth: 2, spanGaps: true },
-      { label: 'Marcos R$10k', data: marcos, yAxisID: 'y', showLine: false, pointStyle: 'star', pointRadius: 12, pointHoverRadius: 14, borderColor: '#ffd700', backgroundColor: '#ffd700', pointBorderColor: '#ffd700', pointBackgroundColor: '#ffd700', pointBorderWidth: 2 },
-      { label: 'Marco previsto', data: ghost, yAxisID: 'y', showLine: false, pointStyle: 'star', pointRadius: 12, pointHoverRadius: 14, borderColor: '#ffd700', pointBorderColor: '#ffd700', pointBackgroundColor: 'rgba(255,215,0,.15)', pointBorderWidth: 2 },
+      { label: 'Proventos Acumulados', data: acumExt, yAxisID: 'y', borderColor: '#39d353', backgroundColor: grad, fill: true, cubicInterpolationMode: 'monotone', borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, pointHoverBackgroundColor: '#39d353', pointHoverBorderColor: '#0d1117', pointHoverBorderWidth: 2 },
+      { label: 'Patrimônio', data: patrExt, yAxisID: 'y1', borderColor: '#58a6ff', fill: false, cubicInterpolationMode: 'monotone', borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, pointHoverBackgroundColor: '#58a6ff', pointHoverBorderColor: '#0d1117', pointHoverBorderWidth: 2 },
+      { label: 'Projeção', data: proj, yAxisID: 'y', borderColor: 'rgba(255,215,0,.65)', borderDash: [5, 4], fill: false, pointRadius: 0, pointHoverRadius: 0, borderWidth: 2, spanGaps: true },
+      { label: 'Marco atingido', data: marcos, yAxisID: 'y', showLine: false, pointRadius: 0, pointHoverRadius: 0, pointHitRadius: 12, borderColor: '#ffd700', backgroundColor: '#ffd700', _star: { r: 8, fill: '#ffd700', stroke: 'rgba(13,17,23,.85)', lw: 1.25, glow: 8 } },
+      { label: 'Marco previsto', data: ghost, yAxisID: 'y', showLine: false, pointRadius: 0, pointHoverRadius: 0, pointHitRadius: 12, borderColor: '#ffd700', backgroundColor: 'rgba(255,215,0,.15)', _star: { r: 9, fill: 'rgba(255,215,0,.18)', stroke: '#ffd700', lw: 1.75, glow: 5 } },
     ] },
     options: {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
+      animation: { duration: 600, easing: 'easeOutQuart' },
+      layout: { padding: { top: 4, right: 12 } },
       plugins: {
-        legend: { display: true, position: 'top', labels: { color: '#8b949e', font: { size: 10 }, boxWidth: 12, padding: 10, usePointStyle: true } },
-        tooltip: { backgroundColor: '#161b22', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#8b949e',
-          callbacks: { label: ctx => ctx.parsed.y == null ? null : ' ' + ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) } },
+        histStars: { splitIndex: nHist - 1 },
+        legend: { display: true, position: 'top', labels: { color: '#c9d1d9', font: { size: 11 }, padding: 14, usePointStyle: true, pointStyleWidth: 14, boxHeight: 8, filter: it => !/^Marco/.test(it.text) } },
+        tooltip: { backgroundColor: 'rgba(22,27,34,.97)', borderColor: '#30363d', borderWidth: 1, titleColor: '#e6edf3', bodyColor: '#c9d1d9', padding: 10, cornerRadius: 8, titleFont: { size: 12, weight: '600' }, bodyFont: { size: 11 }, usePointStyle: true, boxWidth: 8, boxHeight: 8, boxPadding: 4,
+          callbacks: { title: items => items.length ? _ymLong(items[0].label) : '', label: ctx => ctx.parsed.y == null ? null : ' ' + ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) } },
       },
       scales: {
-        x:  { ticks: { color: '#8b949e', font: { size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 12, callback: function (v) { return _ymShort(this.getLabelForValue(v)); } }, grid: { display: false } },
-        y:  { position: 'left',  ticks: { color: '#8b949e', font: { size: 10 }, callback: v => 'R$ ' + (v / 1000) + 'k' }, grid: { color: 'rgba(48,54,61,.5)' }, title: { display: true, text: 'Proventos acumulados', color: '#8b949e', font: { size: 10 } } },
-        y1: { position: 'right', ticks: { color: '#8b949e', font: { size: 10 }, callback: v => 'R$ ' + (v / 1000).toFixed(0) + 'k' }, grid: { drawOnChartArea: false }, title: { display: true, text: 'Patrimônio', color: '#8b949e', font: { size: 10 } } },
+        x:  { ticks: { color: '#8b949e', font: { size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 12, callback: function (v) { return _ymShort(this.getLabelForValue(v)); } }, grid: { display: false }, border: { color: 'rgba(48,54,61,.8)' } },
+        y:  { position: 'left', min: 0, grace: '6%', ticks: { color: '#8b949e', font: { size: 10 }, padding: 6, maxTicksLimit: 8, callback: _kBRL }, grid: { color: 'rgba(48,54,61,.35)' }, border: { display: false }, title: { display: true, text: 'Proventos acumulados', color: '#8b949e', font: { size: 10 } } },
+        y1: { position: 'right', min: 0, ticks: { color: '#8b949e', font: { size: 10 }, padding: 6, maxTicksLimit: 7, callback: _kBRL }, grid: { drawOnChartArea: false }, border: { display: false }, title: { display: true, text: 'Patrimônio', color: '#8b949e', font: { size: 10 } } },
       },
     },
   });
