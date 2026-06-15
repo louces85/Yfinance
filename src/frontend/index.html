@@ -4028,9 +4028,23 @@ function _swingSetupBadge(d) {
 }
 
 function renderSwingTable() {
-  const data = _swingOnlySetup
-    ? _swingData.filter(function(d) { return d.is_setup; })
-    : _swingData.slice();
+  const setupsArr = _swingData.filter(function(d) { return d.is_setup; });
+  const nearArr   = _swingData.filter(function(d) { return d.setup_type && !d.is_setup; });
+  // Em "Só SETUPs", se não houver nenhum setup qualificado caímos para os
+  // quase-setups reprovados — assim a aba nunca fica muda e o usuário entende
+  // que é o mercado (e não um bug) que está sem oportunidades.
+  let fallbackNear = false;
+  let data;
+  if (_swingOnlySetup) {
+    if (setupsArr.length) {
+      data = setupsArr;
+    } else {
+      data = nearArr.slice();
+      fallbackNear = nearArr.length > 0;
+    }
+  } else {
+    data = _swingData.slice();
+  }
 
   // Ganho esperado = % até o alvo (derivado de entrada/alvo, não persistido)
   data.forEach(function(d) {
@@ -4062,10 +4076,8 @@ function renderSwingTable() {
   });
 
   const total  = _swingData.length;
-  const setups = _swingData.filter(function(d) { return d.is_setup; }).length;
-  const watch  = _swingData.filter(function(d) { return d.setup_type && !d.is_setup; }).length;
-  document.getElementById('swingCountSetup').textContent = setups;
-  document.getElementById('swingCountWatch').textContent = watch;
+  document.getElementById('swingCountSetup').textContent = setupsArr.length;
+  document.getElementById('swingCountWatch').textContent = nearArr.length;
   document.getElementById('swingCountTotal').textContent = total;
 
   const updEl = document.getElementById('swingUpdated');
@@ -4078,13 +4090,24 @@ function renderSwingTable() {
 
   const tbody = document.getElementById('swingTbody');
   if (!data.length) {
-    tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:var(--muted);padding:32px">Nenhum setup encontrado</td></tr>';
+    const emptyMsg = nearArr.length
+      ? 'Nenhum setup qualificado hoje. ' + nearArr.length + ' candidato(s) reprovado(s) — toque em “○ Todos”.'
+      : 'Nenhuma oportunidade técnica hoje — o mercado não ofereceu setups tradáveis.';
+    tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:var(--muted);padding:32px">' + emptyMsg + '</td></tr>';
     return;
   }
 
   const fmt = function(v) { return v != null ? v.toFixed(2) : '—'; };
 
-  tbody.innerHTML = data.map(function(d) {
+  const bannerHtml = fallbackNear
+    ? '<tr><td colspan="11" style="text-align:center;color:var(--yellow);' +
+      'background:rgba(210,153,34,.08);padding:8px;font-size:12px">' +
+      '⚠ Nenhum setup qualificado hoje — exibindo ' + data.length +
+      ' candidato(s) reprovado(s) e o motivo. Mercado fraco: poucos ativos ' +
+      'oferecem risco/retorno tradável.</td></tr>'
+    : '';
+
+  tbody.innerHTML = bannerHtml + data.map(function(d) {
     var gradeHtml = d.grade
       ? '<span class="swing-grade swing-grade-' + d.grade + '">' + d.grade + '</span>'
       : '<span class="swing-badge-none">–</span>';
@@ -4097,18 +4120,28 @@ function renderSwingTable() {
       ? '<span style="color:var(--green)">+' + (d.gain * 100).toFixed(1) + '%</span>'
       : '—';
     var rowClass = d.is_setup ? 'swing-row-setup' : '';
+    var trigHtml = d.trigger || '—';
+    if (!d.is_setup && d.reject_reason) {
+      trigHtml = (d.trigger ? d.trigger + ' · ' : '') +
+        '<span style="color:var(--red)" title="Motivo da reprovação">✕ ' + d.reject_reason + '</span>';
+    } else if (d.is_setup && d.regime_weak) {
+      trigHtml = (d.trigger ? d.trigger + ' · ' : '') +
+        '<span style="color:var(--yellow)" title="Nota rebaixada: maioria do mercado em baixa">⚠ regime fraco</span>';
+    }
     return '<tr class="' + rowClass + '" onclick="openDetail(\'' + d.ticker + '\')">' +
       '<td><span style="font-weight:600;color:var(--blue)">' + d.ticker + '</span></td>' +
       '<td>' + fmt(d.price) + '</td>' +
       '<td>' + _swingSetupBadge(d) + '</td>' +
       '<td>' + gradeHtml + '</td>' +
-      '<td style="text-align:left;color:var(--muted);font-size:11px">' + (d.trigger || '—') + '</td>' +
+      '<td style="text-align:left;color:var(--muted);font-size:11px">' + trigHtml + '</td>' +
       '<td>' + fmt(d.entry) + '</td>' +
       '<td style="color:var(--red)">' + fmt(d.stop) + '</td>' +
       '<td style="color:var(--green)">' + fmt(d.target) + '</td>' +
       '<td>' + gainHtml + '</td>' +
       '<td>' + rrHtml + '</td>' +
-      '<td><button class="sw-buybtn" onclick="event.stopPropagation();swBuyFromSignal(\'' + d.ticker + '\')" title="Registrar compra desta operação">Comprei</button></td>' +
+      '<td>' + (d.is_setup
+        ? '<button class="sw-buybtn" onclick="event.stopPropagation();swBuyFromSignal(\'' + d.ticker + '\')" title="Registrar compra desta operação">Comprei</button>'
+        : '') + '</td>' +
     '</tr>';
   }).join('');
 }

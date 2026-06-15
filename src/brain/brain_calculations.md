@@ -523,7 +523,7 @@ Se o alvo bruto supera `entry + ATR_TARGET_MAX × ATR`, é truncado. Se não há
 rr = (target - entry) / (entry - stop)
 ```
 
-**Gate de qualificação:** setup casado mas `rr < RR_MIN (1.5)` → `is_setup = False`, `grade = None`. Entra como "Monitorar".
+**Gate de qualificação (`_setup_reject_reason`):** o candidato só vira setup (`is_setup = True`) se passar nas **duas** barreiras — `rr ≥ RR_MIN (1.5)` **e** volatilidade `ATR/entry ≥ ATR_PCT_MIN (0,5%)`. Falhou em alguma → `is_setup = False`, `grade = None`, `score = None`, e `reject_reason` recebe o texto do(s) motivo(s) (ex.: `"R:R 0.98 < 1.5"`). Esses casos **não são descartados**: entram como "Monitorar" (quase-setups), com o porquê visível na aba.
 
 ---
 
@@ -539,20 +539,20 @@ Score composto (0–100) que pondera fatores de qualidade do setup:
 | Confirmação por volume | `W_VOLUME` | 15 |
 | R:R ≥ `RR_STRONG (2.0)` | `W_RR_HIGH` | 20 |
 | `RR_MIN (1.5)` ≤ R:R < `RR_STRONG` | `W_RR_OK` | 10 |
-| Desconto: por média (1m/3m/6m) abaixo — só PULLBACK/REVERSAL | `W_BELOW_AVG_PER` | 4 cada (máx. 12) |
+| Desconto: por média (1m/3m/6m) abaixo — **só em tendência ALTA** (não-BREAKOUT) | `W_BELOW_AVG_PER` | 4 cada (máx. 12) |
 | Volume crescente (méd. 1m > méd. 3m) — todos os setups | `W_VOL_RISING` | 8 |
 
 ```python
 score = (trend_points) + (min(strength, 3) × W_TRIGGER_PER)
       + (W_VOLUME se vol_confirm) + (W_RR_HIGH ou W_RR_OK)
-      + (below_avgs × W_BELOW_AVG_PER se setup != BREAKOUT)
+      + (below_avgs × W_BELOW_AVG_PER se setup != BREAKOUT e trend == "ALTA")
       + (W_VOL_RISING se vol_rising)
 score = clamp(score, 0, 100)
 ```
 
 Assinatura: `grade_setup(setup, levels, ctx)` — tendência, `below_avgs` e `vol_rising` vêm do contexto.
 
-Mapeamento: `score ≥ GRADE_A (70)` → **A** | `score ≥ GRADE_B (50)` → **B** | senão → **C**.
+Mapeamento (`_grade_from_score`): `score ≥ GRADE_A (70)` → **A** | `score ≥ GRADE_B (50)` → **B** | senão → **C**. O mesmo helper é reusado pela penalidade de regime (§7.12.6).
 
 Profundidade/qualidade do sinal (ex.: quão fundo o RSI foi) não é um peso explícito — atua como desempate via R:R na ordenação da tabela.
 
@@ -568,6 +568,10 @@ Quando mais de um detector casa, a seleção usa esta chave de ordenação (maio
 3. Precedência de tipo: Pullback (3) > Rompimento (2) > Reversão (1)
 
 Resultado: **um único setup por ticker**.
+
+> Mudança (jun/2026): candidatos reprovados no piso de volatilidade deixaram de ser descartados em `_pick_best_setup` — agora viram quase-setups com `reject_reason`, junto dos reprovados por R:R. Garante que a aba sempre tenha o que mostrar (com o motivo) mesmo em mercados sem setups qualificados. `is_setup` continua exigindo as duas barreiras, então a contagem de setups não muda.
+
+**Pós-passe de regime de mercado (`_apply_regime_penalty`, em `run()`):** a amplitude é global, então depois de montar todos os ~126 resultados (e antes de ordenar) calcula-se `baixa_ratio = nº trend=="BAIXA" / total`. Se `baixa_ratio ≥ REGIME_WEAK_BAIXA_RATIO (0,50)`, cada setup **REVERSAL fora de ALTA** (faca caindo em mercado fraco) leva `score −= W_REGIME_PENALTY (20)`, recalcula a nota e marca `regime_weak = True`. PULLBACK/BREAKOUT (a-favor-da-tendência) e REVERSAL em ALTA (ação forte repicando) ficam de fora. `is_setup` **não** muda — o sinal é rebaixado, não suprimido. Mede-se a amplitude pela própria base, não pelo IBOV (o índice mascara a fraqueza interna).
 
 ---
 
@@ -588,6 +592,8 @@ Resultado: **um único setup por ticker**.
   "rr":          2.1,
   "vol_confirm": true,
   "is_setup":    true,
+  "reject_reason": null,
+  "regime_weak": false,
   "rsi":         41.3,
   "below_avgs":  2,
   "vol_rising":  true,
@@ -607,12 +613,14 @@ Resultado: **um único setup por ticker**.
 | `target` | float\|null | Alvo por tipo de setup, capado por ATR |
 | `rr` | float\|null | Risco:Retorno `(target − entry) / (entry − stop)` |
 | `vol_confirm` | bool | Volume acima de `1.5 × média(20)` |
-| `is_setup` | bool | `True` se casou um setup **e** `rr ≥ RR_MIN (1.5)` |
+| `is_setup` | bool | `True` se casou um setup **e** passou nas duas barreiras (`rr ≥ RR_MIN` e volatilidade ≥ `ATR_PCT_MIN`) |
+| `reject_reason` | string\|null | `null` quando `is_setup`; senão o motivo da reprovação (R:R baixo e/ou volatilidade abaixo do piso) |
+| `regime_weak` | bool | `True` em setup REVERSAL fora de ALTA cuja nota foi rebaixada por regime de mercado fraco (§7.12.6) |
 | `rsi` | float\|null | RSI escalar no último fechamento |
 | `below_avgs` | int | Quantas médias de preço (21/63/126 pregões) o fechamento está abaixo (0–3) |
 | `vol_rising` | bool | Média de volume 21p > média 63p (acumulação) |
 
-**"Monitorar"** = `setup_type != null` **e** `is_setup == false` — o ticker casou a forma do setup mas o R:R ficou abaixo de `RR_MIN`. Tickers que não casam nenhum setup ficam com `setup_type = null` e não entram no "Monitorar".
+**"Monitorar"** (quase-setup) = `setup_type != null` **e** `is_setup == false` — o ticker casou a forma do setup mas reprovou em pelo menos uma barreira (R:R < `RR_MIN` ou volatilidade < `ATR_PCT_MIN`); `reject_reason` carrega o motivo. Tickers que não casam nenhum setup ficam com `setup_type = null` e não entram no "Monitorar".
 
 Indicadores crus de série (MACD/BB/MAs completos) **não estão neste JSON**; ficam disponíveis ao vivo via `GET /api/swing/chart/<ticker>` (modal de gráfico).
 
@@ -981,6 +989,8 @@ def _is_best(sector_info):
 | R:R forte threshold | 2.0 | `RR_STRONG = 2.0` |
 | Corte nota A | score ≥ 70 | `GRADE_A = 70` |
 | Corte nota B | score ≥ 50 | `GRADE_B = 50` |
+| Regime fraco (fração em BAIXA) | ≥ 50% | `REGIME_WEAK_BAIXA_RATIO = 0.50` |
+| Penalidade de regime (REVERSAL fora de ALTA) | −20 | `W_REGIME_PENALTY = 20` |
 | **Diário / DARF** | | |
 | Limite de isenção mensal | R$ 20.000 | `SWING_DARF_MONTHLY_LIMIT = 20000.0` |
 | Alerta (warn) do DARF | 90% → R$ 18.000 | `SWING_DARF_WARN_RATIO = 0.9` |

@@ -260,12 +260,12 @@ O **card de DARF** (`#swDarfCard`) aparece no topo de Operações/Histórico (oc
 | `Preço (R$)` | `price` | Último fechamento |
 | `Setup` | `setup_type` | Badge colorido por tipo, clicável → `openSwingChart()` |
 | `Nota` | `grade` | A (verde) / B (amarelo) / C (cinza) — `null` → "–" |
-| `Gatilho` | `trigger` | Motivos da virada, ex.: "RSI virando + repique" |
+| `Gatilho` | `trigger` / `reject_reason` / `regime_weak` | Motivos da virada (ex.: "RSI virando + repique"). Em quase-setups (não qualificados), anexa o motivo da reprovação em vermelho (ex.: "✕ R:R 0.98 < 1.5"). Em setups com `regime_weak`, anexa "⚠ regime fraco" em amarelo (nota rebaixada por mercado de baixa amplitude) |
 | `Entrada` | `entry` | Preço de entrada = fechamento atual |
 | `Stop` | `stop` | Stop estrutural com clamp ATR (vermelho) |
 | `Alvo` | `target` | Alvo por tipo de setup, capado por ATR (verde) |
 | `R:R` | `rr` | Risco:Retorno — verde ≥ 2.0, amarelo ≥ 1.5, cinza < 1.5 |
-| `Comprar` | — | Botão **"Comprei"** → `swBuyFromSignal(ticker)` abre o modal de operação pré-preenchido com entrada/stop/alvo do sinal (`event.stopPropagation()`) |
+| `Comprar` | — | Botão **"Comprei"** → `swBuyFromSignal(ticker)` abre o modal de operação pré-preenchido com entrada/stop/alvo do sinal (`event.stopPropagation()`). **Exibido só em setups qualificados** (`is_setup`); quase-setups reprovados não mostram o botão, para não induzir compra de candidato sem risco/retorno tradável |
 
 **Badges de setup (coluna Setup):**
 
@@ -283,10 +283,10 @@ Cada badge de setup é clicável: `event.stopPropagation()` + `openSwingChart(ti
 | Elemento | Comportamento |
 |---------|--------------|
 | Card `SETUPs` | Total com `is_setup == true` |
-| Card `Monitorar` | Total com `setup_type != null` e `is_setup == false` (casou forma do setup, mas `rr < RR_MIN`) |
+| Card `Monitorar` | Total com `setup_type != null` e `is_setup == false` (casou forma do setup, mas reprovou em R:R e/ou volatilidade — ver `reject_reason`) |
 | Card `Analisados` | Total de tickers no JSON |
 | Botão `⟳ Atualizar` | `refreshSwing()` — POST `/api/swing/refresh`, polling de status a cada 4s (spinner, label "Atualizando…") e recarrega ao concluir |
-| Toggle `Só SETUPs` | Padrão **ligado** — esconde tickers com `is_setup == false` |
+| Toggle `Só SETUPs` | Padrão **ligado** — mostra só `is_setup == true`. Se **não houver nenhum** setup qualificado, cai automaticamente para os quase-setups (`setup_type != null && !is_setup`) com banner amarelo de aviso, para a aba nunca ficar muda. `○ Todos` mostra o universo inteiro |
 | Timestamp | `updated_at` do primeiro item do JSON |
 
 **Ordenação padrão:** `score` DESC. Colunas ordenáveis: `ticker`, `price`, `score`, `rr`.
@@ -301,7 +301,7 @@ let _swingOnlySetup = true;
 
 **Clique na linha:** `openDetail(ticker)` — abre o modal de detalhe completo.
 
-**Função de renderização:** `renderSwingTable()` + helper `_swingSetupBadge(d)`.
+**Função de renderização:** `renderSwingTable()` + helper `_swingSetupBadge(d)`. Quando "Só SETUPs" está ligado e não há setups, faz fallback para os quase-setups (`fallbackNear`) e injeta um banner amarelo no topo do `<tbody>`; o estado vazio só aparece quando não há nem setups nem quase-setups.
 
 #### 9.5.1 Diário de Operações (Minhas Operações / Histórico)
 

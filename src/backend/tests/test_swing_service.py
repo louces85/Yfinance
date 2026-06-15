@@ -107,12 +107,22 @@ class TestGradeSetupNovosFatores:
             _setup("BREAKOUT", vol_confirm=True), {"rr": 2.0}, _ctx("ALTA", 3, True))
         assert score == 89
 
-    def test_reversao_descontada_sobe_para_b(self):
-        # 12 (LATERAL) + 16 + 20 (rr forte) + 12 (3 médias) = 60 → B
+    def test_reversao_lateral_nao_recebe_desconto(self):
+        # Desconto só vale em ALTA. REVERSAL em LATERAL com below_avgs=3 NÃO
+        # pontua o desconto (faca caindo, não dip saudável):
+        # 12 (LATERAL) + 16 + 20 (rr forte) = 48 → C
         score, grade = svc.grade_setup(
             _setup("REVERSAL"), {"rr": 2.73}, _ctx("LATERAL", 3, False))
-        assert score == 60
-        assert grade == "B"
+        assert score == 48
+        assert grade == "C"
+
+    def test_reversao_em_alta_recebe_desconto(self):
+        # Mesmo setup, mas em tendência de ALTA: o desconto volta a pontuar.
+        # 30 (ALTA) + 16 + 20 (rr forte) + 8 (2 médias) = 74 → A
+        score, grade = svc.grade_setup(
+            _setup("REVERSAL"), {"rr": 2.0}, _ctx("ALTA", 2, False))
+        assert score == 74
+        assert grade == "A"
 
     def test_score_clampa_em_100(self):
         # 30 + 24 (3 gatilhos) + 15 + 20 + 12 + 8 = 109 → 100
@@ -140,3 +150,114 @@ class TestAnalyzeTickerSchema:
         entry = svc.analyze_ticker("TEST3", closes, highs, lows, volumes)
         assert entry["below_avgs"] == 0
         assert entry["vol_rising"] is False
+
+    def test_entry_contem_regime_weak(self):
+        closes, highs, lows, volumes = _ohlcv(130)
+        entry = svc.analyze_ticker("TEST3", closes, highs, lows, volumes)
+        assert "regime_weak" in entry
+        assert entry["regime_weak"] is False
+
+
+# ---------------------------------------------------------------
+# _grade_from_score
+# ---------------------------------------------------------------
+
+class TestGradeFromScore:
+    def test_corte_a(self):
+        assert svc._grade_from_score(70) == "A"
+
+    def test_corte_b_logo_abaixo_de_a(self):
+        assert svc._grade_from_score(69) == "B"
+
+    def test_corte_b_no_limite(self):
+        assert svc._grade_from_score(50) == "B"
+
+    def test_corte_c(self):
+        assert svc._grade_from_score(49) == "C"
+
+
+# ---------------------------------------------------------------
+# _apply_regime_penalty — penalidade de regime fraco
+# ---------------------------------------------------------------
+
+WEAK = rules.REGIME_WEAK_BAIXA_RATIO          # regime fraco no limite
+HEALTHY = rules.REGIME_WEAK_BAIXA_RATIO - 0.1  # regime saudável
+
+
+def _setup_entry(setup_type, trend, score=56, is_setup=True):
+    return {"setup_type": setup_type, "trend": trend, "score": score,
+            "grade": svc._grade_from_score(score), "is_setup": is_setup,
+            "regime_weak": False}
+
+
+class TestApplyRegimePenalty:
+    def test_reversal_lateral_em_regime_fraco_e_penalizado(self):
+        e = _setup_entry("REVERSAL", "LATERAL", score=56)
+        svc._apply_regime_penalty(e, WEAK)
+        assert e["score"] == 56 - rules.W_REGIME_PENALTY   # 36
+        assert e["grade"] == "C"
+        assert e["regime_weak"] is True
+
+    def test_reversal_em_alta_nao_e_penalizado(self):
+        e = _setup_entry("REVERSAL", "ALTA", score=70)
+        svc._apply_regime_penalty(e, WEAK)
+        assert e["score"] == 70
+        assert e["grade"] == "A"
+        assert e["regime_weak"] is False
+
+    def test_pullback_nao_e_penalizado(self):
+        e = _setup_entry("PULLBACK", "ALTA", score=68)
+        svc._apply_regime_penalty(e, WEAK)
+        assert e["score"] == 68
+        assert e["regime_weak"] is False
+
+    def test_reversal_lateral_em_regime_saudavel_nao_muda(self):
+        e = _setup_entry("REVERSAL", "LATERAL", score=56)
+        svc._apply_regime_penalty(e, HEALTHY)
+        assert e["score"] == 56
+        assert e["regime_weak"] is False
+
+    def test_nao_setup_nao_muda(self):
+        e = _setup_entry("REVERSAL", "LATERAL", score=40, is_setup=False)
+        svc._apply_regime_penalty(e, WEAK)
+        assert e["score"] == 40
+        assert e["regime_weak"] is False
+
+    def test_entry_contem_reject_reason(self):
+        # série plana: nenhum detector dispara → sem motivo de reprovação
+        closes, highs, lows, volumes = _ohlcv(130)
+        entry = svc.analyze_ticker("TEST3", closes, highs, lows, volumes)
+        assert "reject_reason" in entry
+        assert entry["reject_reason"] is None
+
+
+# ---------------------------------------------------------------
+# _setup_reject_reason — surfacing dos quase-setups reprovados
+# ---------------------------------------------------------------
+
+class TestSetupRejectReason:
+    def test_rr_abaixo_do_minimo(self):
+        levels = {"rr": 1.0, "entry": 100.0}   # < RR_MIN (1.5)
+        ctx = {"atr": 1.0}                      # 1% >= piso de 0,5%
+        reason = svc._setup_reject_reason(levels, ctx)
+        assert reason is not None
+        assert "R:R" in reason
+
+    def test_volatilidade_abaixo_do_piso(self):
+        levels = {"rr": 2.0, "entry": 100.0}    # R:R ok
+        ctx = {"atr": 0.1}                       # 0,1% < piso de 0,5%
+        reason = svc._setup_reject_reason(levels, ctx)
+        assert reason is not None
+        assert "volatil" in reason.lower()
+
+    def test_candidato_qualificado_retorna_none(self):
+        levels = {"rr": 2.0, "entry": 100.0}
+        ctx = {"atr": 1.0}
+        assert svc._setup_reject_reason(levels, ctx) is None
+
+    def test_ambos_os_motivos_aparecem(self):
+        levels = {"rr": 0.5, "entry": 100.0}
+        ctx = {"atr": 0.1}
+        reason = svc._setup_reject_reason(levels, ctx)
+        assert "R:R" in reason
+        assert "volatil" in reason.lower()

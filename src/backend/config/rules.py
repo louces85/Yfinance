@@ -154,10 +154,18 @@ W_VOLUME                 = 15
 W_RR_HIGH                = 20     # R:R >= RR_STRONG
 W_RR_OK                  = 10     # RR_MIN <= R:R < RR_STRONG
 W_BELOW_AVG_PER          = 4      # por média (1m/3m/6m) que o preço está abaixo — máx. 12;
-                                  # só Pullback/Reversão (Rompimento está acima por natureza)
+                                  # só pontua em tendência de ALTA (recuo saudável = dip);
+                                  # em LATERAL é fraqueza, não desconto. Rompimento nunca pontua.
 W_VOL_RISING             = 8      # volume médio 1m > volume médio 3m (acumulação) — todos os setups
 GRADE_A                  = 70     # score >= 70 → nota A
 GRADE_B                  = 50     # score >= 50 → nota B (senão C)
+
+# Regime de mercado (amplitude): rebaixa a nota de setups de contra-tendência
+# (REVERSAL fora de ALTA) quando a maioria do universo está em queda — evita
+# recomendar faca-caindo com nota alta em mercado fraco. Medido pela própria base,
+# não pelo índice (o IBOV mascara a fraqueza interna).
+REGIME_WEAK_BAIXA_RATIO  = 0.50   # fração de ativos em BAIXA p/ o mercado ser "fraco"
+W_REGIME_PENALTY         = 20     # pontos subtraídos do REVERSAL contra-tendência em regime fraco
 
 # --- Diário de operações de swing: controle de DARF ---
 # Swing trade comum (mercado à vista): vendas de ações até este limite no mês

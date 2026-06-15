@@ -379,6 +379,15 @@ def calc_levels(setup_type, ctx):
     return {"entry": round(entry, 2), "stop": stop, "target": target, "rr": rr}
 
 
+def _grade_from_score(score):
+    """Mapeia score → nota A/B/C pelos cortes de rules.py."""
+    if score >= rules.GRADE_A:
+        return "A"
+    if score >= rules.GRADE_B:
+        return "B"
+    return "C"
+
+
 def grade_setup(setup, levels, ctx):
     """Score composto 0–100 e nota A/B/C."""
     score = 0
@@ -399,21 +408,17 @@ def grade_setup(setup, levels, ctx):
     elif rr >= rules.RR_MIN:
         score += rules.W_RR_OK
 
-    # Fatores de assertividade: desconto vs. médias 1m/3m/6m (Rompimento fica de
-    # fora — está acima das médias por natureza) e volume crescente (todos)
-    if setup["setup_type"] != "BREAKOUT":
+    # Fatores de assertividade: desconto vs. médias 1m/3m/6m e volume crescente.
+    # Desconto só pontua em tendência de ALTA (recuo saudável = "comprar o dip").
+    # Em LATERAL, estar abaixo das médias é fraqueza (faca caindo), não desconto,
+    # então não soma. Rompimento nunca pontua (está acima das médias por natureza).
+    if setup["setup_type"] != "BREAKOUT" and trend == "ALTA":
         score += ctx["below_avgs"] * rules.W_BELOW_AVG_PER
     if ctx["vol_rising"]:
         score += rules.W_VOL_RISING
 
     score = min(int(round(score)), 100)
-    if score >= rules.GRADE_A:
-        grade = "A"
-    elif score >= rules.GRADE_B:
-        grade = "B"
-    else:
-        grade = "C"
-    return score, grade
+    return score, _grade_from_score(score)
 
 
 def _vol_sufficient(atr, entry):
@@ -423,8 +428,33 @@ def _vol_sufficient(atr, entry):
     return (atr / entry) >= rules.ATR_PCT_MIN
 
 
+def _setup_reject_reason(levels, ctx):
+    """None se o candidato qualifica como setup; senão, texto do(s) motivo(s).
+
+    Permite surfacing dos 'quase-setups' na aba (com o porquê da reprovação),
+    em vez de descartá-los em silêncio quando o mercado não oferece risco/retorno
+    tradável. As duas barreiras são o R:R mínimo e o piso de volatilidade."""
+    reasons = []
+    rr = levels.get("rr")
+    if rr is None or rr < rules.RR_MIN:
+        reasons.append("R:R {:.2f} < {:.1f}".format(rr if rr is not None else 0.0,
+                                                     rules.RR_MIN))
+    if not _vol_sufficient(ctx.get("atr"), levels.get("entry")):
+        entry = levels.get("entry") or 0.0
+        atr = ctx.get("atr") or 0.0
+        pct = (atr / entry * 100.0) if entry else 0.0
+        reasons.append("volatilidade {:.1f}% < piso {:.1f}%".format(
+            pct, rules.ATR_PCT_MIN * 100.0))
+    return " · ".join(reasons) if reasons else None
+
+
 def _pick_best_setup(ctx):
-    """Roda os 3 detectores, calcula níveis/nota e escolhe o melhor (1 por ticker)."""
+    """Roda os 3 detectores, calcula níveis/nota e escolhe o melhor (1 por ticker).
+
+    Candidatos reprovados (R:R baixo ou volatilidade abaixo do piso) NÃO são
+    descartados: viram quase-setups com `reject_reason` preenchido, para a aba
+    poder exibi-los com o motivo. Só qualifica como setup quem passa nas duas
+    barreiras (reject_reason is None)."""
     precedence = {"PULLBACK": 3, "BREAKOUT": 2, "REVERSAL": 1}
     candidates = []
     for det in (detect_pullback, detect_reversal, detect_breakout):
@@ -434,10 +464,8 @@ def _pick_best_setup(ctx):
         levels = calc_levels(m["setup_type"], ctx)
         if levels is None or levels["rr"] is None:
             continue
-        # Piso de volatilidade: descarta setups intradáveis (papel quase-plano/ilíquido)
-        if not _vol_sufficient(ctx["atr"], levels["entry"]):
-            continue
-        is_setup = levels["rr"] >= rules.RR_MIN
+        reject_reason = _setup_reject_reason(levels, ctx)
+        is_setup = reject_reason is None
         if is_setup:
             score, grade = grade_setup(m, levels, ctx)
         else:
@@ -449,6 +477,7 @@ def _pick_best_setup(ctx):
             "is_setup": is_setup,
             "score": score,
             "grade": grade,
+            "reject_reason": reject_reason,
         }
         cand.update(levels)
         candidates.append(cand)
@@ -484,11 +513,33 @@ def analyze_ticker(ticker, closes, highs, lows, volumes):
         "below_avgs":  ctx["below_avgs"],
         "vol_rising":  ctx["vol_rising"],
         "is_setup":    False,
+        "reject_reason": None,
+        "regime_weak": False,
         "updated_at":  datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
     }
     best = _pick_best_setup(ctx)
     if best is not None:
         entry.update(best)
+    return entry
+
+
+def _apply_regime_penalty(entry, baixa_ratio):
+    """Rebaixa a nota de setups de contra-tendência em mercado de amplitude fraca.
+
+    Só atinge REVERSAL qualificado num papel fora de ALTA (faca caindo), quando a
+    fração do universo em BAIXA atinge o piso. PULLBACK/BREAKOUT são a-favor-da-
+    tendência e ficam de fora; REVERSAL em ALTA é repique de ação forte. O sinal NÃO
+    é suprimido (is_setup intacto) — apenas perde pontos e é marcado `regime_weak`."""
+    if not entry.get("is_setup"):
+        return entry
+    if entry.get("setup_type") != "REVERSAL" or entry.get("trend") == "ALTA":
+        return entry
+    if baixa_ratio < rules.REGIME_WEAK_BAIXA_RATIO:
+        return entry
+    new_score = max(0, (entry.get("score") or 0) - rules.W_REGIME_PENALTY)
+    entry["score"] = new_score
+    entry["grade"] = _grade_from_score(new_score)
+    entry["regime_weak"] = True
     return entry
 
 
@@ -657,6 +708,13 @@ def run():
         except Exception as e:
             print("[swing_service] ERRO em {}: {}".format(ticker, e))
             continue
+
+    # Pós-passe de regime: amplitude é global (precisa de todos os trends), então
+    # rebaixa os REVERSAL contra-tendência DEPOIS de montar tudo e ANTES de ordenar.
+    if results:
+        baixa_ratio = sum(1 for r in results if r["trend"] == "BAIXA") / len(results)
+        for r in results:
+            _apply_regime_penalty(r, baixa_ratio)
 
     results.sort(key=lambda x: (
         1 if x["is_setup"] else 0,
