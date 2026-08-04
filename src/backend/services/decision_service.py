@@ -31,39 +31,15 @@ from repositories import stock_repository as repo
 from services.price_service import PriceService
 
 
-def _load_sectors() -> dict:
-    """Carrega all_sectors.json — mapeamento ticker → {setor, subsetor, segmento}."""
-    path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        "data", "all_sectors.json"
-    )
-    try:
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {}
-
-
 def _lookup_sector(ticker: str, sectors: dict) -> dict:
-    """
-    Busca setor pelo ticker exato; fallback pelo radical de 4 letras.
-    Ex: SAPR4 não encontrado → tenta qualquer chave que comece com 'SAPR'.
-    Cobre todas as classes (ON/PN/UNT) da mesma empresa.
-    """
-    t = ticker.upper()
-    if t in sectors:
-        return sectors[t]
-    prefix = t[:4]
-    for key, info in sectors.items():
-        if key.startswith(prefix):
-            return info
-    return {}
+    """Busca a classificação setorial do ticker no mapa de repo.get_all_sectors()."""
+    return sectors.get(ticker.upper(), {})
 
 
 def _is_best(sector_info: dict) -> bool:
     """
     Barsi BEST: Bancos · Elétricas · Seguradoras · Transmissão de Energia.
-    Classificação via subsetor/segmento de all_sectors.json.
+    Classificação via subsetor/segmento vindos do all_indicators.json.
     """
     sub = sector_info.get("subsetor", "")
     seg = sector_info.get("segmento", "")
@@ -287,7 +263,7 @@ def run(tickers: Optional[List[str]] = None, force: bool = False, delay: float =
     Retorna a lista de entradas gerada.
     """
     svc = PriceService()
-    sectors = _load_sectors()
+    sectors = repo.get_all_sectors()
 
     # Fonte de tickers: argumento ou monitoring_stocks.json
     if tickers is None:

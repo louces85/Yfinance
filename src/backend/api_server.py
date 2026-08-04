@@ -63,10 +63,7 @@ def index():
 
 @app.route("/api/sectors")
 def sectors():
-    path = os.path.join(DATA_DIR, "all_sectors.json")
-    with open(path, encoding="utf-8") as f:
-        data = json.load(f)
-    return jsonify(data)
+    return jsonify(repo.get_all_sectors())
 
 
 @app.route("/api/decision")

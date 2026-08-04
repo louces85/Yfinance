@@ -172,3 +172,21 @@ W_REGIME_PENALTY         = 20     # pontos subtraídos do REVERSAL contra-tendê
 # são ISENTAS de IR. Acima disso, o lucro é tributado em 15%.
 SWING_DARF_MONTHLY_LIMIT = 20000.0  # limite de isenção mensal (R$)
 SWING_DARF_WARN_RATIO    = 0.9      # alerta a partir de 90% do limite (R$ 18.000)
+
+# --- Classificação setorial (derivada do all_indicators.json) ---
+# O export do StatusInvest troca a vírgula por ponto em alguns nomes e usa
+# variantes antigas de nome de setor. Correção por mapa explícito — regex
+# genérica de ponto→vírgula não serve: quebra abreviações legítimas
+# ("Máq. e Equip. Industriais", "Soc. Crédito e Financiamento").
+SECTOR_NAME_FIXES = {
+    # ponto usado no lugar de vírgula
+    "Petróleo. Gás e Biocombustíveis":          "Petróleo, Gás e Biocombustíveis",
+    "Exploração. Refino e Distribuição":        "Exploração, Refino e Distribuição",
+    "Motores . Compressores e Outros":          "Motores, Compressores e Outros",
+    "Tecidos. Vestuário e Calçados":            "Tecidos, Vestuário e Calçados",
+    "Jornais. Livros e Revistas":               "Jornais, Livros e Revistas",
+    "Serv.Méd.Hospit..Análises e Diagnósticos": "Serv. Méd. Hospit., Análises e Diagnósticos",
+    # nomes de setor antigos no export → nomenclatura usada na UI
+    "Financeiro e Outros":                      "Financeiro",
+    "Comunicações":                             "Telecomunicações",
+}

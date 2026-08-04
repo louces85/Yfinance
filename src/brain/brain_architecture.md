@@ -167,8 +167,7 @@ YFINANCE_REFACTOR/
     ├── services/
     │   ├── __init__.py
     │   ├── stock_validator.py      ← Valida tickers via yfinance
-    │   ├── price_service.py        ← Classe PriceService (injetável, com testes)
-    │   ├── price_fetcher.py        ← Versão procedural do price_service
+    │   ├── price_service.py        ← Preço atual via Google Finance (beta + legado + fallback yfinance)
     │   ├── history_fetcher.py      ← 6m preços + 5a dividendos + Buffett metrics
     │   ├── buffett_fetcher.py      ← Fase 2 (FCF/OE) e Fase 3 (tendências 4a)
     │   ├── financials_fetcher.py   ← DRE + Balanço + FCF via StatusInvest (10 anos)
@@ -184,14 +183,14 @@ YFINANCE_REFACTOR/
     │   └── test_price_service.py
     │
     ├── data/
-    │   ├── all_indicators.json     ← Indicadores fundamentalistas (StatusInvest, exportado)
-    │   ├── all_sectors.json        ← Ticker → {setor, subsetor, segmento}
+    │   ├── all_indicators.json     ← Indicadores fundamentalistas + setor/subsetor/segmento (StatusInvest, exportado)
     │   ├── stocks_list.json        ← Lista mestre de tickers monitorados
-    │   ├── stock_validity.json     ← Status de validação por ticker
-    │   ├── stock_prices.json       ← Preços atuais com timestamp
-    │   ├── stock_history.json      ← 6m preços + 5a dividendos + Buffett
+    │   ├── seed_stocks/            ← Semente da lista mestre (stocks_file_2026, 1 ticker/linha)
+    │   ├── stock_validity.json     ← Status de validação por ticker (recriado vazio se sumir)
+    │   ├── stock_prices.json       ← Preços atuais com timestamp (recriado vazio se sumir)
+    │   ├── stock_history.json      ← 6m preços + 5a dividendos + Buffett (recriado vazio se sumir)
     │   ├── financials_history.json ← 10 anos de DRE, Balanço e Cashflow
-    │   ├── valuations.json         ← Valuation completo por ticker
+    │   ├── valuations.json         ← Valuation completo por ticker (recriado vazio se sumir)
     │   ├── monitoring_stocks.json  ← Tickers pré-qualificados (score DESC)
     │   ├── decision_stocks.json    ← Decisões finais (p_now_p_min ASC) + unified_rank
     │   ├── market_data.json        ← Índices de mercado (IBOV, USD, S&P, Ouro) — 30 min

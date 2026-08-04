@@ -7,9 +7,9 @@
     "entry_price": 25.21,
     "stop": 24.12,
     "target": 27.49,
-    "exit_date": null,
-    "exit_price": null,
-    "status": "open",
+    "exit_date": "2026-07-03",
+    "exit_price": 27.76,
+    "status": "closed",
     "source": "signal",
     "notes": "",
     "created_at": "2026-06-09T15:24:23"
@@ -28,5 +28,35 @@
     "source": "signal",
     "notes": "",
     "created_at": "2026-06-09T15:29:51"
+  },
+  {
+    "id": "20260610104914749827-BMEB4",
+    "ticker": "BMEB4",
+    "qty": 2.0,
+    "entry_date": "2026-06-10",
+    "entry_price": 77.29,
+    "stop": 72.8,
+    "target": 85.85,
+    "exit_date": null,
+    "exit_price": null,
+    "status": "open",
+    "source": "signal",
+    "notes": "",
+    "created_at": "2026-06-10T10:49:14"
+  },
+  {
+    "id": "20260616121542885835-GGBR4",
+    "ticker": "GGBR4",
+    "qty": 14.0,
+    "entry_date": "2026-06-16",
+    "entry_price": 23.52,
+    "stop": 22.81,
+    "target": 24.65,
+    "exit_date": "2026-07-22",
+    "exit_price": 23.72,
+    "status": "closed",
+    "source": "signal",
+    "notes": "",
+    "created_at": "2026-06-16T12:15:42"
   }
 ]

@@ -316,8 +316,7 @@ YFINANCE_REFACTOR/
     ├── services/
     │   ├── __init__.py
     │   ├── stock_validator.py      ← Valida tickers via yfinance
-    │   ├── price_service.py        ← Classe PriceService (injetável, com testes)
-    │   ├── price_fetcher.py        ← Versão procedural do price_service
+    │   ├── price_service.py        ← Preço atual via Google Finance (beta + legado + fallback yfinance)
     │   ├── history_fetcher.py      ← 6m preços + 5a dividendos + Buffett metrics
     │   ├── buffett_fetcher.py      ← Fase 2 (FCF/OE) e Fase 3 (tendências 4a)
     │   ├── financials_fetcher.py   ← DRE + Balanço + FCF via StatusInvest (10 anos)
@@ -331,8 +330,7 @@ YFINANCE_REFACTOR/
     │   └── test_price_service.py
     │
     ├── data/
-    │   ├── all_indicators.json     ← Indicadores fundamentalistas (StatusInvest, exportado)
-    │   ├── all_sectors.json        ← Ticker → {setor, subsetor, segmento}
+    │   ├── all_indicators.json     ← Indicadores fundamentalistas + setor/subsetor/segmento (StatusInvest, exportado)
     │   ├── stocks_list.json        ← Lista mestre de tickers monitorados
     │   ├── stock_validity.json     ← Status de validação por ticker
     │   ├── stock_prices.json       ← Preços atuais com timestamp

@@ -49,31 +49,12 @@ from config import rules
 from services.buffett_fetcher import _calc_tendencia
 
 
-def _load_sectors() -> dict:
-    path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        "data", "all_sectors.json"
-    )
-    try:
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {}
-
-
 def _lookup_sector(ticker: str, sectors: dict) -> dict:
-    """Busca pelo ticker exato; fallback pelo radical de 4 letras."""
-    t = ticker.upper()
-    if t in sectors:
-        return sectors[t]
-    prefix = t[:4]
-    for key, info in sectors.items():
-        if key.startswith(prefix):
-            return info
-    return {}
+    """Busca a classificação setorial do ticker no mapa de repo.get_all_sectors()."""
+    return sectors.get(ticker.upper(), {})
 
 
-_SECTORS = _load_sectors()
+_SECTORS = repo.get_all_sectors()
 
 
 def _safe_float(value, default=None) -> Optional[float]:
