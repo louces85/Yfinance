@@ -96,11 +96,21 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid var(--border);
 }
 #portfolioStickyTop {
+  display: flow-root; /* contém a margin-top das abas → não "pula" 10px ao grudar */
   position: sticky;
   top: var(--header-h, 54px);
   z-index: 96;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
+}
+/* Histórico: cards próprios congelam logo abaixo das abas da carteira */
+#histSummary {
+  position: sticky;
+  top: var(--pt-header-top, 54px);
+  z-index: 95;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
 }
 
 /* ─── Table wrapper ────────────────────────────────────────────── */
@@ -113,6 +123,8 @@ a:hover { text-decoration: underline; }
   overflow: visible;
   max-height: none;
 }
+/* Carteira rola com a página → thead gruda abaixo do bloco sticky, não no topo */
+#portfolioTable thead th, #fiiTable thead th { top: var(--pt-header-top, 0px); }
 
 /* ─── Table ────────────────────────────────────────────────────── */
 table {
@@ -1063,10 +1075,10 @@ td:first-child  { color: var(--muted); font-size: 12px; }
     </div>
   </div>
 
-  <div id="historicoSection" style="display:none;padding:4px 12px 28px">
+  <div id="historicoSection" style="display:none;padding:0 12px 28px">
     <div id="histError" style="display:none;color:var(--muted);padding:40px;text-align:center;font-size:13px"></div>
     <div id="histContent">
-      <div id="histSummary" style="display:flex;gap:10px;padding:12px 0 10px;flex-wrap:wrap"></div>
+      <div id="histSummary" style="display:flex;gap:10px;padding:16px 0 10px;flex-wrap:wrap"></div>
 
       <div class="chart-section">
         <div class="chart-header-row">
@@ -3442,13 +3454,18 @@ let _histData        = null;
 
 // ─── Sticky offsets sync ───────────────────────────────────────────
 function syncStickyOffsets() {
-  const headerH = document.querySelector('.header').offsetHeight;
+  // altura fracionária (offsetHeight arredonda → bloco sticky "pula" ~0.5px ao grudar)
+  const headerH = document.querySelector('.header').getBoundingClientRect().height;
   document.documentElement.style.setProperty('--header-h', headerH + 'px');
 
   const isScreening = document.getElementById('screeningView').style.display !== 'none';
   const summaryEl = document.getElementById(isScreening ? 'screeningSummary' : 'portfolioSummary');
   const summaryH = summaryEl.offsetHeight;
   document.documentElement.style.setProperty('--table-top', (headerH + summaryH) + 'px');
+
+  // Carteira: thead congela logo abaixo do header + bloco sticky (abas + cards)
+  const ptStickyH = document.getElementById('portfolioStickyTop').getBoundingClientRect().height;
+  document.documentElement.style.setProperty('--pt-header-top', (headerH + ptStickyH) + 'px');
 }
 window.addEventListener('resize', syncStickyOffsets);
 
@@ -4854,15 +4871,6 @@ async function loadPortfolio() {
     renderPortfolioSummary(_acoesSummary);
     renderPortfolioTable();
     renderFiiTable();
-    // Calcula altura total acima da tabela para max-height do table-wrap
-    requestAnimationFrame(() => {
-      const header    = document.querySelector('.header');
-      const stickyTop = document.getElementById('portfolioStickyTop');
-      if (header && stickyTop) {
-        const total = header.offsetHeight + stickyTop.offsetHeight;
-        document.documentElement.style.setProperty('--pt-header-top', total + 'px');
-      }
-    });
   });
 }
 
