@@ -189,6 +189,12 @@ def portfolio():
     return jsonify(portfolio_service.load())
 
 
+@app.route("/api/portfolio/tickers")
+def portfolio_tickers():
+    """Tickers em custódia (só lê o XLS da B3) — destaque das linhas no Screening."""
+    return jsonify({"tickers": portfolio_service.load_tickers()})
+
+
 @app.route("/api/portfolio/history")
 def portfolio_history():
     """Dashboard de histórico de proventos (aba Carteira → Histórico):

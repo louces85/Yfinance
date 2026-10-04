@@ -146,6 +146,10 @@ tbody tr {
   cursor: pointer;
 }
 tbody tr:hover { background: var(--surface2); }
+/* Screening: ativo presente na carteira (custódia B3) — independe da zona */
+tbody tr.in-portfolio { background: rgba(126,231,135,.06); }
+tbody tr.in-portfolio:hover { background: rgba(126,231,135,.11); }
+tbody tr.in-portfolio td:first-child { box-shadow: inset 3px 0 0 rgba(126,231,135,.75); }
 td { padding: 5px 8px; text-align: center; white-space: nowrap; }
 td.col-ticker { text-align: left; }
 th.col-ticker { text-align: left; }
@@ -1377,6 +1381,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 <script>
 // ─── State ──────────────────────────────────────────────────────
 let allData     = [];
+let _portfolioTickers = new Set();   // tickers em custódia — destaque no Screening
 let sortCol     = 'p_now_p_min';
 let sortDir     = 'asc';
 
@@ -1517,9 +1522,10 @@ function renderTable() {
     const ratio     = s.p_now_p_min;
     const barColor  = ratioColor(ratio);
     const barWidth  = ratioBarWidth(ratio);
+    const inPortfolio = _portfolioTickers.has(s.ticker);
 
-    return `<tr onclick="openDetail('${s.ticker}', event)">
-      <td>${i + 1}</td>
+    return `<tr${inPortfolio ? ' class="in-portfolio"' : ''} onclick="openDetail('${s.ticker}', event)">
+      <td${inPortfolio ? ' title="Na carteira"' : ''}>${i + 1}</td>
       <td class="col-ticker">
         <a class="ticker-link" href="https://www.google.com/finance/quote/${s.ticker}:BVMF?window=1Y"
            target="_blank" onclick="event.stopPropagation()">${s.ticker}</a>${silverIcon}${goldIcon}${bronzeIcon}${buffettSealIcon}
@@ -1757,8 +1763,21 @@ async function loadMarket() {
   } catch (_) {}
 }
 
+// Retorna true se o conjunto de tickers da carteira mudou (para re-renderizar)
+async function loadPortfolioTickers() {
+  try {
+    const res  = await fetch('/api/portfolio/tickers');
+    const data = await res.json();
+    const next = new Set(data.tickers || []);
+    const changed = next.size !== _portfolioTickers.size
+      || [...next].some(t => !_portfolioTickers.has(t));
+    _portfolioTickers = next;
+    return changed;
+  } catch (_) { return false; }
+}
+
 async function loadDecision() {
-  const [res] = await Promise.all([fetch('/api/decision'), loadFavoritosFromServer(), loadRadarFromServer(), loadMarket()]);
+  const [res] = await Promise.all([fetch('/api/decision'), loadFavoritosFromServer(), loadRadarFromServer(), loadMarket(), loadPortfolioTickers()]);
   const json = await res.json();
   _applyDecision(json);
 
@@ -1773,9 +1792,11 @@ async function loadDecision() {
 async function silentRefresh() {
   // Screening/Favoritos: só re-renderiza se o backend atualizou os dados
   try {
-    const [res] = await Promise.all([fetch('/api/decision'), loadMarket()]);
+    const [res, portfolioChanged] = await Promise.all([fetch('/api/decision'), loadPortfolioTickers(), loadMarket()]);
     const json = await res.json();
-    if (json.stocks && json.last_updated !== lastUpdatedTs) {
+    const decisionChanged = json.stocks && json.last_updated !== lastUpdatedTs;
+    if (portfolioChanged && !decisionChanged) renderTable();
+    if (decisionChanged) {
       _applyDecision(json);
       renderScreeningSummary();
       renderTable();

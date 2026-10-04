@@ -82,6 +82,33 @@ def _recommend(val: dict) -> str:
     return "AVALIAR_VENDA"
 
 
+def load_tickers() -> list:
+    """
+    Lista leve dos tickers em custódia (quantidade > 0), sem buscar preços nem
+    cruzar valuations. Usada pelo Screening para destacar as linhas da carteira.
+    """
+    b3_file = _find_b3_file()
+    if not b3_file:
+        return []
+
+    try:
+        sh = xlrd.open_workbook(b3_file).sheet_by_index(0)
+    except Exception:
+        return []
+
+    tickers = set()
+    for i in range(1, sh.nrows):
+        row = sh.row_values(i)
+        try:
+            ticker = str(row[2]).strip().upper()
+            qtd    = int(float(row[3]))
+        except (ValueError, IndexError):
+            continue
+        if ticker and qtd > 0:
+            tickers.add(ticker)
+    return sorted(tickers)
+
+
 def load() -> dict:
     """
     Lê o arquivo de custódia B3, cruza com valuations e retorna

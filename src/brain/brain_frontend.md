@@ -74,6 +74,8 @@ Cada item mostra: label / valor / variação % do dia (verde se positiva, vermel
 
 **Badge Sinal clicável:** clicar no badge COMPRA / FORTE / MONITORAR / CARO chama `openSwingChart(ticker)` com `event.stopPropagation()` — abre o modal de gráfico de indicadores técnicos sem abrir o modal de detalhe da ação. Clicar no restante da linha continua abrindo o modal de detalhe normalmente.
 
+**Destaque de ativos da carteira:** linhas cujo ticker está em custódia recebem a classe `tr.in-portfolio` (fundo verde claro + faixa verde clara à esquerda, tooltip "Na carteira" na coluna `#`), em qualquer zona (FORTE, COMPRA, AGUARDAR, ACIMA). Os tickers vêm de `GET /api/portfolio/tickers` → `portfolio_service.load_tickers()` (só lê o XLS da B3, sem buscar preços) e ficam em `_portfolioTickers` (Set). Carregado em `loadDecision()` e atualizado a cada `silentRefresh()` (re-renderiza só se o conjunto mudou). O destaque não altera filtros: com "Ocultar CARO" ativo, ações ACIMA da carteira continuam ocultas.
+
 ---
 
 #### Modal de Detalhe — Cards de Preço (`#priceCards`)
