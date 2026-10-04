@@ -551,6 +551,18 @@ AVALIAR_VENDA→ rank < 6 ou zone CARO
 - Ações em `decision_stocks.json` → valor pré-computado (paridade exata com screening)
 - Ações FORA_CRITERIOS → calculado com `_calc_unified_rank` a partir do `forced_val`
 
+**Campos derivados de preço (`_refresh_price_derived`):**
+
+`valuations.json` é um retrato do dia da apuração; `decision_stocks.json` é regerado
+a cada ciclo de 30 min com o preço corrente. Ler `zone` / `dy_real` / `p_now_p_min` /
+`gain_pct` direto do valuation faria a carteira exibir a zona da apuração ao lado do
+preço de hoje — divergindo do screening e do modal.
+
+Por isso `_refresh_price_derived(val, preco_atual)` recalcula os quatro campos com o
+preço da própria linha, reusando `_calc_zone` e as fórmulas do `decision_service`
+(paridade garantida). Vale para os dois ramos — qualificadas e FORA_CRITERIOS — e a
+`recommendation` deriva da zona recalculada. Sem preço corrente, mantém o snapshot.
+
 ---
 
 ### 5.11 `api_server.py` — Flask + Scheduler

@@ -17,7 +17,7 @@ import yfinance as yf
 from repositories import stock_repository as repo
 from services.price_service import PriceService
 from services import valuation_calculator
-from services.decision_service import _calc_unified_rank
+from services.decision_service import _calc_unified_rank, _calc_zone, _safe_float
 import json as _json
 
 B3_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "B3")
@@ -32,6 +32,40 @@ def _find_b3_file() -> Optional[str]:
     except FileNotFoundError:
         pass
     return None
+
+
+def _refresh_price_derived(val: dict, price_now: Optional[float]) -> dict:
+    """
+    Recalcula com o preço corrente os campos que o valuations.json congela.
+
+    O valuations.json é um retrato do dia da apuração; o preço exibido na carteira
+    vem do price_service (atualizado a cada 30 min). Sem este recálculo a coluna
+    Sinal mostra a zona da apuração ao lado do preço de hoje — e diverge do
+    screening e do modal, que leem o decision_stocks.json (regerado a cada ciclo).
+
+    Usa as mesmas funções e fórmulas do decision_service para garantir paridade.
+    Sem preço corrente, devolve o snapshot como está.
+    """
+    if not price_now or price_now <= 0:
+        return {
+            "zone":        val.get("zone"),
+            "dy_real":     val.get("dy_real"),
+            "p_now_p_min": val.get("p_now_p_min"),
+            "gain_pct":    val.get("gain_pct_to_target"),
+        }
+
+    target_6  = _safe_float(val.get("price_target_6pct"))
+    target_8  = _safe_float(val.get("price_target_8pct"))
+    target_5  = _safe_float(val.get("price_target_5pct"))
+    price_min = _safe_float(val.get("price_min_6m"))
+    avg_div   = _safe_float(val.get("avg_dividends_5y"), 0)
+
+    return {
+        "zone":        _calc_zone(price_now, target_6 or 0, target_8 or 0, target_5 or 0),
+        "dy_real":     round((avg_div / price_now) * 100, 2) if avg_div and avg_div > 0 else None,
+        "p_now_p_min": round(price_now / price_min, 4) if price_min and price_min > 0 else None,
+        "gain_pct":    round(((target_6 - price_now) / price_now) * 100, 2) if target_6 else None,
+    }
 
 
 def _recommend(val: dict) -> str:
@@ -213,6 +247,9 @@ def load() -> dict:
         if val is not None:
             avg_div    = val.get("avg_dividends_5y")
             dy_on_cost = ((avg_div / preco_medio) * 100) if (avg_div and preco_medio) else None
+            # Zona/DY/upside do valuations.json são do dia da apuração — recalcula
+            # com o preço da linha para bater com o screening e o modal
+            live = _refresh_price_derived(val, preco_atual)
             position = {
                 "ticker":            ticker,
                 "qtd":               qtd,
@@ -223,7 +260,7 @@ def load() -> dict:
                 "retorno":           round(retorno_rs, 2),
                 "retorno_pct":       round(retorno_pct, 2)   if retorno_pct  is not None else None,
                 "dy_on_cost":        round(dy_on_cost, 2)    if dy_on_cost   is not None else None,
-                "zone":              val.get("zone"),
+                "zone":              live["zone"],
                 "rank":              val.get("rank"),
                 "rank_max":          val.get("rank_max"),
                 "weighted_score":    (val.get("weighted_score") or {}).get("score"),
@@ -232,12 +269,12 @@ def load() -> dict:
                 "buffett_moat_score":(val.get("buffett_moat") or {}).get("score"),
                 "buffett_moat_label":(val.get("buffett_moat") or {}).get("label"),
                 "fcf_lucro_ratio":   ((val.get("buffett_moat") or {}).get("cashflow_values") or {}).get("fcf_lucro_ratio"),
-                "dy_real":           val.get("dy_real"),
-                "p_now_p_min":       val.get("p_now_p_min"),
-                "gain_pct":          val.get("gain_pct_to_target"),
+                "dy_real":           live["dy_real"],
+                "p_now_p_min":       live["p_now_p_min"],
+                "gain_pct":          live["gain_pct"],
                 "price_target_6pct": val.get("price_target_6pct"),
                 "avg_dividends_5y":  round(avg_div, 4) if avg_div else None,
-                "recommendation":    _recommend(val),
+                "recommendation":    _recommend(dict(val, **live)),
                 "unified_rank":      decision_rank_map.get(ticker),
             }
         else:
@@ -251,6 +288,8 @@ def load() -> dict:
                 dy_on_cost_f = round((avg_div_f / preco_medio) * 100, 2) if avg_div_f and preco_medio else None
             else:
                 dy_on_cost_f = None
+            # price_now acima foi sobrescrito sem refazer a zona — recalcula aqui
+            live_f = _refresh_price_derived(forced_val or {}, preco_atual)
             _rank_input = {
                 "weighted_score":    (forced_val.get("weighted_score") or {}).get("score")                                           if forced_val else None,
                 "buffett_moat_score":(forced_val.get("buffett_moat") or {}).get("score")                                             if forced_val else None,
@@ -271,7 +310,7 @@ def load() -> dict:
                 "retorno":           round(retorno_rs, 2),
                 "retorno_pct":       round(retorno_pct, 2)   if retorno_pct  is not None else None,
                 "dy_on_cost":        dy_on_cost_f,
-                "zone":              forced_val.get("zone")                                     if forced_val else None,
+                "zone":              live_f["zone"]                                             if forced_val else None,
                 "rank":              forced_val.get("rank")                                     if forced_val else None,
                 "rank_max":          forced_val.get("rank_max")                                 if forced_val else None,
                 "weighted_score":    (forced_val.get("weighted_score") or {}).get("score")      if forced_val else None,
@@ -280,9 +319,9 @@ def load() -> dict:
                 "buffett_moat_score":(forced_val.get("buffett_moat") or {}).get("score")        if forced_val else None,
                 "buffett_moat_label":(forced_val.get("buffett_moat") or {}).get("label")        if forced_val else None,
                 "fcf_lucro_ratio":   ((forced_val.get("buffett_moat") or {}).get("cashflow_values") or {}).get("fcf_lucro_ratio") if forced_val else None,
-                "dy_real":           forced_val.get("dy_real")                                  if forced_val else None,
-                "p_now_p_min":       forced_val.get("p_now_p_min")                              if forced_val else None,
-                "gain_pct":          forced_val.get("gain_pct_to_target")                       if forced_val else None,
+                "dy_real":           live_f["dy_real"]                                          if forced_val else None,
+                "p_now_p_min":       live_f["p_now_p_min"]                                      if forced_val else None,
+                "gain_pct":          live_f["gain_pct"]                                         if forced_val else None,
                 "price_target_6pct": forced_val.get("price_target_6pct")                        if forced_val else None,
                 "avg_dividends_5y":  round(avg_div_f, 4) if (forced_val and avg_div_f) else None,
                 "recommendation":    "FORA_CRITERIOS",
