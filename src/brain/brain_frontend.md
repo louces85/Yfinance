@@ -114,8 +114,11 @@ Renderizado por `renderCharts(chartData, dec, val)`. Períodos: 6m / 3m / 1m (bo
 | pMin 6m | `#a371f7` roxo | `[3,3]` | `dec.price_min_6m` |
 | Média Preço | `#8b949e` cinza | `[2,4]` | média dos closes do período |
 | **VI (DCF)** | `#2dd4bf` teal | `[8,3]` | `val.dcf.intrinsic_value` |
+| **PM Carteira** | `#f778ba` rosa | contínua | `_portfolioAvgPrices[ticker]` |
 
 A linha **VI (DCF)** só é exibida quando o backend retorna o campo `dcf` com `intrinsic_value` válido. Ausente quando P·L é negativo ou indisponível.
+
+A linha **PM Carteira** (preço médio de compra) só aparece quando o ativo está em custódia — vale para o modal aberto de qualquer origem (Screening, Carteira, Favoritos, Radar, Swing, peers do setor), pois é desenhada dentro de `renderCharts()`. O mapa `_portfolioAvgPrices` vem do campo `avg_prices` de `GET /api/portfolio/tickers` (`portfolio_service.load_avg_prices()`: lê só o XLS da B3; mesma ação em corretoras diferentes consolida como total investido / qtd), carregado no boot junto com `_portfolioTickers` e atualizado no refresh silencioso de 30 min.
 
 **Fundo verde nos candles** (`bgAccumul` plugin): pregões onde preço E volume ficam abaixo de suas médias — sinal de acumulação silenciosa Barsi.
 

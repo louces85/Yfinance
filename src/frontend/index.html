@@ -1382,6 +1382,7 @@ td:first-child  { color: var(--muted); font-size: 12px; }
 // ─── State ──────────────────────────────────────────────────────
 let allData     = [];
 let _portfolioTickers = new Set();   // tickers em custódia — destaque no Screening
+let _portfolioAvgPrices = {};        // { ticker: preço médio } — linha de PM no gráfico do modal
 let sortCol     = 'p_now_p_min';
 let sortDir     = 'asc';
 
@@ -1772,6 +1773,7 @@ async function loadPortfolioTickers() {
     const changed = next.size !== _portfolioTickers.size
       || [...next].some(t => !_portfolioTickers.has(t));
     _portfolioTickers = next;
+    _portfolioAvgPrices = data.avg_prices || {};
     return changed;
   } catch (_) { return false; }
 }
@@ -2635,6 +2637,17 @@ function renderCharts(chartData, dec, val) {
     borderColor: '#2dd4bf',
     borderWidth: 1.5,
     borderDash: [8, 3],
+    pointRadius: 0,
+    fill: false,
+  });
+
+  // Preço médio de compra — só para ativos em custódia (qualquer origem do modal)
+  const pmCarteira = _portfolioAvgPrices[dec.ticker];
+  if (pmCarteira) priceDatasets.push({
+    label: 'PM Carteira',
+    data: labels.map(() => pmCarteira),
+    borderColor: '#f778ba',
+    borderWidth: 1.5,
     pointRadius: 0,
     fill: false,
   });

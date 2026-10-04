@@ -191,8 +191,12 @@ def portfolio():
 
 @app.route("/api/portfolio/tickers")
 def portfolio_tickers():
-    """Tickers em custódia (só lê o XLS da B3) — destaque das linhas no Screening."""
-    return jsonify({"tickers": portfolio_service.load_tickers()})
+    """Tickers em custódia (só lê o XLS da B3) — destaque das linhas no Screening —
+    e o preço médio de cada um, para a linha de PM no gráfico do modal de detalhe."""
+    return jsonify({
+        "tickers":    portfolio_service.load_tickers(),
+        "avg_prices": portfolio_service.load_avg_prices(),
+    })
 
 
 @app.route("/api/portfolio/history")

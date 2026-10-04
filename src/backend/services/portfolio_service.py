@@ -82,10 +82,11 @@ def _recommend(val: dict) -> str:
     return "AVALIAR_VENDA"
 
 
-def load_tickers() -> list:
+def _custody_rows() -> list:
     """
-    Lista leve dos tickers em custódia (quantidade > 0), sem buscar preços nem
-    cruzar valuations. Usada pelo Screening para destacar as linhas da carteira.
+    Linhas do XLS da B3 com ticker e quantidade > 0, como (ticker, qtd, row).
+    Leitura leve (sem preços nem valuations); a linha crua vai junto para quem
+    precisa de outras colunas. Sem arquivo ou com erro de leitura, devolve [].
     """
     b3_file = _find_b3_file()
     if not b3_file:
@@ -96,7 +97,7 @@ def load_tickers() -> list:
     except Exception:
         return []
 
-    tickers = set()
+    out = []
     for i in range(1, sh.nrows):
         row = sh.row_values(i)
         try:
@@ -105,8 +106,51 @@ def load_tickers() -> list:
         except (ValueError, IndexError):
             continue
         if ticker and qtd > 0:
-            tickers.add(ticker)
-    return sorted(tickers)
+            out.append((ticker, qtd, row))
+    return out
+
+
+def load_tickers() -> list:
+    """
+    Lista leve dos tickers em custódia (quantidade > 0), sem buscar preços nem
+    cruzar valuations. Usada pelo Screening para destacar as linhas da carteira.
+    """
+    return sorted({ticker for (ticker, _qtd, _row) in _custody_rows()})
+
+
+def load_avg_prices() -> dict:
+    """
+    Preço médio por ticker em custódia { ticker: pm }, sem buscar preços.
+    Usado pelo modal de detalhe para plotar a linha de PM no gráfico de preço.
+
+    Mesma regra de load(): posição única usa o PM da planilha; o mesmo ativo em
+    corretoras diferentes consolida como total investido / quantidade.
+    Linhas com PM ou total inválidos/zerados são ignoradas.
+    """
+    acc: dict = {}
+    for (ticker, qtd, row) in _custody_rows():
+        try:
+            preco_medio = float(row[4])
+            total_inv   = float(row[5])
+        except (ValueError, IndexError):
+            continue
+        if preco_medio <= 0:
+            continue
+        if ticker in acc:
+            prev = acc[ticker]
+            acc[ticker] = {
+                "qtd":         prev["qtd"] + qtd,
+                "total_inv":   prev["total_inv"] + total_inv,
+                "preco_medio": None,
+            }
+        else:
+            acc[ticker] = {"qtd": qtd, "total_inv": total_inv, "preco_medio": preco_medio}
+
+    out = {}
+    for ticker, d in acc.items():
+        pm = d["preco_medio"] if d["preco_medio"] is not None else d["total_inv"] / d["qtd"]
+        out[ticker] = round(pm, 2)
+    return out
 
 
 def load() -> dict:
